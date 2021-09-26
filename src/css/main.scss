@@ -1,0 +1,46 @@
+html {
+  font-size: 62.5%;
+
+  @media only screen and(max-width:600px) {
+    font-size: 80%;
+  }
+}
+
+body {  
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;  
+}
+
+.hidden {
+  display: none;
+  opacity: 0;
+}
+
+
+/////norbiiii
+
+footer {
+  display: block;
+  padding-top: 50px;
+  text-align: center;
+  color: #ddd;
+  font-weight: normal;
+  text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.2);
+  font-size: 0.8em;
+}
+
+.login a,
+.login a:link {
+  
+}
+
+.login button {
+  background: #001e6c;
+  font-weight: bolder;
+}
+
+.login button:hover {
+  background: #113aa1;
+  font-weight: bolder;
+}
