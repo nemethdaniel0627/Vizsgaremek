@@ -1,6 +1,7 @@
 class AuthUser {
     isLoggedIn() {
         if (sessionStorage.length !== 0) return true;
+        
         else return false;
     }
 
