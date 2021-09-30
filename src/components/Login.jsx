@@ -13,7 +13,7 @@ export default function Login(props) {
             <div id="LetterHead">
 
             </div>
-            <LoginForm />
+            <LoginForm title="Jelszo"/>
         </div>        
     );
 }

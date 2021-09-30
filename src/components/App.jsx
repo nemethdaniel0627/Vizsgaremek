@@ -22,11 +22,11 @@ export default function App() {
                     <Login />
                 } />
 
-                <AuthRoute path="/etlap" component={() =>
+                <Route path="/etlap" component={() =>
                     <Menu />
                 } />
 
-                <AuthRoute path="/ebedjegy" component={() =>
+                <Route path="/ebedjegy" component={() =>
                     <LunchTicket />
                 } />
 

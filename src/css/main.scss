@@ -1,8 +1,17 @@
+:root {
+  --dark-blue: #001E6C;
+  --blue: #035397;
+  --light-blue: #5089C6;
+  --orange: #FFAA4C;
+
+}
+
+
 html {
   font-size: 62.5%;
 
   @media only screen and(max-width:600px) {
-    font-size: 80%;
+    font-size: 80%;    
   }
 }
 
