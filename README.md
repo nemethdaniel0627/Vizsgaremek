@@ -1,13 +1,13 @@
 # FOOD-E (A web applikáció)
 
 ## Téma:
-        	Iskolai étkeztetést segítő webalkalmazás
+    Iskolai étkeztetést segítő webalkalmazás
 ## Készítők:
 * [Balázs Martin](https://github.com/phrodo02)
 * [Németh Dániel](https://github.com/nemethdaniel0627)
 * [Rozs Norbert](https://github.com/rozsnono)
 
-# Front-end: Rozs Norbert + Németh Dániel
+## Front-end: Rozs Norbert + Németh Dániel
 
    Felhasználóbarát felület, mobil és számítógép nézetre is optimalizálva.
    Főoldalon a felhasználó bejelentkezhet vagy regisztrálhat az adott iskolához. Ezt követően a rendszer automatikusan megnézi, hogy a felhasználó iskolai adminisztrátor vagy nem és ettől függően küldi tovább egy másik oldalra.
