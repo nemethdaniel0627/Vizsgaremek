@@ -3,6 +3,7 @@ import { Route, Switch, useLocation } from "react-router";
 import AuthRoute from "./AuthRoute";
 import Login from "./Login";
 import Menu from "./Menu";
+import Navbar from "./Navbar";
 import LunchTicket from "./LunchTicket";
 import LunchCancelation from "./LunchCancelation";
 
@@ -13,6 +14,10 @@ export default function App() {
     return (
         <div className="App">
             <input defaultChecked={path === "/login" ? false : true} type="radio" id="header--btn" />
+            <Navbar />
+            <div id="LetterHead">
+
+            </div>
             <Switch>
                 <AuthRoute path="/" exact component={() =>
                     <Login />

@@ -1,7 +1,6 @@
 import React from "react";
 import DesktopTicket from "./DesktopTicket";
 import MobileTicket from "./MobileTicket";
-import Navbar from "./Navbar";
 
 export default function Lunchticket() {
     let isMobile = false;
@@ -9,9 +8,7 @@ export default function Lunchticket() {
         isMobile = true;
     }    
     return (
-        <div>
-            <Navbar />
-            <div id="LetterHead"></div>
+        <div>            
             {!isMobile ? <DesktopTicket /> : <MobileTicket />}
         </div>
     )

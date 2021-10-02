@@ -158,8 +158,7 @@ export default function Navbar() {
     // function LoginAndPageChanger() { }
 
     return (
-        <div id="header" className="header">
-            
+        <div id="header" className="header">            
             <label htmlFor="header--btn" id="header--photo" className="header--photo">
                 {/* <span className="header--img" onclick="LogingInApper()"></span> */}
                 <img alt="ICON" id="Logo" src={foodE_logo} />

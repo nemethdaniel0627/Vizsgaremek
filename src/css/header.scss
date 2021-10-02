@@ -50,7 +50,7 @@
 
 #header--btn {
     display: none;
-    &:checked + div #LetterHead{
+    &:checked ~ #LetterHead{
         height: 11rem;
 
         @media only screen and (max-width: 600px){
@@ -58,11 +58,11 @@
         }
     }
 
-    &:checked + div .header {
+    &:checked ~ .header {
         height: 0rem;
     }
 
-    &:checked + div .header .header--photo {
+    &:checked ~ .header .header--photo {
         width: 15%;
         top: 5.5rem;
 
@@ -72,7 +72,7 @@
         }
     }
 
-    &:checked + div .wrapper {
+    &:checked ~ .wrapper {
         top: -20rem;
         visibility: visible;
 

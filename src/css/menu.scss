@@ -1,0 +1,64 @@
+.menu {
+    display: flex;
+    gap: 1rem;
+    color: #000;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    &--wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 2rem;
+    }
+
+    &--header {
+        font-size: 4rem;
+        text-align: center;
+        align-self: stretch;
+        color: var(--orange);
+        padding: 1rem;
+        background-image: radial-gradient(circle, #001e6c 10%, #ffffff00 90%);        
+    }
+
+    &--week-header {
+        font-size: 1.3rem;
+        display: block;
+        margin: .5rem 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        &--icon {
+            margin: 0 1rem;
+            font-size: 2.5rem;
+            transition: all .5s;
+            cursor: pointer;
+
+            &:hover {
+                transform: scale(1.5);
+            }
+        }
+    }
+
+    &--day-table {
+        font-size: 150%;
+        text-align: center;
+        display: flex;
+        gap: 4rem;
+        flex-direction: column;
+        padding: 1rem 3rem 5rem 3rem;
+        border-radius: 20px;
+
+        &--header {
+            background-image: radial-gradient(circle, #ffffff00 10%, #5089c6 90%);
+            border-radius: 20px;
+            padding: 1rem;
+        }
+    }
+
+    &--day-selected {
+        background-image: linear-gradient(rgb(173, 247, 176), rgb(255, 255, 255))
+    }
+}
