@@ -11,6 +11,7 @@
         align-items: center;
         justify-content: center;
         margin: 0 2rem;
+        color: var(--darkModeFontColor);
     }
 
     &--header {
@@ -19,7 +20,7 @@
         align-self: stretch;
         color: var(--orange);
         padding: 1rem;
-        background-image: radial-gradient(circle, #001e6c 10%, #ffffff00 90%);        
+        background-image: radial-gradient(circle, var(--dark-blue) 10%, #ffffff00 90%);        
     }
 
     &--week-header {
@@ -34,7 +35,7 @@
             margin: 0 1rem;
             font-size: 2.5rem;
             transition: all .5s;
-            cursor: pointer;
+            cursor: pointer;            
 
             &:hover {
                 transform: scale(1.5);
@@ -52,13 +53,13 @@
         border-radius: 20px;
 
         &--header {
-            background-image: radial-gradient(circle, #ffffff00 10%, #5089c6 90%);
+            background-image: radial-gradient(circle, #ffffff00 10%, var(--light-blue) 90%);
             border-radius: 20px;
             padding: 1rem;
         }
     }
 
     &--day-selected {
-        background-image: linear-gradient(rgb(173, 247, 176), rgb(255, 255, 255))
+        background-image: linear-gradient(rgb(173, 247, 176), var(--bodyBackground))
     }
 }

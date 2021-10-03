@@ -4,7 +4,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background-image: linear-gradient(to bottom right, #001e6c, #5089c6);
+    background-image: linear-gradient(to bottom right, var(--dark-blue), var(--light-blue));
     transition: 1s;
 
     #Logo {
@@ -84,6 +84,6 @@
 
 #LetterHead {
     height: 0rem;
-    background-image: radial-gradient(circle, rgb(0, 30, 108) 100%, rgba(255, 255, 255, 0) 100%);
+    background-image: radial-gradient(circle, var(--dark-blue) 100%, rgba(255, 255, 255, 0) 100%);
     transition: all 0.5s;
 }

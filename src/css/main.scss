@@ -3,7 +3,8 @@
   --blue: #035397;
   --light-blue: #5089C6;
   --orange: #FFAA4C;
-
+  --bodyBackground: #fff;
+  --darkModeFontColor: #000;
 }
 
 
@@ -18,12 +19,12 @@ html {
 body {  
   padding: 0;
   margin: 0;
-  box-sizing: border-box;  
+  box-sizing: border-box;
+  background-color: var(--bodyBackground);
 }
 
 .hidden {
-  display: none;
-  opacity: 0;
+  visibility: hidden;  
 }
 
 
@@ -45,11 +46,11 @@ footer {
 }
 
 .login button {
-  background: #001e6c;
+  background: var(--dark-blue);
   font-weight: bolder;
 }
 
 .login button:hover {
-  background: #113aa1;
+  background: var(--blue);
   font-weight: bolder;
 }
