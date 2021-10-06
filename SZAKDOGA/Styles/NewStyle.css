@@ -1,0 +1,477 @@
+/*Body*/
+body {
+  font-family: Verdana, sans-serif;
+}
+
+/*Header*/
+#Header {
+  height: 70px;
+  width: 100%;
+  top: 0;
+  position: relative;
+}
+
+#Header div h1 {
+  font-family: Georgia, "Times New Roman", Times, serif;
+  margin: 0 40px;
+  position: relative;
+  font-size: 40px;
+  top: 10px;
+}
+
+#Header div #Logo {
+  margin: 0 15px;
+  position: absolute;
+  top: 16px;
+  height: 40px;
+  width: auto;
+}
+
+/*DarkMode*/
+#DarkMode {
+  margin: 20px;
+  float: right;
+}
+
+#DarkMode_img {
+  margin: -5px 10px;
+  height: 40px;
+  width: auto;
+  float: right;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+input:checked + .slider {
+  background-color: #2196f3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196f3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+/*Login*/
+#Login_header {
+  position: absolute;
+  width: 100%;
+  height: auto;
+  top: 72px;
+}
+
+#Login_header h2 {
+  font-family: Georgia, "Times New Roman", Times, serif;
+  margin: 0 1%;
+  float: right;
+  font-size: 30px;
+  transition: 1s;
+}
+
+#Login_header h2:hover {
+  font-size: 35px;
+}
+
+#login {
+  text-align: center;
+}
+
+.dropbtn {
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+}
+
+.dropdown {
+  float: right;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {
+  background-color: #ddd;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.dropdown:hover .dropbtn {
+  background-color: #3c6794;
+}
+
+.form-popup {
+  display: none;
+  position: fixed;
+  top: 130px;
+  right: 0px;
+  z-index: 9;
+  color: white;
+  border-radius: 0px 0px 0px 20px;
+}
+
+.form-container {
+  max-width: 300px;
+  padding: 10px;
+}
+
+.form-container input[type="text"],
+.form-container input[type="password"] {
+  width: 100%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  border: none;
+  background: #f1f1f1;
+}
+
+.form-container input[type="text"]:focus,
+.form-container input[type="password"]:focus {
+  background-color: #ddd;
+  outline: none;
+}
+
+.form-container .btn {
+  background-image: linear-gradient(to left, #00470a, #00b400);
+  color: white;
+  padding: 16px 20px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  margin-bottom: 10px;
+  opacity: 0.8;
+}
+
+.form-container .cancel {
+  background-image: linear-gradient(to right, #5c0000, #300606);
+}
+
+.form-container .btn:hover,
+.open-button:hover {
+  opacity: 1;
+}
+
+.wrapper {
+  display: flex;
+  align-items: center;
+  flex-direction: column; 
+  justify-content: center;
+  width: 100%;
+  min-height: 100%;
+  padding: 20px;
+  background: rgba(darken(#2196F3,40%), 0.85);
+}
+
+.login { 
+  border-radius: 2px 2px 5px 5px;
+  padding: 10px 20px 20px 20px;
+  width: 90%;
+  max-width: 320px;
+  position: relative;
+  padding-bottom: 80px;
+  box-shadow: 0px 1px 5px rgba(0,0,0,0.3);
+}
+
+.login input {
+  display: block;
+  padding: 15px 10px;
+  margin-bottom: 10px;
+  width: 100%;
+  border: 1px solid #ddd;
+  transition: border-width 0.2s ease;
+  border-radius: 2px;
+  
+}
+
+.login a {
+  font-size: 0.8em;   
+  color: #2196F3;
+  text-decoration: none;
+}
+  
+.title {
+  color: #444;
+  font-size: 1.2em;
+  font-weight: bold;
+  margin: 10px 0 30px 0;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 20px;
+}
+  
+.login  button {
+  width: 100%;
+  height: 100%;
+  padding: 10px 10px;
+  color: #fff;
+  display: block;
+  border: none;
+  margin-top: 20px;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  max-height: 60px;
+  border: 0px solid rgba(0,0,0,0.1);
+  border-radius: 0 0 2px 2px;
+  transform: rotateZ(0deg);   
+  transition: all 0.1s ease-out;
+  border-bottom-width: 7px;
+}
+
+footer {
+  display: block;
+  padding-top: 50px;
+  text-align: center;
+  color: #ddd;
+  font-weight: normal;
+  text-shadow: 0px -1px 0px rgba(0,0,0,0.2);
+  font-size: 0.8em;
+}
+
+.login a,.login a:link {
+  color: #fff;
+  text-decoration: none;
+}
+
+/*Étrend*/
+#AllMenu, #ResignMenu {
+  margin-top: 100px;
+  height: 420px;
+  position: relative;
+}
+
+#AllMenu h1, #ResignMenu h1 {
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  font-size: 65px;
+  color: #ffaa4c;
+  border-radius: 50px;
+  text-align: center;
+}
+
+.Menu {
+  margin-top: 0px;
+  text-align: center;
+  height: auto;
+}
+
+.Menu_date {
+  width: 70%;
+}
+
+.Menu_calendar {
+  max-width: fit-content;
+  position: absolute;
+  margin-top: 25px;
+  margin-left: 100px;
+}
+
+.Weekday {
+  font-weight: 900;
+}
+
+.Weekday td {
+  padding-top: 40px;
+}
+
+.Weekday th {
+  font-size: 20px;
+  border-width: 2px;
+  border-radius: 10px;
+}
+
+.Menu .row div {
+  border-radius: 10px;
+  margin: 2px;
+  height: 300px;
+}
+
+.Menu {
+  max-width: none;
+  width: 90%;
+  max-height: 300px;
+}
+
+/*Ebédjegy*/
+#Ticket {
+  position: relative;
+  top: 80px;
+}
+
+.front-side {
+  width: 600px;
+  height: 250px;
+  display: grid;
+  grid-template-columns: 2% 96% 2%;
+  grid-template-rows: 4% 92% 4%;
+  position: relative;
+  margin: 20px auto;
+  overflow: hidden;
+  box-shadow: 2px 5px 15px 0px #17161694;
+  background-color: #122529;
+}
+.color-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 150px);
+  grid-template-rows: repeat(8, 50px);
+  grid-gap: 8px;
+  width: 150px;
+  height: 400px;
+  transform: rotate(-45deg);
+}
+
+.info-grid {
+  grid-column: 2/3;
+  grid-row: 2/3;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.432);
+  border-radius: 6px;
+  font-size: 0.7rem; /*12px;*/
+  display: grid;
+  grid-template-columns: 15px repeat(3, 1fr) 15px;
+  grid-template-rows: repeat(3, 1fr);
+  line-height: 1px;
+}
+.info-grid .name {
+  grid-column: 2 / span 2;
+  grid-row: 1 / span 1;
+  font-size: 1em;
+  letter-spacing: 0.1rem;
+  margin-top: 8px;
+}
+.info-grid .name h5 {
+  font-weight: unset;
+}
+.info-grid .date {
+  grid-column: 2 / span 2;
+  grid-row: 3;
+  margin-top: 20px;
+}
+
+.info-grid .img-tag {
+  grid-column: 2 / 2;
+  grid-row: 1;
+}
+#Ticket_img {
+  height: 60px;
+  width: auto;
+  position: relative;
+  left: 270%;
+  top: 10%;
+}
+
+.front-side .info-tag {
+  grid-column: 1 / span 4;
+  grid-row: 2 / span 1;
+  align-self: center;
+  z-index: 2;
+  width: 100%;
+  height: 40%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-size: 0.6rem; /*12px;*/
+  letter-spacing: 0.1rem;
+  text-align: center;
+}
+.name-tag h1,
+h3 {
+  margin: 2px;
+  font-weight: unset;
+}
+
+/*Lemondás*/
+#Resign {
+  margin: auto;
+  margin-top: 100px;
+  width: 32%;
+  text-align: center;
+  box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.432);
+}
+#Resign div {
+  text-align: center;
+  margin-top: 30px;
+  margin-left: 20px;
+}
+
+#Resign h1 {
+  text-align: center;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  font-size: 65px;
+  color: #ffaa4c;
+  margin-left: -1px;
+  margin-top: -1px;
+}
+
+#Resign #OnlyOne {
+  margin-left: -55%;
+  margin-top: 15px;
+}
+
+#Resign_btn {
+  width: 40%;
+  font-size: larger;
+  margin: 20px;
+  border-radius: 5px;
+}
+

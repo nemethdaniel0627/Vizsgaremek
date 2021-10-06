@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Food-WEB</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="./Styles/default.css" type="text/css">
+  <link rel="stylesheet" href="./Styles/NewStyle.css">
+  
+  <link rel="icon" href="./Images/icon.png">
+
+</head>
+
+<body onload="PageLoaded()">
+
+  <div id="Header">
+    <div>
+      <a href="./index.html"><img alt="ICON" id="Logo" src="./Images/FoodWeb_logo.png"></a>
+
+      <div id="DarkMode">
+        <img src="./Images/ToDefault.png" alt="DarkMode" id="DarkMode_img">
+        <label class="switch">
+          <input type="checkbox" onclick="DarkModeStyleChange()" id="Dark_check">
+          <span class="slider round"></span>
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <main id="MenuMain" style="display: none;">
+
+
+    <div id="Login_header">
+      <div class="dropdown">
+        <button onclick="OpenForm()" class="Login_button dropbtn" style="width: 200px;"> <img src="./Images/Login_icon.png" class="Login_icon" style="height: 25px; width: auto;" alt=""> Bejelentkezés</button>
+        <div class="dropdown-content" id="dropdown">
+          <a href="#" onclick="MenuPage()" class="dropdown_EatRend" style="background-image: linear-gradient(to right, #adf7b0 10%, #ffffff00 90%);"><img src="./Images/Calendar_Icon.png" style="height: 18px; width: auto;" alt="Étrend">Étrend</a>
+          <a href="#" onclick="ResignPage()" class="dropdown_Resign"><img src="./Images/Resign.png" style="height: 18px; width: auto;" alt="Lemondás">Lemondás</a>
+          <a href="#" onclick="TicketPage()" class="dropdown_Ticket"><img src="./Images/Ticket_Icon.png" style="height: 18px; width: auto;" alt="Ebedjegy">Ebédjegy</a>
+          <a href="#" onclick="PassWordPage()" class="dropdown_PassWord"><img src="./Images/Password_icon.png" style="height: 18px; width: auto;" alt="Jelszó">Jelszó modosítás</a>
+          <a href="./index.html" onclick="LogingOut()"><img src="./Images/Logout.png" style="height: 18px; width: auto;" alt="Kijelentkezés">Kijelentkezés</a>
+          
+        </div>
+      </div>
+    </div>
+
+    <div id="AllMenu">
+      <div class="Menu_calendar">
+        <button onclick="ToCurrentWeek()" style="border-radius: 4px;">&#10094</button>
+        <input type="date" name="Datum" class="Menu_date" readonly>
+        <button onclick="ToNextWeek()" style="border-radius: 4px;">&#10095</button>
+      </div>
+      <h1>Étrend</h1>
+      <div class="container Menu">
+        <div class="row">
+          <div class="col-lg col-12 Weekday Monday" >
+            <table>
+              <tr>
+                <th>Hétfő</th>
+              </tr>
+              <tr>
+                <td class="starter">Meggyes almaleves</td>
+              </tr>
+              <tr>
+                <td class="main">BBQ-s sült csirkecomb Rizs Káposztasaláta</td>
+              </tr>
+            </table>
+          </div>
+          <div class="col-lg col-12 Weekday Tuesday">
+            <table>
+              <tr>
+                <th>Kedd</th>
+              </tr>
+              <tr>
+                <td class="starter">Meggyes almaleves</td>
+              </tr>
+              <tr>
+                <td class="main">BBQ-s sült csirkecomb Rizs Káposztasaláta</td>
+              </tr>
+            </table>
+          </div>
+          <div class="col-lg col-12 Weekday Wednesday" >
+            <table>
+              <tr>
+                <th>Szerda</th>
+              </tr>
+              <tr>
+                <td class="starter">Meggyes almaleves</td>
+              </tr>
+              <tr>
+                <td class="main">BBQ-s sült csirkecomb Rizs Káposztasaláta</td>
+              </tr>
+            </table>
+          </div>
+          <div class="col-lg col-12 Weekday Thursday">
+            <table>
+              <tr>
+                <th>Csütörtök</th>
+              </tr>
+              <tr>
+                <td class="starter">Meggyes almaleves</td>
+              </tr>
+              <tr>
+                <td class="main">BBQ-s sült csirkecomb Rizs Káposztasaláta</td>
+              </tr>
+            </table>
+          </div>
+          <div class="col-lg col-12 Weekday Friday">
+            <table>
+              <tr>
+                <th>Péntek</th>
+              </tr>
+              <tr>
+                <td class="starter">Meggyes almaleves</td>
+              </tr>
+              <tr>
+                <td class="main">BBQ-s sült csirkecomb Rizs Káposztasaláta</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  </main>
+
+  <main id="LoginMain" style="display: none;">
+    <div class="wrapper">
+      <form class="login">
+        <img src="./Images/icon.png" alt="icon" style="height: 50px; float: left;">
+        <p class="title">Bejelentkezés</p>
+        <input type="text" placeholder="Felhasználó" autofocus required id="User" />
+        <input type="password" placeholder="Jelszó" required id="Pass" />
+        <button onclick="LogingIn()">
+          <i class="spinner"></i>
+          <span class="state">Bejelentkezés</span>
+        </button>
+      </form>
+    </div>
+  </main>
+
+  <main id="PasswordMain" style="display: none;">
+    <div id="Login_header" style="z-index: 100;">
+      <div class="dropdown">
+        <button onclick="OpenForm()" class="Login_button dropbtn" class="dropbtn" style="width: 200px;"> <img src="./Images/Login_icon.png" class="Login_icon" style="height: 25px; width: auto;" alt=""> Bejelentkezés</button>
+        <div class="dropdown-content" id="dropdown">
+          <a href="#" onclick="MenuPage()" class="dropdown_EatRend"><img src="./Images/Calendar_Icon.png" style="height: 18px; width: auto;" alt="Étrend">Étrend</a>
+          <a href="#" onclick="ResignPage()" class="dropdown_Resign"><img src="./Images/Resign.png" style="height: 18px; width: auto;" alt="Lemondás">Lemondás</a>
+          <a href="#" onclick="TicketPage()" class="dropdown_Ticket"><img src="./Images/Ticket_Icon.png" style="height: 18px; width: auto;" alt="Ebedjegy">Ebédjegy</a>
+          <a href="#" onclick="PassWordPage()" class="dropdown_PassWord"  style="background-image: linear-gradient(to right, #adf7b0 10%, #ffffff00 90%);"><img src="./Images/Password_icon.png" style="height: 18px; width: auto;" alt="Jelszó">Jelszó modosítás</a>
+          <a href="./index.html" onclick="LogingOut()"><img src="./Images/Logout.png" style="height: 18px; width: auto;" alt="Kijelentkezés">Kijelentkezés</a>
+
+        </div>
+      </div>
+    </div>
+    
+    <div class="wrapper" style="margin-top: 10vh;">
+      <form class="login">
+        <img src="./Images/icon.png" alt="icon" style="height: 50px; float: left;">
+        <p class="title">Jelszó modosítás</p>
+        <input type="password" placeholder="Régi jelszó" autofocus required id="User" />
+        <input type="password" placeholder="Új Jelszó" required id="Pass" />
+        <button onclick="PassWordChange()">
+          <i class="spinner"></i>
+          <span class="state">Módosítás</span>
+        </button>
+      </form>
+    </div>
+  </main>
+
+  <main id="TicketMain" style="display: none;">
+
+    <div id="Login_header" style="z-index: 100;">
+      <div class="dropdown">
+        <button onclick="OpenForm()" class="Login_button dropbtn" class="dropbtn" style="width: 200px;"> <img src="./Images/Login_icon.png" class="Login_icon" style="height: 25px; width: auto;" alt=""> Bejelentkezés</button>
+        <div class="dropdown-content" id="dropdown">
+          <a href="#" onclick="MenuPage()" class="dropdown_EatRend"><img src="./Images/Calendar_Icon.png" style="height: 18px; width: auto;" alt="Étrend">Étrend</a>
+          <a href="#" onclick="ResignPage()" class="dropdown_Resign"><img src="./Images/Resign.png" style="height: 18px; width: auto;" alt="Lemondás">Lemondás</a>
+          <a href="#" onclick="TicketPage()" class="dropdown_Ticket" style="background-image: linear-gradient(to right, #adf7b0 10%, #ffffff00 90%);"><img src="./Images/Ticket_Icon.png" style="height: 18px; width: auto;" alt="Ebedjegy">Ebédjegy</a>
+          <a href="#" onclick="PassWordPage()" class="dropdown_PassWord"><img src="./Images/Password_icon.png" style="height: 18px; width: auto;" alt="Jelszó">Jelszó modosítás</a>
+          <a href="./index.html" onclick="LogingOut()"><img src="./Images/Logout.png" style="height: 18px; width: auto;" alt="Kijelentkezés">Kijelentkezés</a>
+
+        </div>
+      </div>
+    </div>
+
+    <div id="Ticket">
+      <div class="front-side" id="front">
+        <div class="color-grid">
+          <div class="black"></div>
+          <div class="red1"></div>
+          <div class="red2"></div>
+          <div class="green"></div>
+        </div>
+        <div class="info-grid">
+          <div class="name">
+            <h2 id="Ticket_name">VezetékNév Keresztnév UtóNév</h2>
+            <h5 id="Ticket_class">Osztály</h5>
+          </div>
+          <div class="img-tag">
+            <img src="./Images/icon.png" alt="Icon" id="Ticket_img">
+          </div>
+          <div class="info-tag">
+            <h1 id="Ticket_info">
+              <strong>Befizetve</strong>
+            </h1>
+          </div>
+          <div class="date">
+            <p>Dátum: ----------</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <main id="ResignMain" style="display: none;">
+    <div id="Login_header">
+      <div class="dropdown">
+        <button onclick="OpenForm()" class="Login_button dropbtn" class="dropbtn" style="width: 200px;"> <img src="./Images/Login_icon.png" class="Login_icon" style="height: 25px; width: auto;" alt=""> Bejelentkezés</button>
+        <div class="dropdown-content" id="dropdown">
+          <a href="#" onclick="MenuPage()" class="dropdown_EatRend"><img src="./Images/Calendar_Icon.png" style="height: 18px; width: auto;" alt="Étrend">Étrend</a>
+          <a href="#" onclick="ResignPage()" class="dropdown_Resign" style="background-image: linear-gradient(to right, #adf7b0 10%, #ffffff00 90%);"><img src="./Images/Resign.png" style="height: 18px; width: auto;" alt="Lemondás">Lemondás</a>
+          <a href="#" onclick="TicketPage()" class="dropdown_Ticket"><img src="./Images/Ticket_Icon.png" style="height: 18px; width: auto;" alt="Ebedjegy">Ebédjegy</a>
+          <a href="#" onclick="PassWordPage()" class="dropdown_PassWord"><img src="./Images/Password_icon.png" style="height: 18px; width: auto;" alt="Jelszó">Jelszó modosítás</a>
+          <a href="./index.html" onclick="LogingOut()"><img src="./Images/Logout.png" style="height: 18px; width: auto;" alt="Kijelentkezés">Kijelentkezés</a>
+
+        </div>
+      </div>
+    </div>
+
+    <div id="Resign" style="display: none;">
+      <table>
+        <tr>
+          <th id = "Resign_icon" style="width: 30%;">
+            <img src="./Images/icon.png" alt="icon" style="width: 80px; margin-top: -100%;">
+          </th>
+
+          <th>
+            <h1 id = "Resign_h1">Lemondás</h1>
+            <div>
+              <input type="date" id="FirstDay" onchange = "DayCheckingFirst()"> --
+              <input type="date" id="LastDay" onchange = "DayCheckingLast()">
+              <br>
+              <input type="checkbox" name="OnlyOne" id="OnlyOne" onchange="OnlyOneDay()"> Csak egy nap!
+            </div>
+            <br>
+            <button id="Resign_btn">Lemondás</button>
+          </th>
+        </tr>
+      </table>
+      
+    </div>
+
+
+
+    <div id="ResignMenu">
+      <div class="Menu_calendar">
+        <button onclick="ToCurrentWeek()" style="border-radius: 4px;">&#10094</button>
+        <input type="date" name="Datum" class="Menu_date" readonly>
+        <button onclick="ToNextWeek()" style="border-radius: 4px;">&#10095</button>
+      </div>
+      <a href = "#" onclick = ""><h1>Lemondás</h1></a>
+      <div class="container Menu">
+        <div class="row">
+          <div class="col-lg col-12 Weekday" id="Monday">
+            <table>
+              <tr>  
+                <th><input type="checkbox" name="cb_Monday" id="cb_Monday" onchange="ChoseADay('Monday',0)" >  Hétfő</th>
+              </tr>
+              <tr>
+                <td class="starter">Meggyes almaleves</td>
+              </tr>
+              <tr>
+                <td class="main">BBQ-s sült csirkecomb Rizs Káposztasaláta</td>
+              </tr>
+            </table>
+          </div>
+          <div class="col-lg col-12 Weekday" id="Tuesday">
+            <table>
+              <tr>
+                <th><input type="checkbox" name="cb_Tuesday" id="cb_Tuesday" onchange="ChoseADay('Tuesday',1)" > Kedd</th>
+              </tr>
+              <tr>
+                <td class="starter">Meggyes almaleves</td>
+              </tr>
+              <tr>
+                <td class="main">BBQ-s sült csirkecomb Rizs Káposztasaláta</td>
+              </tr>
+            </table>
+          </div>
+          <div class="col-lg col-12 Weekday" id="Wednesday">
+            <table>
+              <tr>
+                <th><input type="checkbox" name="cb_Wednesday" id="cb_Wednesday"  onchange="ChoseADay('Wednesday',2)"> Szerda</th>
+              </tr>
+              <tr>
+                <td class="starter">Meggyes almaleves</td>
+              </tr>
+              <tr>
+                <td class="main">BBQ-s sült csirkecomb Rizs Káposztasaláta</td>
+              </tr>
+            </table>
+          </div>
+          <div class="col-lg col-12 Weekday" id="Thursday">
+            <table>
+              <tr>
+                <th><input type="checkbox" name="cb_Thursday" id="cb_Thursday" onchange="ChoseADay('Thursday',3)" > Csütörtök</th>
+              </tr>
+              <tr>
+                <td class="starter">Meggyes almaleves</td>
+              </tr>
+              <tr>
+                <td class="main">BBQ-s sült csirkecomb Rizs Káposztasaláta</td>
+              </tr>
+            </table>
+          </div>
+          <div class="col-lg col-12 Weekday" id="Friday">
+            <table>
+              <tr>
+                <th><input type="checkbox" name="cb_Friday" id="cb_Friday" onchange="ChoseADay('Friday',4)"> Péntek</th>
+              </tr>
+              <tr>
+                <td class="starter">Meggyes almaleves</td>
+              </tr>
+              <tr>
+                <td class="main">BBQ-s sült csirkecomb Rizs Káposztasaláta</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="Java.js"></script>
+</body>
+
+</html>

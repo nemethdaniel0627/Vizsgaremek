@@ -1,0 +1,170 @@
+body, html
+{
+    background-image: linear-gradient(to bottom right, #001E6C, #5089C6);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100%;
+}
+
+body { 
+    opacity: 0;
+    transition: opacity .5s;
+}
+
+#Header
+{
+    margin: auto;
+    text-align: center;    
+}
+
+#Header_photo
+{
+    width: 60%;
+    padding: 50px;
+    margin: 0;
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+    -ms-transform: translateX(-50%);
+    transform: translateX(-50%);
+    animation-name: logo;
+    animation-duration: 0.6s;
+    background-color: rgba(107, 107, 107, 0.363);
+    box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.432);
+}
+
+@media screen {
+    @keyframes logo {
+        0% {width: 0%; padding: 0;}
+        100% {width: 60%;}
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    @keyframes logo {
+        0% {width: 0%; padding: 0;}
+        100% {width: 80%;}
+    }
+}
+
+#Logo
+{
+    width: 95%;
+    margin: auto;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    transition: 1s;
+}
+
+#Logo:hover
+{
+    width: 100%;
+}
+
+#LetterHead{
+    width: 100%;
+    height: 110px;
+}
+
+
+
+.wrapper {
+    display: flex;
+    align-items: center;
+    flex-direction: column; 
+    justify-content: center;
+    width: 100%;
+    min-height: 100%;
+    padding: 20px;
+    background: rgba(darken(#2196F3,40%), 0.85);
+  }
+  
+  
+  .login {
+    
+    border-radius: 2px 2px 5px 5px;
+    padding: 10px 20px 20px 20px;
+    width: 90%;
+    max-width: 320px;
+    position: relative;
+    padding-bottom: 80px;
+    box-shadow: 0px 1px 5px rgba(0,0,0,0.3);
+    background: #4f87c3;
+    }
+    
+    .login input {
+      display: block;
+      padding: 15px 10px;
+      margin-bottom: 10px;
+      width: 100%;
+      border: 1px solid #ddd;
+      transition: border-width 0.2s ease;
+      border-radius: 2px;
+      
+    }
+    
+    .login a {
+     font-size: 0.8em;   
+      color: #2196F3;
+      text-decoration: none;
+    }
+    
+    .title {
+      color: #444;
+      font-size: 1.2em;
+      font-weight: bold;
+      margin: 10px 0 30px 0;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 20px;
+    }
+    
+    .login  button {
+      width: 100%;
+      height: 100%;
+      padding: 10px 10px;
+      color: #fff;
+      display: block;
+      border: none;
+      margin-top: 20px;
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      max-height: 60px;
+      border: 0px solid rgba(0,0,0,0.1);
+    border-radius: 0 0 2px 2px;
+      transform: rotateZ(0deg);
+      
+      transition: all 0.1s ease-out;
+        border-bottom-width: 7px;
+  
+      
+    
+  }
+  
+  footer {
+    display: block;
+    padding-top: 50px;
+    text-align: center;
+    color: #ddd;
+    font-weight: normal;
+    text-shadow: 0px -1px 0px rgba(0,0,0,0.2);
+    font-size: 0.8em;}
+  
+  .login a,.login a:link {
+      color: #fff;
+      text-decoration: none;
+    }
+
+    .login button {
+        background: #001e6c;
+        font-weight: bolder;
+      }
+      
+      .login button:hover {
+        background: #113aa1;
+        font-weight: bolder;
+      }

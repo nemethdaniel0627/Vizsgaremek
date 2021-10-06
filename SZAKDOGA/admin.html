@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="hu">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Food-WEB - Admin</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" href="./Styles/default.css" type="text/css">
+  <link rel="stylesheet" href="./Styles/NewStyle.css">
+  
+  <link rel="icon" href="./Images/icon.png">
+
+  <style>
+    table
+    {
+      border: 1px solid black;
+      text-align: center;
+      padding: 0 20px;
+      font-size: 20px;
+    }
+    th,tr,td
+    {
+      border: 1px solid black;
+      text-align: center;
+      padding: 0 20px;
+    }
+    #DataBase_div
+    {
+      position:absolute;
+      top: 200px;
+      width: 90%;
+      left: 50%;
+      -ms-transform: translateY(-50%);
+      transform: translateY(-50%);
+      -ms-transform: translateX(-50%);
+      transform: translateX(-50%);
+      
+    }
+
+    #DataBase_Table
+    {
+      position: absolute;
+      text-align: center;
+    }
+
+    #Search_txt
+    {
+      height: 50px;
+      width: 300px;
+      margin-bottom: 5px;
+    }
+
+    a{color:black}
+    a:hover
+    {
+      text-decoration: none;
+      color:rgb(92, 92, 92);
+    }
+
+    #DataBase_manager
+    {
+      padding: 25px;
+      float: right;
+      width: 350px;
+      background-image:linear-gradient(to bottom, #2196f3, #ffffffff);
+    }
+
+    #DataBase_manager button
+    {
+      font-weight: bold;
+      height: 100px;
+      width: 300px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+    button:hover, .custom-file-upload:hover
+    {
+      background-color: rgb(226, 226, 226);
+    }
+
+    input[type="file"]
+    {
+      display: none;
+    }
+
+    .custom-file-upload
+    {
+      font-weight: bold;
+      height: 50px;
+      width: 300px;
+      border-radius: 10px;
+      margin-bottom: 5px;
+      border: 1px solid black;
+      background-color: whitesmoke;
+      text-align: center;
+      padding-top: 13px;
+    }
+
+    #DataBase_manager .button button
+    {
+      height: 50px;
+      margin-bottom: 5px;
+    }
+
+  </style>
+</head>
+
+<body onload="PageLoaded()">
+
+  <div id="Header">
+    <div>
+      <a href="./index.html"><img alt="ICON" id="Logo" src="./Images/FoodWeb_logo.png"></a>
+
+      <div id="DarkMode">
+        <img src="./Images/ToDefault.png" alt="DarkMode" id="DarkMode_img">
+        <label class="switch">
+          <input type="checkbox" onclick="DarkModeStyleChange()" id="Dark_check">
+          <span class="slider round"></span>
+        </label>
+      </div>
+    </div>
+  </div>
+  
+  <main id = "MainPage">
+    <div id="Login_header">
+        <div class="dropdown">
+          <button onclick="OpenForm()" class="Login_button dropbtn" style="width: 200px;"> <img src="./Images/Admin_icon.png" class="Login_icon" style="height: 25px; width: auto;" alt=""> Adminisztrálás</button>
+          <div class="dropdown-content" id="dropdown">
+            <a href="#adatbazis" onclick="DataBasePage()" class="dropdown_EatRend" style="background-image: linear-gradient(to right, #adf7b0 10%, #ffffff00 90%);"><img src="./Images/DataBase_icon.png" style="height: 18px; width: auto;" alt="Étrend">Adatbázis</a>
+            <a href="#QRkod" onclick="QRPage()" class="dropdown_Resign"><img src="./Images/Register_icon.png" style="height: 18px; width: auto;" alt="Lemondás">QR kód olvasás</a>
+            <a href="./index.html" onclick="LogingOut()"><img src="./Images/Logout.png" style="height: 18px; width: auto;" alt="Kijelentkezés">Kijelentkezés</a>
+          </div>
+        </div>
+      </div>
+      <div id = "DataBase_div" >
+        <div id = "DataBase_Table" >
+          <table id = "Downloadable_table" class = "table">
+            <tr style='background-color: #2196f3BB'><th></th><th id = 'table_name'><a href = '#' onclick = "OrderBy('name')">Név </a></th><th id = 'table_class'><a href = '#' onclick = "OrderBy('class')">Osztály &#8205 &#8205 &#8205</a></th><th>Befizetve</th><th>Befizetett összeg</th><th>Lemondott napok</th></tr>
+          </table>
+        </div>
+        <div id = "DataBase_manager">
+          <input type="text" placeholder="Név/Osztály" name="" id="Search_txt">
+          <button id = "Search_btn" onclick="Search()"><img src="./Images/Search_icon.png" alt="Keresés" style="width: 20px;"> Keresés</button>
+          <button id = "Register_btn" onclick="Register()" type="" ><img src="./Images/Register_icon.png" alt="Regisztrálás" style="width: 20px;"> Regisztrálás</button>
+          <div class="button" style="margin-bottom: 20px; display: none;">
+            <button id="NewOne_btn" onclick="NewOne()" ><img src="./Images/Register_icon.png" style="width: 20px;">Új személy</button>
+            <label for = "file" class = "custom-file-upload"><input id = "file" type="file" onchange="UploadFile()"><img src="./Images/File_icon.png" alt="Fájl" style="width: 20px;"> Fájl kiválasztása</label>
+            
+            <button id="Upload_btn" onclick="Upload()" ><img src="./Images/Upload_icon.png" style="width: 20px;">Feltöltés</button>
+            <button id="Cancel_btn" onclick="Cancel()" ><img src="./Images/Cancel_icon.png" style="width: 20px;">Mégsem</button>
+          </div>
+          <button id = "Download_btn" onclick="Download()"><img src="./Images/Download_icon.png" alt="Letöltés"  style="width: 20px;"> Letöltés</button>
+          <button id = "Delete_btn" onclick="Delete()"><img src="./Images/Resign.png" alt="Törlés"  style="width: 20px;"> Törlés</button>
+        </div>
+      </div>
+  </main>
+
+  <main id = "QRPage" style="display: none;">
+    <div id="Login_header">
+        <div class="dropdown">
+          <button onclick="OpenForm()" class="Login_button dropbtn" style="width: 200px;"> <img src="./Images/Admin_icon.png" class="Login_icon" style="height: 25px; width: auto;" alt=""> Adminisztrálás</button>
+          <div class="dropdown-content" id="dropdown">
+            <a href="#adatbazis" onclick="DataBasePage()" class="dropdown_EatRend"><img src="./Images/DataBase_icon.png" style="height: 18px; width: auto;" alt="Étrend">Adatbázis</a>
+            <a href="#QRkod" onclick="QRPage()" class="dropdown_Resign"  style="background-image: linear-gradient(to right, #adf7b0 10%, #ffffff00 90%);"><img src="./Images/Register_icon.png" style="height: 18px; width: auto;" alt="Lemondás">QR kód olvasás</a>
+            <a href="./index.html" onclick="LogingOut()"><img src="./Images/Logout.png" style="height: 18px; width: auto;" alt="Kijelentkezés">Kijelentkezés</a>
+          </div>
+        </div>
+      </div>
+     
+      <div id = "QR_code_reader">
+        <p id = "content"></p>
+      </div>
+  </main>
+
+
+  <script src="JavaAdmin.js"></script>
+</body>
+
+</html>
