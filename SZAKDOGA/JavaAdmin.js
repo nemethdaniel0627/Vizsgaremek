@@ -153,16 +153,9 @@ function DataBasePage() {
 
 function Download(file="Táblázat")
 {
-    /* Get the HTML data using Element by Id */
     var table = document.getElementById("Downloadable_table");
-     
-    /* Declaring array variable */
     var rows =[];
- 
-      //iterate through rows of table
     for(var i=0,row; row = table.rows[i];i++){
-        //rows would be accessed using the "row" variable assigned in the for loop
-        //Get each cell value/column from the row
         column1 = row.cells[0].innerText;
         column2 = row.cells[1].innerText;
         column3 = row.cells[2].innerText;
@@ -173,15 +166,13 @@ function Download(file="Táblázat")
             column6 = row.cells[5].innerText;
         }else
         {
-            for (let index = 0; index < row.cells[5].innerText.length; index++) {
-                if (row.cells[5].innerText[i] == null) {
+            for (let index = 0; index < row.cells[5].innerText.split('\n').length; index++) {
+                if ( row.cells[5].innerText.split('\n')[index] == null) {
                     break;
                 }
-                column6 += row.cells[5].innerText[i] + ',';
+                column6 +=  row.cells[5].innerText.split('\n')[index] + ',';
             }
         }
- 
-    /* add a new records in the array */
         rows.push(
             [
                 column1,
@@ -195,39 +186,16 @@ function Download(file="Táblázat")
  
         }
         csvContent = "data:text/csv;charset=utf-8,";
-         /* add the column delimiter as comma(,) and each row splitted by new line character (\n) */
         rows.forEach(function(rowArray){
             row = rowArray.join(";");
             csvContent += row + "\r\n";
         });
  
-        /* create a hidden <a> DOM node and set its download attribute */
         var encodedUri = encodeURI(csvContent);
         var link = document.createElement("a");
         link.setAttribute("href", encodedUri);
         link.setAttribute("download", file + '.csv');
         document.body.appendChild(link);
-         /* download the data file named "Stock_Price_Report.csv" */
         link.click();
-}
-
-function download(text, fileName) {
-    const link = document.createElement('a');
-    link.setAttribute('href',`data:text/csv;charset=utf-8,${encodeURIComponent(text)}`);
-    link.setAttribute('download',fileName);
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-}
-
-const toCSV = function (table) {
-    const rows = table.querySelectorAll('tr');
-
-    return [].slice.call(rows).map(function (row) {
-        const cell = row.querySelectorAll('th,td');
-        return [].slice.call(function (cell) {
-            return cell.textContent;
-        }).join(',');
-    })
-    .join(',');
+        document.body.removeChild(link);
 }
