@@ -6,6 +6,7 @@ import Menu from "./Menu";
 import Navbar from "./Navbar";
 import LunchTicket from "./LunchTicket";
 import LunchCancelation from "./LunchCancelation";
+import UserBar from "./UserBar";
 
 export default function App() {
 
@@ -18,6 +19,7 @@ export default function App() {
             <div id="LetterHead">
 
             </div>
+            <UserBar />
             <Switch>
                 <AuthRoute path="/" exact component={() =>
                     <Login />
@@ -28,6 +30,7 @@ export default function App() {
                 } />
 
                 <Route path="/etlap" component={() =>
+                    
                     <Menu />
                 } />
 
