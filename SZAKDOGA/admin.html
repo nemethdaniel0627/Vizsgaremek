@@ -69,7 +69,7 @@
     #DataBase_manager button
     {
       font-weight: bold;
-      height: 100px;
+      height: 70px;
       width: 300px;
       border-radius: 10px;
       margin-bottom: 20px;
@@ -103,6 +103,22 @@
       margin-bottom: 5px;
     }
 
+    .Admin_button
+    {
+      width: 200px;
+    }
+
+    .Admin_button img{
+
+      height: 25px;
+      width: auto;
+    }
+
+    .Admin_button a img
+    {
+      height: 18px;
+    }
+
   </style>
 </head>
 
@@ -125,11 +141,11 @@
   <main id = "MainPage">
     <div id="Login_header">
         <div class="dropdown">
-          <button onclick="OpenForm()" class="Login_button dropbtn" style="width: 200px;"> <img src="./Images/Admin_icon.png" class="Login_icon" style="height: 25px; width: auto;" alt=""> Adminisztrálás</button>
+          <button onclick="OpenForm()" class="Admin_button dropbtn"> <img src="./Images/Admin_icon.png" class="Login_icon" alt=""> Adminisztrálás</button>
           <div class="dropdown-content" id="dropdown">
-            <a href="#adatbazis" onclick="DataBasePage()" class="dropdown_EatRend" style="background-image: linear-gradient(to right, #adf7b0 10%, #ffffff00 90%);"><img src="./Images/DataBase_icon.png" style="height: 18px; width: auto;" alt="Étrend">Adatbázis</a>
-            <a href="#QRkod" onclick="QRPage()" class="dropdown_Resign"><img src="./Images/Register_icon.png" style="height: 18px; width: auto;" alt="Lemondás">QR kód olvasás</a>
-            <a href="./index.html" onclick="LogingOut()"><img src="./Images/Logout.png" style="height: 18px; width: auto;" alt="Kijelentkezés">Kijelentkezés</a>
+            <a href="#adatbazis" onclick="DataBasePage()" class="dropdown_EatRend" style="background-image: linear-gradient(to right, #adf7b0 10%, #ffffff00 90%);"><img src="./Images/DataBase_icon.png" alt="Étrend">Adatbázis</a>
+            <a href="#QRkod" onclick="QRPage()" class="dropdown_Resign"><img src="./Images/Register_icon.png" alt="Lemondás">QR kód olvasás</a>
+            <a href="./index.html" onclick="LogingOut()"><img src="./Images/Logout.png"  alt="Kijelentkezés">Kijelentkezés</a>
           </div>
         </div>
       </div>
@@ -142,6 +158,7 @@
         <div id = "DataBase_manager">
           <input type="text" placeholder="Név/Osztály" name="" id="Search_txt">
           <button id = "Search_btn" onclick="Search()"><img src="./Images/Search_icon.png" alt="Keresés" style="width: 20px;"> Keresés</button>
+          <button id = "Reload_btn" onclick="Reload()"><img src="./Images/Reload_icon.png" alt="Frissítés" style="width: 20px;"> Frissítés</button>
           <button id = "Register_btn" onclick="Register()" type="" ><img src="./Images/Register_icon.png" alt="Regisztrálás" style="width: 20px;"> Regisztrálás</button>
           <div class="button" style="margin-bottom: 20px; display: none;">
             <button id="NewOne_btn" onclick="NewOne()" ><img src="./Images/Register_icon.png" style="width: 20px;">Új személy</button>

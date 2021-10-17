@@ -94,15 +94,22 @@ button {
   background: #113aa1;
 }
 
-#Resign {
-  background-color: rgba(98, 132, 226, 0.315);
-}
 
 #Resign h1 {
-  background-image: linear-gradient(to right, #001e6c 30%, #ffffff00 100%);
+  background-image: radial-gradient(circle, #001e6c 10%, #ffffff00 90%);
+  color: #ffaa4c;
 }
 
 #Resign_icon
 {
   background-color: #001e6c;
+}
+
+.Resign_changer
+{
+  background-color: #001e6c;
+}
+.Resign_changer:hover
+{
+  background-image: radial-gradient(circle, #001e6c 5%, #0034b6 100%);
 }

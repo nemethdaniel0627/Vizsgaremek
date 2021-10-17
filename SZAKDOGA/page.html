@@ -232,36 +232,31 @@
       </div>
     </div>
 
-    <div id="Resign" style="display: none;">
-      <table>
-        <tr>
-          <th id = "Resign_icon" style="width: 30%;">
-            <img src="./Images/icon.png" alt="icon" style="width: 80px; margin-top: -100%;">
-          </th>
-
-          <th>
-            <h1 id = "Resign_h1">Lemondás</h1>
-            <div>
-              <input type="date" id="FirstDay" onchange = "DayCheckingFirst()"> --
-              <input type="date" id="LastDay" onchange = "DayCheckingLast()">
-              <br>
-              <input type="checkbox" name="OnlyOne" id="OnlyOne" onchange="OnlyOneDay()"> Csak egy nap!
-            </div>
-            <br>
-            <button id="Resign_btn">Lemondás</button>
-          </th>
-        </tr>
-      </table>
-      
+    <div id = "Resign_change">
+      <a href="#" id = "Resign_byDate" class="Resign_changer" onclick="ResignByDate()" ><h1>Lemondás dátum alapján</h1></a>
+      <a href="#" id = "Resign_byMenu" class="Resign_changer" onclick="ResignByMenu()" ><h1>Lemondás étlap alapján</h1></a>
     </div>
 
+    <div id="Resign" >
+      <a href = "#" onclick = ""><h1>Lemondás</h1></a>
 
+      <div id = "Resign_div">
+        <div id = "DayPicker">
+          <input type="date" id="FirstDay" onchange = "DayCheckingFirst()"> --
+          <input type="date" id="LastDay" onchange = "DayCheckingLast()">
+        </div>
+        <div id = "OnylOneDay">
+          <input type="checkbox" name="OnlyOne" id="OnlyOne" onchange="OnlyOneDay()"> Csak egy nap!
+        </div>
+        
+      </div> 
+    </div>
 
-    <div id="ResignMenu">
+    <div id="ResignMenu" style="display: none;">
       <div class="Menu_calendar">
-        <button onclick="ToCurrentWeek()" style="border-radius: 4px;">&#10094</button>
+        <button onclick="ToCurrentWeek('Resign')" style="border-radius: 4px;">&#10094</button>
         <input type="date" name="Datum" class="Menu_date" readonly>
-        <button onclick="ToNextWeek()" style="border-radius: 4px;">&#10095</button>
+        <button onclick="ToNextWeek('Resign')" style="border-radius: 4px;">&#10095</button>
       </div>
       <a href = "#" onclick = ""><h1>Lemondás</h1></a>
       <div class="container Menu">

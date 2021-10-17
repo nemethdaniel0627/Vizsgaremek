@@ -442,36 +442,96 @@ h3 {
 #Resign {
   margin: auto;
   margin-top: 100px;
-  width: 32%;
+  top: 150px;
+  position: relative;
+  width: 80%;
   text-align: center;
-  box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.432);
+  
 }
 #Resign div {
   text-align: center;
-  margin-top: 30px;
-  margin-left: 20px;
+  
 }
 
 #Resign h1 {
-  text-align: center;
-  padding-top: 10px;
-  padding-bottom: 10px;
   font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
   font-size: 65px;
   color: #ffaa4c;
-  margin-left: -1px;
-  margin-top: -1px;
+  border-radius: 50px;
+  text-align: center;
 }
 
-#Resign #OnlyOne {
-  margin-left: -55%;
-  margin-top: 15px;
+#Resign_change
+{
+  position: relative;
+  margin: 100px;
 }
 
-#Resign_btn {
-  width: 40%;
-  font-size: larger;
-  margin: 20px;
-  border-radius: 5px;
+.Resign_changer
+{
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 50px;
+  padding-right: 50px;
+  box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.432);
+  border-radius: 10px;
+  color: #ffaa4c;
+  text-decoration: none;
+  font-weight: bolder;
 }
 
+.Resign_changer:hover
+{
+  color: #ffaa4c;
+  text-decoration: none;
+}
+
+#Resign_byDate
+{
+  float: left; 
+}
+
+#Resign_byMenu
+{
+  float: right;
+}
+
+#ResignMenu a:hover, #Resign a:hover{
+  letter-spacing: 5px;
+}
+
+#ResignMenu a,#Resign a{
+  letter-spacing: 0px;
+  transition: 0.5s;
+  text-decoration: none;
+}
+
+#ResignMenu
+{
+  top: 150px;
+}
+
+#FirstDay, #LastDay
+{
+  width: 250px;
+  height: 50px;
+  font-size: 20px;
+}
+
+#DayPicker
+{
+  float:left;
+}
+
+#OnylOneDay
+{
+  float: right;
+  font-size: 20px;
+  margin-top: 8px;
+}
+
+#Resign_div
+{
+  width: 48%;
+  margin: auto;
+}
