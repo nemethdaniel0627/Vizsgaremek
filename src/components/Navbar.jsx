@@ -10,13 +10,13 @@ export default function Navbar() {
         let tmpDarkMode = !darkMode;
         setDarkMode(!darkMode);
         const root = document.querySelector(':root');
-        if (tmpDarkMode) {
-            console.log("asd");
+        if (tmpDarkMode) {            
             root.style.setProperty('--dark-blue', "#0D1321");
             root.style.setProperty('--light-blue', "#1D2D44");
             root.style.setProperty('--blue', "#3E5C76");
             root.style.setProperty('--bodyBackground', "#3E5C76");
             root.style.setProperty('--darkModeFontColor', "#fff");
+            root.style.setProperty('--currentDay', "#28622a");
         }
         else {
             root.style.setProperty('--dark-blue', "#001E6C");
@@ -24,6 +24,7 @@ export default function Navbar() {
             root.style.setProperty('--light-blue', "#5089C6");
             root.style.setProperty('--bodyBackground', "#fff");
             root.style.setProperty('--darkModeFontColor', "#000");
+            root.style.setProperty('--currentDay', "#adf7b0");
         }
     }
 

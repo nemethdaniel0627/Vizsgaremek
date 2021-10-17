@@ -60,6 +60,7 @@
             grid-template-columns: 15px repeat(3, 1fr) 15px;
             grid-template-rows: repeat(3, 1fr);
             line-height: 1px;
+            background-color: rgba(255, 255, 255, 0.363);
 
             .name {
                 grid-column: 2 / span 2;
@@ -97,4 +98,24 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+}
+
+.black {
+    background-color: #001e6c;
+    grid-column: 2 / span 2;
+    grid-row: 1 / span 3;
+}
+.red1 {
+    background-color: #5089c6;
+    grid-row: 2 / span 5;
+}
+.red2 {
+    background-color: #3a73b1;
+    grid-column: 2 / span 2;
+    grid-row: 4/7;
+}
+.green {
+    background-color: #ffaa4c;
+    grid-column: 2/4;
+    grid-row: 7/9;
 }

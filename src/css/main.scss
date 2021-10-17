@@ -5,6 +5,7 @@
   --orange: #FFAA4C;
   --bodyBackground: #fff;
   --darkModeFontColor: #000;
+  --currentDay: #adf7b0;
 }
 
 
@@ -21,6 +22,7 @@ body {
   margin: 0;
   box-sizing: border-box;
   background-color: var(--bodyBackground);
+  font-family: Verdana, sans-serif;
 }
 
 .hidden {

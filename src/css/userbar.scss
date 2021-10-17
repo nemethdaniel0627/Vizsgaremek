@@ -1,8 +1,9 @@
-#Login_header {
-    position: absolute;
+#Login_header {    
     width: 100%;
     height: auto;
-    top: 72px;    
+    margin-top: 1rem;
+    display: inline-block;
+    background-color: var(--light-blue);
 
     h2 {
         font-family: Georgia, "Times New Roman", Times, serif;
@@ -30,6 +31,12 @@
     display: flex;
     align-items: center;
     gap: .5rem;
+    background-color: inherit;
+    position: relative;
+
+    &:hover #dropdown {
+        height: 21rem;
+    }
 }
 
 .dropdown {
@@ -60,12 +67,21 @@
 }
 
 .dropdown--content {
-    display: none;
+    // display: none;
     position: absolute;
     background-color: #f1f1f1;
     min-width: 160px;
     box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
     z-index: 1;
+    font-size: 1.5rem;
+    top: 5.7rem;
+    height: 0;
+    overflow: hidden;
+    transition: all .4s;
+
+    &:hover {
+        display: block;
+    }
 
     a {
         color: black;
@@ -131,4 +147,6 @@
 .Login_icon {
     height: 25px;
     width: auto;
+    background-color: #fff;
+    border-radius: 50%;
 }

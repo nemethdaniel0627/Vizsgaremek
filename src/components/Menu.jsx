@@ -60,7 +60,7 @@ export default function Menu(props) {
     return (
         <div className="menu">
             <h2 className="menu--header">
-                Étlap
+                {props.header}
                 <span className="menu--week-header">                    
                     <FontAwesomeIcon className="menu--week-header--icon hidden" onClick={weekChange} id="weekArrow-1" icon={faChevronLeft} />
                     {setCurrentWeek()}                    

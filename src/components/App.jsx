@@ -29,16 +29,15 @@ export default function App() {
                     <Login />
                 } />
 
-                <Route path="/etlap" component={() =>
-                    
-                    <Menu />
+                <Route path="/etlap" component={() =>                    
+                    <Menu header="Étlap"/>
                 } />
 
                 <Route path="/ebedjegy" component={() =>
                     <LunchTicket />
                 } />
 
-                <AuthRoute path="/lemondas" component={() =>
+                <Route path="/lemondas" component={() =>
                     <LunchCancelation />
                 } />
             </Switch>
