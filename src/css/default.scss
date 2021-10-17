@@ -1,0 +1,103 @@
+#Header {
+  background-color: #001e6c;
+}
+
+#Header div h1 {
+  color: #ffaa4c;
+}
+
+#Login_header {
+  background-color: #5089c6;
+  color: whitesmoke;
+}
+
+#Header #Logo {
+  // src: "./icon.png";
+}
+
+.dropbtn {
+  background-color: #5089c6;
+}
+
+.form-container {
+  background-image: url("/Login_back_default.png");
+}
+
+#myForm {
+  background-image: linear-gradient(to bottom right, #5089c6, #001e6c);
+}
+
+#Menu_calendar input,
+button {
+  background-color: whitesmoke;
+  color: black;
+  border: 1px solid black;
+}
+
+#AllMenu h1 {
+  background-image: radial-gradient(circle, #001e6c 10%, #ffffff00 90%);
+  color: #ffaa4c;
+}
+
+.Weekday th {
+  background-image: radial-gradient(circle, #ffffff00 10%, #5089c6 90%);
+}
+
+.Weekday {
+  border-style: none none none none;
+  border-width: 2px;
+  border-color: #001e6c;
+}
+
+.black {
+  background-color: #001e6c;
+  grid-column: 2 / span 2;
+  grid-row: 1 / span 3;
+}
+.red1 {
+  background-color: #5089c6;
+  grid-row: 2 / span 5;
+}
+.red2 {
+  background-color: #3a73b1;
+  grid-column: 2 / span 2;
+  grid-row: 4/7;
+}
+.green {
+  background-color: #ffaa4c;
+  grid-column: 2/4;
+  grid-row: 7/9;
+}
+
+.info-grid {
+  background-color: rgba(255, 255, 255, 0.363);
+}
+
+.login {
+  background: #4f87c3;
+}
+
+.login p {
+  color: white;
+}
+
+.login button {
+  background: #001e6c;
+}
+
+.login button:hover {
+  background: #113aa1;
+}
+
+#Resign {
+  background-color: rgba(98, 132, 226, 0.315);
+}
+
+#Resign h1 {
+  background-image: linear-gradient(to right, #001e6c 30%, #ffffff00 100%);
+}
+
+#Resign_icon
+{
+  background-color: #001e6c;
+}

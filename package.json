@@ -1,11 +1,17 @@
 {
-    "name": "github-jobs-react-app",
+    "name": "food-e_2.0",
     "version": "0.1.0",
     "private": true,
     "dependencies": {
+        "@fortawesome/fontawesome-svg-core": "^1.2.36",
+        "@fortawesome/free-regular-svg-icons": "^5.15.4",
+        "@fortawesome/free-solid-svg-icons": "^5.15.4",
+        "@fortawesome/react-fontawesome": "^0.1.15",
         "axios": "^0.21.4",
+        "install": "^0.13.0",
         "lodash": "^4.17.21",
         "node-sass": "4.14.1",
+        "npm": "^7.24.1",
         "react": "^16.13.1",
         "react-dom": "^16.13.1",
         "react-router-dom": "^5.2.0",

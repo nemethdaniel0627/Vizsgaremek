@@ -11,6 +11,8 @@
 # production
 /build
 
+/SZAKDOGA
+
 # misc
 .DS_Store
 .env.local
