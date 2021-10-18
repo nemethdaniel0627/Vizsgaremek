@@ -1,5 +1,6 @@
 var DarkModeOn = true;
 var Logined = "false;";
+var Chosable = [];
 var CurrentPage = "Login";
 var Days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
 var MenuPerDay = ["Meggyes almaleves;BBQ-s sült csirkecomb Rizs Káposztasaláta","Meggyes almaleves;BBQ-s sült csirkecomb Rizs Káposztasaláta","Meggyes almaleves;BBQ-s sült csirkecomb Rizs Káposztasaláta","Meggyes almaleves;BBQ-s sült csirkecomb Rizs Káposztasaláta","Meggyes almaleves;BBQ-s sült csirkecomb Rizs Káposztasaláta"]
@@ -31,6 +32,7 @@ function PageLoaded()
     for (const classses of document.getElementsByClassName("Menu_date")) {
         classses.value = ThisMondayDate();
     } 
+    
     DatesLoader();
 
     LastPage(sessionStorage.getItem('CurrentPage'));
@@ -39,8 +41,8 @@ function PageLoaded()
     CurrentDayColorize();
     
     //MobileMode();
-
-    WhichDayIsNotChosable();
+    this.Chosable = WhichDayIsNotChosable();
+    console.log(this.Chosable);
 
 }
 
@@ -179,8 +181,8 @@ function NotUsedDayDelete()
 
 sessionStorage.setItem('NextWeek',0);
 
-function ToNextWeek(WhichPage = 'Menu') {
-    if(parseInt(sessionStorage.getItem('NextWeek')) < 1)
+function ToNextWeek(WhichPage) {
+    if(WhichPage == 'Menu')
     {
         var date = document.getElementsByClassName("Menu_date")[0].value.split('-');
 
@@ -213,14 +215,52 @@ function ToNextWeek(WhichPage = 'Menu') {
         for (const classses of document.getElementsByClassName("Menu_date")) {
             classses.value = NextMonday;
         }
-        if (document.getElementById("ResignMain").style.display != "none") {
-            NextWeekOrNot = 2;
-            for (let index = 0; index < ResignOrNot.length; index++) {
-                ChosenDayResign(Days[index],index);
-            }
-        }
-        sessionStorage.setItem('NextWeek',parseInt(sessionStorage.getItem('NextWeek')) + 1);
     }
+    else
+    {
+        if(parseInt(sessionStorage.getItem('NextWeek')) < 1)
+        {
+            var date = document.getElementsByClassName("Menu_date")[0].value.split('-');
+
+            var day;
+            if ((parseInt(date[2]) + 7) < 10) {
+                day = "0" + (parseInt(date[2]) + 7);
+            }else
+            {
+                day = parseInt(date[2]) + 7;
+            }
+        
+            if ((parseInt(date[1]) == 2 && parseInt(day) > 28) ||(parseInt(date[1]) == 2 && parseInt(day) > 29 && parseInt(date[0]) % 4 == 0)) {
+                day = "0" +(parseInt(day) - 28);
+            }
+            else if (parseInt(date[1]) % 2 == 1 && parseInt(day) > 30) {
+                day = "0" + (parseInt(day) - 30);
+            }
+            else if(parseInt(day) > 31)
+            {
+                day = "0" + (parseInt(day) - 31);  
+            }
+        
+            var month = (parseInt(day) < 8 ? (parseInt(date[1]) + 1 > 12 ? "1" : parseInt(date[1]) + 1) : parseInt(date[1]) + 0);
+                month = month < 10 ? ("0"+month) : month;
+        
+            var year = month == 1 && day < 8 ? parseInt(date[0]) + 1 : date[0];
+        
+            var NextMonday = year + "-" + month + "-" + day;
+        
+            for (const classses of document.getElementsByClassName("Menu_date")) {
+                classses.value = NextMonday;
+            }
+            if (document.getElementById("ResignMain").style.display != "none") {
+                NextWeekOrNot = 2;
+                for (let index = 0; index < ResignOrNot.length; index++) {
+                    ChosenDayResign(Days[index],index);
+                }
+            }
+            sessionStorage.setItem('NextWeek',parseInt(sessionStorage.getItem('NextWeek')) + 1);
+        }
+    }
+    
 }
 
 function ToCurrentWeek(WhichPage = 'Menu') {
@@ -342,6 +382,7 @@ function LoginPage() {
     document.getElementById("TicketMain").style.display = "none";
     document.getElementById("PasswordMain").style.display = "none";
     sessionStorage.setItem("CurrentPage", "Login");
+    LogingOut();
 }
 
 function MenuPage() {
@@ -410,13 +451,13 @@ function CloseForm() {
 }
 
 ResignOrNot = [false, false, false, false, false, false, false, false, false, false];
-Chosable = [true, true, true, true, true, true, true, true, true, true];
 Dates = [];
 NextWeekOrNot = 1;
 
 function ChosenDayResign(whichDay, whichBool)
 {
-    if (!Chosable[whichBool + (NextWeekOrNot-1)*5] && !ResignOrNot[whichBool + (NextWeekOrNot-1)*5]) {
+    if(!Chosable[whichBool + (NextWeekOrNot-1)*5])
+    {
         try {
             document.getElementById(whichDay).style.backgroundImage = "linear-gradient(to top, #2d2d2d, #ffffff00)";
             document.getElementById("cb_" + whichDay).disabled = true; 
@@ -424,25 +465,33 @@ function ChosenDayResign(whichDay, whichBool)
         } catch (error) {
             
         }
-    } else if (!ResignOrNot[whichBool + (NextWeekOrNot-1)*5]) {
-        try {
-            document.getElementById(whichDay).style.backgroundImage = "";
-            document.getElementById("cb_" + whichDay).checked = false;
-            document.getElementById("cb_" + whichDay).disabled = false; 
-        } catch (error) {
-            
-        }
-        
-    }
-    else
+    }else
     {
-        document.getElementById(whichDay).style.backgroundImage = "linear-gradient(to bottom, #cc1515, #ffffff00)";
-        document.getElementById("cb_" + whichDay).checked = true;
-        document.getElementById("cb_" + whichDay).disabled = false;
+        if(!ResignOrNot[whichBool + (NextWeekOrNot-1)*5])
+        {
+            try {
+                document.getElementById(whichDay).style.backgroundImage = "";
+                document.getElementById("cb_" + whichDay).checked = false;
+                document.getElementById("cb_" + whichDay).disabled = false; 
+            } catch (error) {
+                
+            }
+        }
+        else if(ResignOrNot[whichBool + (NextWeekOrNot-1)*5])
+        {
+            try {
+                document.getElementById(whichDay).style.backgroundImage = "linear-gradient(to bottom, #cc1515, #ffffff00)";
+                document.getElementById("cb_" + whichDay).checked = true;
+                document.getElementById("cb_" + whichDay).disabled = false;
+            } catch (error) {
+                
+            }
+        }
     }
+    
 }
 
-function ChoseADay(whichDay,whichBool)
+function ChoseADay(whichDay, whichBool)
 {
     if (ResignOrNot[whichBool + (NextWeekOrNot-1)*5]) {
         ResignOrNot[whichBool + (NextWeekOrNot-1)*5] = false;
@@ -455,8 +504,28 @@ function ChoseADay(whichDay,whichBool)
 
 function WhichDayIsNotChosable()
 {
+    var Chosable = [true, true, true, true, true, true, true, true, true, true];
     for (let index = 0; index < Days.length; index++) {
-        if(index <= date.getDay()-1)
+        if(date.getDay() > 4)
+        {
+            try {
+                document.getElementById("cb_" + Days[0]).disabled = true;
+                Chosable[0] = false;
+            } catch (error) {
+                
+            }
+            
+        }
+        else if(date.getDay() == 4 && (date.getHours() > 8 || (date.getHours == 8 && date.getMinutes > 30)))
+        {
+            try {
+                document.getElementById("cb_" + Days[0]).disabled = true;
+                Chosable[0] = false;
+            } catch (error) {
+                
+            }
+        }
+        else if(index <= date.getDay()-1)
         {
             try {
                 document.getElementById("cb_" + Days[index]).disabled = true;
@@ -466,27 +535,19 @@ function WhichDayIsNotChosable()
         }
         else if((date.getHours() == 8 && date.getMinutes() > 30) || date.getHours() > 8)
         {
-            if(date.getDay() > 4) 
-            {
-                try {
-                    document.getElementById("cb_" + Days[0]).disabled = true; 
-                    Chosable[0] = false;
-                } catch (error) {}
+            try {
+                document.getElementById("cb_" + Days[index]).disabled = true;
+                Chosable[index] = false;
+            } catch (error) {
             }
-            else
-            {
-                try {
-                    document.getElementById("cb_" + Days[index]).disabled = true;
-                    Chosable[index] = false;
-                } catch (error) {
-                }
-                ChosenDayResign(Days[index], index);
-                break;
-            }
+            ChosenDayResign(Days[index], index);
+            break;
         }
-        
         ChosenDayResign(Days[index], index);
     }
+
+
+    return Chosable;
 
 }
 
