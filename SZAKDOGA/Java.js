@@ -22,43 +22,7 @@ function PageLoaded()
         LogingOut();
     }
 
-    index2 = 1;
-    for (let index = 0; index < ResignOrNot.length; index++) {
-        if (index < 5) {
-            if (date.getMonth() == 1 && parseInt(ThisMondayDate().split('-')[2]) + index > 28) {
-                Dates[index] = index2++;
-            }
-            else if (date.getMonth() % 2 == 0 && parseInt(ThisMondayDate().split('-')[2]) + index > 30) {
-                Dates[index] = index2++; 
-            }
-            else if(parseInt(ThisMondayDate().split('-')[2]) + index > 31)
-            {
-                Dates[index] = index2++;   
-            }
-            else
-            {
-                Dates[index] = parseInt(ThisMondayDate().split('-')[2]) + index;
-            }
-            
-        }
-        else
-        {
-            if (date.getMonth() == 1 && parseInt(ThisMondayDate().split('-')[2]) + index + 2 > 28) {
-                Dates[index] = index2++;   
-            }
-            else if (date.getMonth() % 2 == 0 && parseInt(ThisMondayDate().split('-')[2]) + index + 2 > 30) {
-                Dates[index] = index2++;   
-            }
-            else if(parseInt(ThisMondayDate().split('-')[2]) + index + 2 > 31)
-            {
-                Dates[index] = index2++;   
-            }else
-            {
-                Dates[index] = parseInt(ThisMondayDate().split('-')[2]) + index + 2;
-            }
-        }
-        
-    }
+    
     if (sessionStorage.getItem("DarkModeOn") == "true") {
         document.getElementById("Dark_check").checked = true;
         DarkModeStyleChange();
@@ -67,18 +31,69 @@ function PageLoaded()
     for (const classses of document.getElementsByClassName("Menu_date")) {
         classses.value = ThisMondayDate();
     } 
+    DatesLoader();
 
-    
     LastPage(sessionStorage.getItem('CurrentPage'));
     document.querySelector(".date p").innerHTML = "Dátum: " + NowDate().toString().split('-')[0] + "." + NowDate().toString().split('-')[1] + "." + NowDate().toString().split('-')[2] + ".";
 	
     CurrentDayColorize();
     
-    MobileMode();
+    //MobileMode();
 
     WhichDayIsNotChosable();
 
 }
+
+function DatesLoader()
+{
+    index2 = 1;
+    for (let index = 0; index < ResignOrNot.length; index++) {
+        if (index < 5) {
+            if (date.getMonth() == 1 && parseInt(ThisMondayDate().split('-')[2]) + index > 28) {
+                var month = parseInt((date.getMonth()+1)) + 1 < 10 ? '0' + parseInt((date.getMonth()+1)) + 1 : parseInt((date.getMonth()+1)) + 1;
+                Dates[index] = date.getFullYear() + '-' + month + '-' + index2++;
+            }
+            else if (date.getMonth() % 2 == 0 && parseInt(ThisMondayDate().split('-')[2]) + index > 30) 
+            {
+                var month = parseInt((date.getMonth()+1)) + 1 < 10 ? '0' + parseInt((date.getMonth()+1)) + 1 : parseInt((date.getMonth()+1)) + 1;
+                Dates[index] = date.getFullYear() + '-' + month + '-' + index2++;
+            }
+            else if(parseInt(ThisMondayDate().split('-')[2]) + index > 31)
+            {
+                var year = parseInt(date.getMonth()) == 1 && index2 >= 1 ? date.getFullYear() + 1 : date.getFullYear();
+                var month = parseInt((date.getMonth()+1)) + 1 < 10 ? '0' + parseInt((date.getMonth()+1)) + 1 : parseInt((date.getMonth()+1)) + 1;
+                Dates[index] =year + '-' + month + '-' + index2++; 
+            }
+            else
+            {
+                Dates[index] =  date.getFullYear() + '-' + (date.getMonth()+1) + '-' + (parseInt(ThisMondayDate().split('-')[2]) + index);
+            }
+            
+        }
+        else
+        {
+            if (date.getMonth() == 1 && parseInt(ThisMondayDate().split('-')[2]) + index + 2 > 28) {
+                var month = parseInt((date.getMonth()+1)) + 1 < 10 ? '0' + parseInt((date.getMonth()+1)) + 1 : parseInt((date.getMonth()+1)) + 1;
+                Dates[index] = date.getFullYear() + '-' + month + '-' + index2++;
+            }
+            else if (date.getMonth() % 2 == 0 && parseInt(ThisMondayDate().split('-')[2]) + index + 2 > 30) {
+                var month = parseInt((date.getMonth()+1)) + 1 < 10 ? '0' + parseInt((date.getMonth()+1)) + 1 : parseInt((date.getMonth()+1)) + 1;
+                Dates[index] = date.getFullYear() + '-' + month + '-' + index2++;
+            }
+            else if(parseInt(ThisMondayDate().split('-')[2]) + index + 2 > 31)
+            {
+                var year = parseInt(date.getMonth()) == 1 && index2 >= 1 ? date.getFullYear() + 1 : date.getFullYear();
+                var month = parseInt((date.getMonth()+1)) + 1 < 10 ? '0' + parseInt((date.getMonth()+1)) + 1 : parseInt((date.getMonth()+1)) + 1;
+                Dates[index] =year + '-' + month + '-' + index2++; 
+            }else
+            {
+                Dates[index] =  date.getFullYear() + '-' + (date.getMonth()+1) + '-' + (parseInt(ThisMondayDate().split('-')[2]) + index + 2);
+            }
+        }
+        
+    }
+}
+
 
 function DarkModeStyleChange(){
     var css;
