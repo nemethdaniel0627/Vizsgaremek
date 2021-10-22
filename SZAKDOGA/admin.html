@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Food-WEB - Admin</title>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
   <link rel="stylesheet" href="./Styles/default.css" type="text/css">
   <link rel="stylesheet" href="./Styles/NewStyle.css">
   <link rel="stylesheet" href="./Styles/AdminStyle.css">
@@ -52,7 +52,11 @@
       margin-bottom: 5px;
     }
 
-    a{color:black}
+    a
+    {
+      color:black;
+      text-decoration: none;
+    }
     a:hover
     {
       text-decoration: none;
@@ -120,6 +124,10 @@
       height: 18px;
     }
 
+    .PaidImage
+    {
+      width: 20px;
+    }
   </style>
 </head>
 
@@ -152,22 +160,27 @@
       </div>
       <div id = "DataBase_div" >
         <div id = "DataBase_Table" >
-          <table id = "Downloadable_table" class = "table">
+          <table id = "Downloadable_table" class = "table table-hover">
             <tr id = "first_tr"><th></th><th id = 'table_name'><a href = '#' onclick = "OrderBy('name')">Név </a></th><th id = 'table_class'><a href = '#' onclick = "OrderBy('class')">Osztály &#8205 &#8205 &#8205</a></th><th>Befizetve</th><th>Befizetett összeg</th><th>Lemondott napok</th></tr>
           </table>
         </div>
         <div id = "DataBase_manager">
-          <input type="text" placeholder="Név/Osztály" name="" id="Search_txt">
+          
           <button id = "Search_btn" onclick="Search()"><img src="./Images/Search_icon.png" alt="Keresés" style="width: 20px;"> Keresés</button>
+          <div class="button" style="margin-bottom: 20px; display: none;">
+            <input type="text" placeholder="Név/Osztály" name="" id="Search_txt">
+            <button id = "Search_btn" onclick="Searching()"><img src="./Images/Search_icon.png" alt="Keresés" style="width: 20px;"> Keresés</button>
+            <button id="SearchCancel_btn" onclick="Cancel(0)" ><img src="./Images/Cancel_icon.png">Mégsem</button>
+          </div>
           <button id = "Reload_btn" onclick="Reload()"><img src="./Images/Reload_icon.png" alt="Frissítés" style="width: 20px;"> Frissítés</button>
+          <button id = "Download_btn" onclick="Download()"><img src="./Images/Download_icon.png" alt="Letöltés" > Letöltés</button>
           <button id = "Register_btn" onclick="Register()" type="" ><img src="./Images/Register_icon.png" alt="Regisztrálás" style="width: 20px;"> Regisztrálás</button>
           <div class="button" style="margin-bottom: 20px; display: none;">
             <button id="NewOne_btn" onclick="NewOne()" ><img src="./Images/Register_icon.png" style="width: 20px;">Új személy</button>
             <label for = "file" class = "custom-file-upload"><input id = "file" type="file" onchange="UploadFile()"><img src="./Images/File_icon.png" alt="Fájl" style="width: 20px;"> Fájl kiválasztása</label>
             <button id="Upload_btn" onclick="Upload()" ><img src="./Images/Upload_icon.png" >Feltöltés</button>
-            <button id="Cancel_btn" onclick="Cancel()" ><img src="./Images/Cancel_icon.png">Mégsem</button>
+            <button id="RegisterCancel_btn" onclick="Cancel(1)" ><img src="./Images/Cancel_icon.png">Mégsem</button>
           </div>
-          <button id = "Download_btn" onclick="Download()"><img src="./Images/Download_icon.png" alt="Letöltés" > Letöltés</button>
           <button id = "Delete_btn" onclick="Delete()"><img src="./Images/Resign.png" alt="Törlés" > Törlés</button>
         </div>
       </div>
