@@ -14,6 +14,9 @@ function PageLoaded()
     sessionStorage.setItem("SavedUser", localStorage.getItem("ToPageUser") == ""  ||  localStorage.getItem("ToPageUser") == null ? sessionStorage.getItem("SavedUser") : Coder(localStorage.getItem("ToPageUser")));
     sessionStorage.setItem("Logined", Logined = (sessionStorage.getItem("SavedUser") == null || sessionStorage.getItem("SavedUser") == "" ? "false;" : "true;"));
 
+    Chosable = WhichDayIsNotChosable();
+    console.log(Chosable);
+
     if (Logined.split(';')[0] == "true") {
         LogingIn();
     }else
@@ -41,9 +44,10 @@ function PageLoaded()
     CurrentDayColorize();
     
     //MobileMode();
-    this.Chosable = WhichDayIsNotChosable();
-    console.log(this.Chosable);
-
+    
+    var dates = date.getFullYear() +"-"+ (date.getMonth()+1 < 10 ? "0"+date.getMonth()+1:date.getMonth()+1) +"-"+(date.getDate() < 10 ? "0"+date.getDate():date.getDate());
+    document.getElementById('FirstDay').value = dates;
+    document.getElementById('LastDay').value = dates;
 }
 
 function DatesLoader()
@@ -493,6 +497,7 @@ function ChosenDayResign(whichDay, whichBool)
 
 function ChoseADay(whichDay, whichBool)
 {
+    
     if (ResignOrNot[whichBool + (NextWeekOrNot-1)*5]) {
         ResignOrNot[whichBool + (NextWeekOrNot-1)*5] = false;
     }else
@@ -504,23 +509,23 @@ function ChoseADay(whichDay, whichBool)
 
 function WhichDayIsNotChosable()
 {
-    var Chosable = [true, true, true, true, true, true, true, true, true, true];
+    this.Chosable = [true, true, true, true, true, true, true, true, true, true];
     for (let index = 0; index < Days.length; index++) {
-        if(date.getDay() > 4)
+        if(date.getDay() > 5)
         {
             try {
-                document.getElementById("cb_" + Days[0]).disabled = true;
-                Chosable[0] = false;
+                document.getElementById("cb_" + Days[5]).disabled = true;
+                Chosable[5] = false;
             } catch (error) {
                 
             }
             
         }
-        else if(date.getDay() == 4 && (date.getHours() > 8 || (date.getHours == 8 && date.getMinutes > 30)))
+        else if(date.getDay() == 5 && (date.getHours() > 8 || (date.getHours == 8 && date.getMinutes > 30)))
         {
             try {
-                document.getElementById("cb_" + Days[0]).disabled = true;
-                Chosable[0] = false;
+                document.getElementById("cb_" + Days[5]).disabled = true;
+                Chosable[5] = false;
             } catch (error) {
                 
             }
@@ -546,7 +551,6 @@ function WhichDayIsNotChosable()
         ChosenDayResign(Days[index], index);
     }
 
-
     return Chosable;
 
 }
@@ -563,6 +567,45 @@ function ResignByMenu()
     document.getElementById("Resign").style.display = "none";
 }
 
+function ResignButtonClicked(whichBtn)
+{
+    if(whichBtn == 'ByMenu')
+    {
+        var dataRow = "";
+        for (let index = 0; index < ResignOrNot.length; index++) {
+            if (ResignOrNot[index]) {
+                dataRow += Dates[index] + ';';
+            }
+            
+        }
+        console.log(dataRow);
+    }
+}
+
+function DayCheckingFirst(e)
+{
+    var dates = date.getFullYear() +"-"+ (date.getMonth()+1 < 10 ? "0"+date.getMonth()+1:date.getMonth()+1) +"-"+(date.getDate() < 10 ? "0"+date.getDate():date.getDate());
+    if(document.getElementById('FirstDay').value < dates)
+    {
+        document.getElementById('FirstDay').value = dates;
+        alert("Nem megfelelő dátum!");
+    }
+}
+
+function DayCheckingLast(e)
+{
+    var dates = date.getFullYear() +"-"+ (date.getMonth()+1 < 10 ? "0"+date.getMonth()+1:date.getMonth()+1) +"-"+(date.getDate() < 10 ? "0"+date.getDate():date.getDate());
+    if(document.getElementById('LastDay').value < dates)
+    {
+        document.getElementById('LastDay').value = dates;
+        alert("Nem megfelelő dátum!");
+    }
+}
+
+function OnlyOneDay()
+{
+    document.getElementById('LastDay').disabled = document.getElementById('OnlyOne').checked;
+}
 
 function Coder(Data)
 {

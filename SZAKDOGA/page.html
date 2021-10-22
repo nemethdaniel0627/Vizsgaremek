@@ -9,7 +9,7 @@
 
   <link rel="stylesheet" href="./Styles/default.css" type="text/css">
   <link rel="stylesheet" href="./Styles/NewStyle.css">
-  
+
   <link rel="icon" href="./Images/icon.png">
 
 </head>
@@ -42,7 +42,7 @@
           <a href="#" onclick="TicketPage()" class="dropdown_Ticket"><img src="./Images/Ticket_Icon.png" style="height: 18px; width: auto;" alt="Ebedjegy">Ebédjegy</a>
           <a href="#" onclick="PassWordPage()" class="dropdown_PassWord"><img src="./Images/Password_icon.png" style="height: 18px; width: auto;" alt="Jelszó">Jelszó modosítás</a>
           <a href="./index.html" onclick="LogingOut()"><img src="./Images/Logout.png" style="height: 18px; width: auto;" alt="Kijelentkezés">Kijelentkezés</a>
-          
+
         </div>
       </div>
     </div>
@@ -56,7 +56,7 @@
       <h1>Étrend</h1>
       <div class="container Menu">
         <div class="row">
-          <div class="col-lg col-12 Weekday Monday" >
+          <div class="col-lg col-12 Weekday Monday">
             <table>
               <tr>
                 <th>Hétfő</th>
@@ -82,7 +82,7 @@
               </tr>
             </table>
           </div>
-          <div class="col-lg col-12 Weekday Wednesday" >
+          <div class="col-lg col-12 Weekday Wednesday">
             <table>
               <tr>
                 <th>Szerda</th>
@@ -151,13 +151,13 @@
           <a href="#" onclick="MenuPage()" class="dropdown_EatRend"><img src="./Images/Calendar_Icon.png" style="height: 18px; width: auto;" alt="Étrend">Étrend</a>
           <a href="#" onclick="ResignPage()" class="dropdown_Resign"><img src="./Images/Resign.png" style="height: 18px; width: auto;" alt="Lemondás">Lemondás</a>
           <a href="#" onclick="TicketPage()" class="dropdown_Ticket"><img src="./Images/Ticket_Icon.png" style="height: 18px; width: auto;" alt="Ebedjegy">Ebédjegy</a>
-          <a href="#" onclick="PassWordPage()" class="dropdown_PassWord"  style="background-image: linear-gradient(to right, #adf7b0 10%, #ffffff00 90%);"><img src="./Images/Password_icon.png" style="height: 18px; width: auto;" alt="Jelszó">Jelszó modosítás</a>
+          <a href="#" onclick="PassWordPage()" class="dropdown_PassWord" style="background-image: linear-gradient(to right, #adf7b0 10%, #ffffff00 90%);"><img src="./Images/Password_icon.png" style="height: 18px; width: auto;" alt="Jelszó">Jelszó modosítás</a>
           <a href="./index.html" onclick="LogingOut()"><img src="./Images/Logout.png" style="height: 18px; width: auto;" alt="Kijelentkezés">Kijelentkezés</a>
 
         </div>
       </div>
     </div>
-    
+
     <div class="wrapper" style="margin-top: 10vh;">
       <form class="login">
         <img src="./Images/icon.png" alt="icon" style="height: 50px; float: left;">
@@ -232,24 +232,30 @@
       </div>
     </div>
 
-    <div id = "Resign_change">
-      <a href="#" id = "Resign_byDate" class="Resign_changer" onclick="ResignByDate()" ><h1>Lemondás dátum alapján</h1></a>
-      <a href="#" id = "Resign_byMenu" class="Resign_changer" onclick="ResignByMenu()" ><h1>Lemondás étlap alapján</h1></a>
+    <div id="Resign_change">
+      <a href="#" id="Resign_byDate" class="Resign_changer" onclick="ResignByDate()">
+        <h1>Lemondás dátum alapján</h1>
+      </a>
+      <a href="#" id="Resign_byMenu" class="Resign_changer" onclick="ResignByMenu()">
+        <h1>Lemondás étlap alapján</h1>
+      </a>
     </div>
 
-    <div id="Resign" >
-      <a href = "#" onclick = ""><h1>Lemondás</h1></a>
+    <div id="Resign">
+      <a href="#" onclick="ResignButtonClicked('ByDate')">
+        <h1>Lemondás</h1>
+      </a>
 
-      <div id = "Resign_div">
-        <div id = "DayPicker">
-          <input type="date" id="FirstDay" onchange = "DayCheckingFirst()"> --
-          <input type="date" id="LastDay" onchange = "DayCheckingLast()">
+      <div id="Resign_div">
+        <div id="DayPicker">
+          <input type="date" id="FirstDay" onchange="DayCheckingFirst(event)"> --
+          <input type="date" id="LastDay" onchange="DayCheckingLast(event)">
         </div>
-        <div id = "OnylOneDay">
+        <div id="OnylOneDay">
           <input type="checkbox" name="OnlyOne" id="OnlyOne" onchange="OnlyOneDay()"> Csak egy nap!
         </div>
-        
-      </div> 
+
+      </div>
     </div>
 
     <div id="ResignMenu" style="display: none;">
@@ -258,13 +264,15 @@
         <input type="date" name="Datum" class="Menu_date" readonly>
         <button onclick="ToNextWeek('Resign')" style="border-radius: 4px;">&#10095</button>
       </div>
-      <a href = "#" onclick = ""><h1>Lemondás</h1></a>
+      <a href="#" onclick="ResignButtonClicked('ByMenu')">
+        <h1>Lemondás</h1>
+      </a>
       <div class="container Menu">
         <div class="row">
           <div class="col-lg col-12 Weekday" id="Monday">
             <table>
-              <tr>  
-                <th><input type="checkbox" name="cb_Monday" id="cb_Monday" onchange="ChoseADay('Monday',0)" >  Hétfő</th>
+              <tr>
+                <th><input type="checkbox" name="cb_Monday" id="cb_Monday" onchange="ChoseADay('Monday',0)"> Hétfő</th>
               </tr>
               <tr>
                 <td class="starter">Meggyes almaleves</td>
@@ -277,7 +285,7 @@
           <div class="col-lg col-12 Weekday" id="Tuesday">
             <table>
               <tr>
-                <th><input type="checkbox" name="cb_Tuesday" id="cb_Tuesday" onchange="ChoseADay('Tuesday',1)" > Kedd</th>
+                <th><input type="checkbox" name="cb_Tuesday" id="cb_Tuesday" onchange="ChoseADay('Tuesday',1)"> Kedd</th>
               </tr>
               <tr>
                 <td class="starter">Meggyes almaleves</td>
@@ -290,7 +298,7 @@
           <div class="col-lg col-12 Weekday" id="Wednesday">
             <table>
               <tr>
-                <th><input type="checkbox" name="cb_Wednesday" id="cb_Wednesday"  onchange="ChoseADay('Wednesday',2)"> Szerda</th>
+                <th><input type="checkbox" name="cb_Wednesday" id="cb_Wednesday" onchange="ChoseADay('Wednesday',2)"> Szerda</th>
               </tr>
               <tr>
                 <td class="starter">Meggyes almaleves</td>
@@ -303,7 +311,7 @@
           <div class="col-lg col-12 Weekday" id="Thursday">
             <table>
               <tr>
-                <th><input type="checkbox" name="cb_Thursday" id="cb_Thursday" onchange="ChoseADay('Thursday',3)" > Csütörtök</th>
+                <th><input type="checkbox" name="cb_Thursday" id="cb_Thursday" onchange="ChoseADay('Thursday',3)"> Csütörtök</th>
               </tr>
               <tr>
                 <td class="starter">Meggyes almaleves</td>
