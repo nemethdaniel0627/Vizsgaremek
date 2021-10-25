@@ -16,6 +16,7 @@ export default function Navbar() {
             root.style.setProperty('--blue', "#3E5C76");
             root.style.setProperty('--bodyBackground', "#3E5C76");
             root.style.setProperty('--darkModeFontColor', "#fff");
+            root.style.setProperty('--currentDay', "#28622a");
         }
         else {
             root.style.setProperty('--dark-blue', "#001E6C");
@@ -23,6 +24,7 @@ export default function Navbar() {
             root.style.setProperty('--light-blue', "#5089C6");
             root.style.setProperty('--bodyBackground', "#fff");
             root.style.setProperty('--darkModeFontColor', "#000");
+            root.style.setProperty('--currentDay', "#adf7b0");
         }
     }
     

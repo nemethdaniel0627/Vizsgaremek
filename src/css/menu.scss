@@ -12,6 +12,10 @@
         justify-content: center;
         margin: 0 2rem;
         color: var(--darkModeFontColor);
+
+        @media only screen and (max-width: 900px) {
+            flex-direction: column;
+        }
     }
 
     &--header {
@@ -36,10 +40,6 @@
             font-size: 2.5rem;
             transition: all .5s;
             cursor: pointer;            
-
-            &:hover {
-                transform: scale(1.5);
-            }
         }
     }
 
@@ -60,6 +60,6 @@
     }
 
     &--day-selected {
-        background-image: linear-gradient(rgb(173, 247, 176), var(--bodyBackground))
+        background-image: linear-gradient(var(--currentDay), var(--bodyBackground))
     }
 }

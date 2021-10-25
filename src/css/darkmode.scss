@@ -8,10 +8,18 @@
     align-items: center;
     justify-content: center;
 
+    @media only screen and (max-width: 600px) {
+        top: 1.5rem;
+    }
+
     &--img {
         margin: -5px 10px;
         height: 40px;
         width: auto;
+
+        @media only screen and (max-width: 600px) {
+            height: 30px;
+        }
     }
 }
 
@@ -20,6 +28,11 @@
     display: inline-block;
     width: 60px;
     height: 34px;
+
+    @media only screen and (max-width: 600px) {
+        width: 4rem;
+        height: 2rem;
+    }
 }
 .switch input {
     opacity: 0;
@@ -48,6 +61,11 @@
     background-color: white;
     -webkit-transition: 0.4s;
     transition: 0.4s;
+
+    @media only screen and (max-width: 600px) {
+        height: 1.4rem;
+        width: 1.4rem;
+    }
 }
 
 input:checked + .slider {

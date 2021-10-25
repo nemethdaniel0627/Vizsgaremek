@@ -13,9 +13,9 @@
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        transition: all 1s;        
+        transition: all 1s;
     }
-    
+
     &--photo {
         width: 50%;
         height: 30%;
@@ -23,24 +23,24 @@
         animation: logo 0.6s forwards;
         background-color: rgba(107, 107, 107, 0.363);
         box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.432);
-        transition: all .7s;
+        transition: all 0.7s;
 
-        @media only screen and (max-width: 1300px){
+        @media only screen and (max-width: 1300px) {
             height: 25%;
         }
 
-        @media only screen and (max-width: 1000px){
+        @media only screen and (max-width: 1000px) {
             height: 20%;
         }
 
-        @media only screen and (max-width: 700px){
+        @media only screen and (max-width: 700px) {
             height: 13%;
         }
 
         &:hover #Logo {
             width: 100%;
         }
-    }    
+    }
 
     &--img {
         width: 100%;
@@ -50,10 +50,10 @@
 
 #header--btn {
     display: none;
-    &:checked ~ #LetterHead{
+    &:checked ~ #LetterHead {
         height: 11rem;
 
-        @media only screen and (max-width: 600px){
+        @media only screen and (max-width: 600px) {
             height: 6rem;
         }
     }
@@ -66,7 +66,7 @@
         width: 15%;
         top: 5.5rem;
 
-        @media only screen and (max-width: 600px){
+        @media only screen and (max-width: 600px) {
             top: 3rem;
             width: 25%;
         }
@@ -76,7 +76,7 @@
         top: -20rem;
         visibility: visible;
 
-        @media only screen and (max-height: 800px){
+        @media only screen and (max-height: 800px) {
             top: 0;
         }
     }
