@@ -1,9 +1,10 @@
 var CurrentlyIndex = 0;
 var table =  "<tr style='background-color: #2196f3BB'><th></th><th id = 'table_name'><a href = '#' onclick = 'OrderBy(name)'>Név </a></th><th id = 'table_class'><a href = '#' onclick = 'OrderBy(class)'>Osztály &#8205 &#8205 &#8205</a></th><th>Befizetve</th><th>Befizetett összeg</th><th>Lemondott napok</th></tr>";
 var data = "";
+var DataIndex = 0;
+var CbIndexes = [];
 function PageLoaded()
 {
-    
     this.data = ["Habsburg Mária Terézia;12.A;true;15000;2021-09-27#2021-09-26#2021-09-25"];
     for (let index = 0; index < 20; index++) {
         var zindex = Math.floor(Math.random() * 4) + 9;
@@ -13,9 +14,9 @@ function PageLoaded()
         }
         this.data.push("Habsburg Mária Terézia;"+ zindex +".A;true;15000;2021-09-27#2021-09-26#2021-09-25");    
         
-        
+        DataIndex = index;
     }
-    document.querySelector("#DataBase_Table table").innerHTML += TableLoader(this.data);
+    document.querySelector("#table_tbody").innerHTML = TableLoader(this.data);
 }
 
 function SelectRow(row)
@@ -31,8 +32,8 @@ function SelectRow(row)
 
 function Register()
 {
-    document.getElementById("Register_btn").style.display = "none";
-    document.getElementsByClassName("button")[1].style.display = "block";
+    document.getElementsByClassName("button")[1].style.display = "none";
+    document.getElementsByClassName("button")[2].style.display = "block";
 
     for (const button of document.getElementsByTagName("button")) {
         button.disabled = true;
@@ -41,6 +42,12 @@ function Register()
     document.getElementById("NewOne_btn").disabled = false;
     document.getElementById("Upload_btn").disabled = false;
     document.getElementById("RegisterCancel_btn").disabled = false;
+}
+
+function Modification()
+{
+    document.getElementById("Modification_btn").style.display = "none";
+    document.getElementsByClassName("button")[1].style.display = "block";
 }
 
 function Search()
@@ -55,13 +62,17 @@ function Cancel(which)
         button.disabled = false;
     }
 
-    if(which == 0){
-        document.getElementById("Search_btn").style.display = "block";
-    }else
-    {
-        document.getElementById("Register_btn").style.display = "block";
+    switch (which) {
+        case 0:
+            document.getElementById("Search_btn").style.display = "block";
+            break;
+        case 1:
+            document.getElementById("Modification_btn").style.display = "block";
+            document.getElementsByClassName("button")[1].style.display = "none";
+            break;
+        default:
+            break;
     }
-    
     document.getElementsByClassName("button")[which].style.display = "none";
     document.getElementsByClassName("custom-file-upload")[0].innerHTML = "<input type = 'file' id = 'file' onchange = UploadFile()><img src='./Images/File_icon.png' alt='Fájl' style='width: 20px;'> Fájl kiválasztása"
 }
@@ -86,14 +97,36 @@ function TextAbstract(text,length)
 
 function NewOne()
 {
-    var datapertable= "";
-    datapertable += "<tr><td></td>";
-    datapertable += "<td><input id = 'new_name' type = 'text' placeholder = 'Név'  style = 'width: 220px'></td>";
-    datapertable += "<td><input id = 'new_class' type = 'text' placeholder = 'Osztály'  style = 'width: 90px'></td>";
-    datapertable += "<td> <input type = 'checkbox' id = 'cb_new'/></td>";
-    datapertable += "<td><input type = 'button' value = 'Mentés'  style = 'width: 150px'   class = 'btn btn-success' onclick = ''></td>";
-    datapertable += "<td><input type = 'button' value = 'Mégsem' style = 'width: 150px'  class = 'btn btn-danger' onclick = 'RegistrationCancel()'></td></tr>";
-    document.querySelector("#DataBase_Table table").innerHTML = table + datapertable + TableLoader(this.data);
+    for (const button of document.getElementsByTagName("button")) {
+        button.disabled = true;
+    }
+    document.getElementById("Modification_btn").style.display = "block";
+    document.getElementsByClassName("button")[1].style.display = "none";
+    
+
+    var RegisterRow = [];
+    RegisterRow.push("");
+    RegisterRow.push("<input id = 'new_name' type = 'text' placeholder = 'Név'  style = 'width: 220px'>");
+    RegisterRow.push("<input id = 'new_class' type = 'text' placeholder = 'Osztály'  style = 'width: 90px'>");
+    RegisterRow.push("<input type = 'checkbox' id = 'new_cb' class = 'form-check-input '/>");
+    RegisterRow.push("<input type = 'button'  id = 'new_Save' value = 'Mentés'  style = 'width: 150px'   class = 'btn btn-success' onclick = 'RegistrationSave()'>");
+    RegisterRow.push("<input type = 'button' value = 'Mégsem' id = 'new_Cancel' style = 'width: 150px'  class = 'btn btn-danger' onclick = 'RegistrationCancel()'>");
+    var row = document.getElementById("Downloadable_table").insertRow(1);
+    for (let index = 0; index < RegisterRow.length; index++) {
+        row.insertCell(index).innerHTML = RegisterRow[index];  
+    }
+    
+}
+
+function RegistrationSave()
+{
+    var RegisterRow = "";
+    var datarow = [];
+    datarow.push(document.getElementById('new_name').value + ";" + document.getElementById('new_class').value + ";" + document.getElementById('new_cb').checked + ";0;");
+    datarow.push(data);
+    RegisterRow += TableLoader(datarow);
+    document.querySelector("#table_tbody").innerHTML = TableLoader(this.data);
+
 }
 
 function TableLoader(data)
@@ -101,7 +134,8 @@ function TableLoader(data)
 
     var datapertable= "";
     for (let index = 0; index < data.length; index++) {
-        datapertable += "<tr id = 'row_" + index + "'><td><input type = 'checkbox' id = cb_"+ index +" onchange= 'SelectRow(" + index +")'></td>";
+        datapertable += "<tr id = 'row_" + index + "'><td><input type = 'checkbox' id = cb_"+ index +" class = 'form-check-input' onchange= 'SelectRow(" + index +")'></td>";
+        CbIndexes.push(index);
         for (let dataIndex = 0; dataIndex < data[index].split(';').length; dataIndex++) {
             const element = data[index].split(';');
             if (element[dataIndex].toLowerCase() == "true") {
@@ -116,12 +150,15 @@ function TableLoader(data)
             {
                 if(element[dataIndex] != "" && element[dataIndex] != null)
                 {
-                    datapertable += "<td> <select>"
+                    datapertable += "<td> <select class = 'form-select'>"
                     for (const item of element[dataIndex].split('#')) {
                         datapertable += "<option>" + item + "</option>" 
                         
                     }
                     datapertable += "</select></td>"
+                }else
+                {
+                    datapertable += "<td><select class = 'form-select' disabled><option>Nincs</option></select></td>";
                 }
                 
             }
@@ -196,66 +233,62 @@ function DataBasePage() {
 }
 
 
-function Download(file="Táblázat")
-{
-    var table = document.getElementById("Downloadable_table");
-    var rows =[];
-    for(var i=0,row; row = table.rows[i];i++){
-        column1 = row.cells[0].innerText;
-        column2 = row.cells[1].innerText;
-        column3 = row.cells[2].innerText;
-        column4 = row.cells[3].innerText;
-        column5 = row.cells[4].innerText;
-        column6 = "";
-        if (i == 0) {
-            column6 = row.cells[5].innerText;
-        }else
-        {
-            try {
-                for (let index = 0; index < row.cells[5].innerText.split('\n').length; index++) {
-                    if ( row.cells[5].innerText.split('\n')[index] == null) {
-                        break;
-                    }
-                    column6 +=  row.cells[5].innerText.split('\n')[index] + ',';
+function Download(file="Táblázat", table_id, separator = ';') {
+    var rows = document.querySelectorAll('table#' + table_id + ' tr');
+    var csv = [];
+    for (var i = 0; i < rows.length; i++) {
+        var row = [], cols = rows[i].querySelectorAll('td, th');
+        for (var j = 0; j < cols.length; j++) {
+            var data = cols[j].innerText.replace(/(\r\n|\n|\r)/gm, '').replace(/(\s\s)/gm, ' ');
+            data = data.replace(/"/g, '""');
+            if(j == cols.length - 1 && i != 0)
+            {
+                var data = "";
+                for (const item of cols[j].innerText.split('\n')) {
+                    data += item + ',';
                 }
-            } catch (error) {
                 
+            }else if(j == 3 && i != 0)
+            {
+                data = cols[j].innerHTML.split('"')[cols[j].innerHTML.split('"').length-2];
             }
-           
+            row.push('"' + data + '"');
         }
-        rows.push(
-            [
-                column1,
-                column2,
-                column3,
-                column4,
-                column5,
-                column6
-            ]
-        );
- 
-        }
-        csvContent = "data:text/csv;charset=utf-8,";
-        rows.forEach(function(rowArray){
-            row = rowArray.join(";");
-            csvContent += row + "\r\n";
-        });
- 
-        var encodedUri = encodeURI(csvContent);
-        var link = document.createElement("a");
-        link.setAttribute("href", encodedUri);
-        link.setAttribute("download", file + '.csv');
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
+        csv.push(row.join(separator));
+    }
+    var csv_string = csv.join('\n');
+    var filename = file + '_' + new Date().toLocaleDateString() + '.csv';
+    var link = document.createElement('a');
+    link.style.display = 'none';
+    link.setAttribute('target', '_blank');
+    link.setAttribute('href', 'data:text/csv;charset=utf-16,' + encodeURIComponent(csv_string));
+    link.setAttribute('download', filename);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
 }
 
 function RegistrationCancel()
 {
     document.querySelector("#DataBase_Table table").deleteRow(1);
+    for (const button of document.getElementsByTagName("button")) {
+        button.disabled = false;
+    }
+    Cancel(1);
 }
 
 function Delete()
 {
-    //document.querySelector("#DataBase_Table table").deleteRow(1);   
+
+    for (let index = 0; index < CbIndexes.length; index++) {
+        if(document.getElementById('cb_' + CbIndexes[index]).checked)
+            {
+                document.querySelector("#DataBase_Table table").deleteRow(index+1);
+                CbIndexes.splice(index,1);
+                console.log(CbIndexes);
+                index--;
+                
+            }
+        
+    }
 }
