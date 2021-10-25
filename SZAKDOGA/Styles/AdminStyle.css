@@ -1,120 +1,166 @@
 table
-    {
-      border: 1px solid black;
-      text-align: center;
-      padding: 0 20px;
-      font-size: 20px;
-    }
-    th,tr,td
-    {
-      border: 1px solid black;
-      text-align: center;
-      padding: 0 20px;
-    }
-    #DataBase_div
-    {
-      position:absolute;
-      top: 200px;
-      width: 90%;
-      left: 50%;
-      -ms-transform: translateY(-50%);
-      transform: translateY(-50%);
-      -ms-transform: translateX(-50%);
-      transform: translateX(-50%);
-      
-    }
+{
+  border: 1px solid black;
+  text-align: center;
+  padding: 0 20px;
+  font-size: 20px;
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+  
+}
 
-    #DataBase_Table
-    {
-      position: absolute;
-      text-align: center;
-    }
+th,tr,td
+{
+  border: 1px solid black;
+  text-align: center;
+  padding: 0 20px;
+}
+#DataBase_div
+{
+  position: relative;
+  top: 130px;
+  width: 90%;
+  left: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+  -ms-transform: translateX(-50%);
+  transform: translateX(-50%);
+}
 
-    #Search_txt
-    {
-      height: 50px;
-      width: 300px;
-      margin-bottom: 5px;
-    }
+#DataBase_Table
+{
+  text-align: center;
+  float: left;
+  overflow-x:auto;
+}
 
-    a{color:black}
-    a:hover
-    {
-      text-decoration: none;
-      color:rgb(92, 92, 92);
-    }
+#Search_txt
+{
+  height: 50px;
+  width: 300px;
+  margin-bottom: 5px;
+}
 
-    #DataBase_manager
-    {
-      padding: 25px;
-      float: right;
-      width: 350px;
-      background-image:linear-gradient(to bottom, #2196f3, #ffffffff);
-    }
+a
+{
+  color:black;
+  text-decoration: none;
+}
+a:hover
+{
+  text-decoration: none;
+  color:rgb(92, 92, 92);
+}
 
-    #DataBase_manager button
-    {
-      font-weight: bold;
-      height: 100px;
-      width: 300px;
-      border-radius: 10px;
-      margin-bottom: 20px;
-    }
-    
-    button img, .btn_image
-    {
-      width: 20px; 
-    }
+#DataBase_manager
+{
+  position: relative;
+  padding: 25px;
+  float: right;
+  top: 130px;
+  width: 350px;
+  background-image:linear-gradient(to bottom, #2196f3, #ffffffff);
+  margin: 0;
+}
 
-    button:hover, .custom-file-upload:hover
-    {
-      background-color: rgb(226, 226, 226);
-    }
 
-    input[type="file"]
-    {
-      display: none;
-    }
+#DataBase_manager button
+{
+  font-weight: bold;
+  height: 70px;
+  width: 300px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
 
-    .custom-file-upload
-    {
-      font-weight: bold;
-      height: 50px;
-      width: 300px;
-      border-radius: 10px;
-      margin-bottom: 5px;
-      border: 1px solid black;
-      background-color: whitesmoke;
-      text-align: center;
-      padding-top: 13px;
-    }
+button img, .btn_image
+{
+  width: 20px; 
+}
 
-    #DataBase_manager .button button
-    {
-      height: 50px;
-      margin-bottom: 5px;
-    }
+button:hover, .custom-file-upload:hover
+{
+  background-color: rgb(226, 226, 226);
+  cursor: pointer;
+}
 
-    .Login_button{
-      width: 200px;
-    }
+input[type="file"]
+{
+  display: none;
+}
 
-    .Login_icon{
-      height: 25px;
-      width: auto;
-    }
+.custom-file-upload
+{
+  font-weight: bold;
+  height: 50px;
+  width: 300px;
+  border-radius: 10px;
+  margin-bottom: 5px;
+  border: 1px solid black;
+  background-color: whitesmoke;
+  text-align: center;
+  padding-top: 13px;
+}
 
-    a img
-    {
-      height: 18px;
-      width: auto;
-    }
+#DataBase_manager .button button
+{
+  height: 50px;
+  margin-bottom: 5px;
+}
 
-    .button{
-      margin-bottom: 20px;
-      display: none;
-    }
+.Login_button{
+  width: 200px;
+}
 
-    #first_tr{
-      background-color: #2196f3BB;
-    }
+.Login_icon{
+  height: 25px;
+  width: auto;
+}
+
+a img
+{
+  height: 18px;
+  width: auto;
+}
+
+.button{
+  margin-bottom: 20px;
+  display: none;
+}
+
+#first_tr{
+  background-color: #2196f3BB;
+}
+.Admin_button
+{
+  width: 200px;
+}
+
+.Admin_button img{
+
+  height: 25px;
+  width: auto;
+}
+
+.Admin_button a img
+{
+  height: 18px;
+}
+
+.PaidImage
+{
+  width: 20px;
+}
+
+.Cancel_btn
+{
+  background-color: #FF2600;
+  color:white;
+}
+
+.Cancel_btn:hover
+{
+  background-color: #921600;
+}
+

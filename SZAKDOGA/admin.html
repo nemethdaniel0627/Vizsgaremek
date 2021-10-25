@@ -12,123 +12,6 @@
   
   <link rel="icon" href="./Images/icon.png">
 
-  <style>
-    table
-    {
-      border: 1px solid black;
-      text-align: center;
-      padding: 0 20px;
-      font-size: 20px;
-    }
-    th,tr,td
-    {
-      border: 1px solid black;
-      text-align: center;
-      padding: 0 20px;
-    }
-    #DataBase_div
-    {
-      position:absolute;
-      top: 200px;
-      width: 90%;
-      left: 50%;
-      -ms-transform: translateY(-50%);
-      transform: translateY(-50%);
-      -ms-transform: translateX(-50%);
-      transform: translateX(-50%);
-      
-    }
-
-    #DataBase_Table
-    {
-      position: absolute;
-      text-align: center;
-    }
-
-    #Search_txt
-    {
-      height: 50px;
-      width: 300px;
-      margin-bottom: 5px;
-    }
-
-    a
-    {
-      color:black;
-      text-decoration: none;
-    }
-    a:hover
-    {
-      text-decoration: none;
-      color:rgb(92, 92, 92);
-    }
-
-    #DataBase_manager
-    {
-      padding: 25px;
-      float: right;
-      width: 350px;
-      background-image:linear-gradient(to bottom, #2196f3, #ffffffff);
-    }
-
-    #DataBase_manager button
-    {
-      font-weight: bold;
-      height: 70px;
-      width: 300px;
-      border-radius: 10px;
-      margin-bottom: 20px;
-    }
-    button:hover, .custom-file-upload:hover
-    {
-      background-color: rgb(226, 226, 226);
-    }
-
-    input[type="file"]
-    {
-      display: none;
-    }
-
-    .custom-file-upload
-    {
-      font-weight: bold;
-      height: 50px;
-      width: 300px;
-      border-radius: 10px;
-      margin-bottom: 5px;
-      border: 1px solid black;
-      background-color: whitesmoke;
-      text-align: center;
-      padding-top: 13px;
-    }
-
-    #DataBase_manager .button button
-    {
-      height: 50px;
-      margin-bottom: 5px;
-    }
-
-    .Admin_button
-    {
-      width: 200px;
-    }
-
-    .Admin_button img{
-
-      height: 25px;
-      width: auto;
-    }
-
-    .Admin_button a img
-    {
-      height: 18px;
-    }
-
-    .PaidImage
-    {
-      width: 20px;
-    }
-  </style>
 </head>
 
 <body onload="PageLoaded()">
@@ -158,32 +41,41 @@
           </div>
         </div>
       </div>
-      <div id = "DataBase_div" >
-        <div id = "DataBase_Table" >
-          <table id = "Downloadable_table" class = "table table-hover">
+    </div>
+    <div id = "DataBase_div" >
+      <div id = "DataBase_Table" >
+        <table id = "Downloadable_table" class = "table table-hover">
+          <thead>
             <tr id = "first_tr"><th></th><th id = 'table_name'><a href = '#' onclick = "OrderBy('name')">Név </a></th><th id = 'table_class'><a href = '#' onclick = "OrderBy('class')">Osztály &#8205 &#8205 &#8205</a></th><th>Befizetve</th><th>Befizetett összeg</th><th>Lemondott napok</th></tr>
-          </table>
-        </div>
-        <div id = "DataBase_manager">
+          </thead>
+          <tbody id = "table_tbody" style="vertical-align: middle;">
+
+          </tbody>
           
-          <button id = "Search_btn" onclick="Search()"><img src="./Images/Search_icon.png" alt="Keresés" style="width: 20px;"> Keresés</button>
-          <div class="button" style="margin-bottom: 20px; display: none;">
-            <input type="text" placeholder="Név/Osztály" name="" id="Search_txt">
-            <button id = "Search_btn" onclick="Searching()"><img src="./Images/Search_icon.png" alt="Keresés" style="width: 20px;"> Keresés</button>
-            <button id="SearchCancel_btn" onclick="Cancel(0)" ><img src="./Images/Cancel_icon.png">Mégsem</button>
-          </div>
-          <button id = "Reload_btn" onclick="Reload()"><img src="./Images/Reload_icon.png" alt="Frissítés" style="width: 20px;"> Frissítés</button>
-          <button id = "Download_btn" onclick="Download()"><img src="./Images/Download_icon.png" alt="Letöltés" > Letöltés</button>
-          <button id = "Register_btn" onclick="Register()" type="" ><img src="./Images/Register_icon.png" alt="Regisztrálás" style="width: 20px;"> Regisztrálás</button>
-          <div class="button" style="margin-bottom: 20px; display: none;">
-            <button id="NewOne_btn" onclick="NewOne()" ><img src="./Images/Register_icon.png" style="width: 20px;">Új személy</button>
-            <label for = "file" class = "custom-file-upload"><input id = "file" type="file" onchange="UploadFile()"><img src="./Images/File_icon.png" alt="Fájl" style="width: 20px;"> Fájl kiválasztása</label>
-            <button id="Upload_btn" onclick="Upload()" ><img src="./Images/Upload_icon.png" >Feltöltés</button>
-            <button id="RegisterCancel_btn" onclick="Cancel(1)" ><img src="./Images/Cancel_icon.png">Mégsem</button>
-          </div>
-          <button id = "Delete_btn" onclick="Delete()"><img src="./Images/Resign.png" alt="Törlés" > Törlés</button>
-        </div>
+        </table>
       </div>
+      
+    </div>
+
+    <div id = "DataBase_manager">
+        
+      <button id = "Search_btn" onclick="Search()"><img src="./Images/Search_icon.png" alt="Keresés" style="width: 20px;"> Keresés</button>
+      <div class="button" style="margin-bottom: 20px; display: none;">
+        <input type="text" placeholder="Név/Osztály" name="" id="Search_txt">
+        <button id = "Search_btn" onclick="Searching()"><img src="./Images/Search_icon.png" alt="Keresés" style="width: 20px;"> Keresés</button>
+        <button id="SearchCancel_btn" onclick="Cancel(0)" class="Cancel_btn"><img src="./Images/Cancel_icon.png">Mégsem</button>
+      </div>
+      <button id = "Reload_btn" onclick="Reload()"><img src="./Images/Reload_icon.png" alt="Frissítés" style="width: 20px;"> Frissítés</button>
+      <button id = "Download_btn" onclick="Download('Táblázat','Downloadable_table')"><img src="./Images/Download_icon.png" alt="Letöltés" > Letöltés</button>
+      <button id = "Modification_btn" onclick="Modification()" type="" ><img src="./Images/Modification_icon.png" alt="Modositas" style="width: 20px;"> Módosítás</button>
+      <div class="button" style="margin-bottom: 20px; display: none;">
+        <button id="NewOne_btn" onclick="NewOne()" ><img src="./Images/Register_icon.png" style="width: 20px;">Új személy</button>
+        <label for = "file" class = "custom-file-upload"><input id = "file" type="file" onchange="UploadFile()"><img src="./Images/File_icon.png" alt="Fájl" style="width: 20px;"> Fájl kiválasztása</label>
+        <button id="Upload_btn" onclick="Upload()" ><img src="./Images/Upload_icon.png" >Feltöltés</button>
+        <button id = "Delete_btn" onclick="Delete()"><img src="./Images/Resign.png" alt="Törlés" > Törlés</button>
+        <button id="RegisterCancel_btn" onclick="Cancel(1)" class="Cancel_btn"><img src="./Images/Cancel_icon.png">Mégsem</button>
+      </div>
+    </div>
   </main>
 
   <main id = "QRPage" style="display: none;">
