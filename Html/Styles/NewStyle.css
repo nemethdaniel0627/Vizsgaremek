@@ -297,12 +297,35 @@ footer {
   position: relative;
 }
 
-#AllMenu h1, #ResignMenu h1 {
+#Menu_header, #ResignMenu_header
+{
   font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
-  font-size: 65px;
   color: #ffaa4c;
   border-radius: 50px;
   text-align: center;
+  margin-bottom: 20px;
+}
+#ResignMenu_header h1
+{
+  font-size: 65px;
+}
+#Menu_header h1
+{
+  font-size: 65px;
+  letter-spacing: 3px;
+}
+#Menu_header div
+{
+  font-size: 20px;
+  padding: 1px;
+}
+#Menu_header div a
+{
+  text-decoration: none;
+}
+
+#Menu_header, #ResignMenu h1 {
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
 }
 
 .Menu {
@@ -332,7 +355,7 @@ footer {
 
 .Weekday th {
   font-size: 20px;
-  border-width: 2px;
+  
   border-radius: 10px;
 }
 

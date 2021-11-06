@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Food-WEB - Admin</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-  <link rel="stylesheet" href="./Styles/default.css" type="text/css">
+  <link rel="stylesheet" href="./Styles/AdminDefault.css" type="text/css">
   <link rel="stylesheet" href="./Styles/NewStyle.css">
   <link rel="stylesheet" href="./Styles/AdminStyle.css">
   
@@ -29,26 +29,28 @@
       </div>
     </div>
   </div>
-  
-  <main id = "MainPage">
-    <div id="Login_header">
-        <div class="dropdown">
-          <button onclick="OpenForm()" class="Admin_button dropbtn"> <img src="./Images/Admin_icon.png" class="Login_icon" alt=""> Adminisztrálás</button>
-          <div class="dropdown-content" id="dropdown">
-            <a href="#adatbazis" onclick="DataBasePage()" class="dropdown_EatRend" style="background-image: linear-gradient(to right, #adf7b0 10%, #ffffff00 90%);"><img src="./Images/DataBase_icon.png" alt="Étrend">Adatbázis</a>
-            <a href="#QRkod" onclick="QRPage()" class="dropdown_Resign"><img src="./Images/Register_icon.png" alt="Lemondás">QR kód olvasás</a>
-            <a href="./index.html" onclick="LogingOut()"><img src="./Images/Logout.png"  alt="Kijelentkezés">Kijelentkezés</a>
-          </div>
-        </div>
+
+  <div id="Login_header">
+    <div class="dropdown">
+      <button class="Admin_button dropbtn"> <img src="./Images/Admin_icon.png" class="Login_icon" alt=""> Adminisztrálás</button>
+      <div class="dropdown-content" id="dropdown">
+        <a href="#adatbazis" onclick="DataBasePage()" class="dropdown_EatRend"><img src="./Images/DataBase_icon.png" alt="Étrend">Adatbázis</a>
+        <a href="#QRkod" onclick="QRPage()" class="dropdown_Resign"><img src="./Images/Register_icon.png" alt="Lemondás">QR kód olvasás</a>
+        <a href="./index.html" onclick="LogingOut()"><img src="./Images/Logout.png"  alt="Kijelentkezés">Kijelentkezés</a>
       </div>
     </div>
+  </div>
+</div>
+  
+  <main id = "MainPage">
+    
     <div id = "DataBase_div" >
       <div id = "DataBase_Table" >
-        <table id = "Downloadable_table" class = "table table-hover">
-          <thead>
-            <tr id = "first_tr"><th></th><th id = 'table_name'><a href = '#' onclick = "OrderBy('name')">Név </a></th><th id = 'table_class'><a href = '#' onclick = "OrderBy('class')">Osztály &#8205 &#8205 &#8205</a></th><th>Befizetve</th><th>Befizetett összeg</th><th>Lemondott napok</th></tr>
+        <table id = "Downloadable_table" class="table">
+          <thead class = "fix" id = "table_thead">
+            
           </thead>
-          <tbody id = "table_tbody" style="vertical-align: middle;">
+          <tbody id = "table_tbody" style=" vertical-align: middle;">
 
           </tbody>
           
@@ -65,32 +67,55 @@
         <button id = "Search_btn" onclick="Searching()"><img src="./Images/Search_icon.png" alt="Keresés" style="width: 20px;"> Keresés</button>
         <button id="SearchCancel_btn" onclick="Cancel(0)" class="Cancel_btn"><img src="./Images/Cancel_icon.png">Mégsem</button>
       </div>
+      <button id = "Filter_btn" onclick="FilterShow()"><img src="./Images/Filter_icon.png" alt="Szűrés" style="width: 20px;"> Szűrés</button>
+      <div class="button" style="margin-bottom: 20px; display: none; ">
+        <div  id = "Filter_div">
+          <input type="checkbox" name="name_cb" id="name_cb" checked class = 'form-check-input filter_cb'> Név - Osztály <br>
+          <input type="checkbox" name="user_cb" id="user_cb" checked class = 'form-check-input filter_cb' > Felhasználónév<br>
+          <input type="checkbox" name="email_cb" id="email_cb" checked class = 'form-check-input filter_cb' > E-mail<br>
+          <input type="checkbox" name="paid_cb" id="paid_cb" checked class = 'form-check-input filter_cb' > Befizetve - Összeg<br>
+          <input type="checkbox" name="days_cb" id="days_cb" checked class = 'form-check-input filter_cb'> Lemondott nap(ok) <br>
+        </div>
+        
+
+        <button id = "Filtering_btn" onclick="Filtering()"><img src="./Images/Filter_icon.png" alt="Szürés" style="width: 20px;"> Szűrés</button>
+        <button id="SearchCancel_btn" onclick="Cancel(1)" class="Cancel_btn"><img src="./Images/Cancel_icon.png">Mégsem</button>
+      </div>
       <button id = "Reload_btn" onclick="Reload()"><img src="./Images/Reload_icon.png" alt="Frissítés" style="width: 20px;"> Frissítés</button>
       <button id = "Download_btn" onclick="Download('Táblázat','Downloadable_table')"><img src="./Images/Download_icon.png" alt="Letöltés" > Letöltés</button>
       <button id = "Modification_btn" onclick="Modification()" type="" ><img src="./Images/Modification_icon.png" alt="Modositas" style="width: 20px;"> Módosítás</button>
       <div class="button" style="margin-bottom: 20px; display: none;">
         <button id="NewOne_btn" onclick="NewOne()" ><img src="./Images/Register_icon.png" style="width: 20px;">Új személy</button>
         <label for = "file" class = "custom-file-upload"><input id = "file" type="file" onchange="UploadFile()"><img src="./Images/File_icon.png" alt="Fájl" style="width: 20px;"> Fájl kiválasztása</label>
-        <button id="Upload_btn" onclick="Upload()" ><img src="./Images/Upload_icon.png" >Feltöltés</button>
-        <button id = "Delete_btn" onclick="Delete()"><img src="./Images/Resign.png" alt="Törlés" > Törlés</button>
-        <button id="RegisterCancel_btn" onclick="Cancel(1)" class="Cancel_btn"><img src="./Images/Cancel_icon.png">Mégsem</button>
+        <button id="Upload_btn"><img src="./Images/Upload_icon.png" >Feltöltés</button>
+        <button id = "Delete_btn" onclick="DeletePetition()"><img src="./Images/Resign.png" alt="Törlés" > Törlés</button>
+        <button id="RegisterCancel_btn" onclick="Cancel(2)" class="Cancel_btn"><img src="./Images/Cancel_icon.png">Mégsem</button>
       </div>
     </div>
-  </main>
 
-  <main id = "QRPage" style="display: none;">
-    <div id="Login_header">
-      <div class="dropdown">
-        <button onclick="OpenForm()" class="Login_button dropbtn"> <img src="./Images/Admin_icon.png" class="Login_icon" alt=""> Adminisztrálás</button>
-        <div class="dropdown-content" id="dropdown">
-          <a href="#adatbazis" onclick="DataBasePage()" class="dropdown_EatRend"><img src="./Images/DataBase_icon.png" alt="Étrend">Adatbázis</a>
-          <a href="#QRkod" onclick="QRPage()" class="dropdown_Resign"><img src="./Images/Register_icon.png"  alt="Lemondás">QR kód olvasás</a>
-          <a href="./index.html" onclick="LogingOut()"><img src="./Images/Logout.png" alt="Kijelentkezés">Kijelentkezés</a>
+    <div class="modal" id="DeleteAlert" tabindex="-1" style="display: none;">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title text-light" id="DeleteAlertTitle">Figyelmeztetés</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" onclick="DeleteCancel()" ></button>
+          </div>
+          <div class="modal-body" id = "DeleteAlertText">
+            Biztosan törölni szeretné?
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" onclick="Delete()">Törlés</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="DeleteCancel()">Mégsem</button>
+          </div>
         </div>
       </div>
     </div>
   </main>
 
+  <main id = "QRPage" style="display: none;">
+    <video src="" id = "preview"></video>
+    
+  </main>
 
   <script src="JavaAdmin.js"></script>
 </body>

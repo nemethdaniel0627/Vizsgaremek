@@ -15,7 +15,6 @@ function PageLoaded()
     sessionStorage.setItem("Logined", Logined = (sessionStorage.getItem("SavedUser") == null || sessionStorage.getItem("SavedUser") == "" ? "false;" : "true;"));
 
     Chosable = WhichDayIsNotChosable();
-    console.log(Chosable);
 
     if (Logined.split(';')[0] == "true") {
         LogingIn();
@@ -43,7 +42,7 @@ function PageLoaded()
 	
     CurrentDayColorize();
     
-    //MobileMode();
+    MobileMode();
     
     var dates = date.getFullYear() +"-"+ (date.getMonth()+1 < 10 ? "0"+date.getMonth()+1:date.getMonth()+1) +"-"+(date.getDate() < 10 ? "0"+date.getDate():date.getDate());
     document.getElementById('FirstDay').value = dates;
@@ -131,24 +130,24 @@ function DarkModeStyleChange(){
 
 function MobileMode() {
     if (document.body.clientWidth < 768) {
-        for (const classes of document.getElementsByClassName("Menu")) {
-            classes.style.marginTop = "20px";
-        }
+        // for (const classes of document.getElementsByClassName("Menu")) {
+        //     classes.style.marginTop = "20px";
+        // }
         
-        document.getElementById("front").style.width = "300px";
-        document.getElementById("Ticket_img").style.left = "250%";
-        document.getElementById("front").style.height = "300px";
-        document.getElementById("DarkMode").style.marginRight = "5px";
-        for (const classes of document.getElementsByClassName("Menu_calendar")) {
-            classes.style.display = "none";
-        }
+        // document.getElementById("front").style.width = "300px";
+        // document.getElementById("Ticket_img").style.left = "250%";
+        // document.getElementById("front").style.height = "300px";
+        // document.getElementById("DarkMode").style.marginRight = "5px";
+        // for (const classes of document.getElementsByClassName("Menu_calendar")) {
+        //     classes.style.display = "none";
+        // }
         
-        document.querySelector("#AllMenu h1").style.width = "100%";
-        document.querySelector("#AllMenu h1").style.marginLeft = "0";
-        for (const item of document.getElementsByClassName("Weekday")) {
-            item.style.backgroundImage =
-            "linear-gradient(to bottom, #adf7b0, #FFFFFF)";
-        }
+        // document.querySelector("#AllMenu h1").style.width = "100%";
+        // document.querySelector("#AllMenu h1").style.marginLeft = "0";
+        // for (const item of document.getElementsByClassName("Weekday")) {
+        //     item.style.backgroundImage =
+        //     "linear-gradient(to bottom, #adf7b0, #FFFFFF)";
+        // }
         NotUsedDayDelete();
         return true;
     }
@@ -175,7 +174,7 @@ function NotUsedDayDelete()
 	for (const day of Days) {
         if(CurrentDayPicker() != day)
         {
-            for (const dayclasses of document.getElementById(day)) {
+            for (const dayclasses of document.getElementsByClassName(day)) {
                 dayclasses.style.display="none";
             }
             
@@ -186,9 +185,11 @@ function NotUsedDayDelete()
 sessionStorage.setItem('NextWeek',0);
 
 function ToNextWeek(WhichPage) {
+    CurrentlyWeek++;
     if(WhichPage == 'Menu')
     {
-        var date = document.getElementsByClassName("Menu_date")[0].value.split('-');
+        var date = document.getElementById("Menu_date").innerHTML.split('a')[2].slice(0,-1).substring(1).replace(/\./g,'').split(' ');
+        date = date.slice(1,-1);
 
         var day;
         if ((parseInt(date[2]) + 7) < 10) {
@@ -214,8 +215,38 @@ function ToNextWeek(WhichPage) {
     
         var year = month == 1 && day < 8 ? parseInt(date[0]) + 1 : date[0];
     
-        var NextMonday = year + "-" + month + "-" + day;
+        var NextMonday = year + ". " + month + ". " + day + ". ";
+
+
+        //.split('.').slice(1,-1)
+        var date = document.getElementById("Menu_date").innerHTML.split('a')[2].slice(0,-1).substring(1).replace(/\s/g, '').replace('-', '').split('.');
+        date = date.slice(3,5).join(',').split(',');
+        var day;
+        if ((parseInt(date[2]) + 7) < 10) {
+            day = "0" + (parseInt(date[1]) + 7);
+        }else
+        {
+            day = parseInt(date[1]) + 7;
+        }
     
+        if ((parseInt(date[0]) == 2 && parseInt(day) > 28) ||(parseInt(date[0]) == 2 && parseInt(day) > 29 && parseInt(year) % 4 == 0)) {
+            day = "0" +(parseInt(day) - 28);
+        }
+        else if (parseInt(date[0]) % 2 == 1 && parseInt(day) > 30) {
+            day = "0" + (parseInt(day) - 30);
+        }
+        else if(parseInt(day) > 31)
+        {
+            day = "0" + (parseInt(day) - 31);  
+        }
+    
+        var month = (parseInt(day) < 8 ? (parseInt(date[0]) + 1 > 12 ? "1" : parseInt(date[0]) + 1) : parseInt(date[0]) + 0);
+            month = month < 10 ? ("0"+month) : month;
+    
+    
+        var NextFriday = month + ". " + day + ". ";
+    
+        document.getElementById('Menu_date').innerHTML = '<a href="#" onclick="ToCurrentWeek(\'Menu\')">&#10094</a> ' + NextMonday + " - " + NextFriday + ' <a href="#" onclick="ToNextWeek(\'Menu\')">&#10095</a>';
         for (const classses of document.getElementsByClassName("Menu_date")) {
             classses.value = NextMonday;
         }
@@ -266,10 +297,13 @@ function ToNextWeek(WhichPage) {
     }
     
 }
-
+var CurrentlyWeek = 0;
 function ToCurrentWeek(WhichPage = 'Menu') {
-    if (parseInt(document.getElementsByClassName("Menu_date")[0].value.split('-')[2]) > parseInt(NowDate().split('-')[2]) || parseInt(document.getElementsByClassName("Menu_date")[0].value.split('-')[1]) > parseInt(NowDate().split('-')[1]) || parseInt(document.getElementsByClassName("Menu_date")[0].value.split('-')[2]) > parseInt(NowDate().split('-')[0]) ) {
-        var date = document.getElementsByClassName("Menu_date")[0].value.split('-');
+    
+    if(CurrentlyWeek > 0)
+    {
+        var date = document.getElementById("Menu_date").innerHTML.split('a')[2].slice(0,-1).substring(1).replace(/\./g,'').split(' ');
+        date = date.slice(1,-1);
         var day;
         if ((parseInt(date[2]) - 7) < 10 && parseInt(date[2])-7 > 0) {
             day = "0" + (parseInt(date[2]) - 7);
@@ -292,8 +326,36 @@ function ToCurrentWeek(WhichPage = 'Menu') {
             month = month < 10 ? ("0"+month) : month;
     
         var year = month == 12 && day > 24 ? parseInt(date[0]) - 1 : date[0];
+        var CurrentMonday = year + ". " + month + ". " + day + ". ";
+        
+        var date = document.getElementById("Menu_date").innerHTML.split('a')[2].slice(0,-1).substring(1).replace(/\s/g, '').replace('-', '').split('.');
+        date = date.slice(3,5).join(',').split(',');
+
+        var day;
+        if ((parseInt(date[1]) - 7) < 10 && parseInt(date[1])-7 > 0) {
+            day = "0" + (parseInt(date[1]) - 7);
+        }else
+        {
+            day = parseInt(date[1]) - 7;
+        }
+        if ((parseInt(date[0]) == 2 && parseInt(day) < 0) || (parseInt(date[0]) == 2 && parseInt(day) > 29 && parseInt(year) % 4 == 0)) {
+            day = (28 + parseInt(day)+1);
+        }
+        else if (parseInt(date[0]) % 2 == 0 && parseInt(day) < 0) {
+            day = (30 + parseInt(day));
+        }
+        else if(parseInt(day) < 0)
+        {
+            day = (31 + parseInt(day)); 
+        }
     
-        var CurrentMonday = year + "-" + month + "-" + day;
+        var month = (parseInt(day) > 23 ? (parseInt(date[0]) - 1 < 1 ? 12 : parseInt(date[0]) - 1) : parseInt(date[0]) - 0);
+            month = month < 10 ? ("0"+month) : month;
+    
+        var CurrentFriday = month + ". " + day + ".";
+
+
+        document.getElementById('Menu_date').innerHTML = '<a href="#" onclick="ToCurrentWeek(\'Menu\')">&#10094</a> ' + CurrentMonday + " - " + CurrentFriday + ' <a href="#" onclick="ToNextWeek(\'Menu\')">&#10095</a>';
         for (const classses of document.getElementsByClassName("Menu_date")) {
             classses.value = CurrentMonday;
         } 
@@ -303,8 +365,9 @@ function ToCurrentWeek(WhichPage = 'Menu') {
                 ChosenDayResign(Days[index],index);
             }
         } 
-        sessionStorage.setItem('NextWeek',parseInt(sessionStorage.getItem('NextWeek')) - 1);
     }
+    CurrentlyWeek--;
+    if(CurrentlyWeek < 0){CurrentlyWeek = 0;}
 }
 
 function ThisMondayDate()
@@ -578,7 +641,6 @@ function ResignButtonClicked(whichBtn)
             }
             
         }
-        console.log(dataRow);
     }
 }
 
@@ -605,6 +667,17 @@ function DayCheckingLast(e)
 function OnlyOneDay()
 {
     document.getElementById('LastDay').disabled = document.getElementById('OnlyOne').checked;
+}
+
+for (const selects of document.getElementsByClassName("contains")) {
+    selects.addEventListener("change", ContainsSubstitle);
+}
+
+function ContainsSubstitle()
+{
+    for (const classes of document.getElementsByClassName("contains")) {
+        classes.value = 0;
+    }
 }
 
 function Coder(Data)

@@ -34,13 +34,14 @@ button {
   border: 1px solid black;
 }
 
-#AllMenu h1{
+#Menu_header, #ResignMenu_header{
   background-image: radial-gradient(circle, #001e6c 10%, #ffffff00 90%);
   color: #ffaa4c;
+  
 }
 
+
 #ResignMenu h1 {
-  background-image: radial-gradient(circle, #001e6c 10%, #ffffff00 90%);
   color: #ffaa4c;
 }
 
