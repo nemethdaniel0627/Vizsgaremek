@@ -71,8 +71,7 @@ class menuConvert {
     }
 
     testLog() {
-        this.readFromExcel();
-        // console.log(this._etlap[0].data);
+        this.readFromExcel();        
         console.log(this.arrayColumn(this._menu, 4));
     }
 
@@ -86,22 +85,26 @@ class menuConvert {
     }
 
     readFromExcel() {
-        this._menu = xlxs.parse(__dirname + "\\..\\result.xlsx")[0].data;
+        this._menu = xlxs.parse(__dirname + "\\..\\etlap3.xlsx")[0].data;
     }
 
     dayUpload() {
-        if (!this._menu) this.readFromExcel();
-        const lastRow = this._menu.length - 1;
+        if (!this._menu) this.readFromExcel();        
         let weeklyMenu = [];
         let dayMenu = [];
-        for (let i = 4; i < this._menu[lastRow].length; i += 3) {
-            let day = this.arrayColumn(this._menu, i);
+        let columnNumbers = [];
+        this._menu[1].forEach((nap, oszlop) => {            
+            if (nap !== undefined) {
+                columnNumbers.push(oszlop + 1);
+
+            }
+        });        
+        for (let i = 0; i < columnNumbers.length; i++) {
+            let day = this.arrayColumn(this._menu, columnNumbers[i]);
             let dayName = day[1];
             let type = 1;
             let mealType = [];
-            dayMenu = [];
-            // dayMenu[type-1].push([]);
-            let mealString = "";
+            dayMenu = [];            
             // eslint-disable-next-line no-loop-func
             day.forEach((cell, rowNumber) => {
                 if (cell !== undefined && day[rowNumber - 2] === "Cukor") {
@@ -112,33 +115,27 @@ class menuConvert {
                     type++;
                 }
                 else if (cell !== undefined && cell !== dayName) {
-                    if (cell === "Zsír") {
-                        mealString = mealString.trimEnd();
-                        mealString = mealString.substr(0, mealString.length - 1);
+                    if (cell === "Zsír") {                        
                         mealType.push(type);
-                        mealType.push(mealString);
-                        mealString = "";
-                        mealType.push(this._menu[rowNumber - 1][i - 1]) //Energia
-                        mealType.push(this._menu[rowNumber + 1][i - 1]) //Fehérje
-                        mealType.push(day[rowNumber + 1]);               //Zsír
-                        mealType.push(this._menu[rowNumber + 1][i + 1]) //Zsírsav
+                        mealType.push(this._menu[rowNumber - 2][columnNumbers[i] - 1]) //Étel
+
+                        mealType.push(this._menu[rowNumber - 1][columnNumbers[i] - 1]) //Energia
+                        mealType.push(this._menu[rowNumber + 1][columnNumbers[i] - 1]) //Fehérje
+                        mealType.push(day[rowNumber + 1]);                             //Zsír
+                        mealType.push(this._menu[rowNumber + 1][columnNumbers[i] + 1]) //Zsírsav
                     }
                     else if (cell === "Cukor") {
-                        mealType.push(this._menu[rowNumber + 1][i - 1]) //Szénhidrát
-                        mealType.push(day[rowNumber + 1]);               //Cukor
-                        mealType.push(this._menu[rowNumber + 1][i + 1]) //Só
-                    }
-                    else if (cell !== "Zsír" && isNaN(Number(cell[0])) && cell.split(" ")[0] !== "Heti") {
-                        mealString += `${cell}, `;
-                    }
+                        mealType.push(this._menu[rowNumber + 1][columnNumbers[i] - 1]) //Szénhidrát
+                        mealType.push(day[rowNumber + 1]);                             //Cukor
+                        mealType.push(this._menu[rowNumber + 1][columnNumbers[i] + 1]) //Só
+                    }                    
                 }
                 else if (cell === undefined && day[rowNumber - 2] === "Cukor") {
                     let tmpAllergen;
-                    if (this._menu[rowNumber][i - 1] !== undefined) {
-                        tmpAllergen = this._menu[rowNumber][i - 1];
+                    if (this._menu[rowNumber][columnNumbers[i] - 1] !== undefined) {
+                        tmpAllergen = this._menu[rowNumber][columnNumbers[i] - 1];
                     }
-                    else tmpAllergen = this._menu[rowNumber][i + 1];
-                    //TODO allergén hibákat javítani
+                    else tmpAllergen = this._menu[rowNumber][columnNumbers[i] + 1];                    
                     mealType.push(tmpAllergen);
                     dayMenu.push(mealType);
                     mealType = [];
@@ -147,9 +144,7 @@ class menuConvert {
             });
             weeklyMenu.push(dayMenu);
         }
-
         return weeklyMenu;
-
     }
 }
 
