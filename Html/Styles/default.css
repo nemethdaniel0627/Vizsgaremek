@@ -96,7 +96,7 @@ button {
 }
 
 
-#Resign h1 {
+#Resign_div h1 {
   background-image: radial-gradient(circle, #001e6c 10%, #ffffff00 90%);
   color: #ffaa4c;
 }
@@ -113,4 +113,14 @@ button {
 .Resign_changer:hover
 {
   background-image: radial-gradient(circle, #001e6c 5%, #0034b6 100%);
+  
 }
+
+.Resign_changer:hover > #ResignbyDate, .Resign_changer:hover > #ResignbyMenu
+{
+  color:white;
+  letter-spacing: 3px;
+  transition: 0.2s;
+}
+
+

@@ -85,7 +85,7 @@
       <button id = "Download_btn" onclick="Download('Táblázat','Downloadable_table')"><img src="./Images/Download_icon.png" alt="Letöltés" > Letöltés</button>
       <button id = "Modification_btn" onclick="Modification()" type="" ><img src="./Images/Modification_icon.png" alt="Modositas" style="width: 20px;"> Módosítás</button>
       <div class="button" style="margin-bottom: 20px; display: none;">
-        <button id="NewOne_btn" onclick="NewOne()" ><img src="./Images/Register_icon.png" style="width: 20px;">Új személy</button>
+        <button id="NewOne_btn" onclick="Registration()" ><img src="./Images/Register_icon.png" style="width: 20px;">Új személy</button>
         <label for = "file" class = "custom-file-upload"><input id = "file" type="file" onchange="UploadFile()"><img src="./Images/File_icon.png" alt="Fájl" style="width: 20px;"> Fájl kiválasztása</label>
         <button id="Upload_btn"><img src="./Images/Upload_icon.png" >Feltöltés</button>
         <button id = "Delete_btn" onclick="DeletePetition()"><img src="./Images/Resign.png" alt="Törlés" > Törlés</button>
@@ -110,6 +110,48 @@
         </div>
       </div>
     </div>
+
+
+    <div class="modal" id="Registration" tabindex="-1" style="display: none;">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title text-light" id="RegistrationTitle">Regisztráció</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" onclick="RegistrationCancel()" ></button>
+          </div>
+          <div class="modal-body" id = "DeleteAlertText">
+            <form>
+              <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Név</label>
+                <input type="text" class="form-control" id="NewName" required>
+              </div>
+              <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Osztály</label>
+                <input type="text" class="form-control" id="NewClass" required>
+              </div>
+              <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Email cím</label>
+                <input type="email" class="form-control" id="NewEmail" required>
+              </div>
+              <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Felhasználónév</label>
+                <input type="email" class="form-control" id="NewUsername" required>
+              </div>
+              <div class="mb-3 form-check">
+                <input type="checkbox" class="form-check-input" id="NewPaid">
+                <label class="form-check-label" for="exampleCheck1">Befizetve</label>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" onclick="RegistrationSave()">Hozzáadás</button>
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="RegistrationCancel()">Mégsem</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
   </main>
 
   <main id = "QRPage" style="display: none;">

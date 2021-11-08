@@ -74,3 +74,9 @@ button:hover, .custom-file-upload:hover
 {
   background-color: #2196f3;
 }
+
+#Registration .modal-header, #Registration h5
+{
+  color: white();
+  background-color: #2196f3;
+}

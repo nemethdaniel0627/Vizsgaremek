@@ -13,14 +13,14 @@ function PageLoaded()
 
 
 
-    this.data = ["Habsburg.Maria.Terezia;Password1122;Habsburg Mária Terézia;12.A;hmt@email.com;true;15000 Ft;2021-09-27#2021-09-26#2021-09-25"];
+    this.data = ["Habsburg.Maria.Terezia;Password1122;Habsburg Mária Terézia;OM220;12.A;hmt@email.com;true;15000 Ft;2021-09-27#2021-09-26#2021-09-25"];
     for (let index = 0; index < 5; index++) {
         var zindex = Math.floor(Math.random() * 4) + 9;
         if (Math.floor(Math.random() * 100) % 3) {
             
-            this.data.push("Habsburg.Maria.Terezia;Password1122;Habsburg Mária Terézia;"+ zindex +".A;habsburg.maria.terezia@students.jedlik.eu;false;0 Ft;");  
+            this.data.push("Habsburg.Maria.Terezia;Password1122;Habsburg Mária Terézia;OM220;"+ zindex +".A;habsburg.maria.terezia@students.jedlik.eu;false;0 Ft;");  
         }
-        this.data.push("Habsburg.Maria.Terezia;Password1122;Habsburg Mária Terézia;"+ zindex +".A;hmt@email.com;true;15000 Ft;2021-09-27#2021-09-26#2021-09-25");    
+        this.data.push("Habsburg.Maria.Terezia;Password1122;Habsburg Mária Terézia;OM220;"+ zindex +".A;hmt@email.com;true;15000 Ft;2021-09-27#2021-09-26#2021-09-25");    
         DataIndex = index;
     }
     document.querySelector("#table_tbody").innerHTML = TableLoader(this.data);
@@ -190,6 +190,8 @@ function NewOne()
     RegisterRow.push("");
     RegisterRow.push("<input id = 'new_name' type = 'text' placeholder = 'Név'  style = 'width: 220px'>");
     RegisterRow.push("<input id = 'new_class' type = 'text' placeholder = 'Osztály'  style = 'width: 90px'>");
+    RegisterRow.push("<input id = 'new_class' type = 'text' placeholder = 'Felhasználónév'  style = 'width: 220px'>");
+
     RegisterRow.push("<input id = 'new_email' type = 'email' placeholder = 'E-mail'  style = 'width: 220px'>");
     RegisterRow.push("<input type = 'checkbox' id = 'new_cb' class = 'form-check-input '/>");
     RegisterRow.push("<input type = 'button'  id = 'new_Save' value = 'Mentés'  style = 'width: 150px'   class = 'btn btn-success' onclick = 'RegistrationSave()'>");
@@ -201,32 +203,64 @@ function NewOne()
     
 }
 
+function Registration()
+{
+    document.getElementById('Registration').style.display = "block";
+}
+
 function RegistrationSave()
 {
     CbIndexes = [];
     var RegisterRow = "";
     var datarow = [];
-    var name = "";
     var index = 0;
-    for (const letter of document.getElementById('new_name').value) {
+
+    var _name = "";
+    for (const letter of document.getElementById('NewName').value) {
         var let = letter.toLowerCase();
         if(index == 0){
             var let = letter.toUpperCase();
             index++;
         }
         if(letter == ' '){index = 0;}
-        name += let;
+        _name += let;
     }
-    datarow.push(name + ";" + document.getElementById('new_class').value.toString().toUpperCase() + ";" + document.getElementById('new_email').value.toString().toLowerCase() + ";"+ document.getElementById('new_cb').checked + ";0;");
-    for (const item of data) {
-        datarow.push(item);
-    }
-    this.data = datarow;
-    document.querySelector("#table_tbody").innerHTML = TableLoader(datarow);
 
-    for (const button of document.getElementsByTagName("button")) {
-        button.disabled = false;
+    var _schoolId = "OM220";
+
+    var _class = document.getElementById('NewClass').value.toString().toUpperCase();
+
+    var _email = document.getElementById('NewEmail').value.toString().toLowerCase();
+
+    d = new Date();
+    var _pass = "Jedlik" + d.getFullYear();
+
+    var _username = document.getElementById('NewUsername').value;
+
+    var _paid = document.getElementById('NewPaid').checked;
+    
+    
+    if(_name.trim() == "" || _class.trim() == "" || _email.trim() == "" || _username.trim() == "" || !_email.toString().includes('@'))
+    {
+        alert("Nem megfelelők a regisztáció paraméterek!");
     }
+    else
+    {
+        datarow.push(`${_username};${_pass};${_name};${_schoolId};${_class};${_email};${_paid};0;`);
+
+        for (const item of data) {
+            datarow.push(item);
+        }
+        this.data = datarow;
+        document.querySelector("#table_tbody").innerHTML = TableLoader(datarow);
+    
+        for (const button of document.getElementsByTagName("button")) {
+            button.disabled = false;
+        }
+        RegistrationCancel();
+    }
+
+    
 
 }
 
@@ -235,7 +269,7 @@ function TableHeadLoader()
     var datapertable = "<tr id = 'first_tr'> <th></th>";
     
     if (this.Filter.includes('name')) {
-        datapertable += "<th id = 'table_name' colspan='2'><a href = '#' onclick = 'OrderBy('name')' id = 'a-name'>Név </a> - <a href = '#' onclick = 'OrderBy('class')' id = 'a-class'>Osztály &#8205 &#8205 &#8205</a></th>";
+        datapertable += "<th id = 'table_name' colspan='2'><a href = '#' onclick = 'OrderBy(\"name\")' id = 'a-name'>Név </a> - <a href = '#' onclick = 'OrderBy(\"class\")' id = 'a-class'>Osztály &#8205 &#8205 &#8205</a></th>";
     }
 
     if (this.Filter.includes('user')) {
@@ -247,7 +281,7 @@ function TableHeadLoader()
     }
 
     if (this.Filter.includes('paid')) {
-        datapertable += "<th colspan='2'> <a href = '#' onclick = 'OrderBy('paid')' id = 'a-paid'>Befizetve &#8205 &#8205</a> - <a href = '#' onclick = 'OrderBy('value')' id = 'a-value'>&#8205 &#8205 Összeg &#8205 &#8205</a></th>";
+        datapertable += "<th colspan='2'> <a href = '#' onclick = 'OrderBy(\"paid\")' id = 'a-paid'>Befizetve &#8205 &#8205</a> - <a href = '#' onclick = 'OrderBy(\"value\")' id = 'a-value'>&#8205 &#8205 Összeg &#8205 &#8205</a></th>";
     }
 
     if (this.Filter.includes('days')) {
@@ -269,7 +303,8 @@ function TableLoader(data)
         const element = data[index].split(';');
         if (this.Filter.includes('name')) {
             datapertable += "<td> " + element[2] + "</td>";
-            datapertable += "<td> " + element[3] + "</td>";
+
+            datapertable += "<td> " + element[4] + "</td>";
         }
 
         if (this.Filter.includes('user')) {
@@ -277,33 +312,33 @@ function TableLoader(data)
         }
         
         if (this.Filter.includes('email')) {
-            if(element[4].length > 25)
+            if(element[5].length > 25)
             {
-                datapertable += "<td> " + element[4].split('@')[0] + '<br> @' + element[4].split('@')[1] + "</td>";
+                datapertable += "<td> " + element[5].split('@')[0] + '<br> @' + element[5].split('@')[1] + "</td>";
             }else
             {
-                datapertable += "<td> " + element[4].split('@')[0] + '@' + element[4].split('@')[1] + "</td>";
+                datapertable += "<td> " + element[5].split('@')[0] + '@' + element[5].split('@')[1] + "</td>";
             }
         }
 
         if (this.Filter.includes('paid')) {
-            if (element[5].toLowerCase() == "true" || element[5].toLowerCase() == 'igen') {
+            if (element[6].toLowerCase() == "true" || element[6].toLowerCase() == 'igen') {
                 datapertable += "<td> <img class = 'PaidImage' src='./Images/Correct_icon.png' alt='Igen'> </td>";
-            }else if(element[5].toLowerCase() == "false" || element[5].toLowerCase() == 'nem')
+            }else if(element[6].toLowerCase() == "false" || element[6].toLowerCase() == 'nem')
             {
                 datapertable += "<td> <img class = 'PaidImage' src='./Images/Incorrect_icon.png' alt='Nem'> </td>";
             }
     
-            datapertable += "<td> " + element[6] + "</td>";
+            datapertable += "<td> " + element[7] + "</td>";
         }
 
         if (this.Filter.includes('days')) {
-            if(element[7] != "" && element[7] != null && element[7] != "Nincs")
+            if(element[8] != "" && element[8] != null && element[8] != "Nincs")
             {
                 datapertable += "<td> <select class = 'form-select hasDays' onchange = 'DataStay()'>";
-                if(element[7].split('#')[0] != "Nap(ok):"){datapertable += "<option>" + "Nap(ok):" + "</option>" ;}
+                if(element[8].split('#')[0] != "Nap(ok):"){datapertable += "<option>" + "Nap(ok):" + "</option>" ;}
                 
-                for (const item of element[7].split('#')) {
+                for (const item of element[8].split('#')) {
                     
                     datapertable += "<option class = 'DaysOption'>" + item + "</option>";
                 }
@@ -474,7 +509,7 @@ function Download(file="Táblázat", table_id, separator = ';') {
 
 function RegistrationCancel()
 {
-    document.querySelector("#DataBase_Table table").deleteRow(1);
+    document.getElementById('Registration').style.display = "none";
     for (const button of document.getElementsByTagName("button")) {
         button.disabled = false;
     }
