@@ -1,21 +1,29 @@
 table
 {
-  border: 1px solid black;
-  text-align: center;
-  padding: 0 20px;
-  font-size: 20px;
   border-collapse: collapse;
   border-spacing: 0;
-  width: 100%;
-  
+  display: block;
+  white-space: nowrap;
+  height: 70vh;
+  width: 62vw;
+  table-layout: fixed;
 }
 
-th,tr,td
+table tbody
+{
+  width: 100%;
+  padding: 0 20px;
+  text-align: center;
+}
+
+th
 {
   border: 1px solid black;
-  text-align: center;
-  padding: 0 20px;
+  padding: 10px;
 }
+
+
+
 #DataBase_div
 {
   position: relative;
@@ -26,13 +34,17 @@ th,tr,td
   transform: translateY(-50%);
   -ms-transform: translateX(-50%);
   transform: translateX(-50%);
+  font-size: 20px;
 }
 
 #DataBase_Table
 {
   text-align: center;
   float: left;
-  overflow-x:auto;
+  overflow-x: auto;
+  overflow-y: auto;
+  width: 72vw;
+  margin-left: -3%;
 }
 
 #Search_txt
@@ -50,7 +62,7 @@ a
 a:hover
 {
   text-decoration: none;
-  color:rgb(92, 92, 92);
+  color:rgb(49, 49, 49);
 }
 
 #DataBase_manager
@@ -60,7 +72,7 @@ a:hover
   float: right;
   top: 130px;
   width: 350px;
-  background-image:linear-gradient(to bottom, #2196f3, #ffffffff);
+  right: -6vw;
   margin: 0;
 }
 
@@ -79,11 +91,7 @@ button img, .btn_image
   width: 20px; 
 }
 
-button:hover, .custom-file-upload:hover
-{
-  background-color: rgb(226, 226, 226);
-  cursor: pointer;
-}
+
 
 input[type="file"]
 {
@@ -98,9 +106,20 @@ input[type="file"]
   border-radius: 10px;
   margin-bottom: 5px;
   border: 1px solid black;
-  background-color: whitesmoke;
+
   text-align: center;
   padding-top: 13px;
+}
+
+#Filter_div
+{
+  font-weight: bold;
+  height: auto;
+  width: 300px;
+  border-radius: 10px;
+  margin-bottom: 5px;
+  padding: 5px;
+  border: 1px solid black;
 }
 
 #DataBase_manager .button button
@@ -129,9 +148,8 @@ a img
   display: none;
 }
 
-#first_tr{
-  background-color: #2196f3BB;
-}
+
+
 .Admin_button
 {
   width: 200px;
@@ -164,3 +182,21 @@ a img
   background-color: #921600;
 }
 
+.DaysOption
+{
+  background-color: white;
+  color: black;
+}
+
+#video
+{
+  position: relative;
+  top: 130px;
+  width: 90%;
+  left: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+  -ms-transform: translateX(-50%);
+  transform: translateX(-50%);
+  
+}

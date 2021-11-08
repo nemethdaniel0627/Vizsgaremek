@@ -291,18 +291,41 @@ footer {
 }
 
 /*Étrend*/
-#AllMenu, #ResignMenu {
+#AllMenu{
   margin-top: 100px;
   height: 420px;
   position: relative;
 }
 
-#AllMenu h1, #ResignMenu h1 {
+#Menu_header
+{
   font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
-  font-size: 65px;
   color: #ffaa4c;
   border-radius: 50px;
   text-align: center;
+  margin-bottom: 20px;
+}
+#ResignMenu_header h1
+{
+  font-size: 65px;
+}
+#Menu_header h1
+{
+  font-size: 65px;
+  letter-spacing: 3px;
+}
+#Menu_header div
+{
+  font-size: 20px;
+  padding: 1px;
+}
+#Menu_header div a
+{
+  text-decoration: none;
+}
+
+#Menu_header, #ResignMenu h1 {
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
 }
 
 .Menu {
@@ -311,9 +334,6 @@ footer {
   height: auto;
 }
 
-.Menu_date {
-  width: 70%;
-}
 
 .Menu_calendar {
   max-width: fit-content;
@@ -332,7 +352,7 @@ footer {
 
 .Weekday th {
   font-size: 20px;
-  border-width: 2px;
+  
   border-radius: 10px;
 }
 
@@ -439,21 +459,14 @@ h3 {
 }
 
 /*Lemondás*/
-#Resign {
-  margin: auto;
-  margin-top: 100px;
-  top: 150px;
-  position: relative;
-  width: 80%;
+
+#Resign_div div {
   text-align: center;
-  
-}
-#Resign div {
-  text-align: center;
-  
 }
 
-#Resign h1 {
+
+
+#Resign_div h1, #ResignMenu_div h1 {
   font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
   font-size: 65px;
   color: #ffaa4c;
@@ -464,7 +477,9 @@ h3 {
 #Resign_change
 {
   position: relative;
-  margin: 100px;
+  margin-top: 100px;
+  width: 100%;
+  text-align: center;
 }
 
 .Resign_changer
@@ -486,52 +501,22 @@ h3 {
   text-decoration: none;
 }
 
-#Resign_byDate
-{
-  float: left; 
-}
-
-#Resign_byMenu
-{
-  float: right;
-}
-
-#ResignMenu a:hover, #Resign a:hover{
-  letter-spacing: 5px;
-}
-
-#ResignMenu a,#Resign a{
-  letter-spacing: 0px;
-  transition: 0.5s;
+#ResignMenu a,#Resign_div a{
   text-decoration: none;
-}
-
-#ResignMenu
-{
-  top: 150px;
 }
 
 #FirstDay, #LastDay
 {
-  width: 250px;
-  height: 50px;
   font-size: 20px;
-}
-
-#DayPicker
-{
-  float:left;
 }
 
 #OnylOneDay
 {
-  float: right;
-  font-size: 20px;
-  margin-top: 8px;
+  font-size: 25px;
 }
 
-#Resign_div
+#Resign_div, #ResignMenu_div
 {
-  width: 48%;
+  width: 80%;
   margin: auto;
 }

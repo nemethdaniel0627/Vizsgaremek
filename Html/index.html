@@ -160,7 +160,8 @@
             }
             else if(document.getElementById("User").value == TestUser[0] && document.getElementById("Pass").value == TestUser[1])
             {
-                localStorage.setItem("ToPageUser","admin;admin;Test Elek Béla;12.A;true;2021-09-17;Jedlik;");
+                data = ["771122;user;Test Elek Béla;OM220;12.A;teb@email.com;true;15000 Ft;2021-09-17"];
+                localStorage.setItem("ToPageUser",data[0]);
                 sessionStorage.setItem("CurrentPage","Menu");
                 window.location.href = "page.html";
             }else{
