@@ -143,7 +143,6 @@ function MobileMode() {
         // for (const classes of document.getElementsByClassName("Menu")) {
         //     classes.style.marginTop = "20px";
         // }
-
         // document.getElementById("front").style.width = "300px";
         // document.getElementById("Ticket_img").style.left = "250%";
         // document.getElementById("front").style.height = "300px";
@@ -207,6 +206,7 @@ function ToNextWeek(WhichPage) {
             var NextMonday = AddDayToDate(date,'. ',7,true) + ". ";
 
 
+
             //.split('.').slice(1,-1)
             var date = document.getElementsByClassName("Menu_date")[WhichPage == 'Menu' ? 0 : 1].innerHTML.split('a')[2].slice(0,-1).substring(1).replace(/\s/g, '').replace('-', '').split('.');
             date = date.slice(3,5).join(',').split(',');
@@ -263,6 +263,7 @@ function AddDayToDate(date, characters, daysNumber, FullDate)
         var year = month == 1 && day < 8 ? parseInt(date[0]) + 1 : date[0];
         return year + characters + month + characters + day;
     }else
+
     {
         var day;
         if ((parseInt(date[1]) + daysNumber) < 10) {
@@ -319,13 +320,16 @@ function ToCurrentWeek(WhichPage) {
             sessionStorage.setItem('NextWeek',parseInt(sessionStorage.getItem('NextWeek')) - 1);
             if(parseInt(sessionStorage.getItem('NextWeek') < 0)) sessionStorage.setItem('NextWeek',0);
             MenuLoader(MenuPerWeek,parseInt(sessionStorage.getItem('NextWeek')));
+
         }else
         {
             JumpedWeek--;
             MenuLoader(MenuPerWeek,JumpedWeek);
-        }
-        
+        }        
+
     }
+    CurrentlyWeek--;
+    if(CurrentlyWeek < 0){CurrentlyWeek = 0;}
 }
 
 function ThisMondayDate()
@@ -656,7 +660,6 @@ function ContainsSubstitle()
         classes.value = 0;
     }
 }
-
 
 function Coder(Data)
 {

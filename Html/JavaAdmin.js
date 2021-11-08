@@ -191,6 +191,7 @@ function NewOne()
     RegisterRow.push("<input id = 'new_name' type = 'text' placeholder = 'Név'  style = 'width: 220px'>");
     RegisterRow.push("<input id = 'new_class' type = 'text' placeholder = 'Osztály'  style = 'width: 90px'>");
     RegisterRow.push("<input id = 'new_class' type = 'text' placeholder = 'Felhasználónév'  style = 'width: 220px'>");
+
     RegisterRow.push("<input id = 'new_email' type = 'email' placeholder = 'E-mail'  style = 'width: 220px'>");
     RegisterRow.push("<input type = 'checkbox' id = 'new_cb' class = 'form-check-input '/>");
     RegisterRow.push("<input type = 'button'  id = 'new_Save' value = 'Mentés'  style = 'width: 150px'   class = 'btn btn-success' onclick = 'RegistrationSave()'>");
@@ -302,6 +303,7 @@ function TableLoader(data)
         const element = data[index].split(';');
         if (this.Filter.includes('name')) {
             datapertable += "<td> " + element[2] + "</td>";
+
             datapertable += "<td> " + element[4] + "</td>";
         }
 
