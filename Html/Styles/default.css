@@ -34,12 +34,11 @@ button {
   border: 1px solid black;
 }
 
-#Menu_header, #ResignMenu_header{
+#Menu_header,
+#ResignMenu_header {
   background-image: radial-gradient(circle, #001e6c 10%, #ffffff00 90%);
   color: #ffaa4c;
-  
 }
-
 
 #ResignMenu h1 {
   color: #ffaa4c;
@@ -95,32 +94,41 @@ button {
   background: #113aa1;
 }
 
+#Resign_div,
+#ResignMenu_div {
+  border: 1px solid rgb(160, 160, 160) !important;
+}
 
 #Resign_div h1 {
   background-image: radial-gradient(circle, #001e6c 10%, #ffffff00 90%);
   color: #ffaa4c;
 }
 
-#Resign_icon
-{
+#Resign_icon {
   background-color: #001e6c;
 }
 
-.Resign_changer
-{
+.Resign_changer {
   background-color: #001e6c;
 }
-.Resign_changer:hover
-{
+.Resign_changer:hover {
   background-image: radial-gradient(circle, #001e6c 5%, #0034b6 100%);
-  
 }
 
-.Resign_changer:hover > #ResignbyDate, .Resign_changer:hover > #ResignbyMenu
-{
-  color:white;
+.Resign_changer:hover > #ResignbyDate,
+.Resign_changer:hover > #ResignbyMenu {
+  color: white;
   letter-spacing: 3px;
   transition: 0.2s;
+}
+
+.Menu_date {
+  color: white !important;
+  text-decoration: none;
+}
+
+#payment_view {
+  background-color: rgb(250, 250, 250);
 }
 
 

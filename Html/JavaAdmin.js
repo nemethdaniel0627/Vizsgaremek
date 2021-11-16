@@ -40,11 +40,15 @@ function DarkModeStyleChange(){
         DarkModeIcon = "./Images/ToDark.png";
         DarkModeOn = false;
         sessionStorage.setItem("DarkModeOn", "true");
+        document.getElementById("DarkModePic").style = "none";
+        document.getElementById("DarkModePic2").style.display = "none";
     }else{
         css = "./Styles/AdminDefault.css";
         DarkModeIcon = "./Images/ToDefault.png";
         DarkModeOn = true;
         sessionStorage.setItem("DarkModeOn", "false");
+        document.getElementById("DarkModePic2").style = "none";
+        document.getElementById("DarkModePic").style.display = "none";
     }
 
     var oldLink = document.getElementsByTagName("link").item(1);
@@ -117,7 +121,7 @@ function Cancel(which)
             break;
     }
     document.getElementsByClassName("button")[which].style.display = "none";
-    document.getElementsByClassName("custom-file-upload")[0].innerHTML = "<input type = 'file' id = 'file' onchange = UploadFile()><img src='./Images/File_icon.png' alt='Fájl' style='width: 20px;'> Fájl kiválasztása"
+    document.getElementsByClassName("custom-file-upload")[0].innerHTML = '<input id = "file" type="file" onchange="UploadFile()"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="mb-1 bi bi-file-earmark-plus" viewBox="0 0 16 16"><path d="M8 6.5a.5.5 0 0 1 .5.5v1.5H10a.5.5 0 0 1 0 1H8.5V11a.5.5 0 0 1-1 0V9.5H6a.5.5 0 0 1 0-1h1.5V7a.5.5 0 0 1 .5-.5z"/><path d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5L14 4.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h-2z"/></svg> Fájl kiválasztása';
 }
 
 
@@ -191,7 +195,6 @@ function NewOne()
     RegisterRow.push("<input id = 'new_name' type = 'text' placeholder = 'Név'  style = 'width: 220px'>");
     RegisterRow.push("<input id = 'new_class' type = 'text' placeholder = 'Osztály'  style = 'width: 90px'>");
     RegisterRow.push("<input id = 'new_class' type = 'text' placeholder = 'Felhasználónév'  style = 'width: 220px'>");
-
     RegisterRow.push("<input id = 'new_email' type = 'email' placeholder = 'E-mail'  style = 'width: 220px'>");
     RegisterRow.push("<input type = 'checkbox' id = 'new_cb' class = 'form-check-input '/>");
     RegisterRow.push("<input type = 'button'  id = 'new_Save' value = 'Mentés'  style = 'width: 150px'   class = 'btn btn-success' onclick = 'RegistrationSave()'>");
@@ -303,7 +306,6 @@ function TableLoader(data)
         const element = data[index].split(';');
         if (this.Filter.includes('name')) {
             datapertable += "<td> " + element[2] + "</td>";
-
             datapertable += "<td> " + element[4] + "</td>";
         }
 
@@ -323,10 +325,12 @@ function TableLoader(data)
 
         if (this.Filter.includes('paid')) {
             if (element[6].toLowerCase() == "true" || element[6].toLowerCase() == 'igen') {
-                datapertable += "<td> <img class = 'PaidImage' src='./Images/Correct_icon.png' alt='Igen'> </td>";
+                
+                datapertable += '<td> <svg id = "igen" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-check2 text-success" viewBox="0 0 16 16"><path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/></svg> </td>';
             }else if(element[6].toLowerCase() == "false" || element[6].toLowerCase() == 'nem')
             {
-                datapertable += "<td> <img class = 'PaidImage' src='./Images/Incorrect_icon.png' alt='Nem'> </td>";
+                
+                datapertable += '<td> <svg id = "nem" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-x-lg text-danger" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M13.854 2.146a.5.5 0 0 1 0 .708l-11 11a.5.5 0 0 1-.708-.708l11-11a.5.5 0 0 1 .708 0Z"/><path fill-rule="evenodd" d="M2.146 2.146a.5.5 0 0 0 0 .708l11 11a.5.5 0 0 0 .708-.708l-11-11a.5.5 0 0 0-.708 0Z"/></svg> </td>';
             }
     
             datapertable += "<td> " + element[7] + "</td>";

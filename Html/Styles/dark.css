@@ -35,13 +35,13 @@ button {
   border: 1px solid whitesmoke;
 }
 
-#Menu_header, #ResignMenu_header {
+#Menu_header,
+#ResignMenu_header {
   background-image: radial-gradient(circle, #0d1321 10%, #1d2d4400);
   color: #ffaa4c;
 }
 
-#ResignMenu h1
-{
+#ResignMenu h1 {
   color: #ffaa4c;
 }
 
@@ -94,23 +94,49 @@ button {
   background: #152447;
 }
 
+#Resign_div,
+#ResignMenu_div {
+  border: 1px solid rgb(104, 104, 104);
+}
 
 #Resign_div h1 {
   background-image: radial-gradient(circle, #0d1321 10%, #1d2d4400);
   color: #ffaa4c;
 }
 
-#Resign_icon
-{
+#Resign_icon {
   background-color: #0d1321;
 }
 
-
-.Resign_changer
-{
+.Resign_changer {
   background-color: #0d1321;
 }
-.Resign_changer:hover
-{
+.Resign_changer:hover {
   background-image: radial-gradient(circle, #0d1321 5%, #1d2b4d 100%);
+}
+
+.list-group-item {
+  background-color: #1d2d44;
+  color: whitesmoke;
+}
+
+.Menu_date {
+  color: white !important;
+  text-decoration: none;
+}
+
+#payment_view {
+  background-color: #0d1321;
+}
+
+.modal-body,
+.modal-footer {
+  background-color: #152447 !important;
+}
+.modal-dialog {
+  border: 2px solid white;
+  border-radius: 5px;
+}
+.modal-header {
+  background-color: #0d1321 !important;
 }
