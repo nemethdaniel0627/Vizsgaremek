@@ -54,30 +54,6 @@ button {
   border-color: #3e5c76;
 }
 
-.black {
-  background-color: #ffaa4c;
-  grid-column: 2 / span 2;
-  grid-row: 1 / span 3;
-}
-.red1 {
-  background-color: #3e5c76;
-  grid-row: 2 / span 5;
-}
-.red2 {
-  background-color: #0d1321;
-  grid-column: 2 / span 2;
-  grid-row: 4/7;
-}
-.green {
-  background-color: #3e5c76;
-  grid-column: 2/4;
-  grid-row: 7/9;
-}
-
-.info-grid {
-  background-color: rgba(109, 109, 109, 0.363);
-}
-
 .login {
   background: #3e5c76;
 }
@@ -139,4 +115,36 @@ button {
 }
 .modal-header {
   background-color: #0d1321 !important;
+}
+
+@media only screen and (max-width: 600px) {
+  #Resign_div h1 {
+    background-image: none;
+    color: #ffaa4c;
+    font-size: 3em!important;
+  }
+}
+
+#Ticket
+{
+  box-shadow: 2px 5px 15px 0px #17161694;
+  background-color: #0d1321;
+  border-radius: 5px;
+}
+
+#Ticket .container
+{
+  background-color: rgba(109, 109, 109, 0.363);
+  border-radius: 10px;
+}
+
+#Ticket_infos
+{
+  border-color: whitesmoke!important;
+}
+
+
+#Ticket_img
+{
+  background-color: #4b2d00;
 }
