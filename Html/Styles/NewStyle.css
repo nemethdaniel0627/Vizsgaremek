@@ -292,9 +292,13 @@ footer {
 
 /*Étrend*/
 #AllMenu {
-  margin-top: 100px;
-  height: 420px;
-  position: relative;
+  margin-top: 5%;
+}
+
+@media only screen and (max-width: 900px) {
+  #AllMenu {
+    margin-top: 10%;
+  }
 }
 
 #Menu_header {
@@ -364,32 +368,31 @@ footer {
 }
 
 .allergens {
-  position: fixed;
+  position: relative;
   bottom: 0px;
-  margin: 2px;
-  width: 100%;
+  margin-top: 10%;
+  width: 90%;
 }
 
 /*Ebédjegy*/
 #Ticket {
   position: relative;
   top: 80px;
+  width: 40%;
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 728px) {
   #Ticket {
     position: relative;
     top: 100px;
-    width: 100%!important;
+    width: 100% !important;
   }
-  
 }
 
-@media only screen and (max-width: 600px) {
-  #Ticket_infos
-  {
-    border: none!important;
-  } 
+@media only screen and (max-width: 728px) {
+  #Ticket_infos {
+    border: none !important;
+  }
 }
 
 /*Lemondás*/
@@ -398,12 +401,11 @@ footer {
   text-align: center;
 }
 
-@media only screen and (max-width: 600px) {
-  #ResignBTN{
-    font-size: 2em!important;
+@media only screen and (max-width: 728px) {
+  #ResignBTN {
+    font-size: 2em !important;
   }
 }
-
 
 .Menu_date_span {
   cursor: pointer;
@@ -475,9 +477,9 @@ footer {
   background-color: #00000070;
 }
 
-@media only screen and (max-width: 600px) {
-  .cardData
-  {
-    width: auto!important;
-  } 
+@media only screen and (max-width: 728px) {
+  .cardData {
+    width: auto !important;
+  }
 }
+

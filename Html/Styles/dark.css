@@ -117,34 +117,57 @@ button {
   background-color: #0d1321 !important;
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 728px) {
   #Resign_div h1 {
     background-image: none;
     color: #ffaa4c;
-    font-size: 3em!important;
+    font-size: 3em !important;
   }
 }
 
-#Ticket
-{
+#Ticket {
   box-shadow: 2px 5px 15px 0px #17161694;
   background-color: #0d1321;
   border-radius: 5px;
 }
 
-#Ticket .container
-{
+#Ticket .container {
   background-color: rgba(109, 109, 109, 0.363);
   border-radius: 10px;
 }
 
-#Ticket_infos
-{
-  border-color: whitesmoke!important;
+#Ticket_infos {
+  border-color: whitesmoke !important;
 }
 
+.rowOdd,
+.rowEven,
+.rowOddorEven {
+  border-bottom: 1px solid rgb(0, 0, 0);
+  padding: 1%;
+}
 
-#Ticket_img
-{
-  background-color: #4b2d00;
+.rowEven {
+  background-color: rgba(75, 75, 75, 0.245);
+}
+
+@media only screen and (max-width: 728px) {
+  .rowEven {
+    background: none;
+  }
+
+  .rowOdd {
+    background-color: rgba(95, 95, 95, 0.245);
+  }
+}
+#personalData .accordion-body {
+  background-color: #172138 !important;
+}
+
+#personalData .accordion-button {
+  color: white !important;
+  background-color: #3e5c76 !important;
+}
+#personalData .accordion-item {
+  border: none !important;
 }

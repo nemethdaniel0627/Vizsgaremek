@@ -80,7 +80,7 @@ button {
   color: #ffaa4c;
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 728px) {
   #Resign_div h1 {
     background-image: none;
     color: #ffaa4c;
@@ -133,7 +133,23 @@ button {
   border-color: black!important;
 }
 
-#Ticket_img
-{
-  background-color: #cf7c00;
+.rowOdd,
+.rowEven,
+.rowOddorEven {
+  border-bottom: 1px solid rgb(216, 216, 216);
+  padding: 1%;
+}
+
+.rowEven {
+  background-color: rgba(201, 201, 201, 0.245);
+}
+
+@media only screen and (max-width: 728px) {
+  .rowEven {
+    background: none;
+  }
+
+  .rowOdd {
+    background-color: rgba(201, 201, 201, 0.245);
+  }
 }
