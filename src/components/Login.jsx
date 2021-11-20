@@ -5,7 +5,7 @@ import Navbar from "./Navbar";
 export default function Login(props) {
 
     return (
-        <div>            
+        <div id="wtf">            
             <LoginForm title="Jelszo"/>
         </div>        
     );
