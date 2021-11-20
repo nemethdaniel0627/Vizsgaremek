@@ -300,6 +300,11 @@ footer {
     margin-top: 10%;
   }
 }
+@media only screen and (max-width: 512px) {
+  #AllMenu {
+    margin-top: 15%;
+  }
+}
 
 #Menu_header {
   font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
@@ -343,10 +348,15 @@ footer {
 
 .Weekday {
   font-weight: 900;
+  height: 350px;
 }
 
 .Weekday td {
   padding-top: 40px;
+}
+
+.Weekday table {
+  width: 100%!important;
 }
 
 .Weekday th {
@@ -404,6 +414,24 @@ footer {
 @media only screen and (max-width: 728px) {
   #ResignBTN {
     font-size: 2em !important;
+  }
+}
+
+@media only screen and (max-width: 512px) {
+  #Resign_div h1 {
+    font-size: 2em!important;
+  }
+}
+
+@media only screen and (max-width: 512px) {
+  #Resign_div {
+    margin: auto!important;
+  }
+}
+
+@media only screen and (max-width: 512px) {
+  .ResignByDateDivs {
+    padding: 0px !important;
   }
 }
 
@@ -479,7 +507,7 @@ footer {
 
 @media only screen and (max-width: 728px) {
   .cardData {
-    width: auto !important;
+    width: 100% !important;
   }
 }
 
