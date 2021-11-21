@@ -19,30 +19,31 @@ app.post("/menuConvert", (req, res) => {
   menuConvert.convert();
 });
 
-app.get("/etlap", (req, res) => {
+app.get("/etlap", async (req, res) => {
   // const etlap = menuConvert.dayUpload();
 
   // etlap.map(d => {
   //   console.log(d);
   // })
-  // res.send("asd");  
-  // const responseDays = sqlQueries.insert("days", "datum, hetkoznap", `2021. 11. 20., "${date.getDay()}"`);
-  const select = sqlQueries.select("days", "days.id", `days.datum = "2021-11-20"`);
-  if (select)
-    console.log(select);
+  // res.send("asd");
+  const date = new Date();
+  const responseDays = await sqlQueries.insert("days", "datum, hetkoznap", `"2021-11-21", "${date.getDay()}"`);
+  const select = await sqlQueries.select("days", "days.id", `days.datum = "2021-11-21"`);
+  console.log(select);
+  res.send("Üzenet");
 });
 
-app.post("/etlap", (req, res) => {
+app.post("/etlap", async (req, res) => {
   // const menu = req.body.menu;
 
   const menu = menuConvert.dayUpload();
   const date = new Date();
   const idPrefix = `${date.getFullYear()}${date.getMonth() + 1}${date.getDate()}`;
 
-  menu.forEach((day) => {
+  menu.forEach(async (day) => {
     if (day.length === 0) {
       for (let i = 1; i <= 5; i++) {
-        const response = sqlQueries.insert("meal", "id, nev", `${idPrefix}${i}, ünnep`);
+        const response = await sqlQueries.insert("meal", "id, nev", `${idPrefix}${i}, ünnep`);
         console.log(response);
 
       }
@@ -50,7 +51,7 @@ app.post("/etlap", (req, res) => {
       const select = sqlQueries.select("days", "id", `datum = ${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`);
       const response2 = sqlQueries.insert("menu", "nev", `ünnep`);
     }
-    day.forEach((meal) => {
+    day.forEach( async (meal) => {
       const response = sqlQueries.insert(
         "meal",
         "id," +

@@ -1,39 +1,34 @@
-const mysql = require('mysql2');
-
-const connection = await mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    database: 'foode'
-});
-
+const mysql = require('mysql2/promise');
 class sqlQueries {
-    insert(tableName, fields, values) {
-        connection.execute(
-            `INSERT INTO ${tableName} (${fields}) VALUES (${values});`, (error, results, resultFields) => {
-                if (error) {
-                    console.log(error);
-                }
-                else {
-                    console.log(results);
-                    console.log(resultFields);
-                }
-            }
-        );
+    async insert(tableName, fields, values) {
+        try {
+            const connection = await mysql.createConnection({
+                host: 'localhost',
+                user: 'root',
+                database: 'foode'
+            });
+            let [results, resultInfo] = await connection.execute(`INSERT INTO ${tableName} (${fields}) VALUES (${values});`);
+            connection.end()
+            return results;
+        } catch (error) {
+            throw error;
+        }
     }
 
-    async select(tableName, field, conditions){
-        let [error, results] = await connection.query(
-            `SELECT ${field} FROM ${tableName} WHERE ${conditions}`, (error, results, resultFields) => {
-                if (error) {
-                    console.log(error);
-                }
-                if (results !== undefined) {
-                    console.log(`ad ${results[0].id}`);
-                    return results;
-                }
-            }
-        );
-        return results;
+    async select(tableName, field, conditions) {
+        try {
+            const connection = await mysql.createConnection({
+                host: 'localhost',
+                user: 'root',
+                database: 'foode'
+            });
+            let [results, resultInfo] = await connection.query(`SELECT ${field} FROM ${tableName} WHERE ${conditions}`);
+            connection.end();            
+            // console.log(resultInfo);
+            return results;
+        } catch (error) {
+            throw error;
+        }
     }
 }
 
