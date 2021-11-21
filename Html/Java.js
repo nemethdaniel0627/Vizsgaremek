@@ -5,12 +5,12 @@ var CurrentPage = "Login";
 var Days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
 var MenuPerWeek = [];
 
-var ErrorIcon ='<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="mb-1 bi bi-exclamation-triangle" viewBox="0 0 16 16"><path d="M7.938 2.016A.13.13 0 0 1 8.002 2a.13.13 0 0 1 .063.016.146.146 0 0 1 .054.057l6.857 11.667c.036.06.035.124.002.183a.163.163 0 0 1-.054.06.116.116 0 0 1-.066.017H1.146a.115.115 0 0 1-.066-.017.163.163 0 0 1-.054-.06.176.176 0 0 1 .002-.183L7.884 2.073a.147.147 0 0 1 .054-.057zm1.044-.45a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566z"/><path d="M7.002 12a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 5.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995z"/></svg>';
+var errorIcon ='<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="mb-1 bi bi-exclamation-triangle" viewBox="0 0 16 16"><path d="M7.938 2.016A.13.13 0 0 1 8.002 2a.13.13 0 0 1 .063.016.146.146 0 0 1 .054.057l6.857 11.667c.036.06.035.124.002.183a.163.163 0 0 1-.054.06.116.116 0 0 1-.066.017H1.146a.115.115 0 0 1-.066-.017.163.163 0 0 1-.054-.06.176.176 0 0 1 .002-.183L7.884 2.073a.147.147 0 0 1 .054-.057zm1.044-.45a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566z"/><path d="M7.002 12a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 5.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995z"/></svg>';
 var infoIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="mb-1 bi bi-info-circle" viewBox="0 0 16 16">'
 +'<path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>'
 +'<path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>'
 +'</svg>';
-var PayIcon ='<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="mb-1 bi bi-credit-card" viewBox="0 0 16 16"><path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm2-1a1 1 0 0 0-1 1v1h14V4a1 1 0 0 0-1-1H2zm13 4H1v5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V7z"/><path d="M2 10a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-1z"/></svg>';
+var payIcon ='<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="mb-1 bi bi-credit-card" viewBox="0 0 16 16"><path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm2-1a1 1 0 0 0-1 1v1h14V4a1 1 0 0 0-1-1H2zm13 4H1v5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V7z"/><path d="M2 10a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-1z"/></svg>';
 var date = new Date();
 
 function PageLoaded() {
@@ -172,16 +172,12 @@ function MobileMode() {
 
 function CurrentDayColorize() {
   if (DarkModeOn) {
-    document.getElementsByClassName(
-      CurrentDayPicker()
-    )[0].style.backgroundImage = "linear-gradient(to bottom, #adf7b0, #FFFFFF)";
+    document.getElementsByClassName(CurrentDayPicker())[0].style ="display: block!important; background-image: linear-gradient(to bottom, #adf7b0, #FFFFFF);";
   } else {
-    document.getElementsByClassName(
-      CurrentDayPicker()
-    )[0].style.backgroundImage = "linear-gradient(to bottom, #6a8f6b, #1D2D44)";
+    document.getElementsByClassName(CurrentDayPicker())[0].style ="display: block!important; background-image: linear-gradient(to bottom, #6a8f6b, #1D2D44);";
   }
-  document.getElementsByClassName(CurrentDayPicker())[0].className =
-    "col-lg-3 col-sm-12 Weekday " + CurrentDayPicker();
+  // document.getElementsByClassName(CurrentDayPicker())[0].className =
+  //   "col-lg-3 col-sm-12 Weekday " + CurrentDayPicker();
 }
 
 function CurrentDayPicker() {
@@ -191,13 +187,15 @@ function CurrentDayPicker() {
 }
 
 function NotUsedDayDelete() {
-  for (const day of Days) {
-    if (CurrentDayPicker() != day) {
-      for (const dayclasses of document.getElementsByClassName(day)) {
-        dayclasses.style.display = "none";
-      }
-    }
-  }
+  // for (const day of Days) {
+  //   if (CurrentDayPicker() != day) {
+  //     for (const dayclasses of document.getElementsByClassName(day)) {
+  //       dayclasses.style.display = "none";
+  //     }
+  //   }
+  // }
+
+  
 }
 
 sessionStorage.setItem("NextWeek", 0);
@@ -426,7 +424,7 @@ function ThisMondayDate() {
     (date.getDate() - date.getDay() + 1);
   var PreviousMonday = Year + "-" + Month + "-" + Day;
 
-  if(date.getDay() == 0 || date.getDay() > 5)
+  if(date.getDay() > 5)
   {
     return AddDayToDate(PreviousMonday.split('-'),'-',7,true);
   }
@@ -442,7 +440,7 @@ function ThisFridayDate() {
     (date.getDate() - date.getDay() + 5);
   var PreviousFriday = Month + "-" + Day;
 
-  if(date.getDay() == 0 || date.getDay() > 5)
+  if(date.getDay() > 5)
   {
     return AddDayToDate(PreviousFriday.split('-'),'-',7,false);
   }
@@ -536,6 +534,7 @@ function PageChanger(e, saved) {
       document.getElementById("TicketMain").style.display = "none";
       document.getElementById("PasswordMain").style.display = "none";
       document.getElementById("PaymentMain").style.display = "none";
+      document.getElementById("ReportMain").style.display = "none";
       sessionStorage.setItem("CurrentPage", "MenuPage");
       break;
     case "ResignPage":
@@ -545,6 +544,7 @@ function PageChanger(e, saved) {
       document.getElementById("TicketMain").style.display = "none";
       document.getElementById("PasswordMain").style.display = "none";
       document.getElementById("PaymentMain").style.display = "none";
+      document.getElementById("ReportMain").style.display = "none";
       sessionStorage.setItem("CurrentPage", "ResignPage");
       MenuLoader(MenuPerWeek, 0, "ResignMenu");
       break;
@@ -555,6 +555,7 @@ function PageChanger(e, saved) {
       document.getElementById("TicketMain").style.display = "block";
       document.getElementById("PasswordMain").style.display = "none";
       document.getElementById("PaymentMain").style.display = "none";
+      document.getElementById("ReportMain").style.display = "none";
       sessionStorage.setItem("CurrentPage", "TicketPage");
       break;
     case "PersonalData":
@@ -564,6 +565,7 @@ function PageChanger(e, saved) {
       document.getElementById("TicketMain").style.display = "none";
       document.getElementById("PasswordMain").style.display = "block";
       document.getElementById("PaymentMain").style.display = "none";
+      document.getElementById("ReportMain").style.display = "none";
       sessionStorage.setItem("CurrentPage", "PersonalData");
       break;
     case "PaymentPage":
@@ -573,7 +575,18 @@ function PageChanger(e, saved) {
       document.getElementById("TicketMain").style.display = "none";
       document.getElementById("PasswordMain").style.display = "none";
       document.getElementById("PaymentMain").style.display = "block";
+      document.getElementById("ReportMain").style.display = "none";
       sessionStorage.setItem("CurrentPage", "PaymentPage");
+      break;
+    case "ReportPage":
+      document.getElementById("LoginMain").style.display = "none";
+      document.getElementById("MenuMain").style.display = "none";
+      document.getElementById("ResignMain").style.display = "none";
+      document.getElementById("TicketMain").style.display = "none";
+      document.getElementById("PasswordMain").style.display = "none";
+      document.getElementById("PaymentMain").style.display = "none";
+      document.getElementById("ReportMain").style.display = "block";
+      sessionStorage.setItem("CurrentPage", "ReportPage");
       break;
 
     default:
@@ -812,6 +825,24 @@ function ResignButtonClicked(whichBtn) {
   console.log(dataRow);
 
   ModalApperence('Figyelem','A lemondás folyamatban van!',infoIcon);
+
+  
+  ResignOrNot = [
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+  ];
+  for (const day of Days) {
+    document.getElementById('cb_' + day).checked = false;
+    ChosenDayResign(day,Days.indexOf(day));
+  }
 }
 
 function DayChecking(e) {
@@ -826,7 +857,7 @@ function DayChecking(e) {
   if (e.value < dates) {
     e.value = dates;
     
-    ModalApperence("Hiba", "Nem megfelelő dátum!", ErrorIcon);
+    ModalApperence("Hiba", "Nem megfelelő dátum!", errorIcon);
   }
 }
 
@@ -966,7 +997,7 @@ function Pay() {
   ModalApperence(
     "Fizetés",
     '<div class="d-flex align-items-center"><strong>Fizetés...</strong><div class="spinner-border ms-auto" role="status" aria-hidden="true"></div></div>',
-    PayIcon
+    payIcon
   );
 }
 
@@ -1003,6 +1034,22 @@ function PasswordChange() {
       '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="mb-1 bi bi-exclamation-triangle" viewBox="0 0 16 16"><path d="M7.938 2.016A.13.13 0 0 1 8.002 2a.13.13 0 0 1 .063.016.146.146 0 0 1 .054.057l6.857 11.667c.036.06.035.124.002.183a.163.163 0 0 1-.054.06.116.116 0 0 1-.066.017H1.146a.115.115 0 0 1-.066-.017.163.163 0 0 1-.054-.06.176.176 0 0 1 .002-.183L7.884 2.073a.147.147 0 0 1 .054-.057zm1.044-.45a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566z"/><path d="M7.002 12a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 5.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995z"/></svg>';
     ModalApperence("Hiba", "Nem megfelelő jelszó!", ErrorIcon);
   }
+}
+
+function ReportSend()
+{
+  var where = document.getElementById('whereReport').value;
+  var text = document.getElementById('reportText').value;
+  if(where == "" || text == "")
+  {
+    ModalApperence("Figyelem", "Kérem töltse ki a jelentést!", errorIcon);
+  }else
+  {
+    document.getElementById('whereReport').value = "";
+    document.getElementById('reportText').value = "";
+    ModalApperence("Hiba jelentve", "Köszönjük a jelentését!", infoIcon);
+  }
+  
 }
 
 function Coder(Data) {

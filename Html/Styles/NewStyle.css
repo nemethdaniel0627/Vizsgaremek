@@ -435,12 +435,14 @@ footer {
   }
 }
 
+
 .Menu_date_span {
   cursor: pointer;
 }
 
 #Resign_div h1,
-#ResignMenu_div h1 {
+#ResignMenu_div h1,
+#Report_div h1{
   font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
   font-size: 65px;
   color: #ffaa4c;
@@ -488,7 +490,7 @@ footer {
 
 #Resign_div,
 #ResignMenu_div {
-  width: 80%;
+  width: 90%;
   margin: auto;
 }
 

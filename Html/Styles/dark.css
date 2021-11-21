@@ -171,3 +171,8 @@ button {
 #personalData .accordion-item {
   border: none !important;
 }
+
+.reportTexts{
+  background-color: #172138;
+  color:white;
+}
