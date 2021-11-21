@@ -1,34 +1,156 @@
 
-var CurrentlyIndex = 0;
-var table =  "<tr style='background-color: #2196f3BB'><th></th><th id = 'table_name'><a href = '#' onclick = 'OrderBy(name)'>Név </a></th><th id = 'table_class'><a href = '#' onclick = 'OrderBy(class)'>Osztály &#8205 &#8205 &#8205</a></th><th>Befizetve</th><th>Befizetett összeg</th><th>Lemondott napok</th></tr>";
-var data = "";
-var DataIndex = 0;
 var DarkModeOn = true;
-var CbIndexes = [];
-var Filter = ["name", "user", "email", "paid", "days"];
-var CheckedCheckBox = [];
+var users = [];
+
 function PageLoaded()
 {
-    document.querySelector("#table_thead").innerHTML = TableHeadLoader();
+    
+    user = {
+        'id': users.length + 1,
+        'username': 'Habsburg.Maria.Terezia',
+        'password': 'Password1122',
+        'name': 'Habsburg Mária Terézia',
+        'schoolOM': 'OM220',
+        'Userclass': '12.A',
+        'email': 'hmt@email.com',
+        'paid': true,
+        'value': '15000 Ft',
+        'dates': '2021-09-27#2021-09-26#2021-09-25',
+        'isDeleted': false
+    };
 
 
-
-    this.data = ["Habsburg.Maria.Terezia;Password1122;Habsburg Mária Terézia;OM220;12.A;hmt@email.com;true;15000 Ft;2021-09-27#2021-09-26#2021-09-25"];
-    for (let index = 0; index < 5; index++) {
+    users.push(user);
+    for (let index = 0; index < 10; index++) {
         var zindex = Math.floor(Math.random() * 4) + 9;
         if (Math.floor(Math.random() * 100) % 3) {
+            var user = {
+                'id': users.length + 1, 
+                'username': 'Habsburg.Maria.Terezia',
+                'password': 'Password1122',
+                'name': 'Habsburg Mária Terézia',
+                'schoolOM': 'OM220',
+                'Userclass': zindex + '.A',
+                'email': 'habsburg.maria.terezia@students.jedlik.eu',
+                'paid': false,
+                'value': '0 Ft',
+                'dates': '',
+                'isDeleted': false
+            }
             
-            this.data.push("Habsburg.Maria.Terezia;Password1122;Habsburg Mária Terézia;OM220;"+ zindex +".A;habsburg.maria.terezia@students.jedlik.eu;false;0 Ft;");  
+            users.push(user);  
         }
-        this.data.push("Habsburg.Maria.Terezia;Password1122;Habsburg Mária Terézia;OM220;"+ zindex +".A;hmt@email.com;true;15000 Ft;2021-09-27#2021-09-26#2021-09-25");    
-        DataIndex = index;
+        else
+        {
+            user = {
+                'id': users.length + 1,
+                'username': 'Habsburg.Maria.Terezia',
+                'password': 'Password1122',
+                'name': 'Habsburg Mária Terézia',
+                'schoolOM': 'OM220',
+                'Userclass': '12.A',
+                'email': 'hmt@email.com',
+                'paid': true,
+                'value': '15000 Ft',
+                'dates': '2021-09-27#2021-09-26#2021-09-25',
+                'isDeleted': false
+            };
+            users.push(user);
+        }
+        
     }
-    document.querySelector("#table_tbody").innerHTML = TableLoader(this.data);
+
+    for (const user of users) {
+        if(!user.isDeleted)
+        {
+            TableLoader(user);
+        }
+        
+    }
+
+    
 
     if (sessionStorage.getItem("DarkModeOn") == "true") {
         document.getElementById("Dark_check").checked = true;
         DarkModeStyleChange();
     }
+}
+
+function Searching()
+{
+    Refresh();
+    document.getElementById('datasInAccordion').innerHTML = "";
+    searchedName = document.getElementById('Search_txt').value;
+    if(searchedName != "")
+    {
+        var filteredUsers = [];
+        searchIndex = 0;
+        while (searchIndex < 7 && filteredUsers.length == 0) {
+            switch (searchIndex) {
+                case 0:
+                    filteredUsers = users.filter(({ id }) => id === searchedName);
+                    break;
+                case 1:
+                    filteredUsers = users.filter(({ username }) => username === searchedName);
+                    break;
+                case 2:
+                    filteredUsers = users.filter(({ name }) => name === searchedName);
+                    break;
+                case 3:
+                    filteredUsers = users.filter(({ Userclass }) => Userclass === searchedName.toUpperCase());
+                    break;
+                case 4:
+                    filteredUsers = users.filter(({ email }) => email === searchedName);
+                    break;
+                case 5:
+                    let paidSearch;
+                    if(searchedName.toLowerCase() == "true" || searchedName.toLowerCase() == "befizetve" || searchedName.toLowerCase() == "igen" ){paidSearch = true;}else if(searchedName.toLowerCase() == "false" || searchedName.toLowerCase() == "nem" ){paidSearch = false;}
+                    filteredUsers = users.filter(({ paid }) => paid === paidSearch);
+                    break;
+                case 6:
+                    filteredUsers = users.filter(({ value }) => value.split(' ')[0] === searchedName.split(' ')[0]);
+                    break;
+            }
+            searchIndex++;
+        }
+
+        if(filteredUsers.length == 0) 
+        {
+            document.getElementById('SearchFail').style = "display: block!important";
+        }
+
+        for (const user of filteredUsers) {
+            if(!user.isDeleted)
+            {
+                TableLoader(user);
+            }
+            
+        }
+    }else
+    {
+        Refresh();
+    }
+    
+    
+}
+var NewDatesIndex = 0;
+var ResignDates = [];
+function ResignDatesAdd()
+{
+    var newDate = document.getElementById('ResignDate').value;
+    if(!ResignDates.includes(newDate))
+    {
+        var newResignDate = '<div class="input-group mb-1 w-50" id = "dateDiv_ ' + NewDatesIndex  + '"><input type="date" class="form-control" disabled value = ' + newDate + '><button class="input-group-text" id="date_ ' + NewDatesIndex +'" onclick="ResignDatesRemove(this)">x</button></div>';
+        document.getElementById('ResignDates').innerHTML += newResignDate;
+        NewDatesIndex++;
+        ResignDates.push(newDate);
+    }
+   
+}
+
+function ResignDatesRemove(e)
+{
+    document.getElementById('dateDiv_' + e.id.split('_')[1]).style.display = 'none';
 }
 
 function DarkModeStyleChange(){
@@ -109,6 +231,8 @@ function Cancel(which)
     switch (which) {
         case 0:
             document.getElementById("Search_btn").style.display = "block";
+            Refresh();
+           
             break;
         case 1:
             document.getElementById("Filter_btn").style.display = "block";
@@ -124,7 +248,21 @@ function Cancel(which)
     document.getElementsByClassName("custom-file-upload")[0].innerHTML = '<input id = "file" type="file" onchange="UploadFile()"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="mb-1 bi bi-file-earmark-plus" viewBox="0 0 16 16"><path d="M8 6.5a.5.5 0 0 1 .5.5v1.5H10a.5.5 0 0 1 0 1H8.5V11a.5.5 0 0 1-1 0V9.5H6a.5.5 0 0 1 0-1h1.5V7a.5.5 0 0 1 .5-.5z"/><path d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5L14 4.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h-2z"/></svg> Fájl kiválasztása';
 }
 
+function Refresh()
+{
+    document.getElementById('SearchFail').style = "";
+    document.getElementById('datasInAccordion').innerHTML = "";
+    for (const user of users) {
+        if(!user.isDeleted)
+        {
+            TableLoader(user);
+        }
+        
+    }
+}
 
+
+//TODO FELTÖLTÉS
 var file;
 function UploadFile()
 {
@@ -148,25 +286,32 @@ document.getElementById("Upload_btn").addEventListener("click", function() {
 
 function NewsFromFile(datarow){
     var index = 0;
-    var Datas = [];
+    
     for (const row of datarow.split('\n')) {
         if(index == 0)
         {
             index++;
         }
         else{
-            var datarows = "";
-            for (const datas of row.split(';')) {
-                datarows+=datas + ";";
-            }
-            Datas.push(datarows);
+            var datas = row.split(';');
+            user = {
+                'id': users.length + 1,
+                'username': datas[1],
+                'password': datas[2],
+                'name': datas[3],
+                'schoolOM': datas[4],
+                'Userclass': datas[5],
+                'email': datas[6],
+                'paid': datas[7] == "true" ? true : false,
+                'value': datas[8],
+                'dates': datas[9],
+                'isDeleted': datas[10] == "true" ? true : false
+            };
+            console.log(user);
+            this.users.push(user);
         }
     }
-    for (const row of data) {
-        Datas.push(row);
-    }
-    this.data = Datas;
-    document.querySelector("#table_tbody").innerHTML = TableLoader(Datas);
+    Refresh();
 }
 
 function TextAbstract(text,length)
@@ -181,31 +326,6 @@ function TextAbstract(text,length)
     return text + "...";
 }
 
-function NewOne()
-{
-    for (const button of document.getElementsByTagName("button")) {
-        button.disabled = true;
-    }
-    document.getElementById("Modification_btn").style.display = "block";
-    document.getElementsByClassName("button")[1].style.display = "none";
-    
-
-    var RegisterRow = [];
-    RegisterRow.push("");
-    RegisterRow.push("<input id = 'new_name' type = 'text' placeholder = 'Név'  style = 'width: 220px'>");
-    RegisterRow.push("<input id = 'new_class' type = 'text' placeholder = 'Osztály'  style = 'width: 90px'>");
-    RegisterRow.push("<input id = 'new_class' type = 'text' placeholder = 'Felhasználónév'  style = 'width: 220px'>");
-    RegisterRow.push("<input id = 'new_email' type = 'email' placeholder = 'E-mail'  style = 'width: 220px'>");
-    RegisterRow.push("<input type = 'checkbox' id = 'new_cb' class = 'form-check-input '/>");
-    RegisterRow.push("<input type = 'button'  id = 'new_Save' value = 'Mentés'  style = 'width: 150px'   class = 'btn btn-success' onclick = 'RegistrationSave()'>");
-    RegisterRow.push("<input type = 'button' value = 'Mégsem' id = 'new_Cancel' style = 'width: 150px'  class = 'btn btn-danger' onclick = 'RegistrationCancel()'>");
-    var row = document.getElementById("Downloadable_table").insertRow(1);
-    for (let index = 0; index < RegisterRow.length; index++) {
-        row.insertCell(index).innerHTML = RegisterRow[index];  
-    }
-    
-}
-
 function Registration()
 {
     document.getElementById('Registration').style.display = "block";
@@ -213,9 +333,6 @@ function Registration()
 
 function RegistrationSave()
 {
-    CbIndexes = [];
-    var RegisterRow = "";
-    var datarow = [];
     var index = 0;
 
     var _name = "";
@@ -241,6 +358,9 @@ function RegistrationSave()
     var _username = document.getElementById('NewUsername').value;
 
     var _paid = document.getElementById('NewPaid').checked;
+
+    var _value = document.getElementById('NewValue').value;
+    
     
     
     if(_name.trim() == "" || _class.trim() == "" || _email.trim() == "" || _username.trim() == "" || !_email.toString().includes('@'))
@@ -249,13 +369,22 @@ function RegistrationSave()
     }
     else
     {
-        datarow.push(`${_username};${_pass};${_name};${_schoolId};${_class};${_email};${_paid};0;`);
+        user = {
+            'id': users.length + 1,
+            'username': _username,
+            'password': _pass,
+            'name': _name,
+            'schoolOM': _schoolId,
+            'Userclass': _class,
+            'email': _email,
+            'paid': _paid,
+            'value': _value + ' Ft',
+            'dates': ResignDates.join('#'),
+            'isDeleted': false
+        };
 
-        for (const item of data) {
-            datarow.push(item);
-        }
-        this.data = datarow;
-        document.querySelector("#table_tbody").innerHTML = TableLoader(datarow);
+        users.push(user);
+        TableLoader(user);
     
         for (const button of document.getElementsByTagName("button")) {
             button.disabled = false;
@@ -267,206 +396,40 @@ function RegistrationSave()
 
 }
 
-function TableHeadLoader()
+function TableLoader(user)
 {
-    var datapertable = "<tr id = 'first_tr'> <th></th>";
-    
-    if (this.Filter.includes('name')) {
-        datapertable += "<th id = 'table_name' colspan='2'><a href = '#' onclick = 'OrderBy(\"name\")' id = 'a-name'>Név </a> - <a href = '#' onclick = 'OrderBy(\"class\")' id = 'a-class'>Osztály &#8205 &#8205 &#8205</a></th>";
-    }
+    var PaidIcon = '<svg id = "igen" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-check2 text-success" viewBox="0 0 16 16"><path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/></svg>';
+    var NotPaidIcon = '<svg id = "nem" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-x-lg text-danger" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M13.854 2.146a.5.5 0 0 1 0 .708l-11 11a.5.5 0 0 1-.708-.708l11-11a.5.5 0 0 1 .708 0Z"/><path fill-rule="evenodd" d="M2.146 2.146a.5.5 0 0 0 0 .708l11 11a.5.5 0 0 0 .708-.708l-11-11a.5.5 0 0 0-.708 0Z"/></svg>';
 
-    if (this.Filter.includes('user')) {
-        datapertable += "<th>Felhasználónév</th>";
-    }
-    
-    if (this.Filter.includes('email')) {
-        datapertable += "<th>E-mail</th>";
-    }
+    var DeleteIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="mb-1 bi bi-person-dash" viewBox="0 0 16 16"> <path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H1s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C9.516 10.68 8.289 10 6 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/><path fill-rule="evenodd" d="M11 7.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5z"/></svg> ';
+    var ModifyIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="mb-1 bi bi-pencil" viewBox="0 0 16 16"><path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/></svg>';
 
-    if (this.Filter.includes('paid')) {
-        datapertable += "<th colspan='2'> <a href = '#' onclick = 'OrderBy(\"paid\")' id = 'a-paid'>Befizetve &#8205 &#8205</a> - <a href = '#' onclick = 'OrderBy(\"value\")' id = 'a-value'>&#8205 &#8205 Összeg &#8205 &#8205</a></th>";
-    }
+    accordionIndex = user.id;
 
-    if (this.Filter.includes('days')) {
-        datapertable += "<th>Lemondott nap(ok)</th>";
-    }
-
-    datapertable += "<tr>";
-    return datapertable;
-}
-
-function TableLoader(data)
-{
-    var datapertable= "";
-
-    for (let index = 0; index < data.length; index++) {
-        datapertable += "<tr id = 'row_" + index + "'><td><input type = 'checkbox' id = cb_"+ index +" class = 'form-check-input' onchange= 'SelectRow(this)'></td>";
-        CbIndexes.push(index);
-        var nameindex = 0;
-        const element = data[index].split(';');
-        if (this.Filter.includes('name')) {
-            datapertable += "<td> " + element[2] + "</td>";
-            datapertable += "<td> " + element[4] + "</td>";
-        }
-
-        if (this.Filter.includes('user')) {
-            datapertable += "<td> " + element[0] + "</td>";
-        }
+    accordion = '<div class="accordion-item"><h2 class="accordion-header" id="headingOne"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse' + accordionIndex + '">';
+    accordion += '<span>' + user.name + ' - ' + user.Userclass +'</span></button></h2><div id="collapse'+ accordionIndex + '" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#datasInAccordion">';
+    accordion += '<div class="accordion-body"> <table class="table table-striped w-100">';
+    if(user.dates != "")
+    {
+        select = "<select class = 'form-select hasDays' onchange = 'DataStay()'>";
+        if(user.dates.split('#')[0] != "Nap(ok):"){select += "<option>" + "Nap(ok):" + "</option>" ;}
         
-        if (this.Filter.includes('email')) {
-            if(element[5].length > 25)
-            {
-                datapertable += "<td> " + element[5].split('@')[0] + '<br> @' + element[5].split('@')[1] + "</td>";
-            }else
-            {
-                datapertable += "<td> " + element[5].split('@')[0] + '@' + element[5].split('@')[1] + "</td>";
-            }
-        }
-
-        if (this.Filter.includes('paid')) {
-            if (element[6].toLowerCase() == "true" || element[6].toLowerCase() == 'igen') {
-                
-                datapertable += '<td> <svg id = "igen" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-check2 text-success" viewBox="0 0 16 16"><path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/></svg> </td>';
-            }else if(element[6].toLowerCase() == "false" || element[6].toLowerCase() == 'nem')
-            {
-                
-                datapertable += '<td> <svg id = "nem" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-x-lg text-danger" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M13.854 2.146a.5.5 0 0 1 0 .708l-11 11a.5.5 0 0 1-.708-.708l11-11a.5.5 0 0 1 .708 0Z"/><path fill-rule="evenodd" d="M2.146 2.146a.5.5 0 0 0 0 .708l11 11a.5.5 0 0 0 .708-.708l-11-11a.5.5 0 0 0-.708 0Z"/></svg> </td>';
-            }
-    
-            datapertable += "<td> " + element[7] + "</td>";
-        }
-
-        if (this.Filter.includes('days')) {
-            if(element[8] != "" && element[8] != null && element[8] != "Nincs")
-            {
-                datapertable += "<td> <select class = 'form-select hasDays' onchange = 'DataStay()'>";
-                if(element[8].split('#')[0] != "Nap(ok):"){datapertable += "<option>" + "Nap(ok):" + "</option>" ;}
-                
-                for (const item of element[8].split('#')) {
-                    
-                    datapertable += "<option class = 'DaysOption'>" + item + "</option>";
-                }
-                datapertable += "</select></td>";
-            }else
-            {
-                datapertable += "<td><select class = 'form-select' disabled><option>Nincs</option></select></td>";
-            }
-        }
-        
-
-        
-
-        
-
-        
-
-        
-        datapertable += "</tr>";
-        CurrentlyIndex = index;
-    }
-    return datapertable;
-}
-
-var index = [0,0,0,0];
-function OrderBy(type)
-{
-    switch (type) {
-        case "name":
-            switch(index[0])
-            {
-                case 0:
-                    document.getElementById("a-" + type).innerHTML = "Név &#8681";
-                    index[0]++;
-                    break;
-                case 1:
-                    document.getElementById("a-" + type).innerHTML = "Név &#8679";
-                    index[0]++;
-                    break;
-                case 2: 
-                document.getElementById("a-" + type).innerHTML = "Név ";
-                    index[0] = 0;
-                    break;
-            }
-            index[1] = 0;
-            index[2] = 0;
-            index[3] = 0;
-            document.getElementById("a-class").innerHTML = "Osztály &#8205 &#8205 &#8205 ";
-            document.getElementById("a-paid").innerHTML = "Befizetve &#8205 &#8205 ";
-            document.getElementById("a-value").innerHTML = "&#8205 &#8205 Összeg &#8205 &#8205";
-            break;
+        for (const date of user.dates.split('#')) {
             
-        case "class":
-            switch(index[1])
-            {
-                case 0:
-                    document.getElementById("a-" + type).innerHTML = "Osztály &#8681";
-                    index[1]++;
-                    break;
-                case 1:
-                    document.getElementById("a-" + type).innerHTML = "Osztály &#8679";
-                    index[1]++;
-                    break;
-                case 2: 
-                document.getElementById("a-" + type).innerHTML = "Osztály &#8205 &#8205 &#8205";
-                    index[1] = 0;
-                    break;
-            }
-            index[0] = 0;
-            index[2] = 0;
-            index[3] = 0;
-            document.getElementById("a-name").innerHTML = "Név ";
-            document.getElementById("a-paid").innerHTML = "Befizetve &#8205 &#8205 ";
-            document.getElementById("a-value").innerHTML = "&#8205 &#8205 Összeg &#8205 &#8205";
-            break;
-         case "paid":
-            switch(index[2])
-            {
-                case 0:
-                    document.getElementById("a-" + type).innerHTML = "Befizetve &#8681";
-                    index[2]++;
-                    break;
-                case 1:
-                    document.getElementById("a-" + type).innerHTML = "Befizetve &#8679";
-                    index[2]++;
-                    break;
-                case 2: 
-                document.getElementById("a-" + type).innerHTML = "Befizetve &#8205 &#8205";
-                    index[2] = 0;
-                    break;
-            }
-            index[0] = 0;
-            index[1] = 0;
-            index[3] = 0;
-            document.getElementById("a-name").innerHTML = "Név ";
-            document.getElementById("a-class").innerHTML = "Osztály &#8205 &#8205 &#8205 ";
-            document.getElementById("a-value").innerHTML = "&#8205 &#8205 Összeg &#8205 &#8205";
-            break;  
-         case "value":
-            switch(index[3])
-            {
-                case 0:
-                    document.getElementById("a-" + type).innerHTML = "&#8205 &#8205 Összeg &#8681";
-                    index[3]++;
-                    break;
-                case 1:
-                    document.getElementById("a-" + type).innerHTML = "&#8205 &#8205 Összeg &#8679";
-                    index[3]++;
-                    break;
-                case 2: 
-                document.getElementById("a-" + type).innerHTML = "&#8205 &#8205 Összeg &#8205 &#8205";
-                    index[3] = 0;
-                    break;
-            }
-            index[0] = 0;
-            index[1] = 0;
-            index[2] = 0;
-            document.getElementById("a-name").innerHTML = "Név ";
-            document.getElementById("a-class").innerHTML = "Osztály &#8205 &#8205 &#8205 ";
-            document.getElementById("a-paid").innerHTML = "Befizetve &#8205 &#8205";
-            break;    
-        default:
-            break;
+            select += "<option class = 'DaysOption'>" + date + "</option>";
+        }
+        select += "</select>";
+    }else
+    {
+        select = "<select class = 'form-select' disabled><option>Nincs</option></select>";
     }
+    accordion += '<tr><td>Felhasználónév:</td><td>' + user.username + '</td><td>E-mail:</td><td>' + user.email + '</td></tr>';
+    accordion += '<tr><td>Befizetve:</td><td>' + (user.paid ? PaidIcon : NotPaidIcon) + '</td><td>Összeg:</td><td>' + user.value + '</td></tr>';
+    accordion += '<tr><td colspan = "2">Lemondott nap(ok):</td><td colspan = "2">' + select + '</td></tr>';
+    accordion += '<tr><td colspan = "4"><button class = "btn btn-primary w-25" id = "' + user.id + '_modify" onclick = "ModifyUser(this)">' + ModifyIcon + ' Módosítás</button><button class = "w-25 ms-5 btn btn-danger" id = "' + user.id + '_delete" onclick = "DeleteUser(this)">' + DeleteIcon + ' Törlés</button></td></tr>';
+    accordion += '</table> </div></div></div>';
+    document.getElementById('datasInAccordion').innerHTML += accordion;
+
 }
 
 function QRPage() {
@@ -492,11 +455,24 @@ function DataStay()
 }
 
 function Download(file="Táblázat", table_id, separator = ';') {
-    var rows = document.querySelectorAll('table#' + table_id + ' tr');
+   
     var csv = [];
-    csv.push("Felhasználónév;Jelszó;Név;Osztály;E-mail;Befizetett;Összeg;Lemondott nap(ok)");
-    for (const row of this.data) {
-        csv.push(row);
+    csv.push("Id;Felhasználónév;Jelszó;Név;IskolaOM;Osztály;E-mail;Befizetett;Összeg;Lemondott nap(ok);Törölt");
+    for (const user of this.users) {
+        var dataArray = [];
+        dataArray.push(user.id);
+        dataArray.push(user.username);
+        dataArray.push(user.password);
+        dataArray.push(user.name);
+        dataArray.push(user.schoolOM);
+        dataArray.push(user.Userclass);
+        dataArray.push(user.email);
+        dataArray.push(user.paid);
+        dataArray.push(user.value);
+        dataArray.push(user.dates);
+        dataArray.push(user.isDeleted);
+        
+        csv.push(dataArray.join(";"));
     }
     var csv_string = csv.join('\n');
     var filename = file + '.csv';
@@ -523,25 +499,29 @@ function RegistrationCancel()
 
 function Delete()
 {
-    for (const row of CheckedCheckBox) {
-        try {
-            document.querySelector("#DataBase_Table #table_tbody").deleteRow(CbIndexes.indexOf(parseInt(row)));
-            CbIndexes.splice(CbIndexes.indexOf(parseInt(row)),1);
-        } catch (error) {
-            console.log(error);
-        }
-    }
-    CheckedCheckBox = [];
+    var userId = parseInt(document.getElementById('delete_user').className.split('_')[0]);
+    const user = users.find( ({ id }) => id === userId);
+    user.isDeleted = true;
     document.getElementById('DeleteAlert').style.display = "none";
-    // if (deletecount != 0) {
-    //     alert("Sikeresen törölt " + deletecount + " elemet!");
-    // }
+    document.getElementById('datasInAccordion').innerHTML = "";
+    for (const user of users) {
+        if(!user.isDeleted)
+        {
+            TableLoader(user);
+        }
+        
+    }
+
    
 }
 
-function DeletePetition()
+function DeleteUser(e)
 {
-    if(CheckedCheckBox.length > 0) document.getElementById('DeleteAlert').style.display = "block";
+    var userId = parseInt(e.id.split('_')[0]);
+    const user = users.find( ({ id }) => id === userId);
+    document.getElementById('delete_user').className = user.id + "_";
+    document.getElementById('delete_user').innerHTML = "("+user.name+")";
+    document.getElementById('DeleteAlert').style.display = "block";
 }
 
 function DeleteCancel()
@@ -555,22 +535,5 @@ function FilterShow()
     document.getElementsByClassName("button")[1].style.display = "block";
 }
 
-function Filtering(type)
-{
-    this.Filter = [];
-    for (const checkboxes of document.getElementsByClassName('filter_cb')) {
-        
-        if (checkboxes.checked == false) {
-            this.Filter.splice(this.Filter.indexOf(checkboxes.name.split('_')[0]),0);
-        }else
-        {
-            this.Filter.push(checkboxes.name.split('_')[0]);
-        }
-        
-    }
-    
-    document.querySelector("#table_thead").innerHTML = TableHeadLoader();
-    document.querySelector("#table_tbody").innerHTML = TableLoader(this.data);
-}
 
 //QRCode

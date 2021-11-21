@@ -1,19 +1,9 @@
-table
-{
-  border-collapse: collapse;
-  border-spacing: 0;
-  display: block;
-  white-space: nowrap;
-  height: 70vh;
-  width: 62vw;
-  table-layout: fixed;
-}
 
 table tbody
 {
   width: 100%;
   padding: 0 20px;
-  text-align: center;
+  text-align: left!important;
 }
 
 th

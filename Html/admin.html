@@ -67,15 +67,10 @@
     
     <div id = "DataBase_div" >
       <div id = "DataBase_Table" >
-        <table id = "Downloadable_table" class="table">
-          <thead class = "fix" id = "table_thead">
-            
-          </thead>
-          <tbody id = "table_tbody" style=" vertical-align: middle;">
+        <h1 class="d-none" id = "SearchFail">Nincs a feltételnek megfelelő tanuló!</h1>
+        <div class="accordion" id="datasInAccordion">
+        </div>
 
-          </tbody>
-          
-        </table>
       </div>
       
     </div>
@@ -86,7 +81,7 @@
         <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
       </svg> Keresés</button>
       <div class="button" style="margin-bottom: 20px; display: none;">
-        <input type="text" placeholder="Név/Osztály" name="" id="Search_txt">
+        <input type="text" placeholder="Keresési feltétel" name="" id="Search_txt">
         <button id = "Search_btn" onclick="Searching()"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="mb-1 bi bi-search" viewBox="0 0 16 16">
           <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
         </svg> Keresés</button>
@@ -95,7 +90,7 @@
           <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
         </svg> Mégsem</button>
       </div>
-      <button id = "Filter_btn" onclick="FilterShow()"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="mb-1 bi bi-funnel" viewBox="0 0 16 16">
+      <button id = "Filter_btn disabled" onclick="FilterShow()"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="mb-1 bi bi-funnel" viewBox="0 0 16 16">
         <path d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5v-2zm1 .5v1.308l4.372 4.858A.5.5 0 0 1 7 8.5v5.306l2-.666V8.5a.5.5 0 0 1 .128-.334L13.5 3.308V2h-11z"/>
       </svg> Szűrés</button>
       <div class="button" style="margin-bottom: 20px; display: none; ">
@@ -141,10 +136,6 @@
           <path d="M8.5 11.5a.5.5 0 0 1-1 0V7.707L6.354 8.854a.5.5 0 1 1-.708-.708l2-2a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8.5 7.707V11.5z"/>
           <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5v2z"/>
         </svg> Feltöltés</button>
-        <button id = "Delete_btn" onclick="DeletePetition()"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="mb-1 bi bi-person-dash" viewBox="0 0 16 16">
-          <path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H1s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C9.516 10.68 8.289 10 6 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
-          <path fill-rule="evenodd" d="M11 7.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5z"/>
-        </svg> Törlés</button>
         <button id="RegisterCancel_btn" onclick="Cancel(2)" class="Cancel_btn"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="mb-1 bi bi-x-circle" viewBox="0 0 16 16">
           <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
           <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
@@ -160,7 +151,7 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" onclick="DeleteCancel()" ></button>
           </div>
           <div class="modal-body" id = "DeleteAlertText">
-            Biztosan törölni szeretné?
+            Biztosan törölni szeretné <span id = "delete_user"></span>? 
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-danger" onclick="Delete()">Törlés</button>
@@ -182,23 +173,39 @@
             <form>
               <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Név</label>
-                <input type="text" class="form-control" id="NewName" required>
+                <input type="text" class="form-control" id="NewName" >
               </div>
               <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Osztály</label>
-                <input type="text" class="form-control" id="NewClass" required>
+                <input type="text" class="form-control" id="NewClass" >
               </div>
               <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Email cím</label>
-                <input type="email" class="form-control" id="NewEmail" required>
+                <input type="email" class="form-control" id="NewEmail" >
               </div>
               <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Felhasználónév</label>
-                <input type="email" class="form-control" id="NewUsername" required>
+                <input type="text" class="form-control" id="NewUsername" >
               </div>
               <div class="mb-3 form-check">
                 <input type="checkbox" class="form-check-input" id="NewPaid">
                 <label class="form-check-label" for="exampleCheck1">Befizetve</label>
+              </div>
+              <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Összeg</label>
+                <div class="input-group mb-3">
+                  <input type="number" class="form-control" id="NewValue" >
+                  <span class="input-group-text" id="basic-addon2">Ft</span>
+                </div>
+               
+              </div>
+              <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Lemondott nap(ok)</label>
+                <div class="input-group mb-3">
+                  <input type="date" class="form-control" id = "ResignDate">
+                  <button class="input-group-text" id="basic-addon2" onclick="ResignDatesAdd()">+</button>
+                </div>
+                <div id="ResignDates"></div>
               </div>
             </form>
           </div>
@@ -219,6 +226,7 @@
   </main>
 
   <script src="JavaAdmin.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
 </body>
 
 </html>
