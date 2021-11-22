@@ -124,6 +124,7 @@ function DarkModeStyleChange() {
     sessionStorage.setItem("DarkModeOn", "true");
     document.getElementById("DarkModePic").style = "none";
     document.getElementById("DarkModePic2").style.display = "none";
+    document.getElementById("tikTokIcon").style = "color: white!important";
   } else {
     css = "./Styles/default.css";
     DarkModeIcon = "bi bi-moon";
@@ -131,6 +132,7 @@ function DarkModeStyleChange() {
     sessionStorage.setItem("DarkModeOn", "false");
     document.getElementById("DarkModePic").style.display = "none";
     document.getElementById("DarkModePic2").style = "none";
+    document.getElementById("tikTokIcon").style = "";
   }
 
   var oldLink = document.getElementsByTagName("link").item(1);
