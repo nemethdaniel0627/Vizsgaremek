@@ -7,7 +7,7 @@ class sqlQueries {
                 user: 'root',
                 database: 'foode'
             });
-            let [results, resultInfo] = await connection.execute(`INSERT INTO ${tableName} (${fields}) VALUES (${values});`);
+            let [results, resultInfo] = await connection.execute(`INSERT INTO ${tableName} (${fields}) VALUES (${values});`);            
             connection.end()
             return results;
         } catch (error) {
