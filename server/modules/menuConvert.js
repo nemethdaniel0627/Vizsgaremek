@@ -88,7 +88,7 @@ class menuConvert {
         this._menu = xlxs.parse(__dirname + "\\..\\etlap3.xlsx")[0].data;
     }
 
-    dayUpload() {
+    async dayUpload() {
         if (!this._menu) this.readFromExcel();        
         let weeklyMenu = [];
         let dayMenu = [];

@@ -40,11 +40,11 @@ app.get("/etlap", async (req, res) => {
 app.post("/etlap", async (req, res) => {
   // const menu = req.body.menu;
 
-  const menu = menuConvert.dayUpload();
-  const date = new Date();
-  const idPrefix = `${date.getFullYear()}${date.getMonth() + 1}${date.getDate()}`;
-
+  const menu = await menuConvert.dayUpload();
+  let date = new Date();
+  
   menu.forEach(async (day) => {
+    const idPrefix = `${date.getFullYear()}${date.getMonth() + 1}${date.getDate()}`;
     if (day.length === 0) {
       for (let i = 1; i <= 5; i++) {
         const response = await sqlQueries.insert("meal", "id, nev", `${idPrefix}${i}, ünnep`);
@@ -58,7 +58,7 @@ app.post("/etlap", async (req, res) => {
         "menu",
         "daysId, reggeliId, tizoraiId, ebedId, uzsonnaId, vacsoraId",
         `${selectDaysId[0].id}, ${selectMealsIds[0].id}, ${selectMealsIds[1].id}, ${selectMealsIds[2].id}, ${selectMealsIds[3].id}, ${selectMealsIds[4].id}`);
-      date.setDate(date.getDate() + 1);
+      date = date.setDate(date.getDate() + 1);
     }
     else {
       day.forEach(async (meal) => {
@@ -83,11 +83,11 @@ app.post("/etlap", async (req, res) => {
         "menu",
         "daysId, reggeliId, tizoraiId, ebedId, uzsonnaId, vacsoraId",
         `${selectDaysId[0].id}, ${selectMealsIds[0].id}, ${selectMealsIds[1].id}, ${selectMealsIds[2].id}, ${selectMealsIds[3].id}, ${selectMealsIds[4].id}`);
-      date.setDate(date.getDate() + 1);
+      date = date.setDate(date.getDate() + 1);
     }
   })
 
-
+  res.send("Kész");
 });
 
 app.get("/", (req, res) => {
