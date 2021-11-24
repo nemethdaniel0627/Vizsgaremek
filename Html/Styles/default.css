@@ -99,8 +99,8 @@ button {
   background-image: radial-gradient(circle, #001e6c 5%, #0034b6 100%);
 }
 
-.Resign_changer:hover > #ResignbyDate,
-.Resign_changer:hover > #ResignbyMenu {
+.Resign_changer:hover > #ResignByDateSpan,
+.Resign_changer:hover > #ResignByMenuSpan {
   color: white;
   letter-spacing: 3px;
   transition: 0.2s;

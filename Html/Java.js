@@ -13,6 +13,8 @@ var infoIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" f
 var payIcon ='<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="mb-1 bi bi-credit-card" viewBox="0 0 16 16"><path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm2-1a1 1 0 0 0-1 1v1h14V4a1 1 0 0 0-1-1H2zm13 4H1v5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V7z"/><path d="M2 10a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-1z"/></svg>';
 var date = new Date();
 
+
+
 function PageLoaded() {
   for (let index = 0; index < 5; index++) {
     MenuPerWeek.push(
@@ -28,13 +30,9 @@ function PageLoaded() {
     sessionStorage.getItem("CurrentPage") == null
       ? "Login"
       : sessionStorage.getItem("CurrentPage");
-  sessionStorage.setItem(
-    "SavedUser",
-    localStorage.getItem("ToPageUser") == "" ||
-      localStorage.getItem("ToPageUser") == null
-      ? sessionStorage.getItem("SavedUser")
-      : Coder(localStorage.getItem("ToPageUser"))
-  );
+
+  sessionStorage.setItem('SavedUser', localStorage.getItem('ToPageUser') == null ? sessionStorage.getItem('SavedUser') : localStorage.getItem('ToPageUser'));
+
   sessionStorage.setItem(
     "Logined",
     (Logined =
@@ -124,7 +122,8 @@ function DarkModeStyleChange() {
     sessionStorage.setItem("DarkModeOn", "true");
     document.getElementById("DarkModePic").style = "none";
     document.getElementById("DarkModePic2").style.display = "none";
-    document.getElementById("tikTokIcon").style = "color: white!important";
+    document.getElementById("tikTokIconLg").style = "color : white!important";
+	document.getElementById("tikTokIconSm").style = "color : white!important";
   } else {
     css = "./Styles/default.css";
     DarkModeIcon = "bi bi-moon";
@@ -132,7 +131,8 @@ function DarkModeStyleChange() {
     sessionStorage.setItem("DarkModeOn", "false");
     document.getElementById("DarkModePic").style.display = "none";
     document.getElementById("DarkModePic2").style = "none";
-    document.getElementById("tikTokIcon").style = "";
+    document.getElementById("tikTokIconLg").style = "";
+	document.getElementById("tikTokIconSm").style = "";
   }
 
   var oldLink = document.getElementsByTagName("link").item(1);
@@ -459,23 +459,17 @@ function NowDate() {
 }
 
 function LogingIn() {
-  var User = DeCoder(sessionStorage.getItem("SavedUser")).split(";");
+
+  var User = JSON.parse(sessionStorage.getItem("SavedUser"));
   if (
-    (document.getElementById("User").value == User[0] &&
-      document.getElementById("Pass").value == User[1]) ||
+    (document.getElementById("User").value == User.username &&
+      document.getElementById("Pass").value == DeCoder(User.password)) ||
     Logined == "true;"
   ) {
-    var saving = "";
-    for (const item of User) {
-      saving += item + ";";
-    }
     sessionStorage.setItem("Logined", "true;");
     localStorage.removeItem("ToPageUser");
-    document.title = "Food-WEB : " + User[2];
-    document.getElementById("username").innerHTML = User[2];
-    // for (const Button of document.getElementsByClassName("Login_button")) {
-    //     Button.innerHTML = "<img src='./Images/UserIcon.png' style='height: 25px; width: auto;' alt=''> " + User[2];
-    // }
+    document.title = "Food-WEB : " + User.name;
+    document.getElementById("username").innerHTML = User.name;
     if (sessionStorage.getItem("CurrentPage") == "Login") {
       sessionStorage.setItem("CurrentPage", "MenuPage");
     }
@@ -489,9 +483,9 @@ function LogingIn() {
 }
 
 function LogingOut() {
-  sessionStorage.setItem("Logined", "false;");
-  sessionStorage.setItem("SavedUser", "");
-  window.location.href = "index.html";
+  // sessionStorage.setItem("Logined", "false;");
+  // sessionStorage.setItem("SavedUser", "");
+  // window.location.href = "index.html";
 }
 
 function PageChanger(e, saved) {
@@ -597,9 +591,9 @@ function PageChanger(e, saved) {
 }
 
 function TicketDataLoader(User) {
-  document.getElementById("Ticket_name").innerHTML = User[2];
-  document.getElementById("Ticket_class").innerHTML = User[4];
-  if (User[6] == "true") {
+  document.getElementById("Ticket_name").innerHTML = User.name;
+  document.getElementById("Ticket_class").innerHTML = User.Userclass;
+  if (User.paid == "true") {
     document.getElementById("Ticket_info").innerHTML =
       "<strong>Befizetve</strong>";
   } else {
@@ -610,13 +604,13 @@ function TicketDataLoader(User) {
 
 function PersonalDataLoader(User)
 {
-  document.getElementById('secondName').innerHTML = User[2].split(' ')[0];
-  document.getElementById('firstName').innerHTML = User[2].split(' ')[1];
-  if(User[2].split(' ').length > 2){document.getElementById('lastName').innerHTML = User[2].split(' ')[2];}
-  document.getElementById('schoolOM').innerHTML = User[3];
-  document.getElementById('userClass').innerHTML = User[4];
-  document.getElementById('userEmail').innerHTML = User[5];
-  document.getElementById('userName').innerHTML = User[0];
+  document.getElementById('secondName').innerHTML = User.name.split(' ')[0];
+  document.getElementById('firstName').innerHTML = User.name.split(' ')[1];
+  if(User.name.split(' ').length > 2){document.getElementById('lastName').innerHTML = User.name.split(' ')[2];}
+  document.getElementById('schoolOM').innerHTML = User.schoolOM;
+  document.getElementById('userClass').innerHTML = User.Userclass;
+  document.getElementById('userEmail').innerHTML = User.email;
+  document.getElementById('userName').innerHTML = User.username;
 }
 
 function MenuLoader(MenuPerWeek, whichWeek, whichPage) {
@@ -789,14 +783,16 @@ function WhichDayIsNotChosable() {
   return Chosable;
 }
 
-function ResignByDate() {
+function ResignByChanger(e)
+{
   document.getElementById("mainResignByMenu").style.display = "none";
-  document.getElementById("mainResignByDate").style.display = "block";
-}
-
-function ResignByMenu() {
-  document.getElementById("mainResignByMenu").style.display = "block";
   document.getElementById("mainResignByDate").style.display = "none";
+
+  document.getElementById("ResignByDateSpan").style = "";
+  document.getElementById("ResignByMenuSpan").style = "";
+
+  document.getElementById("main"+e.id).style.display = "block";
+  document.getElementById(e.id + "Span").style = "color:white; letter-spacing: 3px;";
 }
 
 function ResignButtonClicked(whichBtn) {
@@ -824,9 +820,8 @@ function ResignButtonClicked(whichBtn) {
       }
     }
   }
-  console.log(dataRow);
 
-  ModalApperence('Figyelem','A lemondás folyamatban van!',infoIcon);
+  ModalApperence('Figyelem','<div class="d-flex align-items-center"><strong>A lemondás folyamatban van!</strong><div class="spinner-border ms-auto" role="status" aria-hidden="true"></div></div>',infoIcon);
 
   
   ResignOrNot = [
@@ -939,7 +934,6 @@ function CardExpiryCorrecter(e)
   
   if (e.value.length == 2 && wasOver == false) {
     e.value += "/";
-    console.log(wasOver);
     wasOver = true;
   }
   if(e.value.length < 2)
