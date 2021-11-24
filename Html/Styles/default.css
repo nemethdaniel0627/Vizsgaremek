@@ -99,6 +99,13 @@ button {
   background-image: radial-gradient(circle, #001e6c 5%, #0034b6 100%);
 }
 
+.nav-link:hover
+{
+  background-color: #335e8b;
+  padding: 10px;
+  border-radius: 10px;
+}
+
 .Resign_changer:hover > #ResignByDateSpan,
 .Resign_changer:hover > #ResignByMenuSpan {
   color: white;
