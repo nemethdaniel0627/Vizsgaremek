@@ -2,6 +2,16 @@
     background-color: #001e6c;
 }
 
+
+#MainHeaderNavbar {
+  background-color: #001e6c;
+  color: whitesmoke;
+}
+
+#dropdownMenu {
+  color: white;
+}
+
 #Header div h1 {
     color: #ffaa4c;
 }

@@ -6,9 +6,11 @@
   color: #ffaa4c;
 }
 
-#Login_header {
-  background-color: #3e5c76;
-  color: whitesmoke;
+#MainHeaderNavbar {
+  background-color: #0d1321;
+}
+#MainHeaderNavbar .navbar-nav .nav-link {
+  color: rgb(124, 124, 124);
 }
 
 #Logo {
@@ -20,8 +22,19 @@ body {
   color: whitesmoke;
 }
 
-.dropbtn {
-  background-color: #3e5c76;
+#dropdownMenu {
+  color: whitesmoke;
+}
+
+.navbar-nav .nav-link:hover {
+  background-color: #ffffff2a;
+  padding: 10px;
+}
+
+.nav-link:hover {
+  background-color: #ffffff2a;
+  border-radius: 3px;
+  color: white;
 }
 
 .form-container {
@@ -29,7 +42,7 @@ body {
 }
 
 .Menu_calendar input,
-button {
+.Menu_calendar button {
   background-color: #1d2d44;
   color: white;
   border: 1px solid whitesmoke;
@@ -60,14 +73,6 @@ button {
 
 .login p {
   color: white;
-}
-
-.login button {
-  background: #0d1321;
-}
-
-.login button:hover {
-  background: #152447;
 }
 
 #Resign_div,
@@ -172,7 +177,7 @@ button {
   border: none !important;
 }
 
-.reportTexts{
+.reportTexts {
   background-color: #172138;
-  color:white;
+  color: white;
 }

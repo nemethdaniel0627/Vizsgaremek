@@ -7,17 +7,19 @@ var MenuPerWeek = [];
 var User = {};
 var QRcodeText = "";
 
-var errorIcon ='<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="mb-1 bi bi-exclamation-triangle" viewBox="0 0 16 16"><path d="M7.938 2.016A.13.13 0 0 1 8.002 2a.13.13 0 0 1 .063.016.146.146 0 0 1 .054.057l6.857 11.667c.036.06.035.124.002.183a.163.163 0 0 1-.054.06.116.116 0 0 1-.066.017H1.146a.115.115 0 0 1-.066-.017.163.163 0 0 1-.054-.06.176.176 0 0 1 .002-.183L7.884 2.073a.147.147 0 0 1 .054-.057zm1.044-.45a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566z"/><path d="M7.002 12a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 5.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995z"/></svg>';
-var infoIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="mb-1 bi bi-info-circle" viewBox="0 0 16 16">'
-+'<path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>'
-+'<path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>'
-+'</svg>';
-var payIcon ='<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="mb-1 bi bi-credit-card" viewBox="0 0 16 16"><path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm2-1a1 1 0 0 0-1 1v1h14V4a1 1 0 0 0-1-1H2zm13 4H1v5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V7z"/><path d="M2 10a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-1z"/></svg>';
+var errorIcon =
+  '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="mb-1 bi bi-exclamation-triangle" viewBox="0 0 16 16"><path d="M7.938 2.016A.13.13 0 0 1 8.002 2a.13.13 0 0 1 .063.016.146.146 0 0 1 .054.057l6.857 11.667c.036.06.035.124.002.183a.163.163 0 0 1-.054.06.116.116 0 0 1-.066.017H1.146a.115.115 0 0 1-.066-.017.163.163 0 0 1-.054-.06.176.176 0 0 1 .002-.183L7.884 2.073a.147.147 0 0 1 .054-.057zm1.044-.45a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566z"/><path d="M7.002 12a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 5.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995z"/></svg>';
+var infoIcon =
+  '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="mb-1 bi bi-info-circle" viewBox="0 0 16 16">' +
+  '<path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>' +
+  '<path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>' +
+  "</svg>";
+var payIcon =
+  '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="mb-1 bi bi-credit-card" viewBox="0 0 16 16"><path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm2-1a1 1 0 0 0-1 1v1h14V4a1 1 0 0 0-1-1H2zm13 4H1v5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V7z"/><path d="M2 10a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-1z"/></svg>';
 var date = new Date();
 
-
-
 function PageLoaded() {
+  document.getElementById("hide-checkbox").checked = true;
   for (let index = 0; index < 5; index++) {
     MenuPerWeek.push(
       "Meggyes almaleves;BBQ-s sült csirkecomb Rizs Káposztasaláta;Dessert"
@@ -33,29 +35,45 @@ function PageLoaded() {
       ? "Login"
       : sessionStorage.getItem("CurrentPage");
 
-  sessionStorage.setItem('SavedUser', localStorage.getItem('ToPageUser') == null ? sessionStorage.getItem('SavedUser') : localStorage.getItem('ToPageUser'));
+  sessionStorage.setItem(
+    "SavedUser",
+    localStorage.getItem("ToPageUser") == null
+      ? sessionStorage.getItem("SavedUser")
+      : localStorage.getItem("ToPageUser")
+  );
   this.User = JSON.parse(sessionStorage.getItem("SavedUser"));
-  if(User.paid != "true")
-  {
-    for (const lis of document.getElementsByClassName("isPaid")) {
-      lis.style.display = "none";
+  try {
+    if (User.paid != "true") {
+      for (const lis of document.getElementsByClassName("isPaid")) {
+        lis.style.display = "none";
+      }
     }
+  } catch (error) {
+    LogingOut();
   }
 
-  nameUser = User.name.split('');
+  nameUser = User.name.split("");
 
-  nameUser[nameUser.indexOf('á')] = 'a';
-  nameUser[nameUser.indexOf('é')] = 'e';
-  nameUser[nameUser.indexOf('í')] = 'i';
-  nameUser[nameUser.indexOf('ó')] = 'o';
-  nameUser[nameUser.indexOf('ö')] = 'o';
-  nameUser[nameUser.indexOf('ő')] = 'o';
-  nameUser[nameUser.indexOf('ú')] = 'u';
-  nameUser[nameUser.indexOf('ü')] = 'u';
-  nameUser[nameUser.indexOf('ű')] = 'u';
+  nameUser[nameUser.indexOf("á")] = "a";
+  nameUser[nameUser.indexOf("é")] = "e";
+  nameUser[nameUser.indexOf("í")] = "i";
+  nameUser[nameUser.indexOf("ó")] = "o";
+  nameUser[nameUser.indexOf("ö")] = "o";
+  nameUser[nameUser.indexOf("ő")] = "o";
+  nameUser[nameUser.indexOf("ú")] = "u";
+  nameUser[nameUser.indexOf("ü")] = "u";
+  nameUser[nameUser.indexOf("ű")] = "u";
 
-
-  QRcodeText = nameUser.join('') + ";" + User.Userclass + ";" + User.schoolOM + ";" + User.paid + ";" + NowDate();
+  QRcodeText =
+    nameUser.join("") +
+    ";" +
+    User.Userclass +
+    ";" +
+    User.schoolOM +
+    ";" +
+    User.paid +
+    ";" +
+    NowDate();
   QRcodeLoader(QRcodeText);
 
   sessionStorage.setItem(
@@ -77,9 +95,9 @@ function PageLoaded() {
   }
 
   if (sessionStorage.getItem("DarkModeOn") == "true") {
-    document.getElementById("Dark_check").checked = true;
-    DarkModeStyleChange();
+    document.getElementById("hide-checkbox").checked = false;
   }
+  DarkModeStyleChange(document.getElementById("hide-checkbox").checked);
 
   document.getElementsByClassName("Menu_date_date")[0].innerHTML =
     ThisMondayDate().split("-").join(". ") +
@@ -121,8 +139,7 @@ function PageLoaded() {
   document.getElementById("LastDay").value = dates;
 }
 
-function QRcodeLoader(dataRow)
-{
+function QRcodeLoader(dataRow) {
   let website = dataRow;
   if (website) {
     let qrcodeContainer = document.getElementById("qrcode");
@@ -133,7 +150,7 @@ function QRcodeLoader(dataRow)
       height: 180,
       colorDark: "#000000",
       colorLight: "#ffffff00",
-      correctLevel: QRCode.CorrectLevel.H
+      correctLevel: QRCode.CorrectLevel.H,
     });
   } else {
     console.log(error);
@@ -141,42 +158,49 @@ function QRcodeLoader(dataRow)
 }
 
 function DatesLoader() {
-
   for (let datesIndex = 0; datesIndex < ResignOrNot.length; datesIndex++) {
-    if( datesIndex < 5 )
-    {
-      Dates[datesIndex] = AddDayToDate(ThisMondayDate().split('-'),'-',(datesIndex%5),true);
-    }
-    else
-    {
-      monday = AddDayToDate(ThisMondayDate().split('-'),'-',7,true);
-      Dates[datesIndex] = AddDayToDate(monday.split('-'),'-',(datesIndex%5),true);
+    if (datesIndex < 5) {
+      Dates[datesIndex] = AddDayToDate(
+        ThisMondayDate().split("-"),
+        "-",
+        datesIndex % 5,
+        true
+      );
+    } else {
+      monday = AddDayToDate(ThisMondayDate().split("-"), "-", 7, true);
+      Dates[datesIndex] = AddDayToDate(
+        monday.split("-"),
+        "-",
+        datesIndex % 5,
+        true
+      );
     }
   }
 }
 
-function DarkModeStyleChange() {
-  var css;
-  var DarkModeIcon;
+document.querySelector(".wrapper").addEventListener("change", function (e) {
+  DarkModeStyleChange(e.target.checked);
+});
 
-  if (DarkModeOn) {
-    css = "./Styles/dark.css";
-    DarkModeIcon = "bi bi-moon-stars";
-    DarkModeOn = false;
+function DarkModeStyleChange(bool) {
+  var css;
+
+  if (!bool) {
+    css = "./Styles/MainDark.css";
     sessionStorage.setItem("DarkModeOn", "true");
-    document.getElementById("DarkModePic").style = "none";
-    document.getElementById("DarkModePic2").style.display = "none";
+    // document.getElementById("DarkModePic").style = "none";
+    // document.getElementById("DarkModePic2").style.display = "none";
     document.getElementById("tikTokIconLg").style = "color : white!important";
-	document.getElementById("tikTokIconSm").style = "color : white!important";
+    document.getElementById("tikTokIconSm").style = "color : white!important";
+    DarkModeOn = false;
   } else {
-    css = "./Styles/default.css";
-    DarkModeIcon = "bi bi-moon";
-    DarkModeOn = true;
+    css = "./Styles/MainDefault.css";
     sessionStorage.setItem("DarkModeOn", "false");
-    document.getElementById("DarkModePic").style.display = "none";
-    document.getElementById("DarkModePic2").style = "none";
+    // document.getElementById("DarkModePic").style.display = "none";
+    // document.getElementById("DarkModePic2").style = "none";
     document.getElementById("tikTokIconLg").style = "";
-	document.getElementById("tikTokIconSm").style = "";
+    document.getElementById("tikTokIconSm").style = "";
+    DarkModeOn = true;
   }
 
   var oldLink = document.getElementsByTagName("link").item(1);
@@ -210,17 +234,18 @@ function MobileMode() {
     //     item.style.backgroundImage =
     //     "linear-gradient(to bottom, #adf7b0, #FFFFFF)";
     // }
-    NotUsedDayDelete();
     return true;
   }
   return false;
 }
 
 function CurrentDayColorize() {
-  if (DarkModeOn) {
-    document.getElementsByClassName(CurrentDayPicker())[0].style ="display: block!important; background-image: linear-gradient(to bottom, #adf7b0, #FFFFFF);";
+  if (sessionStorage.getItem("DarkModeOn") == "false") {
+    document.getElementsByClassName(CurrentDayPicker())[0].style =
+      "display: block!important; background-image: linear-gradient(to bottom, #adf7b0, #FFFFFF00);";
   } else {
-    document.getElementsByClassName(CurrentDayPicker())[0].style ="display: block!important; background-image: linear-gradient(to bottom, #6a8f6b, #1D2D44);";
+    document.getElementsByClassName(CurrentDayPicker())[0].style =
+      "display: block!important; background-image: linear-gradient(to bottom, #6a8f6b, #1D2D4400);";
   }
 }
 
@@ -229,7 +254,6 @@ function CurrentDayPicker() {
     date.getDay() - 1 < 0 || date.getDay() - 1 > 4 ? 0 : date.getDay() - 1
   ];
 }
-
 
 sessionStorage.setItem("NextWeek", 0);
 
@@ -281,7 +305,7 @@ function ToNextWeek(WhichPage) {
 
 var JumpedWeek = 0;
 
-function AddDayToDate(date , characters, daysNumber, FullDate) {
+function AddDayToDate(date, characters, daysNumber, FullDate) {
   if (FullDate == true) {
     if (daysNumber > 0) {
       var day;
@@ -449,7 +473,6 @@ function ToCurrentWeek(WhichPage) {
 }
 
 function ThisMondayDate() {
-  
   var Year = date.getFullYear();
   Month = (date.getMonth() + 1 < 10 ? "0" : "") + (date.getMonth() + 1);
   Day =
@@ -457,9 +480,8 @@ function ThisMondayDate() {
     (date.getDate() - date.getDay() + 1);
   var PreviousMonday = Year + "-" + Month + "-" + Day;
 
-  if(date.getDay() > 5)
-  {
-    return AddDayToDate(PreviousMonday.split('-'),'-',7,true);
+  if (date.getDay() > 5) {
+    return AddDayToDate(PreviousMonday.split("-"), "-", 7, true);
   }
 
   return PreviousMonday;
@@ -473,9 +495,8 @@ function ThisFridayDate() {
     (date.getDate() - date.getDay() + 5);
   var PreviousFriday = Month + "-" + Day;
 
-  if(date.getDay() > 5)
-  {
-    return AddDayToDate(PreviousFriday.split('-'),'-',7,false);
+  if (date.getDay() > 5) {
+    return AddDayToDate(PreviousFriday.split("-"), "-", 7, false);
   }
 
   return PreviousFriday;
@@ -490,13 +511,7 @@ function NowDate() {
 }
 
 function LogingIn() {
-
-  
-  if (
-    (document.getElementById("User").value == User.username &&
-      document.getElementById("Pass").value == DeCoder(User.password)) ||
-    Logined == "true;"
-  ) {
+  if (Logined == "true;") {
     sessionStorage.setItem("Logined", "true;");
     localStorage.removeItem("ToPageUser");
     document.title = "Food-WEB : " + User.name;
@@ -515,18 +530,18 @@ function LogingIn() {
 
 function LogingOut() {
   sessionStorage.setItem("Logined", "false;");
-  sessionStorage.setItem("SavedUser", "");
+  sessionStorage.setItem("SavedUser", "null");
   window.location.href = "index.html";
 }
 
 function PageChanger(e, saved) {
   for (const item of document.getElementsByClassName("PageChanger")) {
-    item.style = "color: black";
+    item.style = "";
     item.style.backgroundColor = "none";
   }
   if (e != null) {
     for (const item of document.getElementsByClassName("PageChanger")) {
-      item.style = "color: black";
+      item.style = "";
       e.style.backgroundColor = "";
     }
 
@@ -552,10 +567,11 @@ function PageChanger(e, saved) {
       }
     } catch (error) {}
   }
+  document.getElementById("DarkMode").style = "display: none";
   saved = e != null ? e.id : saved;
   switch (saved) {
     case "MenuPage":
-      document.getElementById("LoginMain").style.display = "none";
+      document.getElementById("SettingsMain").style.display = "none";
       document.getElementById("MenuMain").style.display = "block";
       document.getElementById("ResignMain").style.display = "none";
       document.getElementById("TicketMain").style.display = "none";
@@ -563,9 +579,10 @@ function PageChanger(e, saved) {
       document.getElementById("PaymentMain").style.display = "none";
       document.getElementById("ReportMain").style.display = "none";
       sessionStorage.setItem("CurrentPage", "MenuPage");
+
       break;
     case "ResignPage":
-      document.getElementById("LoginMain").style.display = "none";
+      document.getElementById("SettingsMain").style.display = "none";
       document.getElementById("MenuMain").style.display = "none";
       document.getElementById("ResignMain").style.display = "block";
       document.getElementById("TicketMain").style.display = "none";
@@ -576,7 +593,7 @@ function PageChanger(e, saved) {
       MenuLoader(MenuPerWeek, 0, "ResignMenu");
       break;
     case "TicketPage":
-      document.getElementById("LoginMain").style.display = "none";
+      document.getElementById("SettingsMain").style.display = "none";
       document.getElementById("MenuMain").style.display = "none";
       document.getElementById("ResignMain").style.display = "none";
       document.getElementById("TicketMain").style.display = "block";
@@ -586,7 +603,7 @@ function PageChanger(e, saved) {
       sessionStorage.setItem("CurrentPage", "TicketPage");
       break;
     case "PersonalData":
-      document.getElementById("LoginMain").style.display = "none";
+      document.getElementById("SettingsMain").style.display = "none";
       document.getElementById("MenuMain").style.display = "none";
       document.getElementById("ResignMain").style.display = "none";
       document.getElementById("TicketMain").style.display = "none";
@@ -594,9 +611,10 @@ function PageChanger(e, saved) {
       document.getElementById("PaymentMain").style.display = "none";
       document.getElementById("ReportMain").style.display = "none";
       sessionStorage.setItem("CurrentPage", "PersonalData");
+      document.getElementById("DarkMode").style = "display: block!important";
       break;
     case "PaymentPage":
-      document.getElementById("LoginMain").style.display = "none";
+      document.getElementById("SettingsMain").style.display = "none";
       document.getElementById("MenuMain").style.display = "none";
       document.getElementById("ResignMain").style.display = "none";
       document.getElementById("TicketMain").style.display = "none";
@@ -606,7 +624,7 @@ function PageChanger(e, saved) {
       sessionStorage.setItem("CurrentPage", "PaymentPage");
       break;
     case "ReportPage":
-      document.getElementById("LoginMain").style.display = "none";
+      document.getElementById("SettingsMain").style.display = "none";
       document.getElementById("MenuMain").style.display = "none";
       document.getElementById("ResignMain").style.display = "none";
       document.getElementById("TicketMain").style.display = "none";
@@ -614,6 +632,16 @@ function PageChanger(e, saved) {
       document.getElementById("PaymentMain").style.display = "none";
       document.getElementById("ReportMain").style.display = "block";
       sessionStorage.setItem("CurrentPage", "ReportPage");
+      break;
+    case "SettingsPage":
+      document.getElementById("SettingsMain").style.display = "block";
+      document.getElementById("MenuMain").style.display = "none";
+      document.getElementById("ResignMain").style.display = "none";
+      document.getElementById("TicketMain").style.display = "none";
+      document.getElementById("PasswordMain").style.display = "none";
+      document.getElementById("PaymentMain").style.display = "none";
+      document.getElementById("ReportMain").style.display = "none";
+      sessionStorage.setItem("CurrentPage", "SettingsPage");
       break;
 
     default:
@@ -633,15 +661,16 @@ function TicketDataLoader(User) {
   }
 }
 
-function PersonalDataLoader(User)
-{
-  document.getElementById('secondName').innerHTML = User.name.split(' ')[0];
-  document.getElementById('firstName').innerHTML = User.name.split(' ')[1];
-  if(User.name.split(' ').length > 2){document.getElementById('lastName').innerHTML = User.name.split(' ')[2];}
-  document.getElementById('schoolOM').innerHTML = User.schoolOM;
-  document.getElementById('userClass').innerHTML = User.Userclass;
-  document.getElementById('userEmail').innerHTML = User.email;
-  document.getElementById('userName').innerHTML = User.username;
+function PersonalDataLoader(User) {
+  document.getElementById("secondName").innerHTML = User.name.split(" ")[0];
+  document.getElementById("firstName").innerHTML = User.name.split(" ")[1];
+  if (User.name.split(" ").length > 2) {
+    document.getElementById("lastName").innerHTML = User.name.split(" ")[2];
+  }
+  document.getElementById("schoolOM").innerHTML = User.schoolOM;
+  document.getElementById("userClass").innerHTML = User.Userclass;
+  document.getElementById("userEmail").innerHTML = User.email;
+  document.getElementById("userName").innerHTML = User.username;
 }
 
 function MenuLoader(MenuPerWeek, whichWeek, whichPage) {
@@ -712,18 +741,12 @@ function MenuLoader(MenuPerWeek, whichWeek, whichPage) {
             .appendChild(opt);
         }
       }
-    } catch (error) {
-      
-    }
-
-    
+    } catch (error) {}
 
     index++;
   }
   CurrentDayColorize();
 }
-
-
 
 ResignOrNot = [
   false,
@@ -746,7 +769,7 @@ function ChosenDayResign(whichDay, whichBool) {
       document.getElementById(whichDay).style.backgroundImage =
         "linear-gradient(to top, #2d2d2d, #ffffff00)";
       document.getElementById("cb_" + whichDay).disabled = true;
-      document.getElementsByClassName(whichDay + '-select')[1].disabled = true;
+      document.getElementsByClassName(whichDay + "-select")[1].disabled = true;
       document.getElementById("cb_" + whichDay).checked = false;
     } catch (error) {}
   } else {
@@ -814,16 +837,16 @@ function WhichDayIsNotChosable() {
   return Chosable;
 }
 
-function ResignByChanger(e)
-{
+function ResignByChanger(e) {
   document.getElementById("mainResignByMenu").style.display = "none";
   document.getElementById("mainResignByDate").style.display = "none";
 
   document.getElementById("ResignByDateSpan").style = "";
   document.getElementById("ResignByMenuSpan").style = "";
 
-  document.getElementById("main"+e.id).style.display = "block";
-  document.getElementById(e.id + "Span").style = "color:white; letter-spacing: 3px;";
+  document.getElementById("main" + e.id).style.display = "block";
+  document.getElementById(e.id + "Span").style =
+    "color:white; letter-spacing: 3px;";
 }
 
 function ResignButtonClicked(whichBtn) {
@@ -852,9 +875,12 @@ function ResignButtonClicked(whichBtn) {
     }
   }
 
-  ModalApperence('Figyelem','<div class="d-flex align-items-center"><strong>A lemondás folyamatban van!</strong><div class="spinner-border ms-auto" role="status" aria-hidden="true"></div></div>',infoIcon);
+  ModalApperence(
+    "Figyelem",
+    '<div class="d-flex align-items-center"><strong>A lemondás folyamatban van!</strong><div class="spinner-border ms-auto" role="status" aria-hidden="true"></div></div>',
+    infoIcon
+  );
 
-  
   ResignOrNot = [
     false,
     false,
@@ -868,8 +894,8 @@ function ResignButtonClicked(whichBtn) {
     false,
   ];
   for (const day of Days) {
-    document.getElementById('cb_' + day).checked = false;
-    ChosenDayResign(day,Days.indexOf(day));
+    document.getElementById("cb_" + day).checked = false;
+    ChosenDayResign(day, Days.indexOf(day));
   }
 }
 
@@ -884,7 +910,7 @@ function DayChecking(e) {
     (date.getDate() < 10 ? "0" + date.getDate() : date.getDate());
   if (e.value < dates) {
     e.value = dates;
-    
+
     ModalApperence("Hiba", "Nem megfelelő dátum!", errorIcon);
   }
 }
@@ -959,16 +985,14 @@ function CardNumberCorrecter(e) {
 
 wasOver = false;
 
-function CardExpiryCorrecter(e)
-{
-  OnlyNumbersAllow(e,'/');
-  
+function CardExpiryCorrecter(e) {
+  OnlyNumbersAllow(e, "/");
+
   if (e.value.length == 2 && wasOver == false) {
     e.value += "/";
     wasOver = true;
   }
-  if(e.value.length < 2)
-  {
+  if (e.value.length < 2) {
     wasOver = false;
   }
 }
@@ -984,7 +1008,8 @@ function OnlyNumbersAllow(e, allowCharacter) {
 }
 
 function AddCardFormOpen(type) {
-  document.getElementById('addCardBtn').className = document.getElementById('addCardBtn').className + ' _' + type;
+  document.getElementById("addCardBtn").className =
+    document.getElementById("addCardBtn").className + " _" + type;
   document.getElementById("CardAdd").style.display = "block";
 }
 
@@ -993,41 +1018,43 @@ function AddCardFormClose() {
 }
 
 function AddCard() {
-  if(document.getElementById('addCardBtn').className.includes('_n'))
-  {
+  if (document.getElementById("addCardBtn").className.includes("_n")) {
     document.getElementById("CardId").innerHTML = "MasterCard";
     document.getElementById("CardNumber").innerHTML =
       "**** " +
       document.getElementById("card_number").value.toString().split(" ")[3];
-  }else
-  {
-    document.getElementById('cardNumber').value = document.getElementById("card_number").value;
-    document.getElementById('cardName').value = document.getElementById("card_name").value;
-    document.getElementById('cardExpiry').value = document.getElementById("card_expiry").value;
+  } else {
+    document.getElementById("cardNumber").value =
+      document.getElementById("card_number").value;
+    document.getElementById("cardName").value =
+      document.getElementById("card_name").value;
+    document.getElementById("cardExpiry").value =
+      document.getElementById("card_expiry").value;
   }
-  
+
   AddCardFormClose();
 }
 
-function CardDataDelete()
-{
-  document.getElementById('cardNumber').value = "";
-  document.getElementById('cardName').value = "";
-  document.getElementById('cardExpiry').value ="";
-  document.getElementById('bankName').value = "";
+function CardDataDelete() {
+  document.getElementById("cardNumber").value = "";
+  document.getElementById("cardName").value = "";
+  document.getElementById("cardExpiry").value = "";
+  document.getElementById("bankName").value = "";
 
-  ModalApperence('Információ','A bankkártya adatai sikeresn törölve!',infoIcon);
+  ModalApperence(
+    "Információ",
+    "A bankkártya adatai sikeresn törölve!",
+    infoIcon
+  );
 }
 
 function Pay() {
-  
   ModalApperence(
     "Fizetés",
     '<div class="d-flex align-items-center"><strong>Fizetés...</strong><div class="spinner-border ms-auto" role="status" aria-hidden="true"></div></div>',
     payIcon
   );
 }
-
 
 function ModalApperence(ErrorName, ErrorText, ErrorIcon) {
   document.getElementById("Error_Modal").style.display = "block";
@@ -1041,8 +1068,7 @@ function PasswordChange() {
   if (
     document.getElementById("newPass").value &&
     document.getElementById("oldPass").value &&
-    document.getElementById("oldPass").value ==
-      DeCoder(User.password)
+    document.getElementById("oldPass").value == DeCoder(User.password)
   ) {
     var icon =
       '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="mb-1 bi bi-check2-circle" viewBox="0 0 16 16">' +
@@ -1054,8 +1080,9 @@ function PasswordChange() {
       "A jelszó változtatás sikeres volt!",
       icon
     );
-    document.getElementById("newPass").value =
-    document.getElementById("oldPass").value = "";
+    document.getElementById("newPass").value = document.getElementById(
+      "oldPass"
+    ).value = "";
   } else {
     var ErrorIcon =
       '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="mb-1 bi bi-exclamation-triangle" viewBox="0 0 16 16"><path d="M7.938 2.016A.13.13 0 0 1 8.002 2a.13.13 0 0 1 .063.016.146.146 0 0 1 .054.057l6.857 11.667c.036.06.035.124.002.183a.163.163 0 0 1-.054.06.116.116 0 0 1-.066.017H1.146a.115.115 0 0 1-.066-.017.163.163 0 0 1-.054-.06.176.176 0 0 1 .002-.183L7.884 2.073a.147.147 0 0 1 .054-.057zm1.044-.45a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566z"/><path d="M7.002 12a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 5.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995z"/></svg>';
@@ -1063,20 +1090,16 @@ function PasswordChange() {
   }
 }
 
-function ReportSend()
-{
-  var where = document.getElementById('whereReport').value;
-  var text = document.getElementById('reportText').value;
-  if(where == "" || text == "")
-  {
+function ReportSend() {
+  var where = document.getElementById("whereReport").value;
+  var text = document.getElementById("reportText").value;
+  if (where == "" || text == "") {
     ModalApperence("Figyelem", "Kérem töltse ki a jelentést!", errorIcon);
-  }else
-  {
-    document.getElementById('whereReport').value = "";
-    document.getElementById('reportText').value = "";
+  } else {
+    document.getElementById("whereReport").value = "";
+    document.getElementById("reportText").value = "";
     ModalApperence("Hiba jelentve", "Köszönjük a jelentését!", infoIcon);
   }
-  
 }
 
 function Coder(Data) {
@@ -1104,7 +1127,3 @@ function DeCoder(Data) {
   }
   return "";
 }
-
-
-
-

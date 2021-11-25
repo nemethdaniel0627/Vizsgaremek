@@ -6,17 +6,13 @@
   color: #ffaa4c;
 }
 
-#Login_header {
-  background-color: #5089c6;
+#MainHeaderNavbar {
+  background-color: #001e6c;
   color: whitesmoke;
 }
 
-#Header #Logo {
-  src: "./icon.png";
-}
-
 .dropbtn {
-  background-color: #5089c6;
+  background-color: #001e6c;
 }
 
 .form-container {
@@ -64,6 +60,7 @@ button {
 
 .login button {
   background: #001e6c;
+  transition: 0.6s;
 }
 
 .login button:hover {
@@ -84,7 +81,7 @@ button {
   #Resign_div h1 {
     background-image: none;
     color: #ffaa4c;
-    font-size: 3em!important;
+    font-size: 3em !important;
   }
 }
 
@@ -99,11 +96,23 @@ button {
   background-image: radial-gradient(circle, #001e6c 5%, #0034b6 100%);
 }
 
-.nav-link:hover
-{
-  background-color: #335e8b;
+.navbar-nav .nav-link:hover {
+  background-color: #0000002a;
   padding: 10px;
-  border-radius: 10px;
+}
+
+.nav-link:hover {
+  background-color: #0000002a;
+  border-radius: 3px;
+  color: black;
+}
+
+#dropdownMenu {
+  color: white;
+}
+
+#MainHeaderNavbar .navbar-nav .nav-link {
+  color: rgb(138, 138, 138);
 }
 
 .Resign_changer:hover > #ResignByDateSpan,
@@ -122,22 +131,19 @@ button {
   background-color: rgb(250, 250, 250);
 }
 
-#Ticket
-{
+#Ticket {
   box-shadow: 2px 5px 15px 0px #17161694;
   background-color: #122529;
   border-radius: 5px;
 }
 
-#Ticket .container
-{
+#Ticket .container {
   background-color: rgba(255, 255, 255, 0.363);
   border-radius: 10px;
 }
 
-#Ticket_infos
-{
-  border-color: black!important;
+#Ticket_infos {
+  border-color: black !important;
 }
 
 .rowOdd,
