@@ -1,0 +1,74 @@
+#MenuMain
+  {
+    animation: fadeIn 1s;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+      to { opacity: 1; }
+  }
+
+  #ResignMain
+  {
+    animation: fadeIn 1s;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+      to { opacity: 1; }
+  }
+
+  #SettingsMain
+  {
+    animation: fadeIn 1s;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+      to { opacity: 1; }
+  }
+
+
+  #TicketMain
+  {
+    animation: fadeIn 1s;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+      to { opacity: 1; }
+  }
+
+
+  #PasswordMain
+  {
+    animation: fadeIn 1s;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+      to { opacity: 1; }
+  }
+
+  
+  #PaymentMain
+  {
+    animation: fadeIn 1s;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+      to { opacity: 1; }
+  }
+
+  
+  
+  #ReportMain
+  {
+    animation: fadeIn 1s;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+      to { opacity: 1; }
+  }

@@ -19,6 +19,34 @@ var payIcon =
 var date = new Date();
 
 function PageLoaded() {
+  CurrentPage =
+  sessionStorage.getItem("CurrentPage") == null
+    ? "Login"
+    : sessionStorage.getItem("CurrentPage");
+
+  sessionStorage.setItem(
+    "SavedUser",
+    localStorage.getItem("ToPageUser") == null
+      ? sessionStorage.getItem("SavedUser")
+      : localStorage.getItem("ToPageUser")
+  );
+
+  try {
+    this.User = JSON.parse(sessionStorage.getItem("SavedUser"));
+  } catch (error) {
+    LogingOut();
+  }
+  
+  try {
+    if (User.paid != "true") {
+      for (const lis of document.getElementsByClassName("isPaid")) {
+        lis.style.display = "none";
+      }
+    }
+  } catch (error) {
+    LogingOut();
+  }
+
   document.getElementById("hide-checkbox").checked = true;
   for (let index = 0; index < 5; index++) {
     MenuPerWeek.push(
@@ -30,27 +58,8 @@ function PageLoaded() {
   }
 
   //Logined = sessionStorage.getItem("Logined") == null ? "false;" : sessionStorage.getItem("Logined");
-  CurrentPage =
-    sessionStorage.getItem("CurrentPage") == null
-      ? "Login"
-      : sessionStorage.getItem("CurrentPage");
-
-  sessionStorage.setItem(
-    "SavedUser",
-    localStorage.getItem("ToPageUser") == null
-      ? sessionStorage.getItem("SavedUser")
-      : localStorage.getItem("ToPageUser")
-  );
-  this.User = JSON.parse(sessionStorage.getItem("SavedUser"));
-  try {
-    if (User.paid != "true") {
-      for (const lis of document.getElementsByClassName("isPaid")) {
-        lis.style.display = "none";
-      }
-    }
-  } catch (error) {
-    LogingOut();
-  }
+ 
+  
 
   nameUser = User.name.split("");
 
@@ -569,6 +578,7 @@ function PageChanger(e, saved) {
   }
   document.getElementById("DarkMode").style = "display: none";
   saved = e != null ? e.id : saved;
+  document.getElementById(saved.split('Page')[0]+"Main").style.animation = "fadeIn 1s;";
   switch (saved) {
     case "MenuPage":
       document.getElementById("SettingsMain").style.display = "none";
@@ -602,7 +612,7 @@ function PageChanger(e, saved) {
       document.getElementById("ReportMain").style.display = "none";
       sessionStorage.setItem("CurrentPage", "TicketPage");
       break;
-    case "PersonalData":
+    case "PasswordPage":
       document.getElementById("SettingsMain").style.display = "none";
       document.getElementById("MenuMain").style.display = "none";
       document.getElementById("ResignMain").style.display = "none";
