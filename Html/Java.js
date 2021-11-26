@@ -5,6 +5,7 @@ var CurrentPage = "Login";
 var Days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
 var MenuPerWeek = [];
 var User = {};
+
 var QRcodeText = "";
 
 var errorIcon =
@@ -16,9 +17,35 @@ var infoIcon =
   "</svg>";
 var payIcon =
   '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="mb-1 bi bi-credit-card" viewBox="0 0 16 16"><path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm2-1a1 1 0 0 0-1 1v1h14V4a1 1 0 0 0-1-1H2zm13 4H1v5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V7z"/><path d="M2 10a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-1z"/></svg>';
+
 var date = new Date();
 
+function Timing(time)
+{
+  var minute = parseInt(time/60);
+  var second = (time - (parseInt(time/60)*60)) < 10 ? "0" + (time - (parseInt(time/60)*60)) :(time - (parseInt(time/60)*60));
+  sessionStorage.setItem('Clock',time-1);
+  
+  if(time-1<0)
+  {
+    sessionStorage.removeItem('Clock');
+    LogingOut();
+  }
+
+  return "(" + minute + ":" + second + ")";
+}
+
+function TimeWrite()
+{
+  document.getElementById('clock').innerHTML = Timing((sessionStorage.getItem('Clock')));
+}
+
+var interval = setInterval(TimeWrite,1000);
+
 function PageLoaded() {
+
+  sessionStorage.setItem('Clock',(sessionStorage.getItem('Clock')) == null ? 600 : (sessionStorage.getItem('Clock')));
+
   CurrentPage =
   sessionStorage.getItem("CurrentPage") == null
     ? "Login"
@@ -136,16 +163,15 @@ function PageLoaded() {
 
   MobileMode();
 
-  var dates =
-    date.getFullYear() +
-    "-" +
-    (date.getMonth() + 1 < 10
-      ? "0" + date.getMonth() + 1
-      : date.getMonth() + 1) +
-    "-" +
-    (date.getDate() < 10 ? "0" + date.getDate() : date.getDate());
-  document.getElementById("FirstDay").value = dates;
-  document.getElementById("LastDay").value = dates;
+  for (const date of Dates) {
+    if(Chosable[Dates.indexOf(date)])
+    {
+      document.getElementById("FirstDay").value = date;
+      document.getElementById("LastDay").value = date;
+      break;
+    }
+  }
+
 }
 
 function QRcodeLoader(dataRow) {
@@ -155,8 +181,7 @@ function QRcodeLoader(dataRow) {
     qrcodeContainer.innerHTML = "";
     new QRCode(qrcodeContainer, {
       text: website,
-      width: 180,
-      height: 180,
+      title: "",
       colorDark: "#000000",
       colorLight: "#ffffff00",
       correctLevel: QRCode.CorrectLevel.H,
@@ -489,7 +514,7 @@ function ThisMondayDate() {
     (date.getDate() - date.getDay() + 1);
   var PreviousMonday = Year + "-" + Month + "-" + Day;
 
-  if (date.getDay() > 5) {
+  if (date.getDay() > 5 || (date.getDay() == 5 && date.getHours() > 8 || (date.getHours() == 8 && date.getMinutes() >= 30))) {
     return AddDayToDate(PreviousMonday.split("-"), "-", 7, true);
   }
 
@@ -504,7 +529,7 @@ function ThisFridayDate() {
     (date.getDate() - date.getDay() + 5);
   var PreviousFriday = Month + "-" + Day;
 
-  if (date.getDay() > 5) {
+  if (date.getDay() > 5 || (date.getDay() == 5 && date.getHours() > 8 || (date.getHours() == 8 && date.getMinutes() >= 30))) {
     return AddDayToDate(PreviousFriday.split("-"), "-", 7, false);
   }
 
@@ -578,6 +603,7 @@ function PageChanger(e, saved) {
   }
   document.getElementById("DarkMode").style = "display: none";
   saved = e != null ? e.id : saved;
+  console.log(saved);
   document.getElementById(saved.split('Page')[0]+"Main").style.animation = "fadeIn 1s;";
   switch (saved) {
     case "MenuPage":
@@ -620,7 +646,7 @@ function PageChanger(e, saved) {
       document.getElementById("PasswordMain").style.display = "block";
       document.getElementById("PaymentMain").style.display = "none";
       document.getElementById("ReportMain").style.display = "none";
-      sessionStorage.setItem("CurrentPage", "PersonalData");
+      sessionStorage.setItem("CurrentPage", "PasswordPage");
       document.getElementById("DarkMode").style = "display: block!important";
       break;
     case "PaymentPage":
@@ -884,6 +910,7 @@ function ResignButtonClicked(whichBtn) {
       }
     }
   }
+  console.log(dataRow);
 
   ModalApperence(
     "Figyelem",

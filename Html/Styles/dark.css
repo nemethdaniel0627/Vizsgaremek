@@ -107,7 +107,7 @@ body {
 }
 
 #payment_view {
-  background-color: #00000050;
+  background-color: #0d1321;
 }
 
 .modal-body,
@@ -167,28 +167,17 @@ body {
 }
 #personalData .accordion-body {
   background-color: #172138 !important;
-  border-radius: 0 0 10px 10px;
 }
 
 #personalData .accordion-button {
   color: white !important;
-  background-color: #00000040 !important;
-  border: 2px solid whitesmoke!important;
+  background-color: #3e5c76 !important;
 }
 #personalData .accordion-item {
   border: none !important;
 }
 
-.accordion-item
-{
-  background-color: #00000000!important;
-}
-
 .reportTexts {
   background-color: #172138;
   color: white;
-}
-
-#SettingsMain .list-group-item {
-  background-color: #00000040!important;
 }

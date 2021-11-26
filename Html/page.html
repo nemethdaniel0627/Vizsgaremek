@@ -100,6 +100,7 @@
 
             <div class="dropdown">
               <a class="btn nav-link dropdown-toggle" role="button" id="dropdownMenu" data-bs-toggle="dropdown">
+                <span id = "clock"></span>
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill mb-1" viewBox="0 0 16 16">
                   <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
                 </svg> <span id="username"></span>
@@ -355,18 +356,19 @@
           <h2 class="h3 mb-4 page-title">Beállítások</h2>
           <div class="my-4">
             <hr class="my-4" />
-            <strong class="mb-0">Értesítési beállítások</strong>
-            <p>Donec in quam sed urna bibendum tincidunt quis mollis mauris.</p>
+            
+            <strong class="mb-0 fs-5">Értesítés</strong>
+            <p>Értesítési beállítások változtatása.</p>
             <div class="list-group mb-5 shadow">
               <div class="list-group-item">
                 <div class="row align-items-center">
-                  <div class="col">
-                    <strong class="mb-0">Valami 1</strong>
-                    <p class="text-muted mb-0">Donec in quam sed urna bibendum tincidunt quis mollis mauris.</p>
-                  </div>
+                  <label class="col" for="CB_emailNotification">
+                    <strong class="mb-0">E-mail értesítés</strong>
+                    <p class="text-muted mb-0">Automatikus értesítés a befizetésről e-mailben.</p>
+                  </label>
                   <div class="col-auto">
                     <div class="form-check form-switch">
-                      <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
+                      <input class="form-check-input" type="checkbox" id="CB_emailNotification">
 
                     </div>
                   </div>
@@ -374,13 +376,13 @@
               </div>
               <div class="list-group-item">
                 <div class="row align-items-center">
-                  <div class="col">
-                    <strong class="mb-0">Valami 2</strong>
-                    <p class="text-muted mb-0">Fusce lacinia elementum eros, sed vulputate urna eleifend nec.</p>
-                  </div>
+                  <label class="col" for="CB_paymentNotification">
+                    <strong class="mb-0">Fizetési értesítés</strong>
+                    <p class="text-muted mb-0">Fizetési értesítés kikapcsolása.</p>
+                  </label>
                   <div class="col-auto">
                     <div class="form-check form-switch">
-                      <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
+                      <input class="form-check-input" type="checkbox" id="CB_paymentNotification">
 
                     </div>
                   </div>
@@ -388,32 +390,18 @@
               </div>
             </div>
             <hr class="my-4" />
-            <strong class="mb-0">Biztonság</strong>
-            <p>Donec in quam sed urna bibendum tincidunt quis mollis mauris.</p>
+            <strong class="mb-0 fs-5">Biztonság</strong>
+            <p>Biztonsági beállítások változtatása.</p>
             <div class="list-group mb-5 shadow">
               <div class="list-group-item">
                 <div class="row align-items-center">
-                  <div class="col">
-                    <strong class="mb-0">Valami 1</strong>
-                    <p class="text-muted mb-0">Donec in quam sed urna bibendum tincidunt quis mollis mauris.</p>
-                  </div>
+                  <label class="col" for="CB_logoutSafety">
+                    <strong class="mb-0">Automatikus kijelentkezés</strong>
+                    <p class="text-muted mb-0">A rendzser automaikusan kijeletkezik 10 percet követően.</p>
+                  </label>
                   <div class="col-auto">
                     <div class="form-check form-switch">
-                      <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
-
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="list-group-item">
-                <div class="row align-items-center">
-                  <div class="col">
-                    <strong class="mb-0">Valami 2</strong>
-                    <p class="text-muted mb-0">Fusce lacinia elementum eros, sed vulputate urna eleifend nec.</p>
-                  </div>
-                  <div class="col-auto">
-                    <div class="form-check form-switch">
-                      <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
+                      <input class="form-check-input" type="checkbox" id="CB_logoutSafety">
 
                     </div>
                   </div>
@@ -421,14 +409,15 @@
               </div>
             </div>
             <hr class="my-4" />
-            <strong class="mb-2">Kinézet</strong>
+            <strong class="mb-2 fs-5">Kinézet</strong>
+            <p>Változtatás a weboldal kinézetén.</p>
             <div class="list-group mb-5 shadow mt-3">
               <div class="list-group-item">
                 <div class="row align-items-center">
-                  <div class="col">
-                    <strong class="mb-0">Sötét mód használata</strong>
-                    <p class="text-muted mb-0">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                  </div>
+                  <label class="col" for="hide-checkbox">
+                    <strong class="mb-0">Sötét mód</strong>
+                    <p class="text-muted mb-0">Sötét mód használata a weboldalon.</p>
+                  </label>
                   <div class="col-auto">
                     <div class="wrapper">
                       <input type="checkbox" id="hide-checkbox">
@@ -455,34 +444,7 @@
                   </div>
                 </div>
               </div>
-              <div class="list-group-item">
-                <div class="row align-items-center">
-                  <div class="col">
-                    <strong class="mb-0">Valami 1</strong>
-                    <p class="text-muted mb-0">Nulla et tincidunt sapien. Sed eleifend volutpat elementum.</p>
-                  </div>
-                  <div class="col-auto">
-                    <div class="form-check form-switch">
-                      <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
-
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="list-group-item">
-                <div class="row align-items-center">
-                  <div class="col">
-                    <strong class="mb-0">Valami 2</strong>
-                    <p class="text-muted mb-0">Donec in quam sed urna bibendum tincidunt quis mollis mauris.</p>
-                  </div>
-                  <div class="col-auto">
-                    <div class="form-check form-switch">
-                      <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
-
-                    </div>
-                  </div>
-                </div>
-              </div>
+    
             </div>
           </div>
         </div>
@@ -544,7 +506,7 @@
           </div>
         </div>
       </div>
-      <div class="accordion-item">
+      <div class="accordion-item mb-2 mt-2">
         <h2 class="accordion-header" id="headingCard">
           <button class="accordion-button collapsed border border-dark" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCard">
             Bankkártya adatok
@@ -726,12 +688,11 @@
         <div class="row">
           <div class="col-lg-4 col-sm-12 col-md-12">
             <div class="qrcode w-100 d-flex justify-content-center d-block d-lg-none" id="qrcode">
-
             </div>
             <img src="./Images/icon.png" alt="Icon" class="img-fluid rounded w-50 mx-auto d-none d-lg-block" id="Ticket_img">
           </div>
           <div class="col-lg-8 col-sm-12 border-start d-none d-lg-block" id="Ticket_infos">
-            <h2 id="Ticket_name" class="mb-1 ms-1">VezetékNév Keresztnév UtóNév</h2>
+            <h2 id="Ticket_name" class="mb-1 ms-1">Vezetéknév Keresztnév Utónév</h2>
             <h5 id="Ticket_class" class="ms-1">Osztály</h5>
             <h1 id="Ticket_info" class="text-center mt-3 ms-1">
               <strong>Befizetve</strong>

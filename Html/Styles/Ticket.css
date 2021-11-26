@@ -3,3 +3,7 @@
     top: 80px;
     width: 40%;
   }
+
+  #qrcode:hover{
+    display: none;
+  }
