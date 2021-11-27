@@ -7,3 +7,9 @@
   #qrcode:hover{
     display: none;
   }
+
+  #Ticket_img
+  {
+    width: 30%!important;
+    
+  }
