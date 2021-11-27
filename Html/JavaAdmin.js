@@ -6,14 +6,7 @@ function PageLoaded() {
   document.getElementById("ResignDate").value =
     date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
 
-  var letter =
-    Math.floor(Math.random() * 1000) % 7 == 0
-      ? "A"
-      : Math.floor(Math.random() * 1000) % 5 == 0
-      ? "B"
-      : Math.floor(Math.random() * 1000) % 3 == 0
-      ? "C"
-      : "D";
+  
 
   user = {
     id: users.length + 1,
@@ -21,7 +14,7 @@ function PageLoaded() {
     password: "Password1122",
     name: "Habsburg Mária Terézia",
     schoolOM: "OM220",
-    Userclass: "12." + letter,
+    Userclass: "12.A",
     email: "hmt@email.com",
     paid: true,
     value: "15000 Ft",
@@ -31,6 +24,16 @@ function PageLoaded() {
 
   users.push(user);
   for (let index = 0; index < 40; index++) {
+    var letter =
+    Math.floor(Math.random() * 1000) % 11 == 0
+      ? "A"
+      : Math.floor(Math.random() * 1000) % 7 == 0
+      ? "B"
+      : Math.floor(Math.random() * 1000) % 5 == 0
+      ? "C"
+      : Math.floor(Math.random() * 1000) % 3 == 0
+      ? "D"
+      : "E";
     var zindex = Math.floor(Math.random() * 4) + 9;
     if (Math.floor(Math.random() * 1000) % 3) {
       var user = {
@@ -65,18 +68,56 @@ function PageLoaded() {
       users.push(user);
     }
   }
+  
 
-  for (const user of users) {
-    if (!user.isDeleted) {
-      TableLoader(user);
+  users.sort(compare);
+
+  for (let index = 12; index > 8; index--) {
+    users2 = [];
+    for (const user of users) {
+      if(user.Userclass.split('.')[0] == index)
+      {
+        users2.push(user);
+      }
+    }
+    users2.sort(compare2);
+
+    for (const user of users2) {
+      if (!user.isDeleted) {
+        TableLoader(user);
+      }
     }
   }
+
+ 
 
   if (sessionStorage.getItem("DarkModeOn") == "true") {
     document.getElementById("Dark_check").checked = true;
     DarkModeStyleChange();
   }
 }
+
+function compare( a, b ) {
+  if ( parseInt(a.Userclass.split('.')[0]) < parseInt(b.Userclass.split('.')[0])  ){
+    return 1;
+  }
+  if ( parseInt(a.Userclass.split('.')[0])  > parseInt(b.Userclass.split('.')[0])  ){
+    return -1;
+  }
+  return 0;
+}
+
+function compare2( a, b ) {
+  if ( a.Userclass.split('.')[1] < b.Userclass.split('.')[1]  ){
+    return -1;
+  }
+  if ( a.Userclass.split('.')[1]  > b.Userclass.split('.')[1]  ){
+    return 1;
+  }
+  return 0;
+}
+
+
 
 function Searching() {
   Refresh();
@@ -531,16 +572,16 @@ function TableLoader(user) {
       colorIndex = 250;
       break;
     case "B":
-      colorIndex = 200;
+      colorIndex = 210;
       break;
     case "C":
-      colorIndex = 150;
+      colorIndex = 170;
       break;
     case "D":
-      colorIndex = 100;
+      colorIndex = 130;
       break;
     case "E":
-      colorIndex = 50;
+      colorIndex = 100;
       break;
     default:
       break;

@@ -41,6 +41,8 @@ a:hover
   float: right;
   margin: 0;
   height: auto;
+  width: 330px;
+  border-radius: 10px 10px 0 0;
 }
 
 
