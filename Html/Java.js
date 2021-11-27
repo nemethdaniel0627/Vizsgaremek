@@ -6,6 +6,8 @@ var Days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
 var MenuPerWeek = [];
 var User = {};
 
+var Card = {};
+
 var QRcodeText = "";
 
 var errorIcon =
@@ -28,7 +30,7 @@ function Timing(time)
   
   if(time-1<0)
   {
-    sessionStorage.removeItem('Clock');
+    
     LogingOut();
   }
 
@@ -564,7 +566,8 @@ function LogingIn() {
 
 function LogingOut() {
   sessionStorage.setItem("Logined", "false;");
-  sessionStorage.setItem("SavedUser", "null");
+  sessionStorage.removeItem("SavedUser");
+  sessionStorage.removeItem('Clock');
   window.location.href = "index.html";
 }
 
@@ -1055,20 +1058,22 @@ function AddCardFormClose() {
 }
 
 function AddCard() {
-  if (document.getElementById("addCardBtn").className.includes("_n")) {
-    document.getElementById("CardId").innerHTML = "MasterCard";
-    document.getElementById("CardNumber").innerHTML =
-      "**** " +
-      document.getElementById("card_number").value.toString().split(" ")[3];
-  } else {
-    document.getElementById("cardNumber").value =
-      document.getElementById("card_number").value;
-    document.getElementById("cardName").value =
-      document.getElementById("card_name").value;
-    document.getElementById("cardExpiry").value =
-      document.getElementById("card_expiry").value;
-  }
+  Card = {
+    number:document.getElementById("card_number").value,
+    name: document.getElementById("card_name").value,
+    expiry: document.getElementById("card_expiry").value,
+    bank:'OTP Bank PLC'
+  };
 
+
+    document.getElementById("CardId").innerHTML = "MasterCard";
+    document.getElementById("CardNumber").innerHTML = "**** " + Card.number.split(" ")[3];
+    document.getElementById("cardNumber").value = Card.number;
+    document.getElementById("cardName").value = Card.name;
+    document.getElementById("cardExpiry").value = Card.expiry;
+    document.getElementById('bankName').value = Card.bank;
+
+  
   AddCardFormClose();
 }
 
@@ -1077,6 +1082,8 @@ function CardDataDelete() {
   document.getElementById("cardName").value = "";
   document.getElementById("cardExpiry").value = "";
   document.getElementById("bankName").value = "";
+
+  Card = {};
 
   ModalApperence(
     "Információ",
