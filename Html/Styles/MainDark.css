@@ -192,3 +192,10 @@ body {
 #SettingsMain .list-group-item {
   background-color: #00000040!important;
 }
+
+.Resign_changer:hover > #ResignByDateSpan,
+.Resign_changer:hover > #ResignByMenuSpan {
+  color: white;
+  letter-spacing: 3px;
+  transition: 0.2s;
+}
