@@ -92,9 +92,10 @@ function PageLoaded() {
  
 
   if (sessionStorage.getItem("DarkModeOn") == "true") {
-    document.getElementById("Dark_check").checked = true;
+    document.getElementById("hide-checkbox").checked = false;
     DarkModeStyleChange();
   }
+  DarkModeStyleChange(document.getElementById("hide-checkbox").checked);
 }
 
 function compare( a, b ) {
@@ -222,24 +223,21 @@ function ResignDatesRemove(e) {
   );
 }
 
-function DarkModeStyleChange() {
-  var css;
-  var DarkModeIcon;
+document.querySelector(".wrapper").addEventListener("change", function (e) {
+  DarkModeStyleChange(e.target.checked);
+});
 
-  if (DarkModeOn) {
+function DarkModeStyleChange(bool) {
+  var css;
+
+  if (!bool) {
     css = "./Styles/AdminDark.css";
-    DarkModeIcon = "./Images/ToDark.png";
-    DarkModeOn = false;
     sessionStorage.setItem("DarkModeOn", "true");
-    document.getElementById("DarkModePic").style = "none";
-    document.getElementById("DarkModePic2").style.display = "none";
+    DarkModeOn = false;
   } else {
     css = "./Styles/AdminDefault.css";
-    DarkModeIcon = "./Images/ToDefault.png";
-    DarkModeOn = true;
     sessionStorage.setItem("DarkModeOn", "false");
-    document.getElementById("DarkModePic2").style = "none";
-    document.getElementById("DarkModePic").style.display = "none";
+    DarkModeOn = true;
   }
 
   var oldLink = document.getElementsByTagName("link").item(1);
@@ -249,8 +247,9 @@ function DarkModeStyleChange() {
   newLink.setAttribute("href", css);
 
   document.getElementsByTagName("head").item(0).replaceChild(newLink, oldLink);
-  document.getElementById("DarkMode_img").src = DarkModeIcon;
 }
+
+
 
 function SelectRow(element) {
   if (element.checked) {
@@ -680,14 +679,23 @@ function ModifyUser(e) {
   }
 }
 
-function QRPage() {
-  document.getElementById("QRPage").style = "none";
+function PageChanger(e){
+  document.getElementById("QRMain").style.display = "none";
   document.getElementById("MainPage").style.display = "none";
-}
-
-function DataBasePage() {
-  document.getElementById("MainPage").style = "none";
-  document.getElementById("QRPage").style.display = "none";
+  document.getElementById("SettingsMain").style.display = "none";
+  switch (e.id) {
+    case 'QRPage':
+      document.getElementById("QRMain").style = "none";
+      break;
+    case 'DataPage':
+      document.getElementById("MainPage").style = "none";
+      break;
+    case 'SettingsPage':
+      document.getElementById("SettingsMain").style = "none";
+      break;  
+    default:
+      break;
+  }
 }
 
 function Reload() {

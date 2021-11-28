@@ -167,3 +167,18 @@ a img
   transform: translateX(-50%);
   
 }
+#displayError
+  {
+    display: none;
+  }
+
+@media only screen and (max-width: 760px) {
+  #displayError
+  {
+    display: block;
+  }
+  #MainPage, #QRMain,#SettingsMain
+  {
+    display: none!important;
+  }
+}

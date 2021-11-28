@@ -571,6 +571,7 @@ function LogingOut() {
   window.location.href = "index.html";
 }
 
+
 function PageChanger(e, saved) {
   for (const item of document.getElementsByClassName("PageChanger")) {
     item.style = "";

@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="./Styles/FontFamily.css">
 
   <link rel="stylesheet" href="./Styles/Header.css">
+  <link rel="stylesheet" href="./Styles/DarkModeSlider.css">
 
   <link rel="stylesheet" href="./Styles/AdminStyle.css">
 
@@ -43,7 +44,7 @@
               <li>
                 <a href="#" id="DataPage" onclick="PageChanger(this)" class="dropdown-item dropdown_Payment PageChanger drpdown"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="mb-1 bi bi-file-earmark" viewBox="0 0 16 16">
                   <path d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5L14 4.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h-2z" />
-                </svg> Adatbázi</a>
+                </svg> Adatbázis</a>
               </li>
               <li>
                 <a href="#" id="QRPage" onclick="PageChanger(this)" class="dropdown-item dropdown_Payment PageChanger drpdown"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="mb-1 bi bi-qr-code-scan" viewBox="0 0 16 16">
@@ -69,6 +70,10 @@
     </nav>
   </div>
 
+  <div class="mx-auto w-100 text-center mt-4" id = "displayError">
+    
+    <h1><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="mb-2 me-2 bi bi-exclamation-triangle" viewBox="0 0 16 16"><path d="M7.938 2.016A.13.13 0 0 1 8.002 2a.13.13 0 0 1 .063.016.146.146 0 0 1 .054.057l6.857 11.667c.036.06.035.124.002.183a.163.163 0 0 1-.054.06.116.116 0 0 1-.066.017H1.146a.115.115 0 0 1-.066-.017.163.163 0 0 1-.054-.06.176.176 0 0 1 .002-.183L7.884 2.073a.147.147 0 0 1 .054-.057zm1.044-.45a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566z"/><path d="M7.002 12a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 5.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995z"/></svg>Az oldal nem kompatibilis ilyen kijelzővel!</h1>
+  </div>
 
   <main id="MainPage" class="mt-4">
 
@@ -231,8 +236,115 @@
 
   </main>
 
-  <main id="QRPage" style="display: none;">
+  <main id="QRMain" style="display: none;">
     <video src="" id="preview"></video>
+
+  </main>
+
+  <main id="SettingsMain" class="mt-4" style="display: none; ">
+
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-12 col-lg-10 col-xl-8 mx-auto">
+          <h2 class="h3 mb-4 page-title">Beállítások</h2>
+          <div class="my-4">
+            <hr class="my-4" />
+            
+            <strong class="mb-0 fs-5">Értesítés</strong>
+            <p>Értesítési beállítások változtatása.</p>
+            <div class="list-group mb-5 shadow">
+              <div class="list-group-item">
+                <div class="row align-items-center">
+                  <label class="col" for="CB_emailNotification">
+                    <strong class="mb-0">E-mail értesítés</strong>
+                    <p class="text-muted mb-0">Automatikus értesítés a befizetésről e-mailben.</p>
+                  </label>
+                  <div class="col-auto">
+                    <div class="form-check form-switch">
+                      <input class="form-check-input" type="checkbox" id="CB_emailNotification">
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="list-group-item">
+                <div class="row align-items-center">
+                  <label class="col" for="CB_paymentNotification">
+                    <strong class="mb-0">Fizetési értesítés</strong>
+                    <p class="text-muted mb-0">Fizetési értesítés kikapcsolása.</p>
+                  </label>
+                  <div class="col-auto">
+                    <div class="form-check form-switch">
+                      <input class="form-check-input" type="checkbox" id="CB_paymentNotification">
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <hr class="my-4" />
+            <strong class="mb-0 fs-5">Biztonság</strong>
+            <p>Biztonsági beállítások változtatása.</p>
+            <div class="list-group mb-5 shadow">
+              <div class="list-group-item">
+                <div class="row align-items-center">
+                  <label class="col" for="CB_logoutSafety">
+                    <strong class="mb-0">Automatikus kijelentkezés</strong>
+                    <p class="text-muted mb-0">A rendzser automaikusan kijeletkezik 10 percet követően.</p>
+                  </label>
+                  <div class="col-auto">
+                    <div class="form-check form-switch">
+                      <input class="form-check-input" type="checkbox" id="CB_logoutSafety" checked>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <hr class="my-4" />
+            <strong class="mb-2 fs-5">Kinézet</strong>
+            <p>Változtatás a weboldal kinézetén.</p>
+            <div class="list-group mb-5 shadow mt-3">
+              <div class="list-group-item">
+                <div class="row align-items-center">
+                  <label class="col" for="hide-checkbox">
+                    <strong class="mb-0">Sötét mód</strong>
+                    <p class="text-muted mb-0">Sötét mód használata a weboldalon.</p>
+                  </label>
+                  <div class="col-auto">
+                    <div class="wrapper">
+                      <input type="checkbox" id="hide-checkbox" checked>
+                      <label for="hide-checkbox" class="toggle">
+                        <span class="toggle-button">
+                          <span class="crater crater-1"></span>
+                          <span class="crater crater-2"></span>
+                          <span class="crater crater-3"></span>
+                          <span class="crater crater-4"></span>
+                          <span class="crater crater-5"></span>
+                          <span class="crater crater-6"></span>
+                          <span class="crater crater-7"></span>
+                        </span>
+                        <span class="star star-1"></span>
+                        <span class="star star-2"></span>
+                        <span class="star star-3"></span>
+                        <span class="star star-4"></span>
+                        <span class="star star-5"></span>
+                        <span class="star star-6"></span>
+                        <span class="star star-7"></span>
+                        <span class="star star-8"></span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+    
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
 
   </main>
 
