@@ -3,7 +3,7 @@ const axios = require('axios');
 const cors = require('cors');
 const express = require('express');
 const menuConvert = require('./modules/menuConvert');
-const sqlQueries = require("./modules/sqlQueries");
+const databaseUpload = require('./modules/databaseUpload');
 
 const app = express();
 
@@ -25,12 +25,19 @@ app.get("/etlap", async (req, res) => {
   etlap.map(d => {
     console.log(d);
   })
-  // res.send("asd");
+
   const date = new Date();
   // const responseDays = await sqlQueries.insert("days", "datum, hetkoznap", `"2021-11-21", "${date.getDay()}"`);
-  // const select = await sqlQueries.select("days", "days.id", `days.datum = "2021-11-21"`);
-  // const selectMealsIds = await sqlQueries.select("meal", "id", `FLOOR(id/10) = 20211121`);
+  // await sqlQueries.CreatConnection();
   // await sqlQueries.insert("days", "datum, hetkoznap", `NOW(), ${date.getDay()}`);
+  // await sqlQueries.insert("meal", "id, nev", `${20211128}${1}, "ünnep"`);
+  // await sqlQueries.insert("meal", "id, nev", `${20211128}${2}, "ünnep"`);
+  // await sqlQueries.insert("meal", "id, nev", `${20211128}${3}, "ünnep"`);
+  // const select = await sqlQueries.select("days", "days.id", `days.datum = "2021-11-28"`);
+  // const selectMealsIds = await sqlQueries.select("meal", "id", `FLOOR(id/10) = 20211128`);
+  // console.log(selectMealsIds);
+  // console.log(select);
+  // await sqlQueries.EndConnection();
   // console.log(selectMealsIds);
   res.send("Üzenet");
 });
@@ -41,52 +48,40 @@ app.post("/etlap", async (req, res) => {
   // const menu = req.body.menu;
 
   const menu = await menuConvert.dayUpload();
-  let date = new Date();
-  
-  menu.forEach(async (day) => {
-    const idPrefix = `${date.getFullYear()}${date.getMonth() + 1}${date.getDate()}`;
-    if (day.length === 0) {
-      for (let i = 1; i <= 5; i++) {
-        const response = await sqlQueries.insert("meal", "id, nev", `${idPrefix}${i}, ünnep`);
-        console.log(response);
 
-      }
-      await sqlQueries.insert("days", "datum, hetkoznap", `"${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}", "${date.getDay()}"`);
-      const selectDaysId = await sqlQueries.select("days", "id", `datum = "${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}"`);
-      const selectMealsIds = await sqlQueries.select("meal", "id", `FLOOR(id/10) = "${date.getFullYear()}${date.getMonth() + 1}${date.getDate()}"`);
-      await sqlQueries.insert(
-        "menu",
-        "daysId, reggeliId, tizoraiId, ebedId, uzsonnaId, vacsoraId",
-        `${selectDaysId[0].id}, ${selectMealsIds[0].id}, ${selectMealsIds[1].id}, ${selectMealsIds[2].id}, ${selectMealsIds[3].id}, ${selectMealsIds[4].id}`);
-      date = date.setDate(date.getDate() + 1);
-    }
-    else {
-      day.forEach(async (meal) => {
-        await sqlQueries.insert(
-          "meal",
-          "id," +
-          "nev," +
-          "energia," +
-          "feherje," +
-          "zsir," +
-          "tZsir," +
-          "szenhidrat," +
-          "cukor," +
-          "so," +
-          "allergenek",
-          `${idPrefix}${meal[0]},"${meal[1]}","${meal[2]}","${meal[3]}","${meal[4]}","${meal[5]}","${meal[6]}","${meal[7]}","${meal[8]}","${meal[9]}"`);
-      })
-      await sqlQueries.insert("days", "datum, hetkoznap", `"${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}", "${date.getDay()}"`);
-      const selectDaysId = await sqlQueries.select("days", "id", `datum = "${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}"`);
-      const selectMealsIds = await sqlQueries.select("meal", "id", `FLOOR(id/10) = "${date.getFullYear()}${date.getMonth() + 1}${date.getDate()}"`);
-      await sqlQueries.insert(
-        "menu",
-        "daysId, reggeliId, tizoraiId, ebedId, uzsonnaId, vacsoraId",
-        `${selectDaysId[0].id}, ${selectMealsIds[0].id}, ${selectMealsIds[1].id}, ${selectMealsIds[2].id}, ${selectMealsIds[3].id}, ${selectMealsIds[4].id}`);
-      date = date.setDate(date.getDate() + 1);
+  let day1 = [];
+  let day2 = [];
+  let day3 = [];
+  let day4 = [];
+  let day5 = [];  
+  menu.forEach((day, index) => {
+    switch (index) {
+      case 0:
+        day1 = day;
+        break;
+      case 1:
+        day2 = day;
+        break;
+      case 2:
+        day3 = day;
+        break;
+      case 3:
+        day4 = day;
+        break;
+      case 4:
+        day5 = day;
+        break;
+      default:
+        break;
     }
   })
-
+  let date = new Date();
+  date = await databaseUpload.insertDay(day1, date);
+  date = await databaseUpload.insertDay(day2, date);
+  date = await databaseUpload.insertDay(day3, date);
+  date = await databaseUpload.insertDay(day4, date);
+  date = await databaseUpload.insertDay(day5, date);
+  
   res.send("Kész");
 });
 
@@ -98,6 +93,3 @@ app.get("/", (req, res) => {
 app.listen(PORT, () => {
   console.log(`server started on port ${PORT}`);
 });
-
-
-
