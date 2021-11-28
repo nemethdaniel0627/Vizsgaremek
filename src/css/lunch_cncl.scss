@@ -7,9 +7,12 @@
         font-size: 3rem;
         margin: 3rem 0;
 
-        &--item {            
+        &--item {
             padding: 2rem 3rem;
             cursor: pointer;
+            border: 1px solid var(--darkModeFontColor);
+            border-radius: 10px;
+            box-shadow: 8px 0.5rem 1rem rgba(0, 0, 0, 0.2);
         }
 
         &--input {
@@ -19,9 +22,11 @@
 }
 
 #etlapCancel:checked ~ #etlapCancelItem {
-    background-color: var(--orange);
+    background-color: var(--dark-blue);
+    color: #fff;    
 }
 
 #datumCancel:checked ~ #datumCancelItem {
-    background-color: var(--orange);
+    background-color: var(--dark-blue);
+    color: #fff;    
 }
