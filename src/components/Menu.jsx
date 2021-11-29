@@ -1,9 +1,15 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import MenuDays from "./MenuDays";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import axios from "axios";
+import { URL } from "../utils/constants";
 
 export default function Menu(props) {
+    const [displayWeek, setDisplayWeek] = useState();
+    const [firstDay, setFirstDay] = useState();
+    const [menu, setMenu] = useState();
+
     function currentDayColorize() {
 
         const day = new Date().getDay();
@@ -17,14 +23,15 @@ export default function Menu(props) {
         }
     }
 
-    function setCurrentWeek() {
-        const year = new Date().getFullYear();
-        const month = new Date().getMonth();
-        const startDay = new Date(year, month, ((new Date().getDate()) - (new Date().getDay() - 1)));
-        const endDay = new Date(year, month, ((new Date().getDate()) - (new Date().getDay() - 1)) + 4)
+    function setCurrentWeek(date) {
+        const year = date.getFullYear();
+        const month = date.getMonth();
+        const startDay = new Date(year, month, ((date.getDate()) - (date.getDay() - 1)));
+        setFirstDay(`${year}-${(startDay.getMonth() + 1) < 10 ? "0" : ""}${(startDay.getMonth() + 1)}-${startDay.getDate() < 10 ? "0" : ""}${startDay.getDate()}`);
+        const endDay = new Date(year, month, ((date.getDate()) - (date.getDay() - 1)) + 4)
         let finalString = `${year}.${(startDay.getMonth() + 1) < 10 ? "0" : ""}${(startDay.getMonth() + 1)}.${startDay.getDate() < 10 ? "0" : ""}${startDay.getDate()} - ${(endDay.getMonth() + 1) < 10 ? "0" : ""}${(endDay.getMonth() + 1)}.${endDay.getDate() < 10 ? "0" : ""}${endDay.getDate()}`;
-        const firstArrow = document.getElementById("weekArrow-1");
-        if (firstArrow) firstArrow.classList.add("hidden");
+
+        setDisplayWeek(finalString);
         return finalString;
     }
 
@@ -37,12 +44,18 @@ export default function Menu(props) {
             arrow = arrow.value;
         }
         const firstArrow = document.getElementById("weekArrow-1");
+        let date;
         switch (arrow) {
             case "weekArrow-1":
-                if (firstArrow) firstArrow.classList.add("hidden");
+                date = new Date(firstDay);
+                date.setDate(date.getDate() - 7);
+                setCurrentWeek(date);
                 break;
 
             case "weekArrow-2":
+                date = new Date(firstDay);
+                date.setDate(date.getDate() + 7);
+                setCurrentWeek(date);
                 if (firstArrow) firstArrow.classList.remove("hidden");
                 break;
 
@@ -53,9 +66,27 @@ export default function Menu(props) {
     }
 
     useEffect(() => {
-        currentDayColorize();
-        setCurrentWeek();
+        if (!menu) {
+            axios.get(`${URL}/etlap`)
+                .then((response) => {
+                    console.log(response);
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+        }
+        else {
+            currentDayColorize();
+            setCurrentWeek(new Date());
+        }
     })
+
+    useEffect(() => {
+        if (new Date(firstDay) <= new Date()) {
+            const firstArrow = document.getElementById("weekArrow-1");
+            if (firstArrow) firstArrow.classList.add("hidden");
+        }
+    }, [firstDay])
 
     return (
         <div className="menu">
@@ -63,7 +94,7 @@ export default function Menu(props) {
                 {props.header}
                 <span className="menu--week-header">
                     <FontAwesomeIcon className="menu--week-header--icon hidden" onClick={weekChange} id="weekArrow-1" icon={faChevronLeft} />
-                    {setCurrentWeek()}
+                    {displayWeek}
                     <FontAwesomeIcon className="menu--week-header--icon" onClick={weekChange} id="weekArrow-2" icon={faChevronRight} />
                 </span>
             </h2>
