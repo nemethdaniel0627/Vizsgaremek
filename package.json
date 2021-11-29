@@ -25,6 +25,7 @@
         "eject": "react-scripts eject",
         "start": "cd server && npm start"
     },
+    "proxy": "http://localhost:5000/",
     "eslintConfig": {
         "extends": "react-app"
     },
