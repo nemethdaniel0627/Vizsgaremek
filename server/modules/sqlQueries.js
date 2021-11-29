@@ -6,7 +6,8 @@ class sqlQueries {
         this._connection = await mysql.createConnection({
             host: 'localhost',
             user: 'root',
-            database: 'foode'
+            database: 'foode',
+            rowsAsArray: true
         });
     }
 
@@ -25,13 +26,24 @@ class sqlQueries {
 
     async select(tableName, field, conditions) {
         try {            
-            let [results, resultInfo] = await this._connection.query(`SELECT ${field} FROM ${tableName} WHERE ${conditions}`);            
+            let [results, resultInfo] = await this._connection.query(`SELECT ${field} FROM ${tableName} WHERE ${conditions}`);          
             // console.log(resultInfo);
             return results;
         } catch (error) {
             throw error;
         }        
     }
+
+    async innerSelect(tableName, fields, innerJoins, conditions) {
+        try {
+            let [results, resultInfo] = await this._connection.query(`SELECT ${fields} FROM ${tableName} ${innerJoins} WHERE ${conditions}`);            
+            return results
+        } catch (error) {
+            throw error;
+        }
+    }
 }
 
 module.exports = new sqlQueries()
+
+

@@ -118,7 +118,7 @@ class menuConvert {
                     if (cell === "Zsír") {
                         mealType.push(type);
                         mealType.push(this._menu[rowNumber - 2][columnNumbers[i] - 1]) //Étel
-                        let energia = this._menu[rowNumber - 1][columnNumbers[i] - 1];                        
+                        let energia = this._menu[rowNumber - 1][columnNumbers[i] - 1];
                         mealType.push(energia.split(":")[1].trim()) //Energia
                         mealType.push(this._menu[rowNumber + 1][columnNumbers[i] - 1]) //Fehérje
                         mealType.push(day[rowNumber + 1]);                             //Zsír
