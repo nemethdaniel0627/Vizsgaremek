@@ -15,7 +15,7 @@
         margin: 0 2rem;
         color: var(--darkModeFontColor);
 
-        @media only screen and (max-width: 900px) {
+        @media only screen and (max-width: 1000px) {
             grid-template-columns: 1fr 5fr;
             width: 100%;
             padding: 0 1rem;
@@ -54,7 +54,11 @@
         grid-auto-rows: 1fr;
         height: 100%;
         display: grid;
-        align-items: center;        
+        align-items: center;
+        
+        span {
+            white-space: break-spaces;            
+        }
 
         &--legend &--header {
             background-image: none;
@@ -66,14 +70,14 @@
             padding: 1rem;
         }
 
-        @media only screen and (max-width: 900px) {
+        @media only screen and (max-width: 1000px) {
             display: none;
         }
 
         &--legend {
             font-size: 2rem;
             color: #aaa;
-            @media only screen and (max-width: 900px) {
+            @media only screen and (max-width: 1000px) {
                 display: grid;
             }            
         }

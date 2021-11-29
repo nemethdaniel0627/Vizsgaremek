@@ -8,7 +8,9 @@ import { URL } from "../utils/constants";
 export default function Menu(props) {
     const [displayWeek, setDisplayWeek] = useState();
     const [firstDay, setFirstDay] = useState();
-    const [menu, setMenu] = useState();
+    const [menu, setMenu] = useState([]);
+
+    const dayNames = ["Hétfő", "Kedd", "Szerda", "Csütörtök", "Péntek"]
 
     function currentDayColorize() {
 
@@ -66,10 +68,13 @@ export default function Menu(props) {
     }
 
     useEffect(() => {
-        if (!menu) {
+        if (menu.length === 0) {
             axios.get(`${URL}/etlap`)
                 .then((response) => {
-                    console.log(response);
+                    console.log(response.data);
+                    setMenu(response.data);
+                    currentDayColorize();
+                    setCurrentWeek(new Date());
                 })
                 .catch((error) => {
                     console.log(error);
@@ -79,7 +84,8 @@ export default function Menu(props) {
             currentDayColorize();
             setCurrentWeek(new Date());
         }
-    })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[])
 
     useEffect(() => {
         if (new Date(firstDay) <= new Date()) {
@@ -108,41 +114,18 @@ export default function Menu(props) {
                     lunch="Ebéd"
                     snack="Uszonna"
                     dinner="Vacsora" />
-                <MenuDays id="day-1"
-                    dayName="Hétfő"
-                    breakfast="asd"
-                    elevens="Meggyes almaleves"
-                    lunch="asdasd"
-                    snack="BBQ-s sült csirkecomb Rizs Káposztasaláta"
-                    dinner="asdlasdé" />
-                <MenuDays id="day-2"
-                    dayName="Kedd"
-                    breakfast="asd"
-                    elevens="Meggyes almaleves"
-                    lunch="asdasd"
-                    snack="BBQ-s sült csirkecomb Rizs Káposztasaláta"
-                    dinner="asdlasdé" />
-                <MenuDays id="day-3"
-                    dayName="Szerda"
-                    breakfast="asd"
-                    elevens="Meggyes almaleves"
-                    lunch="asdasd"
-                    snack="BBQ-s sült csirkecomb Rizs Káposztasaláta"
-                    dinner="asdlasdé" />
-                <MenuDays id="day-4"
-                    dayName="Csütörtök"
-                    breakfast="asd"
-                    elevens="Meggyes almaleves"
-                    lunch="asdasd"
-                    snack="BBQ-s sült csirkecomb Rizs Káposztasaláta"
-                    dinner="asdlasdé" />
-                <MenuDays id="day-5"
-                    dayName="Péntek"
-                    breakfast="asd"
-                    elevens="Meggyes almaleves"
-                    lunch="asdasd"
-                    snack="BBQ-s sült csirkecomb Rizs Káposztasaláta"
-                    dinner="asdlasdé" />
+                {menu.map((meal, index) => {
+                    return <MenuDays
+                        key={`day-${index + 1}`}
+                        id={`day-${index + 1}`}
+                        dayName={dayNames[index]}
+                        breakfast={meal[0]}
+                        elevens={meal[1]}
+                        lunch={meal[2]}
+                        snack={meal[3]}
+                        dinner={meal[4]} />
+                })}
+
             </div>
         </div>
     )
