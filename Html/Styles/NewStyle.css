@@ -19,105 +19,15 @@ body {
   top: 10px;
 }
 
-#Header div #Logo {
-  margin: 0 15px;
-  position: absolute;
-  top: 16px;
+#Logo {
   height: 40px;
   width: auto;
-}
-
-/*DarkMode*/
-#DarkMode {
-  margin: 20px;
-  float: right;
-}
-
-#DarkMode_img {
-  margin: -5px 10px;
-  height: 40px;
-  width: auto;
-  float: right;
-}
-
-.switch {
-  position: relative;
-  display: inline-block;
-  width: 60px;
-  height: 34px;
-}
-.switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-.slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #ccc;
-  -webkit-transition: 0.4s;
-  transition: 0.4s;
-}
-
-.slider:before {
-  position: absolute;
-  content: "";
-  height: 26px;
-  width: 26px;
-  left: 4px;
-  bottom: 4px;
-  background-color: white;
-  -webkit-transition: 0.4s;
-  transition: 0.4s;
-}
-
-input:checked + .slider {
-  background-color: #2196f3;
-}
-
-input:focus + .slider {
-  box-shadow: 0 0 1px #2196f3;
-}
-
-input:checked + .slider:before {
-  -webkit-transform: translateX(26px);
-  -ms-transform: translateX(26px);
-  transform: translateX(26px);
-}
-.slider.round {
-  border-radius: 34px;
-}
-
-.slider.round:before {
-  border-radius: 50%;
 }
 
 /*Login*/
-#Login_header {
-  position: absolute;
+#MainHeaderNavbar {
   width: 100%;
   height: auto;
-  top: 72px;
-}
-
-#Login_header h2 {
-  font-family: Georgia, "Times New Roman", Times, serif;
-  margin: 0 1%;
-  float: right;
-  font-size: 30px;
-  transition: 1s;
-}
-
-#Login_header h2:hover {
-  font-size: 35px;
-}
-
-#login {
-  text-align: center;
 }
 
 .dropbtn {
@@ -155,177 +65,53 @@ input:checked + .slider:before {
   display: block;
 }
 
-.dropdown:hover .dropbtn {
-  background-color: #3c6794;
+.navbar-nav .nav-link {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-radius: 10px;
+  transition: 1s;
 }
 
-.form-popup {
-  display: none;
-  position: fixed;
-  top: 130px;
-  right: 0px;
-  z-index: 9;
-  color: white;
-  border-radius: 0px 0px 0px 20px;
-}
-
-.form-container {
-  max-width: 300px;
-  padding: 10px;
-}
-
-.form-container input[type="text"],
-.form-container input[type="password"] {
-  width: 100%;
-  padding: 15px;
-  margin: 5px 0 22px 0;
-  border: none;
-  background: #f1f1f1;
-}
-
-.form-container input[type="text"]:focus,
-.form-container input[type="password"]:focus {
-  background-color: #ddd;
-  outline: none;
-}
-
-.form-container .btn {
-  background-image: linear-gradient(to left, #00470a, #00b400);
-  color: white;
-  padding: 16px 20px;
-  border: none;
+.nav-link {
   cursor: pointer;
-  width: 100%;
-  margin-bottom: 10px;
-  opacity: 0.8;
-}
-
-.form-container .cancel {
-  background-image: linear-gradient(to right, #5c0000, #300606);
-}
-
-.form-container .btn:hover,
-.open-button:hover {
-  opacity: 1;
-}
-
-.wrapper {
-  display: flex;
-  align-items: center;
-  flex-direction: column; 
-  justify-content: center;
-  width: 100%;
-  min-height: 100%;
-  padding: 20px;
-  background: rgba(darken(#2196F3,40%), 0.85);
-}
-
-.login { 
-  border-radius: 2px 2px 5px 5px;
-  padding: 10px 20px 20px 20px;
-  width: 90%;
-  max-width: 320px;
-  position: relative;
-  padding-bottom: 80px;
-  box-shadow: 0px 1px 5px rgba(0,0,0,0.3);
-}
-
-.login input {
-  display: block;
-  padding: 15px 10px;
-  margin-bottom: 10px;
-  width: 100%;
-  border: 1px solid #ddd;
-  transition: border-width 0.2s ease;
-  border-radius: 2px;
-  
-}
-
-.login a {
-  font-size: 0.8em;   
-  color: #2196F3;
-  text-decoration: none;
-}
-  
-.title {
-  color: #444;
-  font-size: 1.2em;
-  font-weight: bold;
-  margin: 10px 0 30px 0;
-  border-bottom: 1px solid #eee;
-  padding-bottom: 20px;
-}
-  
-.login  button {
-  width: 100%;
-  height: 100%;
-  padding: 10px 10px;
-  color: #fff;
-  display: block;
-  border: none;
-  margin-top: 20px;
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  max-height: 60px;
-  border: 0px solid rgba(0,0,0,0.1);
-  border-radius: 0 0 2px 2px;
-  transform: rotateZ(0deg);   
-  transition: all 0.1s ease-out;
-  border-bottom-width: 7px;
-}
-
-footer {
-  display: block;
-  padding-top: 50px;
-  text-align: center;
-  color: #ddd;
-  font-weight: normal;
-  text-shadow: 0px -1px 0px rgba(0,0,0,0.2);
-  font-size: 0.8em;
-}
-
-.login a,.login a:link {
-  color: #fff;
-  text-decoration: none;
+  transition: 0.2s;
+  border-radius: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 
 /*Étrend*/
-#AllMenu{
-  margin-top: 100px;
-  height: 420px;
-  position: relative;
+#AllMenu {
+  margin-top: 5%;
 }
 
-#Menu_header
-{
+#Menu_header {
   font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
   color: #ffaa4c;
   border-radius: 50px;
   text-align: center;
   margin-bottom: 20px;
 }
-#ResignMenu_header h1
-{
-  font-size: 65px;
-}
-#Menu_header h1
-{
+
+#Menu_header h1 {
   font-size: 65px;
   letter-spacing: 3px;
 }
-#Menu_header div
-{
+#Menu_header div {
   font-size: 20px;
   padding: 1px;
 }
-#Menu_header div a
-{
+#Menu_header div a {
   text-decoration: none;
 }
 
-#Menu_header, #ResignMenu h1 {
+#Menu_header,
+#ResignMenu h1 {
   font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+}
+
+#ResignMenu_header h1 {
+  font-size: 65px;
 }
 
 .Menu {
@@ -334,26 +120,11 @@ footer {
   height: auto;
 }
 
-
 .Menu_calendar {
   max-width: fit-content;
   position: absolute;
   margin-top: 25px;
   margin-left: 100px;
-}
-
-.Weekday {
-  font-weight: 900;
-}
-
-.Weekday td {
-  padding-top: 40px;
-}
-
-.Weekday th {
-  font-size: 20px;
-  
-  border-radius: 10px;
 }
 
 .Menu .row div {
@@ -368,122 +139,78 @@ footer {
   max-height: 300px;
 }
 
+.Weekday {
+  font-weight: 900;
+  height: 350px;
+}
+
+.Weekday td {
+  padding-top: 40px;
+}
+
+.Weekday table {
+  width: 100% !important;
+}
+
+.Weekday th {
+  font-size: 20px;
+
+  border-radius: 10px;
+}
+
+.allergens {
+  position: relative;
+  bottom: 0px;
+  margin-top: 10%;
+  width: 90%;
+}
+
 /*Ebédjegy*/
 #Ticket {
   position: relative;
   top: 80px;
-}
-
-.front-side {
-  width: 600px;
-  height: 250px;
-  display: grid;
-  grid-template-columns: 2% 96% 2%;
-  grid-template-rows: 4% 92% 4%;
-  position: relative;
-  margin: 20px auto;
-  overflow: hidden;
-  box-shadow: 2px 5px 15px 0px #17161694;
-  background-color: #122529;
-}
-.color-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 150px);
-  grid-template-rows: repeat(8, 50px);
-  grid-gap: 8px;
-  width: 150px;
-  height: 400px;
-  transform: rotate(-45deg);
-}
-
-.info-grid {
-  grid-column: 2/3;
-  grid-row: 2/3;
-  z-index: 2;
-  width: 100%;
-  height: 100%;
-  box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.432);
-  border-radius: 6px;
-  font-size: 0.7rem; /*12px;*/
-  display: grid;
-  grid-template-columns: 15px repeat(3, 1fr) 15px;
-  grid-template-rows: repeat(3, 1fr);
-  line-height: 1px;
-}
-.info-grid .name {
-  grid-column: 2 / span 2;
-  grid-row: 1 / span 1;
-  font-size: 1em;
-  letter-spacing: 0.1rem;
-  margin-top: 8px;
-}
-.info-grid .name h5 {
-  font-weight: unset;
-}
-.info-grid .date {
-  grid-column: 2 / span 2;
-  grid-row: 3;
-  margin-top: 20px;
-}
-
-.info-grid .img-tag {
-  grid-column: 2 / 2;
-  grid-row: 1;
-}
-#Ticket_img {
-  height: 60px;
-  width: auto;
-  position: relative;
-  left: 270%;
-  top: 10%;
-}
-
-.front-side .info-tag {
-  grid-column: 1 / span 4;
-  grid-row: 2 / span 1;
-  align-self: center;
-  z-index: 2;
-  width: 100%;
-  height: 40%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  font-size: 0.6rem; /*12px;*/
-  letter-spacing: 0.1rem;
-  text-align: center;
-}
-.name-tag h1,
-h3 {
-  margin: 2px;
-  font-weight: unset;
+  width: 40%;
 }
 
 /*Lemondás*/
+
+.Menu_date_span {
+  cursor: pointer;
+}
 
 #Resign_div div {
   text-align: center;
 }
 
-
-
-#Resign_div h1, #ResignMenu_div h1 {
+#Resign_div h1,
+#ResignMenu_div h1,
+#Report_div h1 {
   font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
   font-size: 65px;
   color: #ffaa4c;
-  border-radius: 50px;
+  border-radius: 15px;
   text-align: center;
 }
 
-#Resign_change
-{
+#Resign_div,
+#ResignMenu_div {
+  width: 90%;
+  margin: auto;
+}
+
+#ResignMenu a,
+#Resign_div a {
+  text-decoration: none;
+}
+
+#Resign_change {
   position: relative;
   margin-top: 100px;
   width: 100%;
   text-align: center;
 }
 
-.Resign_changer
-{
+.Resign_changer {
   padding-top: 10px;
   padding-bottom: 10px;
   padding-left: 50px;
@@ -495,28 +222,220 @@ h3 {
   font-weight: bolder;
 }
 
-.Resign_changer:hover
-{
+.Resign_changer:hover {
   color: #ffaa4c;
   text-decoration: none;
 }
 
-#ResignMenu a,#Resign_div a{
-  text-decoration: none;
-}
-
-#FirstDay, #LastDay
-{
+#FirstDay,
+#LastDay {
   font-size: 20px;
 }
 
-#OnylOneDay
-{
+#JustOneDayDiv {
   font-size: 25px;
 }
 
-#Resign_div, #ResignMenu_div
-{
-  width: 80%;
-  margin: auto;
+#ReportMain .list-group-item,
+#MenuMain .list-group-item {
+  width: 12%;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  height: auto;
+  border: none;
+  font-size: 12px;
+}
+.modal {
+  background-color: #00000070;
+}
+
+/* Remove border from toggler */
+.navbar-toggler {
+  border: 0 !important;
+}
+
+.navbar-toggler:focus,
+.navbar-toggler:active,
+.navbar-toggler-icon:focus {
+  outline: none !important;
+  box-shadow: none !important;
+  border: 0 !important;
+}
+
+/* Lines of the Toggler */
+.toggler-icon {
+  width: 30px;
+  height: 3px;
+  background-color: #e74c3c;
+  display: block;
+  transition: all 0.2s;
+}
+
+/* Adds Space between the lines */
+.middle-bar {
+  margin: 5px auto;
+}
+
+/* State when navbar is opened (START) */
+.navbar-toggler .top-bar {
+  transform: rotate(45deg);
+  transform-origin: 10% 10%;
+}
+
+.navbar-toggler .middle-bar {
+  opacity: 0;
+  filter: alpha(opacity=0);
+}
+
+.navbar-toggler .bottom-bar {
+  transform: rotate(-45deg);
+  transform-origin: 10% 90%;
+}
+/* State when navbar is opened (END) */
+
+/* State when navbar is collapsed (START) */
+.navbar-toggler.collapsed .top-bar {
+  transform: rotate(0);
+}
+
+.navbar-toggler.collapsed .middle-bar {
+  opacity: 1;
+  filter: alpha(opacity=100);
+}
+
+.navbar-toggler.collapsed .bottom-bar {
+  transform: rotate(0);
+}
+/* State when navbar is collapsed (END) */
+
+/* Color of Toggler when collapsed */
+.navbar-toggler.collapsed .toggler-icon {
+  background-color: #ffffff;
+}
+
+/*Bankkártya*/
+.Cardwrapper {
+  max-width: 460px;
+  box-shadow: 3px 3px 5px #1b1b1ba2;
+}
+
+.card {
+  background-color: #413f3f;
+}
+
+.h8 {
+  font-size: 25px;
+  font-weight: 600;
+  color: white;
+}
+
+.card .atm {
+  width: 90px;
+  height: 90px;
+  object-fit: cover;
+}
+
+.card .visa {
+  width: 50px;
+  height: 20px;
+  object-fit: fill;
+}
+
+.card .master {
+  width: 50px;
+  height: 50px;
+  object-fit: fill;
+}
+
+.debit-card,
+.debit-card-2 {
+  width: 100%;
+  height: 180px;
+  padding: 20px;
+  background-color: #0093e9;
+  background-image: linear-gradient(160deg, #0093e9 0%, #52a59b 100%);
+  position: relative;
+  border-radius: 5px;
+  box-shadow: 3px 3px 5px #0000001a;
+  transition: all 0.3s ease-in;
+}
+.debit-card-2 {
+  background-image: linear-gradient(
+    160deg,
+    #0dbd79 0%,
+    #00fde0 100%
+  ) !important;
+}
+
+.debit-card:hover,
+.debit-card-2:hover {
+  box-shadow: 5px 3px 5px #000000a2;
+}
+
+.card-2 {
+  background-color: #21d4fd;
+  background-image: linear-gradient(116deg, #21d4fd 0%, #b721ff 100%);
+}
+
+.text-muted {
+  font-size: 0.8rem;
+}
+
+.text-white {
+  font-size: 14px;
+}
+
+.modal-header {
+  background-color: #5089c6;
+}
+
+.cardAdd {
+  cursor: pointer;
+}
+
+/*Responsivity */
+
+@media only screen and (max-width: 728px) {
+  #Ticket {
+    position: relative;
+    top: 100px;
+    width: 100% !important;
+  }
+
+  #Ticket_infos {
+    border: none !important;
+  }
+
+  #ResignBTN {
+    font-size: 2em !important;
+  }
+
+  .cardData {
+    width: 100% !important;
+  }
+}
+
+@media only screen and (max-width: 900px) {
+  #AllMenu {
+    margin-top: 10%;
+  }
+}
+
+@media only screen and (max-width: 512px) {
+  #AllMenu {
+    margin-top: 15%;
+  }
+
+  #Resign_div {
+    margin: auto !important;
+  }
+
+  #Resign_div h1 {
+    font-size: 2em !important;
+  }
+
+  .ResignByDateDivs {
+    padding: 0px !important;
+  }
 }

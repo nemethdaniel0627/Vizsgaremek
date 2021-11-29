@@ -1,19 +1,9 @@
-table
-{
-  border-collapse: collapse;
-  border-spacing: 0;
-  display: block;
-  white-space: nowrap;
-  height: 70vh;
-  width: 62vw;
-  table-layout: fixed;
-}
 
 table tbody
 {
   width: 100%;
   padding: 0 20px;
-  text-align: center;
+  text-align: left!important;
 }
 
 th
@@ -21,36 +11,16 @@ th
   border: 1px solid black;
   padding: 10px;
 }
-
-
-
-#DataBase_div
-{
-  position: relative;
-  top: 130px;
-  width: 90%;
-  left: 50%;
-  -ms-transform: translateY(-50%);
-  transform: translateY(-50%);
-  -ms-transform: translateX(-50%);
-  transform: translateX(-50%);
-  font-size: 20px;
-}
-
 #DataBase_Table
 {
   text-align: center;
-  float: left;
-  overflow-x: auto;
-  overflow-y: auto;
-  width: 72vw;
-  margin-left: -3%;
+  width: 100%;
 }
 
 #Search_txt
 {
   height: 50px;
-  width: 300px;
+  width: 280px;
   margin-bottom: 5px;
 }
 
@@ -67,13 +37,12 @@ a:hover
 
 #DataBase_manager
 {
-  position: relative;
   padding: 25px;
   float: right;
-  top: 130px;
-  width: 350px;
-  right: -6vw;
   margin: 0;
+  height: auto;
+  width: 330px;
+  border-radius: 10px 10px 0 0;
 }
 
 
@@ -81,7 +50,7 @@ a:hover
 {
   font-weight: bold;
   height: 70px;
-  width: 300px;
+  width: 280px;
   border-radius: 10px;
   margin-bottom: 20px;
 }
@@ -102,7 +71,7 @@ input[type="file"]
 {
   font-weight: bold;
   height: 50px;
-  width: 300px;
+  width: 280px;
   border-radius: 10px;
   margin-bottom: 5px;
   border: 1px solid black;
@@ -115,7 +84,7 @@ input[type="file"]
 {
   font-weight: bold;
   height: auto;
-  width: 300px;
+  width: 280px;
   border-radius: 10px;
   margin-bottom: 5px;
   padding: 5px;
@@ -147,8 +116,6 @@ a img
   margin-bottom: 20px;
   display: none;
 }
-
-
 
 .Admin_button
 {
@@ -199,4 +166,19 @@ a img
   -ms-transform: translateX(-50%);
   transform: translateX(-50%);
   
+}
+#displayError
+  {
+    display: none;
+  }
+
+@media only screen and (max-width: 760px) {
+  #displayError
+  {
+    display: block;
+  }
+  #MainPage, #QRMain,#SettingsMain
+  {
+    display: none!important;
+  }
 }
