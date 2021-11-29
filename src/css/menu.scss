@@ -7,14 +7,18 @@
     justify-content: center;
 
     &--wrapper {
-        display: flex;
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        grid-auto-rows: 1fr;
         align-items: center;
         justify-content: center;
         margin: 0 2rem;
         color: var(--darkModeFontColor);
 
         @media only screen and (max-width: 900px) {
-            flex-direction: column;
+            grid-template-columns: 1fr 5fr;
+            width: 100%;
+            padding: 0 1rem;
         }
     }
 
@@ -24,13 +28,13 @@
         align-self: stretch;
         color: var(--orange);
         padding: 1rem;
-        background-image: radial-gradient(circle, var(--dark-blue) 10%, #ffffff00 100%);        
+        background-image: radial-gradient(circle, var(--dark-blue) 10%, #ffffff00 100%);
     }
 
     &--week-header {
         font-size: 1.3rem;
         display: block;
-        margin: .5rem 0;
+        margin: 0.5rem 0;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -38,28 +42,47 @@
         &--icon {
             margin: 0 1rem;
             font-size: 2.5rem;
-            transition: all .5s;
-            cursor: pointer;            
+            transition: all 0.5s;
+            cursor: pointer;
         }
     }
 
     &--day-table {
         font-size: 150%;
         text-align: center;
-        display: flex;
-        gap: 4rem;
-        flex-direction: column;
         padding: 1rem 3rem 5rem 3rem;
         border-radius: 20px;
+        grid-auto-rows: 1fr;
+        height: 100%;
+        display: grid;
+        align-items: center;        
+
+        &--legend &--header {
+            background-image: none;
+        }
 
         &--header {
             background-image: radial-gradient(circle, #ffffff00 10%, var(--light-blue) 90%);
             border-radius: 20px;
             padding: 1rem;
         }
+
+        @media only screen and (max-width: 900px) {
+            display: none;
+        }
+
+        &--legend {
+            @media only screen and (max-width: 900px) {
+                display: grid;
+            }            
+        }
     }
 
     &--day-selected {
-        background-image: linear-gradient(var(--currentDay), var(--bodyBackground))
+        background-image: linear-gradient(var(--currentDay), var(--bodyBackground));
+    }
+
+    &--day-table.menu--day-selected {
+        display: grid;
     }
 }

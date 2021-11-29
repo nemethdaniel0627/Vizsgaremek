@@ -6,12 +6,12 @@ import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons
 export default function Menu(props) {
     function currentDayColorize() {
 
-        const day = new Date().getDay();        
+        const day = new Date().getDay();
         let currentDay;
         if (day === 6 || day === 0) {
             currentDay = document.getElementById("day-" + 1);
         }
-        else currentDay = document.getElementById("day-" + day);        
+        else currentDay = document.getElementById("day-" + day);
         if (currentDay) {
             currentDay.classList.toggle("menu--day-selected");
         }
@@ -38,11 +38,11 @@ export default function Menu(props) {
         }
         const firstArrow = document.getElementById("weekArrow-1");
         switch (arrow) {
-            case "weekArrow-1":            
+            case "weekArrow-1":
                 if (firstArrow) firstArrow.classList.add("hidden");
                 break;
 
-            case "weekArrow-2":                
+            case "weekArrow-2":
                 if (firstArrow) firstArrow.classList.remove("hidden");
                 break;
 
@@ -61,20 +61,57 @@ export default function Menu(props) {
         <div className="menu">
             <h2 className="menu--header">
                 {props.header}
-                <span className="menu--week-header">                    
+                <span className="menu--week-header">
                     <FontAwesomeIcon className="menu--week-header--icon hidden" onClick={weekChange} id="weekArrow-1" icon={faChevronLeft} />
-                    {setCurrentWeek()}                    
+                    {setCurrentWeek()}
                     <FontAwesomeIcon className="menu--week-header--icon" onClick={weekChange} id="weekArrow-2" icon={faChevronRight} />
                 </span>
             </h2>
 
 
             <div className="menu--wrapper">
-                <MenuDays id="day-1" dayName="Hétfő" appetizer="Meggyes almaleves" mainCourse="BBQ-s sült csirkecomb Rizs Káposztasaláta" />
-                <MenuDays id="day-2" dayName="Kedd" appetizer="Meggyes almaleves" mainCourse="BBQ-s sült csirkecomb Rizs Káposztasaláta" />
-                <MenuDays id="day-3" dayName="Szerda" appetizer="Meggyes almaleves" mainCourse="BBQ-s sült csirkecomb Rizs Káposztasaláta" />
-                <MenuDays id="day-4" dayName="Csütörtök" appetizer="Meggyes almaleves" mainCourse="BBQ-s sült csirkecomb Rizs Káposztasaláta" />
-                <MenuDays id="day-5" dayName="Péntek" appetizer="Meggyes almaleves" mainCourse="BBQ-s sült csirkecomb Rizs Káposztasaláta" />
+                <MenuDays id="day-0"
+                    notDay={true}
+                    breakfast="Reggeli"
+                    elevens="Tízórai"
+                    lunch="Ebéd"
+                    snack="Uszonna"
+                    dinner="Vacsora" />
+                <MenuDays id="day-1"
+                    dayName="Hétfő"
+                    breakfast="asd"
+                    elevens="Meggyes almaleves"
+                    lunch="asdasd"
+                    snack="BBQ-s sült csirkecomb Rizs Káposztasaláta"
+                    dinner="asdlasdé" />
+                <MenuDays id="day-2"
+                    dayName="Kedd"
+                    breakfast="asd"
+                    elevens="Meggyes almaleves"
+                    lunch="asdasd"
+                    snack="BBQ-s sült csirkecomb Rizs Káposztasaláta"
+                    dinner="asdlasdé" />
+                <MenuDays id="day-3"
+                    dayName="Szerda"
+                    breakfast="asd"
+                    elevens="Meggyes almaleves"
+                    lunch="asdasd"
+                    snack="BBQ-s sült csirkecomb Rizs Káposztasaláta"
+                    dinner="asdlasdé" />
+                <MenuDays id="day-4"
+                    dayName="Csütörtök"
+                    breakfast="asd"
+                    elevens="Meggyes almaleves"
+                    lunch="asdasd"
+                    snack="BBQ-s sült csirkecomb Rizs Káposztasaláta"
+                    dinner="asdlasdé" />
+                <MenuDays id="day-5"
+                    dayName="Péntek"
+                    breakfast="asd"
+                    elevens="Meggyes almaleves"
+                    lunch="asdasd"
+                    snack="BBQ-s sült csirkecomb Rizs Káposztasaláta"
+                    dinner="asdlasdé" />
             </div>
         </div>
     )
