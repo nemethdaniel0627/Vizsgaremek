@@ -7,101 +7,168 @@
   <title>Food-WEB - Admin</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
   <link rel="stylesheet" href="./Styles/AdminDefault.css" type="text/css">
-  <link rel="stylesheet" href="./Styles/NewStyle.css">
+
+  <link rel="stylesheet" href="./Styles/FontFamily.css">
+
+  <link rel="stylesheet" href="./Styles/Header.css">
+  <link rel="stylesheet" href="./Styles/DarkModeSlider.css">
+
   <link rel="stylesheet" href="./Styles/AdminStyle.css">
-  
+
   <link rel="icon" href="./Images/icon.png">
 
 </head>
 
 <body onload="PageLoaded()">
 
-  <div id="Header">
-    <div>
-      <a href="./index.html"><img alt="ICON" id="Logo" src="./Images/FoodWeb_logo.png"></a>
 
-      <div id="DarkMode">
-        <img src="./Images/ToDefault.png" alt="DarkMode" id="DarkMode_img">
-        <label class="switch">
-          <input type="checkbox" onclick="DarkModeStyleChange()" id="Dark_check">
-          <span class="slider round"></span>
-        </label>
-      </div>
-    </div>
-  </div>
 
-  <div id="Login_header">
-    <div class="dropdown">
-      <button class="Admin_button dropbtn"> <img src="./Images/Admin_icon.png" class="Login_icon" alt=""> Adminisztrálás</button>
-      <div class="dropdown-content" id="dropdown">
-        <a href="#adatbazis" onclick="DataBasePage()" class="dropdown_EatRend"><img src="./Images/DataBase_icon.png" alt="Étrend">Adatbázis</a>
-        <a href="#QRkod" onclick="QRPage()" class="dropdown_Resign"><img src="./Images/Register_icon.png" alt="Lemondás">QR kód olvasás</a>
-        <a href="./index.html" onclick="LogingOut()"><img src="./Images/Logout.png"  alt="Kijelentkezés">Kijelentkezés</a>
-      </div>
-    </div>
-  </div>
-</div>
-  
-  <main id = "MainPage">
-    
-    <div id = "DataBase_div" >
-      <div id = "DataBase_Table" >
-        <table id = "Downloadable_table" class="table">
-          <thead class = "fix" id = "table_thead">
-            
-          </thead>
-          <tbody id = "table_tbody" style=" vertical-align: middle;">
+  <div id="MainHeaderNavbar" style="z-index: 100;">
 
-          </tbody>
-          
-        </table>
-      </div>
-      
-    </div>
-
-    <div id = "DataBase_manager">
-        
-      <button id = "Search_btn" onclick="Search()"><img src="./Images/Search_icon.png" alt="Keresés" style="width: 20px;"> Keresés</button>
-      <div class="button" style="margin-bottom: 20px; display: none;">
-        <input type="text" placeholder="Név/Osztály" name="" id="Search_txt">
-        <button id = "Search_btn" onclick="Searching()"><img src="./Images/Search_icon.png" alt="Keresés" style="width: 20px;"> Keresés</button>
-        <button id="SearchCancel_btn" onclick="Cancel(0)" class="Cancel_btn"><img src="./Images/Cancel_icon.png">Mégsem</button>
-      </div>
-      <button id = "Filter_btn" onclick="FilterShow()"><img src="./Images/Filter_icon.png" alt="Szűrés" style="width: 20px;"> Szűrés</button>
-      <div class="button" style="margin-bottom: 20px; display: none; ">
-        <div  id = "Filter_div">
-          <input type="checkbox" name="name_cb" id="name_cb" checked class = 'form-check-input filter_cb'> Név - Osztály <br>
-          <input type="checkbox" name="user_cb" id="user_cb" checked class = 'form-check-input filter_cb' > Felhasználónév<br>
-          <input type="checkbox" name="email_cb" id="email_cb" checked class = 'form-check-input filter_cb' > E-mail<br>
-          <input type="checkbox" name="paid_cb" id="paid_cb" checked class = 'form-check-input filter_cb' > Befizetve - Összeg<br>
-          <input type="checkbox" name="days_cb" id="days_cb" checked class = 'form-check-input filter_cb'> Lemondott nap(ok) <br>
+    <nav class="navbar navbar-expand-lg p-0 navbar-light">
+      <div class="container-fluid">
+        <a id="" href="./index.html" class="navbar-brand PageChanger ms-lg-0 ">
+          <img alt="ICON" id="Logo" src="./Images/FoodWeb_logo.png">
+        </a>
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-3 ms-lg-0">
+        </ul>
+        <div class="d-flex ms-0 ms-lg-1 float-end">
+          <div class="dropdown">
+            <a class="btn nav-link dropdown-toggle" role="button" id="dropdownMenu" data-bs-toggle="dropdown">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-gear mb-1" viewBox="0 0 16 16">
+                <path d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492zM5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0z" />
+                <path d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52l-.094-.319zm-2.633.283c.246-.835 1.428-.835 1.674 0l.094.319a1.873 1.873 0 0 0 2.693 1.115l.291-.16c.764-.415 1.6.42 1.184 1.185l-.159.292a1.873 1.873 0 0 0 1.116 2.692l.318.094c.835.246.835 1.428 0 1.674l-.319.094a1.873 1.873 0 0 0-1.115 2.693l.16.291c.415.764-.42 1.6-1.185 1.184l-.291-.159a1.873 1.873 0 0 0-2.693 1.116l-.094.318c-.246.835-1.428.835-1.674 0l-.094-.319a1.873 1.873 0 0 0-2.692-1.115l-.292.16c-.764.415-1.6-.42-1.184-1.185l.159-.291A1.873 1.873 0 0 0 1.945 8.93l-.319-.094c-.835-.246-.835-1.428 0-1.674l.319-.094A1.873 1.873 0 0 0 3.06 4.377l-.16-.292c-.415-.764.42-1.6 1.185-1.184l.292.159a1.873 1.873 0 0 0 2.692-1.115l.094-.319z" />
+              </svg> Adminisztrálás
+            </a>
+            <ul class="dropdown-menu" id="dropdown">
+              <li>
+                <a href="#" id="DataPage" onclick="PageChanger(this)" class="dropdown-item dropdown_Payment PageChanger drpdown"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="mb-1 bi bi-file-earmark" viewBox="0 0 16 16">
+                  <path d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5L14 4.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h-2z" />
+                </svg> Adatbázis</a>
+              </li>
+              <li>
+                <a href="#" id="QRPage" onclick="PageChanger(this)" class="dropdown-item dropdown_Payment PageChanger drpdown"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="mb-1 bi bi-qr-code-scan" viewBox="0 0 16 16">
+                  <path fill-rule="evenodd" d="M0 .5A.5.5 0 0 1 .5 0h3a.5.5 0 0 1 0 1H1v2.5a.5.5 0 0 1-1 0v-3Zm12 0a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0V1h-2.5a.5.5 0 0 1-.5-.5ZM.5 12a.5.5 0 0 1 .5.5V15h2.5a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5v-3a.5.5 0 0 1 .5-.5Zm15 0a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1 0-1H15v-2.5a.5.5 0 0 1 .5-.5ZM3 3h3v3H3V3Zm0 7h3v3H3v-3Zm7-7h3v3h-3V3ZM7 2H2v5h5V2Zm0 7H2v5h5V9Zm2-7h5v5H9V2ZM4 4h1v1H4V4Zm7 0h1v1h-1V4Zm-6 7H4v1h1v-1Zm3.5-3H8v2h1v1H8v1h2v-2h1v2h1v-1h2v-1h-3V8H8.5Zm1.5 2V9H9v1h1Zm4 3.5V12h-1v1h-2v1h3v-.5Zm-4 .5v-1H8v1h2Zm2-5h2V8h-2v1Z" />
+                </svg> QR kód olvasás</a>
+              </li>
+              <li>
+                <a href="#" id="SettingsPage" onclick="PageChanger(this)" class="dropdown-item dropdown_Payment PageChanger drpdown"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="mb-1 bi bi-gear" viewBox="0 0 16 16">
+                    <path d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492zM5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0z" />
+                    <path d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52l-.094-.319zm-2.633.283c.246-.835 1.428-.835 1.674 0l.094.319a1.873 1.873 0 0 0 2.693 1.115l.291-.16c.764-.415 1.6.42 1.184 1.185l-.159.292a1.873 1.873 0 0 0 1.116 2.692l.318.094c.835.246.835 1.428 0 1.674l-.319.094a1.873 1.873 0 0 0-1.115 2.693l.16.291c.415.764-.42 1.6-1.185 1.184l-.291-.159a1.873 1.873 0 0 0-2.693 1.116l-.094.318c-.246.835-1.428.835-1.674 0l-.094-.319a1.873 1.873 0 0 0-2.692-1.115l-.292.16c-.764.415-1.6-.42-1.184-1.185l.159-.291A1.873 1.873 0 0 0 1.945 8.93l-.319-.094c-.835-.246-.835-1.428 0-1.674l.319-.094A1.873 1.873 0 0 0 3.06 4.377l-.16-.292c-.415-.764.42-1.6 1.185-1.184l.292.159a1.873 1.873 0 0 0 2.692-1.115l.094-.319z" />
+                  </svg> Beállítások</a>
+              </li>
+              <li>
+                <a href="./index.html" onclick="LogingOut()" class="dropdown-item"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-right mb-1" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z" />
+                    <path fill-rule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z" />
+                  </svg> Kijelentkezés</a>
+              </li>
+            </ul>
+          </div>
         </div>
-        
-
-        <button id = "Filtering_btn" onclick="Filtering()"><img src="./Images/Filter_icon.png" alt="Szürés" style="width: 20px;"> Szűrés</button>
-        <button id="SearchCancel_btn" onclick="Cancel(1)" class="Cancel_btn"><img src="./Images/Cancel_icon.png">Mégsem</button>
       </div>
-      <button id = "Reload_btn" onclick="Reload()"><img src="./Images/Reload_icon.png" alt="Frissítés" style="width: 20px;"> Frissítés</button>
-      <button id = "Download_btn" onclick="Download('Táblázat','Downloadable_table')"><img src="./Images/Download_icon.png" alt="Letöltés" > Letöltés</button>
-      <button id = "Modification_btn" onclick="Modification()" type="" ><img src="./Images/Modification_icon.png" alt="Modositas" style="width: 20px;"> Módosítás</button>
-      <div class="button" style="margin-bottom: 20px; display: none;">
-        <button id="NewOne_btn" onclick="Registration()" ><img src="./Images/Register_icon.png" style="width: 20px;">Új személy</button>
-        <label for = "file" class = "custom-file-upload"><input id = "file" type="file" onchange="UploadFile()"><img src="./Images/File_icon.png" alt="Fájl" style="width: 20px;"> Fájl kiválasztása</label>
-        <button id="Upload_btn"><img src="./Images/Upload_icon.png" >Feltöltés</button>
-        <button id = "Delete_btn" onclick="DeletePetition()"><img src="./Images/Resign.png" alt="Törlés" > Törlés</button>
-        <button id="RegisterCancel_btn" onclick="Cancel(2)" class="Cancel_btn"><img src="./Images/Cancel_icon.png">Mégsem</button>
+    </nav>
+  </div>
+
+  <div class="mx-auto w-100 text-center mt-4" id = "displayError">
+    
+    <h1><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="mb-2 me-2 bi bi-exclamation-triangle" viewBox="0 0 16 16"><path d="M7.938 2.016A.13.13 0 0 1 8.002 2a.13.13 0 0 1 .063.016.146.146 0 0 1 .054.057l6.857 11.667c.036.06.035.124.002.183a.163.163 0 0 1-.054.06.116.116 0 0 1-.066.017H1.146a.115.115 0 0 1-.066-.017.163.163 0 0 1-.054-.06.176.176 0 0 1 .002-.183L7.884 2.073a.147.147 0 0 1 .054-.057zm1.044-.45a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566z"/><path d="M7.002 12a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 5.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995z"/></svg>Az oldal nem kompatibilis ilyen kijelzővel!</h1>
+  </div>
+
+  <main id="MainPage" class="mt-4">
+
+    <div class="container mw-100">
+      <div class="row mx-5">
+        <div class="col-lg-8 col-sm-12">
+          <div id="DataBase_Table">
+            <h1 class="d-none" id="SearchFail">Nincs a feltételnek megfelelő tanuló!</h1>
+            <div class="accordion" id="datasInAccordion">
+            </div>
+    
+          </div>
+        </div>
+        <div class="col-lg-1 col-sm-0"></div>
+        <div class="col-lg-3 col-sm-12">
+          <div  id="DataBase_manager">
+            <button id="Search_btn" onclick="Search()"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="mb-1 bi bi-search" viewBox="0 0 16 16">
+              <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+            </svg> Keresés</button>
+          <div class="button" style="margin-bottom: 20px; display: none;">
+            <input type="text" placeholder="Keresési feltétel" name="" id="Search_txt">
+            <button id="Search_btn" onclick="Searching()"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="mb-1 bi bi-search" viewBox="0 0 16 16">
+                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+              </svg> Keresés</button>
+            <button id="SearchCancel_btn" onclick="Cancel(0)" class="Cancel_btn"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="mb-1 bi bi-x-circle" viewBox="0 0 16 16">
+                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+              </svg> Mégsem</button>
+          </div>
+          <button id="Filter_btn" onclick="FilterShow()" class="disabled d-none"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="mb-1 bi bi-funnel" viewBox="0 0 16 16">
+              <path d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5v-2zm1 .5v1.308l4.372 4.858A.5.5 0 0 1 7 8.5v5.306l2-.666V8.5a.5.5 0 0 1 .128-.334L13.5 3.308V2h-11z" />
+            </svg> Szűrés</button>
+          <div class="button" style="margin-bottom: 20px; display: none; ">
+            <div id="Filter_div">
+              <input type="checkbox" name="name_cb" id="name_cb" checked class='form-check-input filter_cb'> Név - Osztály <br>
+              <input type="checkbox" name="user_cb" id="user_cb" checked class='form-check-input filter_cb'> Felhasználónév<br>
+              <input type="checkbox" name="email_cb" id="email_cb" checked class='form-check-input filter_cb'> E-mail<br>
+              <input type="checkbox" name="paid_cb" id="paid_cb" checked class='form-check-input filter_cb'> Befizetve - Összeg<br>
+              <input type="checkbox" name="days_cb" id="days_cb" checked class='form-check-input filter_cb'> Lemondott nap(ok) <br>
+            </div>
+    
+    
+            <button id="Filtering_btn" onclick="Filtering()"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="mb-1 bi bi-funnel" viewBox="0 0 16 16">
+                <path d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5v-2zm1 .5v1.308l4.372 4.858A.5.5 0 0 1 7 8.5v5.306l2-.666V8.5a.5.5 0 0 1 .128-.334L13.5 3.308V2h-11z" />
+              </svg> Szűrés</button>
+            <button id="SearchCancel_btn" onclick="Cancel(1)" class="Cancel_btn"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="mb-1 bi bi-x-circle" viewBox="0 0 16 16">
+                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+              </svg> Mégsem</button>
+          </div>
+          <button id="Reload_btn" onclick="Reload()"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="mb-1 bi bi-arrow-repeat" viewBox="0 0 16 16">
+              <path d="M11.534 7h3.932a.25.25 0 0 1 .192.41l-1.966 2.36a.25.25 0 0 1-.384 0l-1.966-2.36a.25.25 0 0 1 .192-.41zm-11 2h3.932a.25.25 0 0 0 .192-.41L2.692 6.23a.25.25 0 0 0-.384 0L.342 8.59A.25.25 0 0 0 .534 9z" />
+              <path fill-rule="evenodd" d="M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5.002 5.002 0 0 0 8 3zM3.1 9a5.002 5.002 0 0 0 8.757 2.182.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9H3.1z" />
+            </svg> Frissítés</button>
+          <button id="Download_btn" onclick="Download('Táblázat','Downloadable_table')"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="mb-1 bi bi-file-earmark-arrow-down" viewBox="0 0 16 16">
+              <path d="M8.5 6.5a.5.5 0 0 0-1 0v3.793L6.354 9.146a.5.5 0 1 0-.708.708l2 2a.5.5 0 0 0 .708 0l2-2a.5.5 0 0 0-.708-.708L8.5 10.293V6.5z" />
+              <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5v2z" />
+            </svg> Letöltés</button>
+          <button id="Modification_btn" onclick="Modification()" type=""><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="mb-1 bi bi-pencil-square" viewBox="0 0 16 16">
+              <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+              <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
+            </svg> Módosítás</button>
+          <div class="button" style="margin-bottom: 20px; display: none;">
+            <button id="NewOne_btn" onclick="Registration('New')"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="mb-1 bi bi-person-plus" viewBox="0 0 16 16">
+                <path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H1s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C9.516 10.68 8.289 10 6 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z" />
+                <path fill-rule="evenodd" d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5z" />
+              </svg> Új személy</button>
+            <label for="file" class="custom-file-upload"><input id="file" type="file" onchange="UploadFile()"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="mb-1 bi bi-file-earmark-plus" viewBox="0 0 16 16">
+                <path d="M8 6.5a.5.5 0 0 1 .5.5v1.5H10a.5.5 0 0 1 0 1H8.5V11a.5.5 0 0 1-1 0V9.5H6a.5.5 0 0 1 0-1h1.5V7a.5.5 0 0 1 .5-.5z" />
+                <path d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5L14 4.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h-2z" />
+              </svg> Fájl kiválasztása</label>
+            <button id="Upload_btn"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="mb-1 bi bi-file-earmark-arrow-up" viewBox="0 0 16 16">
+                <path d="M8.5 11.5a.5.5 0 0 1-1 0V7.707L6.354 8.854a.5.5 0 1 1-.708-.708l2-2a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8.5 7.707V11.5z" />
+                <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5v2z" />
+              </svg> Feltöltés</button>
+            <button id="RegisterCancel_btn" onclick="Cancel(2)" class="Cancel_btn"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="mb-1 bi bi-x-circle" viewBox="0 0 16 16">
+                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+              </svg> Mégsem</button>
+          </div>
+          </div>
+        </div>
       </div>
     </div>
+    
 
     <div class="modal" id="DeleteAlert" tabindex="-1" style="display: none;">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title text-light" id="DeleteAlertTitle">Figyelmeztetés</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" onclick="DeleteCancel()" ></button>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" onclick="DeleteCancel()"></button>
           </div>
-          <div class="modal-body" id = "DeleteAlertText">
-            Biztosan törölni szeretné?
+          <div class="modal-body" id="DeleteAlertText">
+            Biztosan törölni szeretné <span id="delete_user"></span>?
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-danger" onclick="Delete()">Törlés</button>
@@ -117,49 +184,172 @@
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title text-light" id="RegistrationTitle">Regisztráció</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" onclick="RegistrationCancel()" ></button>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" onclick="RegistrationCancel()"></button>
           </div>
-          <div class="modal-body" id = "DeleteAlertText">
-            <form>
-              <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label">Név</label>
-                <input type="text" class="form-control" id="NewName" required>
+          <div class="modal-body" id="DeleteAlertText">
+            <span class="d-none" id="newUserId"></span>
+            <div class="mb-3">
+              <label for="exampleInputEmail1" class="form-label">Név</label>
+              <input type="text" class="form-control" id="NewName">
+            </div>
+            <div class="mb-3">
+              <label for="exampleInputEmail1" class="form-label">Osztály</label>
+              <input type="text" class="form-control" id="NewClass">
+            </div>
+            <div class="mb-3">
+              <label for="exampleInputEmail1" class="form-label">Email cím</label>
+              <input type="email" class="form-control" id="NewEmail">
+            </div>
+            <div class="mb-3">
+              <label for="exampleInputEmail1" class="form-label">Felhasználónév</label>
+              <input type="text" class="form-control" id="NewUsername">
+            </div>
+            <div class="mb-3 form-check">
+              <input type="checkbox" class="form-check-input" id="NewPaid">
+              <label class="form-check-label" for="exampleCheck1">Befizetve</label>
+            </div>
+            <div class="mb-3">
+              <label for="exampleInputEmail1" class="form-label">Összeg</label>
+              <div class="input-group mb-3">
+                <input type="number" class="form-control" id="NewValue">
+                <span class="input-group-text" id="basic-addon2">Ft</span>
               </div>
-              <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label">Osztály</label>
-                <input type="text" class="form-control" id="NewClass" required>
+
+            </div>
+            <div class="mb-3">
+              <label for="exampleInputEmail1" class="form-label">Lemondott nap(ok) hozzáadása</label>
+              <div class="input-group mb-3">
+                <input type="date" class="form-control" id="ResignDate">
+                <button class="input-group-text" id="basic-addon2" onclick="ResignDatesAdd('',false)">+</button>
               </div>
-              <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label">Email cím</label>
-                <input type="email" class="form-control" id="NewEmail" required>
-              </div>
-              <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label">Felhasználónév</label>
-                <input type="email" class="form-control" id="NewUsername" required>
-              </div>
-              <div class="mb-3 form-check">
-                <input type="checkbox" class="form-check-input" id="NewPaid">
-                <label class="form-check-label" for="exampleCheck1">Befizetve</label>
-              </div>
-            </form>
+              <div id="ResignDates"></div>
+            </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-primary" onclick="RegistrationSave()">Hozzáadás</button>
+            <button type="button" class="btn btn-primary" id="RegistrationBtn" onclick="RegistrationSave()">Hozzáadás</button>
             <button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="RegistrationCancel()">Mégsem</button>
           </div>
         </div>
       </div>
     </div>
 
-    
+
   </main>
 
-  <main id = "QRPage" style="display: none;">
-    <video src="" id = "preview"></video>
+  <main id="QRMain" style="display: none;">
+    <video src="" id="preview"></video>
+
+  </main>
+
+  <main id="SettingsMain" class="mt-4" style="display: none; ">
+
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-12 col-lg-10 col-xl-8 mx-auto">
+          <h2 class="h3 mb-4 page-title">Beállítások</h2>
+          <div class="my-4">
+            <hr class="my-4" />
+            
+            <strong class="mb-0 fs-5">Értesítés</strong>
+            <p>Értesítési beállítások változtatása.</p>
+            <div class="list-group mb-5 shadow">
+              <div class="list-group-item">
+                <div class="row align-items-center">
+                  <label class="col" for="CB_emailNotification">
+                    <strong class="mb-0">E-mail értesítés</strong>
+                    <p class="text-muted mb-0">Automatikus értesítés a befizetésről e-mailben.</p>
+                  </label>
+                  <div class="col-auto">
+                    <div class="form-check form-switch">
+                      <input class="form-check-input" type="checkbox" id="CB_emailNotification">
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="list-group-item">
+                <div class="row align-items-center">
+                  <label class="col" for="CB_paymentNotification">
+                    <strong class="mb-0">Fizetési értesítés</strong>
+                    <p class="text-muted mb-0">Fizetési értesítés kikapcsolása.</p>
+                  </label>
+                  <div class="col-auto">
+                    <div class="form-check form-switch">
+                      <input class="form-check-input" type="checkbox" id="CB_paymentNotification">
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <hr class="my-4" />
+            <strong class="mb-0 fs-5">Biztonság</strong>
+            <p>Biztonsági beállítások változtatása.</p>
+            <div class="list-group mb-5 shadow">
+              <div class="list-group-item">
+                <div class="row align-items-center">
+                  <label class="col" for="CB_logoutSafety">
+                    <strong class="mb-0">Automatikus kijelentkezés</strong>
+                    <p class="text-muted mb-0">A rendzser automaikusan kijeletkezik 10 percet követően.</p>
+                  </label>
+                  <div class="col-auto">
+                    <div class="form-check form-switch">
+                      <input class="form-check-input" type="checkbox" id="CB_logoutSafety" checked>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <hr class="my-4" />
+            <strong class="mb-2 fs-5">Kinézet</strong>
+            <p>Változtatás a weboldal kinézetén.</p>
+            <div class="list-group mb-5 shadow mt-3">
+              <div class="list-group-item">
+                <div class="row align-items-center">
+                  <label class="col" for="hide-checkbox">
+                    <strong class="mb-0">Sötét mód</strong>
+                    <p class="text-muted mb-0">Sötét mód használata a weboldalon.</p>
+                  </label>
+                  <div class="col-auto">
+                    <div class="wrapper">
+                      <input type="checkbox" id="hide-checkbox" checked>
+                      <label for="hide-checkbox" class="toggle">
+                        <span class="toggle-button">
+                          <span class="crater crater-1"></span>
+                          <span class="crater crater-2"></span>
+                          <span class="crater crater-3"></span>
+                          <span class="crater crater-4"></span>
+                          <span class="crater crater-5"></span>
+                          <span class="crater crater-6"></span>
+                          <span class="crater crater-7"></span>
+                        </span>
+                        <span class="star star-1"></span>
+                        <span class="star star-2"></span>
+                        <span class="star star-3"></span>
+                        <span class="star star-4"></span>
+                        <span class="star star-5"></span>
+                        <span class="star star-6"></span>
+                        <span class="star star-7"></span>
+                        <span class="star star-8"></span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
     
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+
   </main>
 
   <script src="JavaAdmin.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
 </body>
 
 </html>

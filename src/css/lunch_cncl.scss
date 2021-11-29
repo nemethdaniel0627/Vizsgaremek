@@ -21,12 +21,8 @@
     }
 }
 
-#etlapCancel:checked ~ #etlapCancelItem {
-    background-color: var(--dark-blue);
-    color: #fff;    
-}
-
+#etlapCancel:checked ~ #etlapCancelItem,
 #datumCancel:checked ~ #datumCancelItem {
     background-color: var(--dark-blue);
-    color: #fff;    
+    color: #fff;
 }
