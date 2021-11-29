@@ -1,3 +1,4 @@
+const functions = require("./functions");
 const sqlQueries = require("./sqlQueries");
 
 class databaseUpload {
@@ -5,7 +6,7 @@ class databaseUpload {
         await sqlQueries.CreatConnection();
 
         let idPrefix;
-        idPrefix = `${date.getFullYear()}${(date.getMonth() + 1) < 10 ? "0" + date.getMonth() + 1 : date.getMonth() + 1}${date.getDate() < 10 ? "0" + date.getDate() : date.getDate()}`;
+        idPrefix = functions.convertDate(date);
         if (day.length === 0) {
             for (let i = 1; i <= 5; i++) {
                 await sqlQueries.insert("meal", "id, nev", `${idPrefix}${i}, "ünnep"`);
@@ -38,7 +39,7 @@ class databaseUpload {
             })
             await sqlQueries.insert("days", "datum, hetkoznap", `"${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}", "${date.getDay()}"`);
             const selectDaysId = await sqlQueries.select("days", "id", `datum = "${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}"`);
-            const selectMealsIds = await sqlQueries.select("meal", "id", `FLOOR(id/10) = "${date.getFullYear()}${date.getMonth() + 1}${date.getDate() < 10 ? "0" + date.getDate() : date.getDate()}"`);
+            const selectMealsIds = await sqlQueries.select("meal", "id", `FLOOR(id/10) = "${functions.convertDateWithDash(date)}"`);
             await sqlQueries.insert(
                 "menu",
                 "daysId, reggeliId, tizoraiId, ebedId, uzsonnaId, vacsoraId",

@@ -4,6 +4,8 @@ const cors = require('cors');
 const express = require('express');
 const menuConvert = require('./modules/menuConvert');
 const databaseUpload = require('./modules/databaseUpload');
+const sqlQueries = require('./modules/sqlQueries');
+const databaseDownload = require('./modules/databaseDownload');
 
 const app = express();
 
@@ -20,28 +22,25 @@ app.post("/menuConvert", (req, res) => {
 });
 
 app.get("/etlap", async (req, res) => {
-  const etlap = menuConvert.dayUpload();
+  const menu = await databaseDownload.getMenu(new Date());
 
-  etlap.map(d => {
-    console.log(d);
-  })
-
-  const date = new Date();
-  // const responseDays = await sqlQueries.insert("days", "datum, hetkoznap", `"2021-11-21", "${date.getDay()}"`);
-  // await sqlQueries.CreatConnection();
-  // await sqlQueries.insert("days", "datum, hetkoznap", `NOW(), ${date.getDay()}`);
-  // await sqlQueries.insert("meal", "id, nev", `${20211128}${1}, "ünnep"`);
-  // await sqlQueries.insert("meal", "id, nev", `${20211128}${2}, "ünnep"`);
-  // await sqlQueries.insert("meal", "id, nev", `${20211128}${3}, "ünnep"`);
-  // const select = await sqlQueries.select("days", "days.id", `days.datum = "2021-11-28"`);
-  // const selectMealsIds = await sqlQueries.select("meal", "id", `FLOOR(id/10) = 20211128`);
-  // console.log(selectMealsIds);
-  // console.log(select);
-  // await sqlQueries.EndConnection();
-  // console.log(selectMealsIds);
-  res.send("Üzenet");
+  res.json(menu);
 });
 
+// SELECT
+// mealReggeli.nev,
+//   mealTizorai.nev,
+//   mealEbed.nev,
+//   mealUszonna.nev,
+//   mealVacsora.nev
+// FROM menu
+// "INNER JOIN days ON menu.daysId = days.id" +
+//   "INNER JOIN meal AS mealReggeli ON menu.reggeliId = mealReggeli.id" +
+//   "INNER JOIN meal AS mealTizorai ON menu.tizoraiId = mealTizorai.id" +
+//   "INNER JOIN meal AS mealEbed ON menu.ebedId = mealEbed.id" +
+//   "INNER JOIN meal AS mealUszonna ON menu.uzsonnaId = mealUszonna.id" +
+//   "INNER JOIN meal AS mealVacsora ON menu.vacsoraId = mealVacsora.id"
+// WHERE days.datum BETWEEN "2021-11-22" AND "2021-11-26"
 
 
 app.post("/etlap", async (req, res) => {
@@ -53,7 +52,7 @@ app.post("/etlap", async (req, res) => {
   let day2 = [];
   let day3 = [];
   let day4 = [];
-  let day5 = [];  
+  let day5 = [];
   menu.forEach((day, index) => {
     switch (index) {
       case 0:
@@ -75,13 +74,13 @@ app.post("/etlap", async (req, res) => {
         break;
     }
   })
-  let date = new Date();
+  let date = new Date("2021-11-22");
   date = await databaseUpload.insertDay(day1, date);
   date = await databaseUpload.insertDay(day2, date);
   date = await databaseUpload.insertDay(day3, date);
   date = await databaseUpload.insertDay(day4, date);
   date = await databaseUpload.insertDay(day5, date);
-  
+
   res.send("Kész");
 });
 
