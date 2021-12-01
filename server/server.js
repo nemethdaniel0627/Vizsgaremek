@@ -9,8 +9,6 @@ const databaseDownload = require('./modules/databaseDownload');
 
 const app = express();
 
-
-
 const PORT = process.env.PORT || 5000;
 
 const buildPath = path.join(__dirname, '..', 'build');
@@ -26,22 +24,6 @@ app.get("/etlap", async (req, res) => {
 
   res.json(menu);
 });
-
-// SELECT
-// mealReggeli.nev,
-//   mealTizorai.nev,
-//   mealEbed.nev,
-//   mealUszonna.nev,
-//   mealVacsora.nev
-// FROM menu
-// "INNER JOIN days ON menu.daysId = days.id" +
-//   "INNER JOIN meal AS mealReggeli ON menu.reggeliId = mealReggeli.id" +
-//   "INNER JOIN meal AS mealTizorai ON menu.tizoraiId = mealTizorai.id" +
-//   "INNER JOIN meal AS mealEbed ON menu.ebedId = mealEbed.id" +
-//   "INNER JOIN meal AS mealUszonna ON menu.uzsonnaId = mealUszonna.id" +
-//   "INNER JOIN meal AS mealVacsora ON menu.vacsoraId = mealVacsora.id"
-// WHERE days.datum BETWEEN "2021-11-22" AND "2021-11-26"
-
 
 app.post("/etlap", async (req, res) => {
   // const menu = req.body.menu;
