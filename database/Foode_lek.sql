@@ -1,0 +1,20 @@
+﻿-- SELECT id FROM meal WHERE id LIKE 20211121;
+
+-- SELECT nev FROM meal WHERE FLOOR(id/10) = 20211202;
+
+
+DELETE FROM menu;
+
+ALTER TABLE menu AUTO_INCREMENT = 1;
+
+DELETE FROM meal;
+
+DELETE FROM days;
+
+ALTER TABLE days AUTO_INCREMENT = 1;
+
+
+
+-- SELECT id FROM days WHERE datum = "2021-12-1";
+
+-- INSERT INTO meal (id,nev) VALUES (202111221, "Hagyma");

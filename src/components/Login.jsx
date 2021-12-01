@@ -6,7 +6,7 @@ export default function Login(props) {
 
     return (
         <div id="wtf">            
-            <LoginForm title="Jelszo"/>
+            
         </div>        
     );
 }

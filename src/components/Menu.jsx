@@ -70,8 +70,7 @@ export default function Menu(props) {
     useEffect(() => {
         if (menu.length === 0) {
             axios.get(`${URL}/etlap`)
-                .then((response) => {
-                    console.log(response.data);
+                .then((response) => {                    
                     setMenu(response.data);
                     currentDayColorize();
                     setCurrentWeek(new Date());
@@ -84,8 +83,8 @@ export default function Menu(props) {
             currentDayColorize();
             setCurrentWeek(new Date());
         }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[])
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
     useEffect(() => {
         if (new Date(firstDay) <= new Date()) {
@@ -115,7 +114,9 @@ export default function Menu(props) {
                     snack="Uszonna"
                     dinner="Vacsora" />
                 {menu.map((meal, index) => {
-                    return <MenuDays
+                    return <div key={`div_day-${index + 1}`} className="menu--container">
+                        {props.cancel ? <input key={`menucheck_day-${index + 1}`} className="menu--day-table--input" type="checkbox" id={`menucheck_day-${index + 1}`} /> : ""}
+                        <MenuDays
                         key={`day-${index + 1}`}
                         id={`day-${index + 1}`}
                         dayName={dayNames[index]}
@@ -123,7 +124,10 @@ export default function Menu(props) {
                         elevens={meal[1]}
                         lunch={meal[2]}
                         snack={meal[3]}
-                        dinner={meal[4]} />
+                        dinner={meal[4]}
+                        clickable={props.cancel}
+                        disabledDay={props.disabledDays.includes(index+1)} />
+                    </div>
                 })}
 
             </div>

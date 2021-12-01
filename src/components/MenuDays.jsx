@@ -2,13 +2,13 @@ import React from "react";
 
 export default function MenuDays(props) {
     return (
-        <div id={props.id} className={"menu--day-table " + (props.notDay ? "menu--day-table--legend" : "")}>
+        <label className={"menu--day-table " + (props.notDay ? "menu--day-table--legend" : "") + (props.disabledDay ? "disabled-day" : "")} htmlFor={`menucheck_${props.id}`} id={props.id} >            
             <h3 className="menu--day-table--header">{props.dayName}</h3>
-            <span className="menu--day-table--appetizer">{props.breakfast}</span>
-            <span className="menu--day-table--appetizer">{props.elevens}</span>
-            <span className="menu--day-table--appetizer">{props.lunch}</span>
-            <span className="menu--day-table--main-course">{props.snack}</span>
-            <span className="menu--day-table--appetizer">{props.dinner}</span>
-        </div>
+            <span>{props.breakfast}</span>
+            <span>{props.elevens}</span>
+            <span>{props.lunch}</span>
+            <span>{props.snack}</span>
+            <span>{props.dinner}</span>
+        </label>
     )
 }

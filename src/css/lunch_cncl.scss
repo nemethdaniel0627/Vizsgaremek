@@ -21,6 +21,10 @@
     }
 }
 
+.disabled-day {
+    background-image: linear-gradient(rgb(168, 168, 168), var(--bodyBackground)) !important;
+}
+
 #etlapCancel:checked ~ #etlapCancelItem,
 #datumCancel:checked ~ #datumCancelItem {
     background-color: var(--dark-blue);
