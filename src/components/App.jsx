@@ -24,7 +24,7 @@ export default function App() {
                 } />
 
                 <Route path="/etlap" component={() =>                    
-                    <Menu cancel={false} header="Étlap"/>
+                    <Menu cancel={false} header="Étlap" disabledDays={[]}/>
                 } />
 
                 <Route path="/ebedjegy" component={() =>
