@@ -18,7 +18,7 @@ class databaseUpload {
             await sqlQueries.insert(
                 "menu",
                 "daysId, reggeliId, tizoraiId, ebedId, uzsonnaId, vacsoraId",
-                `${selectDaysId[0].id}, ${selectMealsIds[0].id}, ${selectMealsIds[1].id}, ${selectMealsIds[2].id}, ${selectMealsIds[3].id}, ${selectMealsIds[4].id}`);
+                `${selectDaysId[0]}, ${selectMealsIds[0]}, ${selectMealsIds[1]}, ${selectMealsIds[2]}, ${selectMealsIds[3]}, ${selectMealsIds[4]}`);
             date.setDate(date.getDate() + 1);
         }
         else {
@@ -39,11 +39,11 @@ class databaseUpload {
             })
             await sqlQueries.insert("days", "datum, hetkoznap", `"${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}", "${date.getDay()}"`);
             const selectDaysId = await sqlQueries.select("days", "id", `datum = "${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}"`);
-            const selectMealsIds = await sqlQueries.select("meal", "id", `FLOOR(id/10) = "${functions.convertDateWithDash(date)}"`);
+            const selectMealsIds = await sqlQueries.select("meal", "id", `FLOOR(id/10) = "${functions.convertDate(date)}"`);
             await sqlQueries.insert(
                 "menu",
                 "daysId, reggeliId, tizoraiId, ebedId, uzsonnaId, vacsoraId",
-                `${selectDaysId[0].id}, ${selectMealsIds[0].id}, ${selectMealsIds[1].id}, ${selectMealsIds[2].id}, ${selectMealsIds[3].id}, ${selectMealsIds[4].id}`);
+                `${selectDaysId[0]}, ${selectMealsIds[0]}, ${selectMealsIds[1]}, ${selectMealsIds[2]}, ${selectMealsIds[3]}, ${selectMealsIds[4]}`);
             date.setDate(date.getDate() + 1);
 
         }
