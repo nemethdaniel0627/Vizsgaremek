@@ -20,8 +20,8 @@ app.post("/menuConvert", (req, res) => {
 });
 
 app.get("/etlap", async (req, res) => {
-  const menu = await databaseDownload.getMenu(new Date());
-
+  // const menu = await databaseDownload.getMenu(new Date());
+  const menu = await menuConvert.dayUpload();
   res.json(menu);
 });
 
