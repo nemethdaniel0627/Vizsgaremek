@@ -15,13 +15,9 @@ const buildPath = path.join(__dirname, '..', 'build');
 app.use(express.static(buildPath));
 app.use(cors());
 
-app.post("/menuConvert", (req, res) => {
-  menuConvert.convert();
-});
-
 app.get("/etlap", async (req, res) => {
-  // const menu = await databaseDownload.getMenu(new Date());
-  const menu = await menuConvert.dayUpload();
+  const menu = await databaseDownload.getMenu(new Date());
+  // const menu = await menuConvert.dayUpload();
   res.json(menu);
 });
 
@@ -56,7 +52,7 @@ app.post("/etlap", async (req, res) => {
         break;
     }
   })
-  let date = new Date("2021-11-22");
+  let date = new Date("2021-11-29");
   date = await databaseUpload.insertDay(day1, date);
   date = await databaseUpload.insertDay(day2, date);
   date = await databaseUpload.insertDay(day3, date);
