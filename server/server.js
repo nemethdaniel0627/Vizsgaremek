@@ -6,6 +6,7 @@ const menuConvert = require('./modules/menuConvert');
 const databaseUpload = require('./modules/databaseUpload');
 const sqlQueries = require('./modules/sqlQueries');
 const databaseDownload = require('./modules/databaseDownload');
+const userAdd = require('./modules/userAdd');
 
 const app = express();
 
@@ -61,6 +62,15 @@ app.post("/etlap", async (req, res) => {
 
   res.send("Kész");
 });
+
+app.post("/test", async (req, res) => {
+  let data = await userAdd.readFile();
+  for (let i = 0; i < data.length; i++) {
+    await userAdd.add(data[i]);
+  }
+  userAdd.select();
+  res.send("kész");
+})
 
 app.get("/", (req, res) => {
   res.send("<div>Hello world</div>")
