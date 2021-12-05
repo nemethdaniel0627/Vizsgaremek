@@ -52,7 +52,7 @@ app.post("/etlap", async (req, res) => {
         break;
     }
   })
-  let date = new Date("2021-11-29");
+  let date = new Date("2021-12-06");
   date = await databaseUpload.insertDay(day1, date);
   date = await databaseUpload.insertDay(day2, date);
   date = await databaseUpload.insertDay(day3, date);
