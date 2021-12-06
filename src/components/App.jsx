@@ -6,7 +6,7 @@ import Menu from "./Menu";
 import Navbar from "./Navbar";
 import LunchTicket from "./LunchTicket";
 import LunchCancelation from "./LunchCancelation";
-import DataPage from "./DataPage";
+import AccountPage from "./AccountPage";
 
 export default function App() {
 
@@ -37,7 +37,7 @@ export default function App() {
                 } />
 
                 <Route path="/adatlap" component={() =>
-                    <DataPage />
+                    <AccountPage />
                 } />
             </Switch>
         </div>
