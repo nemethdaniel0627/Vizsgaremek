@@ -21,7 +21,7 @@ class menuConvert {
     }
 
     readFromExcel() {
-        this._menu = xlxs.parse(__dirname + "\\..\\etlap4.xlsx")[0].data;
+        this._menu = xlxs.parse(__dirname + "\\..\\etlap5.xlsx")[0].data;
     }
 
     async dayUpload() {

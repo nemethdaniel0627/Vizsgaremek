@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Switch, useLocation } from "react-router";
+import { Route, Switch } from "react-router";
 import AuthRoute from "./AuthRoute";
 import LoginForm from "./LoginForm";
 import Menu from "./Menu";
@@ -10,7 +10,7 @@ import AccountPage from "./AccountPage";
 
 export default function App() {
 
-    const path = useLocation().pathname;
+    // const path = useLocation().pathname;
 
     return (
         <div className="App">
