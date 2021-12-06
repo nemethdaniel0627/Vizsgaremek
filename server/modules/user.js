@@ -1,27 +1,39 @@
 const sqlQueries = require("./sqlQueries");
 const fs = require("fs").promises;
 
-class userAdd {
-    _filename;
-    _data = [];
-    async readFile() {
+class User {
+    #data;
+
+    constructor(row) {
+        this.#data = row;
+        this.#data = {
+            felhasznaloNev: 0,
+            jelszo: '',
+            nev: '',
+            iskolaOM: '',
+            osztaly: null,
+            email: ''
+        }
+    }
+
+    async readFile(filename) {
         try {
-            this._data = [];
-            let data = await (await fs.readFile(`C:/Users/Balázs Martin/Documents/GitHub/test.txt`, 'utf-8'))
+            this.#data = [];
+            const data = await (await fs.readFile(filename, 'utf-8'))
             .toString()
             .trim()
             .split('\n')
             .forEach(r => {
                 const row = r.trim();
-                this._data.push(row);
+                this.#data.push(row);
             });
-            return(this._data);
+            return(this.#data);
         } catch (error) {
             throw error;
         }
         
     }
-    async add(data) {
+    async add(data = '') {
         await sqlQueries.CreatConnection();
         try {
             await sqlQueries.insert("user", 
@@ -37,15 +49,6 @@ class userAdd {
         }
         await sqlQueries.EndConnection();
     }
-
-    async select() {
-        await sqlQueries.CreatConnection();
-        
-        const a = await sqlQueries.select('user', 'email', `"asd4@asd.com"`);
-        console.log(a);
-
-        await sqlQueries.EndConnection();
-    }
 }
 
-module.exports = new userAdd()
+module.exports = new User()
