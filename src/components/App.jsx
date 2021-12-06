@@ -6,25 +6,26 @@ import Menu from "./Menu";
 import Navbar from "./Navbar";
 import LunchTicket from "./LunchTicket";
 import LunchCancelation from "./LunchCancelation";
+import DataPage from "./DataPage";
 
 export default function App() {
 
     const path = useLocation().pathname;
 
     return (
-        <div className="App">            
-            <Navbar />            
+        <div className="App">
+            <Navbar />
             <Switch>
                 <AuthRoute path="/" exact component={() =>
-                    <LoginForm title="Jelszo"/>
+                    <LoginForm title="Jelszo" />
                 } />
 
                 <Route path="/login" component={() =>
-                    <LoginForm title="Jelszo"/>
+                    <LoginForm title="Jelszo" />
                 } />
 
-                <Route path="/etlap" component={() =>                    
-                    <Menu cancel={false} header="Étlap" disabledDays={[]}/>
+                <Route path="/etlap" component={() =>
+                    <Menu cancel={false} header="Étlap" disabledDays={[]} />
                 } />
 
                 <Route path="/ebedjegy" component={() =>
@@ -33,6 +34,10 @@ export default function App() {
 
                 <Route path="/lemondas" component={() =>
                     <LunchCancelation />
+                } />
+
+                <Route path="/adatlap" component={() =>
+                    <DataPage />
                 } />
             </Switch>
         </div>
