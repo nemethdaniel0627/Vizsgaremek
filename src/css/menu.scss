@@ -9,7 +9,7 @@
 
     &--wrapper {
         display: grid;
-        grid-template-columns: 1fr repeat(5, 2fr);
+        grid-template-columns: 1fr repeat(var(--numberOfDays), 2fr);
         grid-auto-rows: 1fr;
         align-items: center;
         justify-content: center;
@@ -36,7 +36,7 @@
     }
 
     &--container {
-        height: 100%;
+        height: 100%;        
     }
 
     &--week-header {
@@ -61,6 +61,14 @@
         border-radius: 20px;
         height: 100%;
         align-items: center;
+        
+        &.clickable {
+            cursor: pointer;
+        }
+
+        &.disabled-day {
+            cursor: initial;
+        }
 
         &--meals {
             grid-template-rows: max-content repeat(5, 1fr);
@@ -68,6 +76,7 @@
             justify-items: center;
             height: 100%;
             display: grid;
+            cursor: inherit;
         }
 
         span {
@@ -85,9 +94,9 @@
                 cursor: pointer;
             }
 
-            &:checked + .menu--day-table {
-                background-image: linear-gradient(rgba(255, 0, 0, 0.349), var(--bodyBackground));
-            }
+            // &:checked + .menu--day-table--meals {
+            //     background-image: linear-gradient(rgba(255, 0, 0, 0.349), var(--bodyBackground));
+            // }
         }
 
         &--header {
@@ -103,7 +112,7 @@
 
         &--legend {
             font-size: 2rem;
-            color: #333;
+            color: var(--darkModeFontColor);
             @media only screen and (max-width: 1000px) {
                 display: grid;
             }
@@ -133,6 +142,7 @@
 
         &--btn {
             padding: 1rem 1.5rem;
+            cursor: pointer;
         }
 
         @media only screen and (max-width: 1000px) {

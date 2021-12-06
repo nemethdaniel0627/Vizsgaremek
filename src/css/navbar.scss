@@ -27,10 +27,11 @@
             transform: translate(-50%, -50%);
             z-index: 10;
             display: none;
+            cursor: pointer;
 
             @media only screen and (max-width: 800px) {
                 display: initial;
-            }   
+            }
         }
 
         &::before,
@@ -67,7 +68,7 @@
         transform: translate(-50%, -50%);
         transition: all 1s;
 
-        @media only screen and (max-width: 600px) {
+        @media only screen and (max-width: 800px) {
             display: none;
         }
     }
@@ -149,18 +150,27 @@
 
 .account--item {
     display: none;
-    @media only screen and (max-width: 600px) {
-        display: initial;
-        position: absolute;
-        top: 50%;
-        left: 3rem;
+    position: absolute;
+    top: 50%;
+    left: 8rem;
+    font-size: 1.8rem;
+    transform: translate(-50%, -50%);
+    color: #fff;
+    text-decoration: none;    
+    align-items: center;
+    gap: .5rem;
+    justify-content: space-between;
+    svg {
         font-size: 3rem;
-        transform: translate(-50%, -50%);
-        color: #fff;
+    }
+
+    @media only screen and (max-width: 800px) {
+        display: flex;
     }
     &:focus,
+    &:hover,
     &:active {
-        color: #aaa
+        color: #aaa;
     }
 }
 

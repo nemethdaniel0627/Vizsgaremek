@@ -13,7 +13,7 @@ export default function App() {
 
     return (
         <div className="App">            
-            <Navbar />            
+            <Navbar userName="Teszt Elek"/>            
             <Switch>
                 <AuthRoute path="/" exact component={() =>
                     <LoginForm title="Jelszo"/>

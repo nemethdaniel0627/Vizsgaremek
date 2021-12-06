@@ -5,6 +5,7 @@ import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons
 import axios from "axios";
 import { URL } from "../utils/constants";
 import DaySelector from "./DaySelector";
+import modules from "../modules/modules";
 
 export default function Menu(props) {
     const [displayWeek, setDisplayWeek] = useState();
@@ -12,7 +13,8 @@ export default function Menu(props) {
     const [menu, setMenu] = useState([]);
     const [selectedDay, setSelectedDay] = useState();
 
-    const dayNames = ["Hétfő", "Kedd", "Szerda", "Csütörtök", "Péntek"]
+    const dayNames = ["Hétfő", "Kedd", "Szerda", "Csütörtök", "Péntek", "Szombat"];
+    const root = document.querySelector(":root");
 
     function currentDayColorize() {
 
@@ -21,7 +23,7 @@ export default function Menu(props) {
         let currentDayInput;
         if (day === 6 || day === 0) {
             currentDay = document.getElementById("day-" + 1);
-            setSelectedDay(day+1);
+            setSelectedDay(day + 1);
             currentDayInput = document.getElementById("day-selector_" + 1);
         }
         else {
@@ -94,11 +96,14 @@ export default function Menu(props) {
             axios.get(`${URL}/etlap`)
                 .then((response) => {
                     setMenu(response.data);
+                    if (root) {
+                        root.style.setProperty("--numberOfDays", response.data.length);
+                    }
                     currentDayColorize();
                     setCurrentWeek(new Date());
                 })
                 .catch((error) => {
-                    console.log(error);
+                    console.log(error.response);
                 })
         }
         else {
@@ -108,11 +113,26 @@ export default function Menu(props) {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
+    function checkNextWeek() {
+
+    }
+
+    function cancelSelect(event) {
+        const input = document.getElementById(event.target.attributes[2].value);
+        const day = document.getElementById(event.target.attributes[2].value.split("_")[1]);
+        if (day && input) {
+            if (input.checked) day.style.backgroundImage = "linear-gradient(rgba(255, 0, 0, 0.349), var(--bodyBackground))"
+            else day.style.backgroundImage = null;
+        }
+    }
+
     useEffect(() => {
         if (new Date(firstDay) <= new Date()) {
             const firstArrow = document.getElementById("weekArrow-1");
             if (firstArrow) firstArrow.classList.add("hidden");
         }
+        checkNextWeek()
+
     }, [firstDay])
 
     return (
@@ -128,36 +148,64 @@ export default function Menu(props) {
 
             <div className="menu--day-selector">
                 {dayNames.map((day, index) => {
-                    return <DaySelector onChange={daySelect} key={`day-selector_${index + 1}`} id={`day-selector_${index + 1}`} dayName={`${day[0]}${day[1]}`} />
+                    if (index === 2 || index === 3 || index === 5) 
+                    return <DaySelector
+                                onChange={daySelect}
+                                key={`day-selector_${index + 1}`}
+                                id={`day-selector_${index + 1}`}
+                                dayName={`${day[0]}${day[1]}${day[2]}`} />
+                    else return <DaySelector
+                                    onChange={daySelect}
+                                    key={`day-selector_${index + 1}`}
+                                    id={`day-selector_${index + 1}`}
+                                    dayName={`${day[0]}${day[1]}`} />
                 })}
             </div>
 
             <div className="menu--wrapper">
                 <div id="day-0" className="menu--day-table menu--container menu--day-table--legend">
-                <MenuDays
-                    dayName="&nbsp;"
-                    notDay={true}
-                    breakfast="Reggeli"
-                    elevens="Tízórai"
-                    lunch="Ebéd"
-                    snack="Uszonna"
-                    dinner="Vacsora" />
+                    <MenuDays
+                        dayName="&nbsp;"
+                        notDay={true}
+                        breakfast="Reggeli"
+                        elevens="Tízórai"
+                        lunch="Ebéd"
+                        snack="Uszonna"
+                        dinner="Vacsora" />
                 </div>
                 {menu.map((meal, index) => {
-                    return <div key={`day-${index + 1}`} id={`day-${index + 1}`} className="menu--day-table menu--container">
-                        {props.cancel ? <input key={`menucheck_day-${index + 1}`} className="menu--day-table--input" type="checkbox" id={`menucheck_day-${index + 1}`} /> : ""}
-                        <MenuDays
-                            key={`aday-${index + 1}`}
-                            id={`aday-${index + 1}`}
-                            dayName={dayNames[index]}
-                            breakfast={meal[0]}
-                            elevens={meal[1]}
-                            lunch={meal[2]}
-                            snack={meal[3]}
-                            dinner={meal[4]}
-                            clickable={props.cancel}
-                            disabledDay={props.disabledDays.includes(index + 1)} />
-                    </div>
+                    return (
+                        <label
+                            onChange={cancelSelect}
+                            key={`day-${index + 1}`}
+                            id={`day-${index + 1}`}
+                            className={
+                                "menu--day-table menu--container " + 
+                                (props.disabledDays.includes(index + 1) ? "disabled-day " : "") + 
+                                (props.cancel ? "clickable" : "")}>
+
+                            {props.cancel
+                                ? <input 
+                                    disabled={props.disabledDays.includes(index + 1)} 
+                                    key={`menucheck_day-${index + 1}`} 
+                                    className="menu--day-table--input" 
+                                    type="checkbox" 
+                                    id={`menucheck_day-${index + 1}`} />
+                                : ""
+                            }
+                            <MenuDays
+                                key={`aday-${index + 1}`}
+                                id={`aday-${index + 1}`}
+                                dayName={dayNames[index]}
+                                breakfast={meal[0]}
+                                elevens={meal[1]}
+                                lunch={meal[2]}
+                                snack={meal[3]}
+                                dinner={meal[4]}
+                                clickable={props.cancel}
+                                inputId={`menucheck_day-${index + 1}`}
+                                onChange={cancelSelect} />
+                        </label>)
                 })}
 
             </div>
