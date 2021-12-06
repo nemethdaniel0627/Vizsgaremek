@@ -6,12 +6,12 @@ use FoodE;
 
 CREATE TABLE foode.user (
   id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  felhasznaloNev VARCHAR(255) NOT NULL,
+  felhasznaloNev VARCHAR(255) NOT NULL UNIQUE,
   jelszo VARCHAR(255) NOT NULL,
   nev VARCHAR(255) NOT NULL,
   iskolaOM VARCHAR(255) NOT NULL,
   osztaly VARCHAR(255) DEFAULT NULL,
-  email VARCHAR(100) NOT NULL
+  email VARCHAR(100) NOT NULL UNIQUE
 );
 
 CREATE TABLE foode.roles (
@@ -41,7 +41,7 @@ CREATE TABLE foode.orders (
 
 CREATE TABLE foode.days (
   id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  datum DATE NOT NULL,
+  datum DATE NOT NULL UNIQUE,
   hetkoznap VARCHAR(255) NOT NULL
 );
 
@@ -76,8 +76,8 @@ CREATE TABLE foode.functions (
 
 CREATE TABLE foode.role_function (
   id INT(11) NOT NULL AUTO_INCREMENT  PRIMARY KEY,
-  functionId INT(11) NOT NULL UNIQUE,
-  roleId INT(11) NOT NULL UNIQUE
+  functionId INT(11) NOT NULL,
+  roleId INT(11) NOT NULL
 );
 
 CREATE TABLE foode.user_role (

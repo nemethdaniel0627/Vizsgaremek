@@ -31,33 +31,22 @@ app.post("/etlap", async (req, res) => {
   let day3 = [];
   let day4 = [];
   let day5 = [];
-  menu.forEach((day, index) => {
-    switch (index) {
-      case 0:
-        day1 = day;
-        break;
-      case 1:
-        day2 = day;
-        break;
-      case 2:
-        day3 = day;
-        break;
-      case 3:
-        day4 = day;
-        break;
-      case 4:
-        day5 = day;
-        break;
-      default:
-        break;
-    }
-  })
   let date = new Date("2021-12-06");
-  date = await databaseUpload.insertDay(day1, date);
-  date = await databaseUpload.insertDay(day2, date);
-  date = await databaseUpload.insertDay(day3, date);
-  date = await databaseUpload.insertDay(day4, date);
-  date = await databaseUpload.insertDay(day5, date);
+
+  // menu.forEach(async (day, index) => {
+  //   date = await databaseUpload.insertDay(day, date);
+  // });
+
+  try {
+    for await (const day of menu) {
+      date = await databaseUpload.insertDay(day, date);
+    }
+  } catch (error) {
+    res.status(404);
+    res.send("Error")
+    throw error;
+
+  }
 
   res.send("Kész");
 });
