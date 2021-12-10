@@ -9,7 +9,7 @@ class databaseDownload {
         const startDate = functions.convertDateWithDash(date);        
         date.setDate(date.getDate() + 4);
         const endDate = functions.convertDateWithDash(date);        
-        await sqlQueries.CreatConnection();
+        await sqlQueries.CreateConnection();
         const menu = await sqlQueries.innerSelect(
             "menu",
             "mealReggeli.nev," +

@@ -2,7 +2,7 @@ const mysql = require('mysql2/promise');
 class sqlQueries {
     _connection;
 
-    async CreatConnection() {
+    async CreateConnection() {
         this._connection = await mysql.createConnection({
             host: 'localhost',
             user: 'root',

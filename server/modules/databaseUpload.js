@@ -3,7 +3,7 @@ const sqlQueries = require("./sqlQueries");
 
 class databaseUpload {
     async insertDay(day, date) {
-        await sqlQueries.CreatConnection();
+        await sqlQueries.CreateConnection();
 
         let idPrefix;
         idPrefix = functions.convertDate(date);

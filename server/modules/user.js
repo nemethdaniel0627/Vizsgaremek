@@ -34,7 +34,7 @@ class User {
         
     }
     async add(data = '') {
-        await sqlQueries.CreatConnection();
+        await sqlQueries.CreateConnection();
         try {
             await sqlQueries.insert("user", 
             "felhasznaloNev," +
