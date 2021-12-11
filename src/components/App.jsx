@@ -7,6 +7,7 @@ import Navbar from "./Navbar";
 import LunchTicket from "./LunchTicket";
 import LunchCancelation from "./LunchCancelation";
 import AccountPage from "./AccountPage";
+import ReportPage from "./ReportPage";
 
 export default function App() {
 
@@ -38,6 +39,10 @@ export default function App() {
 
                 <Route path="/adatlap" component={() =>
                     <AccountPage />
+                } />
+
+                <Route path="/kapcsolat" component={() =>
+                    <ReportPage />
                 } />
             </Switch>
         </div>
