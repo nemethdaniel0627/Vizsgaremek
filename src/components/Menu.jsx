@@ -170,7 +170,7 @@ export default function Menu(props) {
                         breakfast="Reggeli"
                         elevens="Tízórai"
                         lunch="Ebéd"
-                        snack="Uszonna"
+                        snack="Uzsonna" 
                         dinner="Vacsora" />
                 </div>
                 {menu.map((meal, index) => {

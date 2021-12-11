@@ -4,13 +4,29 @@
     align-items: center;
     padding: 0 12rem;
     font-size: 1.6rem;
+    color: var(--darkModeFontColor);
 
-    & h4 {
+    &--text {
         font-size: 2rem;
+        
+        align-self: baseline;
+    }
+
+    &--col {
+        padding: initial;
     }
 
     &--input {
-        font-size: inherit;        
+        font-size: inherit;
+        width: 100%;
+        
+        &-container {
+            margin-top: 1rem;
+            width: 100%;
+            display: flex;
+            gap: 1.5rem;
+            padding: 0 1.5rem 0 0;
+        }
     }
 
     &--input[type=button] {

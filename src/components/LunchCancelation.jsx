@@ -4,7 +4,7 @@ import Menu from "./Menu";
 import modules from "../modules/modules";
 
 export default function LunchCancelation() {
-    const [isMenuChecked, setIsMenuChecked] = useState(true);
+    const [isMenuChecked, setIsMenuChecked] = useState(false);
     const [disabledDays, setDisabledDays] = useState([])
     function checkChange() {
         setIsMenuChecked(!isMenuChecked)
