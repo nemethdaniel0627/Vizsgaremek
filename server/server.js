@@ -68,7 +68,16 @@ app.post("/test", async (req, res) => {
   for (let i = 0; i < data.length; i++) {
     await user.add(data[i]);
   }
+  user.getAll();
   res.send("kész");
+})
+
+app.delete("/delete", async (req, res) => {
+  let a = await user.delete('nev = "Teszt Elek0"');
+  if (a > 0)
+    res.send('Deleted');
+  else 
+    res.send('Nincs ilyen elem');
 })
 
 app.get("/", (req, res) => {

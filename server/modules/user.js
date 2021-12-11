@@ -4,18 +4,6 @@ const fs = require("fs").promises;
 class User {
     #data;
 
-    constructor(row) {
-        this.#data = row;
-        this.#data = {
-            felhasznaloNev: 0,
-            jelszo: '',
-            nev: '',
-            iskolaOM: '',
-            osztaly: null,
-            email: ''
-        }
-    }
-
     async readFile(filename) {
         try {
             this.#data = [];
@@ -48,6 +36,32 @@ class User {
             throw error;
         }
         await sqlQueries.EndConnection();
+    }
+
+    async getAll() {
+        await sqlQueries.CreateConnection();
+        const all = await sqlQueries.selectAll('user');
+        // console.log(all);
+        await sqlQueries.EndConnection();
+    }
+
+    async getBy(fields = '*', conditions = '') {
+        await sqlQueries.CreateConnection();
+        const result = await sqlQueries.select('user', `${fields}`, `${conditions}`);
+        // console.log(result);
+        await sqlQueries.EndConnection();
+    }
+
+    async delete(condition) {
+        await sqlQueries.CreateConnection();
+        const deleted = await sqlQueries.delete('user', `${condition}`);
+        // console.log(deleted.affectedRows);
+        await sqlQueries.EndConnection();
+        return deleted.affectedRows;
+    }
+
+    async modify() {
+
     }
 }
 
