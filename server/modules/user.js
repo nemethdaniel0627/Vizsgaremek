@@ -45,10 +45,10 @@ class User {
         await sqlQueries.EndConnection();
     }
 
-    async getBy(fields = '*', conditions = '') {
+    async getBy(fields, conditions) {
         await sqlQueries.CreateConnection();
         const result = await sqlQueries.select('user', `${fields}`, `${conditions}`);
-        // console.log(result);
+        console.log(result);
         await sqlQueries.EndConnection();
     }
 
@@ -60,8 +60,12 @@ class User {
         return deleted.affectedRows;
     }
 
-    async modify() {
-
+    async modify(fieldValues, conditions) {
+        await sqlQueries.CreateConnection();
+        const user = await sqlQueries.update('user', `${fieldValues}`, `${conditions}`);
+        console.log(user);
+        await sqlQueries.EndConnection();
+        return user.affectedRows;
     }
 }
 

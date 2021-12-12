@@ -63,21 +63,22 @@ app.post("/etlap", async (req, res) => {
   res.send("Kész");
 });
 
-app.post("/test", async (req, res) => {
+app.post("/add", async (req, res) => {
   let data = await user.readFile('users.txt');
   for (let i = 0; i < data.length; i++) {
     await user.add(data[i]);
   }
-  user.getAll();
   res.send("kész");
 })
 
+app.put("/update", async (req, res) => {
+  const count = await user.modify('felhasznaloNev = 123456789', 'felhasznaloNev = 723011004754');
+  res.send(`${count} record(s) updated`);
+})
+
 app.delete("/delete", async (req, res) => {
-  let a = await user.delete('nev = "Teszt Elek0"');
-  if (a > 0)
-    res.send('Deleted');
-  else 
-    res.send('Nincs ilyen elem');
+  const count = await user.delete('nev = "Teszt Elek1"');
+  res.send(`${count} record(s) deleted`);
 })
 
 app.get("/", (req, res) => {

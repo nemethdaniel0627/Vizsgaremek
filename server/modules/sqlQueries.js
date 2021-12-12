@@ -59,6 +59,15 @@ class sqlQueries {
             throw error;
         }
     }
+
+    async update(tableName, sets, conditions) {
+        try {            
+            let [results, resultInfo] = await this._connection.query(`UPDATE ${tableName} SET ${sets} WHERE ${conditions}`);
+            return results;
+        } catch (error) {
+            throw error;
+        }
+    }
 }
 
 module.exports = new sqlQueries()
