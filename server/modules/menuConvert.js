@@ -29,10 +29,9 @@ class menuConvert {
         let weeklyMenu = [];
         let dayMenu = [];
         let columnNumbers = [];
-        this._menu[1].forEach((nap, oszlop) => {
-            if (nap !== undefined) {
-                columnNumbers.push(oszlop + 1);
-
+        this._menu[1].forEach((day, column) => {
+            if (day !== undefined) {
+                columnNumbers.push(column + 1);
             }
         });
         for (let i = 0; i < columnNumbers.length; i++) {
@@ -55,7 +54,7 @@ class menuConvert {
                         mealType.push(type);
                         mealType.push(this._menu[rowNumber - 2][columnNumbers[i] - 1]) //Étel
                         let energia = this._menu[rowNumber - 1][columnNumbers[i] - 1];
-                        mealType.push(energia.split(":")[1].trim()) //Energia
+                        mealType.push(energia.split(":")[1].trim())                    //Energia
                         mealType.push(this._menu[rowNumber + 1][columnNumbers[i] - 1]) //Fehérje
                         mealType.push(day[rowNumber + 1]);                             //Zsír
                         mealType.push(this._menu[rowNumber + 1][columnNumbers[i] + 1]) //Zsírsav

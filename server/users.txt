@@ -1,0 +1,5 @@
+723172100147;admin;Teszt Elek0;ABC000;12A;asd0@asd.com
+723518137458;user1;Teszt Elek1;ABC111;12B;asd1@asd.com
+723187544001;user2;Teszt Elek2;ABC222;12C;asd2@asd.com
+723227896940;user3;Teszt Elek3;ABC333;12D;asd3@asd.com
+723011004754;user4;Teszt Elek4;ABC444;12E;asd4@asd.com
