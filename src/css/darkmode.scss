@@ -1,33 +1,31 @@
-.darkmode {
-    margin: 20px;
+.darkmode {    
     transform: translate(-50%, -50%);
     position: absolute;
-    top: 3rem;
-    right: -5rem;
+    top: 50%;
+    right: 13rem;
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: row-reverse;
 
-    @media only screen and (max-width: 600px) {
-        top: 1.5rem;
-    }
+    @media only screen and (max-width: 800px) {
+        right: 4rem;
+    }    
 
     &--img {
-        margin: -5px 10px;
-        height: 40px;
-        width: auto;
-
-        @media only screen and (max-width: 600px) {
-            height: 30px;
-        }
+        font-size: 3rem;
+        margin-left: .5rem;
+        color: #fff;
+        transition: all .5s;
     }
 }
 
 .switch {
     position: relative;
     display: inline-block;
-    width: 60px;
-    height: 34px;
+    width: 45px;
+    height: 21px;
+    margin-right: .5rem;
 
     @media only screen and (max-width: 600px) {
         width: 4rem;
@@ -54,10 +52,10 @@
 .slider:before {
     position: absolute;
     content: "";
-    height: 26px;
-    width: 26px;
-    left: 4px;
-    bottom: 4px;
+    height: 15px;
+    width: 15px;
+    left: 5px;
+    bottom: 3px;
     background-color: white;
     -webkit-transition: 0.4s;
     transition: 0.4s;
@@ -68,18 +66,18 @@
     }
 }
 
-input:checked + .slider {
+#toggle:checked + .switch .slider {
     background-color: #2196f3;
 }
 
-input:focus + .slider {
+#toggle:focus + .switch .slider {
     box-shadow: 0 0 1px #2196f3;
 }
 
-input:checked + .slider:before {
-    -webkit-transform: translateX(26px);
-    -ms-transform: translateX(26px);
-    transform: translateX(26px);
+#toggle:checked + .switch .slider:before {
+    -webkit-transform: translateX(20px);
+    -ms-transform: translateX(20px);
+    transform: translateX(20px);
 }
 .slider.round {
     border-radius: 34px;
@@ -88,3 +86,51 @@ input:checked + .slider:before {
 .slider.round:before {
     border-radius: 50%;
 }
+
+.toggle {
+    --size: 3rem;
+    
+    appearance: none;
+    outline: none;
+    cursor: pointer;
+    
+    width: var(--size);
+    height: var(--size);
+    box-shadow: inset calc(var(--size) * 0.33) calc(var(--size) * -0.25) 0;
+    border-radius: 999px;
+    color: hsl(240, 100%, 95%);    
+    
+    transition: all 500ms;
+    
+    &:checked {
+      --ray-size: calc(var(--size) * -0.4);
+      --offset-orthogonal: calc(var(--size) * 0.65);
+      --offset-diagonal: calc(var(--size) * 0.45);
+  
+      transform: scale(0.75);
+      color: hsl(40, 100%, 50%);
+      box-shadow: 
+        inset 0 0 0 var(--size),
+        calc(var(--offset-orthogonal) * -1) 0 0 var(--ray-size),
+        var(--offset-orthogonal) 0 0 var(--ray-size),
+        0 calc(var(--offset-orthogonal) * -1) 0 var(--ray-size),
+        0 var(--offset-orthogonal) 0 var(--ray-size),
+        calc(var(--offset-diagonal) * -1) calc(var(--offset-diagonal) * -1) 0 var(--ray-size),
+        var(--offset-diagonal) var(--offset-diagonal) 0 var(--ray-size),
+        calc(var(--offset-diagonal) * -1) var(--offset-diagonal) 0 var(--ray-size),
+        var(--offset-diagonal) calc(var(--offset-diagonal) * -1) 0 var(--ray-size),
+      ;
+    }
+  }
+  
+  .toggle {
+    z-index: 1;
+    &:checked {
+      & ~ .background {
+        --bg: white;
+      }
+      & ~ .title {
+        --color: hsl(40, 100%, 50%);
+      }
+    }
+  }  

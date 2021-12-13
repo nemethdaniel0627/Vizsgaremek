@@ -1,30 +1,32 @@
 import React from "react";
-import { Route, Switch, useLocation } from "react-router";
+import { Route, Switch } from "react-router";
 import AuthRoute from "./AuthRoute";
 import LoginForm from "./LoginForm";
 import Menu from "./Menu";
 import Navbar from "./Navbar";
 import LunchTicket from "./LunchTicket";
 import LunchCancelation from "./LunchCancelation";
+import AccountPage from "./AccountPage";
+import ReportPage from "./ReportPage";
 
 export default function App() {
 
-    const path = useLocation().pathname;
+    // const path = useLocation().pathname;
 
     return (
-        <div className="App">            
-            <Navbar />            
+        <div className="App">
+            <Navbar />
             <Switch>
                 <AuthRoute path="/" exact component={() =>
-                    <LoginForm title="Jelszo"/>
+                    <LoginForm title="Jelszo" />
                 } />
 
                 <Route path="/login" component={() =>
-                    <LoginForm title="Jelszo"/>
+                    <LoginForm title="Jelszo" />
                 } />
 
-                <Route path="/etlap" component={() =>                    
-                    <Menu cancel={false} header="Étlap" disabledDays={[]}/>
+                <Route path="/etlap" component={() =>
+                    <Menu cancel={false} header="Étlap" disabledDays={[]} />
                 } />
 
                 <Route path="/ebedjegy" component={() =>
@@ -33,6 +35,14 @@ export default function App() {
 
                 <Route path="/lemondas" component={() =>
                     <LunchCancelation />
+                } />
+
+                <Route path="/adatlap" component={() =>
+                    <AccountPage />
+                } />
+
+                <Route path="/kapcsolat" component={() =>
+                    <ReportPage />
                 } />
             </Switch>
         </div>
