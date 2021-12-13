@@ -7,7 +7,7 @@ class databaseDownload {
         else if (date.getDay() !== 1) date.setDate(date.getDate() - (date.getDay() - 1))
 
         const startDate = functions.convertDateWithDash(date);        
-        date.setDate(date.getDate() + 4);
+        date.setDate(date.getDate() + 6);
         const endDate = functions.convertDateWithDash(date);        
         await sqlQueries.CreateConnection();
         const menu = await sqlQueries.innerSelect(
