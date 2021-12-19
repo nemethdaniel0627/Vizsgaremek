@@ -4,7 +4,7 @@ const path = require('path');
 const xlxs = require("node-xlsx");
 
 class menuConvert {
-    _menu;    
+    _menu;
 
     testLog() {
         this.readFromExcel();
@@ -21,7 +21,7 @@ class menuConvert {
     }
 
     readFromExcel() {
-        this._menu = xlxs.parse(__dirname + "\\..\\etlap5.xlsx")[0].data;
+        this._menu = xlxs.parse(__dirname + "\\..\\etlap6.xlsx")[0].data;
     }
 
     async dayUpload() {

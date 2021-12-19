@@ -6,6 +6,8 @@ import Menu from "./Menu";
 import Navbar from "./Navbar";
 import LunchTicket from "./LunchTicket";
 import LunchCancelation from "./LunchCancelation";
+import QrCodeReader from "./QrCodeReader";
+import { Link } from "react-router-dom";
 
 export default function App() {
 
@@ -34,7 +36,15 @@ export default function App() {
                 <Route path="/lemondas" component={() =>
                     <LunchCancelation />
                 } />
+
+                <Route path={"/scan"} component={() =>
+                    <QrCodeReader />
+                } />
             </Switch>
+
+            <button>
+                <Link to={"/scan"}>Klikk</Link>
+            </button>
         </div>
     )
 }

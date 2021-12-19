@@ -3,15 +3,15 @@ import MenuDays from "./MenuDays";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import axios from "axios";
-import { URL } from "../utils/constants";
+import { URL, allgergens } from "../utils/constants";
 import DaySelector from "./DaySelector";
-import modules from "../modules/modules";
 
 export default function Menu(props) {
     const [displayWeek, setDisplayWeek] = useState();
     const [firstDay, setFirstDay] = useState();
     const [menu, setMenu] = useState([]);
     const [selectedDay, setSelectedDay] = useState();
+    const [weekLength, setWeekLength] = useState(4);
 
     const dayNames = ["Hétfő", "Kedd", "Szerda", "Csütörtök", "Péntek", "Szombat"];
     const root = document.querySelector(":root");
@@ -34,6 +34,7 @@ export default function Menu(props) {
 
         if (currentDay && currentDayInput) {
             currentDay.classList.toggle("menu--day-selected");
+            currentDay.classList.add("today");
             currentDayInput.checked = true;
         }
     }
@@ -43,11 +44,19 @@ export default function Menu(props) {
         const month = date.getMonth();
         const startDay = new Date(year, month, ((date.getDate()) - (date.getDay() - 1)));
         setFirstDay(`${year}-${(startDay.getMonth() + 1) < 10 ? "0" : ""}${(startDay.getMonth() + 1)}-${startDay.getDate() < 10 ? "0" : ""}${startDay.getDate()}`);
-        const endDay = new Date(year, month, ((date.getDate()) - (date.getDay() - 1)) + 4)
+        const endDay = new Date(year, month, ((date.getDate()) - (date.getDay() - 1)) + weekLength)
         let finalString = `${year}.${(startDay.getMonth() + 1) < 10 ? "0" : ""}${(startDay.getMonth() + 1)}.${startDay.getDate() < 10 ? "0" : ""}${startDay.getDate()} - ${(endDay.getMonth() + 1) < 10 ? "0" : ""}${(endDay.getMonth() + 1)}.${endDay.getDate() < 10 ? "0" : ""}${endDay.getDate()}`;
 
         setDisplayWeek(finalString);
         return finalString;
+    }
+
+    function convertDisplayWeek(date) {
+        const year = date.getFullYear();
+        const month = date.getMonth();
+        const startDay = new Date(year, month, ((date.getDate()) - (date.getDay() - 1)));        
+        const endDay = new Date(year, month, ((date.getDate()) - (date.getDay() - 1)) + weekLength);
+        setDisplayWeek(`${year}.${(startDay.getMonth() + 1) < 10 ? "0" : ""}${(startDay.getMonth() + 1)}.${startDay.getDate() < 10 ? "0" : ""}${startDay.getDate()} - ${(endDay.getMonth() + 1) < 10 ? "0" : ""}${(endDay.getMonth() + 1)}.${endDay.getDate() < 10 ? "0" : ""}${endDay.getDate()}`);
     }
 
     function weekChange(event) {
@@ -101,6 +110,7 @@ export default function Menu(props) {
                     }
                     currentDayColorize();
                     setCurrentWeek(new Date());
+                    setWeekLength(response.data.length - 1);
                 })
                 .catch((error) => {
                     console.log(error.response);
@@ -112,6 +122,10 @@ export default function Menu(props) {
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
+
+    useEffect(() => {
+        convertDisplayWeek(new Date());        
+    }, [weekLength])
 
     function checkNextWeek() {
 
@@ -148,17 +162,20 @@ export default function Menu(props) {
 
             <div className="menu--day-selector">
                 {dayNames.map((day, index) => {
-                    if (index === 2 || index === 3 || index === 5) 
-                    return <DaySelector
+                    if (index <= weekLength) {
+                        if (index === 2 || index === 3 || index === 5)
+                            return <DaySelector
                                 onChange={daySelect}
                                 key={`day-selector_${index + 1}`}
                                 id={`day-selector_${index + 1}`}
                                 dayName={`${day[0]}${day[1]}${day[2]}`} />
-                    else return <DaySelector
-                                    onChange={daySelect}
-                                    key={`day-selector_${index + 1}`}
-                                    id={`day-selector_${index + 1}`}
-                                    dayName={`${day[0]}${day[1]}`} />
+                        else return <DaySelector
+                            onChange={daySelect}
+                            key={`day-selector_${index + 1}`}
+                            id={`day-selector_${index + 1}`}
+                            dayName={`${day[0]}${day[1]}`} />
+                    }
+                    else return "";
                 })}
             </div>
 
@@ -170,7 +187,7 @@ export default function Menu(props) {
                         breakfast="Reggeli"
                         elevens="Tízórai"
                         lunch="Ebéd"
-                        snack="Uzsonna" 
+                        snack="Uzsonna"
                         dinner="Vacsora" />
                 </div>
                 {menu.map((meal, index) => {
@@ -180,16 +197,16 @@ export default function Menu(props) {
                             key={`day-${index + 1}`}
                             id={`day-${index + 1}`}
                             className={
-                                "menu--day-table menu--container " + 
-                                (props.disabledDays.includes(index + 1) ? "disabled-day " : "") + 
+                                "menu--day-table menu--container " +
+                                (props.disabledDays.includes(index + 1) ? "disabled-day " : "") +
                                 (props.cancel ? "clickable" : "")}>
 
                             {props.cancel
-                                ? <input 
-                                    disabled={props.disabledDays.includes(index + 1)} 
-                                    key={`menucheck_day-${index + 1}`} 
-                                    className="menu--day-table--input" 
-                                    type="checkbox" 
+                                ? <input
+                                    disabled={props.disabledDays.includes(index + 1)}
+                                    key={`menucheck_day-${index + 1}`}
+                                    className="menu--day-table--input"
+                                    type="checkbox"
                                     id={`menucheck_day-${index + 1}`} />
                                 : ""
                             }
@@ -208,6 +225,14 @@ export default function Menu(props) {
                         </label>)
                 })}
 
+            </div>
+
+            <div className="menu--allergen">
+                {
+                    allgergens.map((allergen, index) => {
+                        return <span key={`allergen_${index}`}>{allergen} </span>
+                    })
+                }
             </div>
         </div>
     )

@@ -31,7 +31,7 @@ app.post("/etlap", async (req, res) => {
   let day3 = [];
   let day4 = [];
   let day5 = [];
-  let date = new Date("2021-12-06");
+  let date = new Date("2021-12-20");
 
   // menu.forEach(async (day, index) => {
   //   date = await databaseUpload.insertDay(day, date);

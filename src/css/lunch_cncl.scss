@@ -1,4 +1,15 @@
 .lunch-cncl {
+    &--container {
+        display: flex;
+        flex-direction: column;        
+        justify-content: center;
+        margin: 0 10vh;
+
+        @media only screen and (max-width: 1200px) {
+            margin: initial;
+        }
+    }
+
     &--menu {
         width: 100%;
         display: flex;
@@ -7,16 +18,46 @@
         font-size: 3rem;
         margin: 3rem 0;
 
+        @media only screen and (max-width: 900px) {
+            font-size: 2.5rem;
+        }
+
+        @media only screen and (max-width: 800px) {
+            font-size: 2rem;
+        }
+
+        @media only screen and (max-width: 600px) {
+            font-size: 1.5rem;
+        }
+
         &--item {
             padding: 2rem 3rem;
             cursor: pointer;
             border: 1px solid var(--darkModeFontColor);
             border-radius: 10px;
             box-shadow: 8px 0.5rem 1rem rgba(0, 0, 0, 0.2);
+
+            @media only screen and (max-width: 800px) {
+                padding: 1rem 1.5rem;
+
+            }
         }
 
         &--input {
             display: none;
+        }        
+    }
+
+    &--button {
+        padding: 1rem 0;            
+        font-size: 2rem;        
+        width: 100%;
+        cursor: pointer;
+        position: relative;
+
+        &--container {
+            margin: 2rem 6rem;
+            margin-bottom: 5rem;
         }
     }
 }
