@@ -1,19 +1,103 @@
-.date-selector {    
+.date-selector {
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: 0 12rem;
     font-size: 1.6rem;
+    color: var(--darkModeFontColor);
 
-    & h4 {
+    @media only screen and (max-width: 600px) {
+        padding: 0 4rem;
+    }
+
+    &--text {
         font-size: 2rem;
+
+        align-self: baseline;
+    }
+
+    &--col {
+        padding: initial;
     }
 
     &--input {
-        font-size: inherit;        
+        font-size: inherit;
+        width: 100%;
+        cursor: pointer;
+        position: relative;
+
+        &:not([type="button"]) {
+            background-color: transparent;
+        }
+
+        &--wrapper {
+            background-color: white;
+            display: flex;
+            position: relative;
+            border-radius: .25rem;
+            margin-bottom: 1rem;
+            align-self: stretch;
+        }
+        
+        &::-webkit-calendar-picker-indicator {
+            background: transparent;
+            bottom: 0;
+            color: transparent;
+            cursor: pointer;
+            height: auto;
+            position: absolute;
+            left: 0;
+            right: 0;            
+            top: 0;
+            width: auto;            
+        }
+
+        &--icon {
+            color: #000;
+            position: absolute;
+            top: 50%;
+            right: .5rem;
+            transform: translate(-50%, -50%);
+            font-size: 1.8rem;
+        }
+
+        &:disabled {
+            background-color: #999;
+            border-color: #999;
+            cursor: initial;            
+        }
+
+        &:focus {
+            user-select: none; /* supported by Chrome and Opera */
+            -webkit-user-select: none; /* Safari */
+            -khtml-user-select: none; /* Konqueror HTML */
+            -moz-user-select: none; /* Firefox */
+            -ms-user-select: none; /* Internet Explorer/Edge */
+            background-color: transparent;
+        }
+
+        &-container {
+            margin-top: 1rem;
+            width: 100%;
+            display: flex;
+            gap: 1.5rem;
+            padding: 0;   
+            
+            @media only screen and (max-width: 800px) {
+                flex-direction: column;
+            }
+        }
+
+        &--col {
+            width: 50%;
+
+            @media only screen and (max-width: 800px) {
+                width: 100%;
+            }
+        }
     }
 
-    &--input[type=button] {
+    &--input[type="button"] {
         padding: 1rem;
         font-size: 1.8rem;
     }

@@ -6,8 +6,12 @@
   --bodyBackground: #fff;
   --darkModeFontColor: #000;
   --currentDay: #adf7b0;
+  --numberOfDays: 0;
 }
 
+// ::selection {            
+//   background-color: var(--darkModeFontColor);
+// }
 
 html {
   font-size: 62.5%;
