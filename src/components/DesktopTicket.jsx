@@ -1,7 +1,6 @@
 import React from "react";
 import Ticket from "./Ticket";
 import ticketImg from "../images/icon.png";
-import QRcode from "qrcode.react";
 
 export default function DesktopTicket() {
     return (

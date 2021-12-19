@@ -1,6 +1,5 @@
 import React from "react";
 import Ticket from "./Ticket";
-import QRcode from "qrcode.react";
 
 export default function MobileTicket() {
     return (
