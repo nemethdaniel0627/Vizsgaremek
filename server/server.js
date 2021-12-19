@@ -6,6 +6,7 @@ const menuConvert = require('./modules/menuConvert');
 const databaseUpload = require('./modules/databaseUpload');
 const sqlQueries = require('./modules/sqlQueries');
 const databaseDownload = require('./modules/databaseDownload');
+const user = require('./modules/user');
 
 const app = express();
 
@@ -50,6 +51,24 @@ app.post("/etlap", async (req, res) => {
 
   res.send("Kész");
 });
+
+app.post("/add", async (req, res) => {
+  let data = await user.readFile('users.txt');
+  for (let i = 0; i < data.length; i++) {
+    await user.add(data[i]);
+  }
+  res.send("kész");
+})
+
+app.put("/update", async (req, res) => {
+  const count = await user.modify('felhasznaloNev = 123456789', 'felhasznaloNev = 723011004754');
+  res.send(`${count} record(s) updated`);
+})
+
+app.delete("/delete", async (req, res) => {
+  const count = await user.delete('nev = "Teszt Elek1"');
+  res.send(`${count} record(s) deleted`);
+})
 
 app.get("/", (req, res) => {
   res.send("<div>Hello world</div>")

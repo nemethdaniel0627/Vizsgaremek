@@ -8,6 +8,8 @@ import LunchTicket from "./LunchTicket";
 import LunchCancelation from "./LunchCancelation";
 import QrCodeReader from "./QrCodeReader";
 import { Link } from "react-router-dom";
+import AccountPage from "./AccountPage";
+import ReportPage from "./ReportPage";
 
 export default function App() {
 
@@ -18,15 +20,15 @@ export default function App() {
             <Navbar userName="Teszt Elek"/>            
             <Switch>
                 <AuthRoute path="/" exact component={() =>
-                    <LoginForm title="Jelszo"/>
+                    <LoginForm title="Jelszo" />
                 } />
 
                 <Route path="/login" component={() =>
-                    <LoginForm title="Jelszo"/>
+                    <LoginForm title="Jelszo" />
                 } />
 
-                <Route path="/etlap" component={() =>                    
-                    <Menu cancel={false} header="Étlap" disabledDays={[]}/>
+                <Route path="/etlap" component={() =>
+                    <Menu cancel={false} header="Étlap" disabledDays={[]} />
                 } />
 
                 <Route path="/ebedjegy" component={() =>
@@ -37,9 +39,19 @@ export default function App() {
                     <LunchCancelation />
                 } />
 
+
                 <Route path={"/scan"} component={() =>
                     <QrCodeReader />
                 } />
+                      
+                <Route path="/adatlap" component={() =>
+                    <AccountPage />
+                } />
+
+                <Route path="/kapcsolat" component={() =>
+                    <ReportPage />
+                } />
+  
             </Switch>
 
             <button>
