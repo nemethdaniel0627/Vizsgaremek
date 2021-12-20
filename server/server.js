@@ -71,7 +71,7 @@ app.delete("/delete", async (req, res) => {
 })
 
 app.post("/cancel", async (req, res) => {
-  user.cancelOrder('2021-12-10');
+  await user.cancelOrder('2021-12-19', [1, 0, 1, 0, 1]);
   res.send("Kész");
 })
 

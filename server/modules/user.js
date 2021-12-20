@@ -43,7 +43,6 @@ class User {
     async getAll() {
         await sqlQueries.CreateConnection();
         const all = await sqlQueries.selectAll('user');
-        // console.log(all);
         await sqlQueries.EndConnection();
     }
 
@@ -57,7 +56,6 @@ class User {
     async delete(condition) {
         await sqlQueries.CreateConnection();
         const deleted = await sqlQueries.delete('user', `${condition}`);
-        // console.log(deleted.affectedRows);
         await sqlQueries.EndConnection();
         return deleted.affectedRows;
     }
@@ -70,9 +68,12 @@ class User {
         return user.affectedRows;
     }
 
-    async cancelOrder(date) {
+    async cancelOrder(date, meals) {
+        //TODO: befizetve ellenőrzése
         await sqlQueries.CreateConnection();
-        const menuId = await sqlQueries.innerSelect('menu', 'menu.id', 'INNER JOIN days ON menu.daysId = days.id', `days.datum = '${date}'`)
+        const validDate = await sqlQueries.select('days', 'datum', `datum = '${date}'`);
+        if (!validDate) return false;
+        const menuId = await sqlQueries.innerSelect('menu', 'menu.id', 'INNER JOIN days ON menu.daysId = days.id', `days.datum = '${date}'`);
         const userId = 1 //this.user.id
         await sqlQueries.insert('orders',
             'menuId, ' +
@@ -84,9 +85,12 @@ class User {
             'vacsora, ' +
             'ar, ' +
             'lemondva',
-            `${menuId}, ${userId}, true, true, true, true, true, 1000, '${functions.convertDate(new Date())}'`);
+            `${menuId}, ${userId}, ${meals[0]}, ${meals[1]}, ${meals[2]}, ${meals[3]}, ${meals[4]}, 1000, '${date}'`);
         await sqlQueries.EndConnection();
+        return true;
     }
+
+
 }
 
 module.exports = new User()
