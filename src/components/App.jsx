@@ -6,10 +6,10 @@ import Menu from "./Menu";
 import Navbar from "./Navbar";
 import LunchTicket from "./LunchTicket";
 import LunchCancelation from "./LunchCancelation";
-import QrCodeReader from "./QrCodeReader";
 import { Link } from "react-router-dom";
 import AccountPage from "./AccountPage";
 import ReportPage from "./ReportPage";
+import AdminDatabase from "./AdminDatabasePage";
 
 export default function App() {
 
@@ -38,11 +38,6 @@ export default function App() {
                 <Route path="/lemondas" component={() =>
                     <LunchCancelation />
                 } />
-
-
-                <Route path={"/scan"} component={() =>
-                    <QrCodeReader />
-                } />
                       
                 <Route path="/adatlap" component={() =>
                     <AccountPage />
@@ -51,12 +46,12 @@ export default function App() {
                 <Route path="/kapcsolat" component={() =>
                     <ReportPage />
                 } />
+
+                <Route path="/admin" component={() =>
+                    <AdminDatabase />
+                } />
   
             </Switch>
-
-            <button>
-                <Link to={"/scan"}>Klikk</Link>
-            </button>
         </div>
     )
 }
