@@ -37,7 +37,7 @@ export default function AdminDatabasePage()
             <div className="container mt-5">
                 <div className="row">
                     <div className="col-12 col-lg-8 admin-db-acc">
-                        <Accord name="Teszt Elek Béla" class="12.C" user="Teszt.Elek" email="teszt.elek@students.jedlik.eu" isPaid={true} value = "15000 Ft" date="2022-05-16"></Accord>
+                        <Accord name="Teszt Elek Béla" class="12.C" user="Teszt.Elek" email="teszt.elek@students.jedlik.eu" isPaid={true} value = "15000 Ft" date="2022-05-16#2022-05-18#2022-05-20"></Accord>
                     </div>
                     <div className="col-lg-1 col-0"></div>
                     <div className="col-12 col-lg-3">

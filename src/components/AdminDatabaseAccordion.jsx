@@ -4,6 +4,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck, faEdit, faTimes, faUserTie, faUserTimes } from "@fortawesome/free-solid-svg-icons";
 
 export default function AdminDatabaseAccodrion(props) {
+
+
+    const dates = props.date ? props.date.split('#') : [];
+
     return (
         <Accordion>
             <Accordion.Item eventKey="0">
@@ -34,8 +38,12 @@ export default function AdminDatabaseAccodrion(props) {
                             <hr />
                             <div className="col-sm-12 col-lg-12 fs-4 mb-3">
                                 <span className="align-middle">Lemondott napok:</span>
-                                <select className="form-select w-25 float-end fs-4" readonly>
-                                    <option value="0">{props.date}</option>
+                                <select className="form-select w-25 float-end fs-4">
+                                    {props.date ? <option>Napok:</option> : <option>Nincs</option>}
+                                    {dates.map(date => (
+                                        <option>{date}</option>
+                                    ))}
+                                    
                                 </select>
                             </div>
                             <hr />
@@ -50,3 +58,4 @@ export default function AdminDatabaseAccodrion(props) {
         </Accordion>
     );
 }
+
