@@ -8,8 +8,8 @@ export default function MobileTicket() {
 
             <div className="mobile-ticket w-100" >
                 <div className="container mx-auto p-5 w-100">
-                    <div class="qrcode w-100 d-flex justify-content-center d-block d-lg-none" id="qrcode">
-                        <Ticket data = "google.com" size = "64"/>
+                    <div className="qrcode w-100 d-flex justify-content-center d-block d-lg-none" id="qrcode">
+                        <Ticket data='{"nev": "Teszt Ádám","osztaly": "14.A","iskola": "Jedlik Ányos Technikum","befizetve": true}' size="64" />
                     </div>
                 </div>
 
