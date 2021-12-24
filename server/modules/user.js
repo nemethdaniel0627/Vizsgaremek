@@ -21,9 +21,19 @@ class User {
         }
         
     }
+
+    async isUnique(field, con) {
+        const array = await sqlQueries.select('user', `${field}`, `${field} = '${con}'`);
+        const unique = array.find(element => element = con);
+        if (unique) return false;
+        return true;
+    }
+
     async add(data = '') {
+        let count = 0;
         await sqlQueries.CreateConnection();
-        try {
+        if ((await this.isUnique('felhasznaloNev', data.split(';')[0])) && (await this.isUnique('email', data.split(';')[5])))
+        {
             await sqlQueries.insert("user", 
             "felhasznaloNev," +
             "jelszo, " +
@@ -32,10 +42,10 @@ class User {
             "osztaly, " +
             "email",
             `"${data.split(";")[0]}", "${data.split(";")[1]}", "${data.split(";")[2]}", "${data.split(";")[3]}", "${data.split(";")[4]}", "${data.split(";")[5]}"`);
-        } catch (error) {
-            throw error;
+            count++;
         }
         await sqlQueries.EndConnection();
+        return count;
     }
 
     async getAll() {

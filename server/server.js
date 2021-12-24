@@ -53,11 +53,13 @@ app.post("/etlap", async (req, res) => {
 });
 
 app.post("/add", async (req, res) => {
-  let data = await user.readFile('users.txt');
+  const data = await user.readFile('users.txt');
+  let count = 0;
   for (let i = 0; i < data.length; i++) {
-    await user.add(data[i]);
+    let ret = await user.add(data[i]);
+    if (ret === 1) count++;
   }
-  res.send("kész");
+  res.send(`${count} record(s) added`);
 })
 
 app.put("/update", async (req, res) => {
@@ -73,7 +75,6 @@ app.delete("/delete", async (req, res) => {
 app.get("/", (req, res) => {
   res.send("<div>Hello world</div>")
 })
-
 
 app.listen(PORT, () => {
   console.log(`server started on port ${PORT}`);
