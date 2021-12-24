@@ -53,15 +53,12 @@ app.post("/etlap", async (req, res) => {
 });
 
 app.post("/add", async (req, res) => {
-  const data = await user.readFile('users.txt');
-  let count = 0;
-    for (let i = 0; i < data.length; i++) {
-    let ret = await user.add(data[i]);
-    if (ret === 1) count++;
+  let data = await user.readFile('users.txt');
+  for (let i = 0; i < data.length; i++) {
+    await user.add(data[i]);
   }
-  res.send(`${count} record(s) added`);
+  res.send("kész");
 })
-
 
 app.put("/update", async (req, res) => {
   const count = await user.modify('felhasznaloNev = 123456789', 'felhasznaloNev = 723011004754');
