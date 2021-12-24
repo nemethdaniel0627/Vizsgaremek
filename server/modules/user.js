@@ -20,7 +20,6 @@ class User {
         } catch (error) {
             throw error;
         }
-
     }
 
     async add(data = '') {
@@ -49,7 +48,6 @@ class User {
     async getBy(fields, conditions) {
         await sqlQueries.CreateConnection();
         const result = await sqlQueries.select('user', `${fields}`, `${conditions}`);
-        console.log(result);
         await sqlQueries.EndConnection();
     }
 
@@ -63,7 +61,6 @@ class User {
     async modify(fieldValues, conditions) {
         await sqlQueries.CreateConnection();
         const user = await sqlQueries.update('user', `${fieldValues}`, `${conditions}`);
-        console.log(user);
         await sqlQueries.EndConnection();
         return user.affectedRows;
     }
@@ -89,8 +86,6 @@ class User {
         await sqlQueries.EndConnection();
         return true;
     }
-
-
 }
 
 module.exports = new User()
