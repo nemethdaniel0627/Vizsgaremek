@@ -10,6 +10,7 @@ export default function AdminDatabasePage()
     const [modify, setModify] = useState(false);
     const [modalAppear, setModal] = useState(false);
     const [uploadModalAppear, setUploadModal] = useState(false);
+    const [newModalAppear, setNewModal] = useState(false);
 
     function Search()
     {
@@ -29,6 +30,11 @@ export default function AdminDatabasePage()
 
     function UploadModal(){
         setUploadModal(!uploadModalAppear);
+    }
+
+    function NewModal()
+    {
+        setNewModal(!newModalAppear);
     }
 
     return(
@@ -56,9 +62,10 @@ export default function AdminDatabasePage()
                             {!modify ? <button className="search-btn btn fs-3 w-100" onClick={Modify}><FontAwesomeIcon icon={faEdit}/> Módosítás</button> : 
                             <div className="w-100">
                                 <hr />
-                                <button className="search-btn btn fs-3 w-100 mb-3"><FontAwesomeIcon icon={faUserPlus}/> Új személy</button>
+                                <button className="search-btn btn fs-3 w-100 mb-3" onClick={NewModal}><FontAwesomeIcon icon={faUserPlus}/> Új személy</button>
+                                {newModalAppear ? <Modal ModalClose={NewModal} title="Új személy" message="" button="Hozzáadás" show={newModalAppear} type="New"></Modal> : <></>}
                                 <button className="search-btn btn fs-3 w-100 mb-3" onClick={UploadModal}><FontAwesomeIcon icon={faFileUpload}/> Fájl feltöltés</button>
-                                {uploadModalAppear ? <Modal ModalClose={UploadModal} title="Feltöltés" message="" button="Feltöltés" show={uploadModalAppear} type="upload"></Modal> : <></>}
+                                {uploadModalAppear ? <Modal ModalClose={UploadModal} title="Feltöltés" message="" button="Feltöltés" show={uploadModalAppear} type="File"></Modal> : <></>}
                                 <button className="search-btn btn fs-3 w-100 mb-3 btn-cancel" onClick={Modify}><FontAwesomeIcon icon={faTimesCircle}/> Mégsem</button>
                             </div>
                             }
