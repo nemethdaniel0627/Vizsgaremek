@@ -1,5 +1,6 @@
 const sqlQueries = require("./sqlQueries");
 const fs = require("fs").promises;
+const functions = require("./functions");
 
 class User {
     #data;
@@ -8,19 +9,19 @@ class User {
         try {
             this.#data = [];
             const data = await (await fs.readFile(filename, 'utf-8'))
-            .toString()
-            .trim()
-            .split('\n')
-            .forEach(r => {
-                const row = r.trim();
-                this.#data.push(row);
-            });
-            return(this.#data);
+                .toString()
+                .trim()
+                .split('\n')
+                .forEach(r => {
+                    const row = r.trim();
+                    this.#data.push(row);
+                });
+            return (this.#data);
         } catch (error) {
             throw error;
         }
-        
     }
+
 
     async isUnique(field, con) {
         const array = await sqlQueries.select('user', `${field}`, `${field} = '${con}'`);
@@ -28,10 +29,11 @@ class User {
         if (unique) return false;
         return true;
     }
-
+  
     async add(data = '') {
         let count = 0;
         await sqlQueries.CreateConnection();
+
         if ((await this.isUnique('felhasznaloNev', data.split(';')[0])) && (await this.isUnique('email', data.split(';')[5])))
         {
             await sqlQueries.insert("user", 
@@ -51,21 +53,18 @@ class User {
     async getAll() {
         await sqlQueries.CreateConnection();
         const all = await sqlQueries.selectAll('user');
-        // console.log(all);
         await sqlQueries.EndConnection();
     }
 
     async getBy(fields, conditions) {
         await sqlQueries.CreateConnection();
         const result = await sqlQueries.select('user', `${fields}`, `${conditions}`);
-        console.log(result);
         await sqlQueries.EndConnection();
     }
 
     async delete(condition) {
         await sqlQueries.CreateConnection();
         const deleted = await sqlQueries.delete('user', `${condition}`);
-        // console.log(deleted.affectedRows);
         await sqlQueries.EndConnection();
         return deleted.affectedRows;
     }
@@ -73,9 +72,30 @@ class User {
     async modify(fieldValues, conditions) {
         await sqlQueries.CreateConnection();
         const user = await sqlQueries.update('user', `${fieldValues}`, `${conditions}`);
-        console.log(user);
         await sqlQueries.EndConnection();
         return user.affectedRows;
+    }
+
+    async cancelOrder(date, meals) {
+        //TODO: befizetve ellenőrzése
+        await sqlQueries.CreateConnection();
+        const validDate = await sqlQueries.select('days', 'datum', `datum = '${date}'`);
+        if (!validDate) return false;
+        const menuId = await sqlQueries.innerSelect('menu', 'menu.id', 'INNER JOIN days ON menu.daysId = days.id', `days.datum = '${date}'`);
+        const userId = 1 //this.user.id
+        await sqlQueries.insert('orders',
+            'menuId, ' +
+            'userId, ' +
+            'reggeli, ' +
+            'tizorai, ' +
+            'ebed, ' +
+            'uzsonna, ' +
+            'vacsora, ' +
+            'ar, ' +
+            'lemondva',
+            `${menuId}, ${userId}, ${meals[0]}, ${meals[1]}, ${meals[2]}, ${meals[3]}, ${meals[4]}, 1000, '${date}'`);
+        await sqlQueries.EndConnection();
+        return true;
     }
 }
 
