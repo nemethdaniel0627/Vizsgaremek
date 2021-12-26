@@ -6,16 +6,18 @@ import Menu from "./Menu";
 import Navbar from "./Navbar";
 import LunchTicket from "./LunchTicket";
 import LunchCancelation from "./LunchCancelation";
+import { Link } from "react-router-dom";
 import AccountPage from "./AccountPage";
 import ReportPage from "./ReportPage";
+import AdminDatabase from "./AdminDatabasePage";
 
 export default function App() {
 
     // const path = useLocation().pathname;
 
     return (
-        <div className="App">
-            <Navbar />
+        <div className="App">            
+            <Navbar userName="Teszt Elek"/>            
             <Switch>
                 <AuthRoute path="/" exact component={() =>
                     <LoginForm title="Jelszo" />
@@ -36,7 +38,7 @@ export default function App() {
                 <Route path="/lemondas" component={() =>
                     <LunchCancelation />
                 } />
-
+                      
                 <Route path="/adatlap" component={() =>
                     <AccountPage />
                 } />
@@ -44,6 +46,11 @@ export default function App() {
                 <Route path="/kapcsolat" component={() =>
                     <ReportPage />
                 } />
+
+                <Route path="/admin" component={() =>
+                    <AdminDatabase />
+                } />
+  
             </Switch>
         </div>
     )

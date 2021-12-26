@@ -5,12 +5,15 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendarAlt, faCalendarTimes, faUserCircle, faCaretDown, faSignOutAlt, faTicketAlt, faUser } from "@fortawesome/free-solid-svg-icons";
 import { faCreditCard, faEnvelope, faIdCard } from "@fortawesome/free-regular-svg-icons";
 
-export default function Navbar() {
-    const [darkMode, setDarkMode] = useState(false);
+export default function Navbar(props) {
+    const [darkMode, setDarkMode] = useState(true);
 
-    function darkModeChange() {
-        let tmpDarkMode = !darkMode;
-        setDarkMode(!darkMode);
+    function darkModeChange(setDefault) {
+        let tmpDarkMode = darkMode;
+        if (!setDefault || setDefault.type === "click") {            
+            tmpDarkMode = !darkMode;
+            setDarkMode(!darkMode);
+        }
         const root = document.querySelector(':root');
         if (tmpDarkMode) {
             root.style.setProperty('--dark-blue', "#0D1321");
@@ -29,6 +32,10 @@ export default function Navbar() {
             root.style.setProperty('--currentDay', "#adf7b0");
         }
     }
+
+    useState(() => {
+        darkModeChange(true);
+    }, [])
 
     return (
         <div id="navbar" className="navbar">
@@ -57,7 +64,7 @@ export default function Navbar() {
                 </button>
             </div>
             <div className="darkmode">
-                <input id="toggle" className="toggle" onClick={darkModeChange} type="checkbox" />                
+                <input id="toggle" defaultChecked={darkMode} className="toggle" onClick={darkModeChange} type="checkbox" />
                 {/* <label className="switch" for="toggle">                    
                     <span className="slider round"></span>
                 </label> */}
@@ -87,7 +94,7 @@ export default function Navbar() {
                     <Link to="/login" className="dropdown--item"><FontAwesomeIcon icon={faSignOutAlt} /> Kijelentkezés</Link>
                 </div>
             </div>
-            <Link to="/adatlap" className="account--item"><FontAwesomeIcon icon={faUserCircle} /></Link>
+            <Link to="/adatlap" className="account--item"><FontAwesomeIcon icon={faUserCircle} /> {props.userName}</Link>
         </div>
 
     );

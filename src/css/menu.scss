@@ -7,9 +7,26 @@
     justify-content: center;
     margin-top: 5rem;
 
+    &--allergen {
+        color: #fff;
+        font-size: 2rem;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(28rem, 1fr));
+        width: 100%;
+        row-gap: 1rem;
+        margin-bottom: 10rem;
+        align-items: center;
+        justify-items: center;
+
+        @media only screen and (max-width: 600px) {
+            grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+            font-size: 1rem;
+        }
+    }
+
     &--wrapper {
         display: grid;
-        grid-template-columns: 1fr repeat(5, 2fr);
+        grid-template-columns: 1fr repeat(var(--numberOfDays), 2fr);
         grid-auto-rows: 1fr;
         align-items: center;
         justify-content: center;
@@ -22,8 +39,6 @@
             width: 100%;
             padding: 0 1rem;
         }
-
-        
     }
 
     &--header {
@@ -33,6 +48,9 @@
         color: var(--orange);
         padding: 1rem;
         background-image: radial-gradient(circle, var(--dark-blue) 10%, #ffffff00 100%);
+        @media only screen and (max-width: 600px) {
+            font-size: 3rem;
+        }
     }
 
     &--container {
@@ -62,12 +80,22 @@
         height: 100%;
         align-items: center;
 
+        &.clickable {
+            cursor: pointer;
+        }
+
+        &.disabled-day {
+            cursor: initial;
+        }
+
         &--meals {
             grid-template-rows: max-content repeat(5, 1fr);
             align-items: center;
             justify-items: center;
             height: 100%;
             display: grid;
+            cursor: inherit;
+            row-gap: 1rem;
         }
 
         span {
@@ -85,9 +113,9 @@
                 cursor: pointer;
             }
 
-            &:checked + .menu--day-table {
-                background-image: linear-gradient(rgba(255, 0, 0, 0.349), var(--bodyBackground));
-            }
+            // &:checked + .menu--day-table--meals {
+            //     background-image: linear-gradient(rgba(255, 0, 0, 0.349), var(--bodyBackground));
+            // }
         }
 
         &--header {
@@ -103,13 +131,13 @@
 
         &--legend {
             font-size: 2rem;
-            color: #333;
+            color: var(--darkModeFontColor);
             @media only screen and (max-width: 1000px) {
                 display: grid;
             }
 
             @media only screen and (max-width: 600px) {
-                font-size: 1.5rem;           
+                font-size: 1.5rem;
             }
         }
     }
@@ -133,6 +161,7 @@
 
         &--btn {
             padding: 1rem 1.5rem;
+            cursor: pointer;
         }
 
         @media only screen and (max-width: 1000px) {
@@ -140,11 +169,11 @@
         }
     }
 
-    &--day-selected {
-        background-image: linear-gradient(var(--currentDay), var(--bodyBackground));
-    }
-
     &--day-table.menu--day-selected {
         display: grid;
     }
+}
+
+.today {
+    background-image: linear-gradient(var(--currentDay), var(--bodyBackground));
 }
