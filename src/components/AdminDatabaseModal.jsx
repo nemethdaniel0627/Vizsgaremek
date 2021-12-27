@@ -8,6 +8,7 @@ export default function AdminDatabaseModal(props) {
   const [search, setSearch] = useState(props.show);
   const [dates, setDates] = useState([]);
   const [datesBool, setDatesBool] = useState(true);
+  const [fileURL, setFileURL] = useState("");
   if (props.dates && dates.length == 0 && datesBool) {
     setDates(props.dates.split('#'));
     setDatesBool(false);
@@ -31,13 +32,33 @@ export default function AdminDatabaseModal(props) {
     setDates(dates.filter(date => date != id.split('_')[1]));
   }
 
+  function TextAbstract(text, length) {
+    console.log(text);
+    if (text == null) {
+      return "";
+    }
+    if (text.length <= length) {
+      return text;
+    }
+    text = text.toString().substring(0, length - 3);
+    return text + "...";
+  }
+
+  function FileUploadText(e)
+  {
+    setFileURL(TextAbstract(e.target.value,40));
+  }
+
   function FileUploadModal(props) {
     return (
       <div>
 
         <label htmlFor="file" className="custom-file-upload btn btn-file fs-3 w-100">
-          <input id="file" type="file" />
-          <FontAwesomeIcon icon={faFileUpload} /> Fájl kiválasztása
+          <input id="file" type="file" onChange={FileUploadText}/>
+          {fileURL ? fileURL : ""}
+          <span className={"modal-file-before " + (fileURL !== "" ? "d-none" : "")}>
+            <FontAwesomeIcon icon={faFileUpload} /> Fájl kiválasztása
+          </span>
         </label>
 
       </div>
@@ -49,23 +70,23 @@ export default function AdminDatabaseModal(props) {
       <div className="fs-4">
         <div className="input-group mb-3">
           <label htmlFor="new_name" className="mb-2">Név:</label>
-          <input type="text" id="new_name" className="w-100 form-control" value={props.name} />
+          <input type="text" id="new_name" className="w-100 form-control" defaultValue={props.name} />
         </div>
         <div className="input-group mb-3">
           <label htmlFor="new_class" className="mb-2">Osztály:</label>
-          <input type="text" id="new-class" className="w-100 form-control" value={props.class} />
+          <input type="text" id="new-class" className="w-100 form-control" defaultValue={props.class} />
         </div>
         <div className="input-group mb-3">
           <label htmlFor="new_email" className="mb-2">E-mail cím:</label>
-          <input type="email" id="new-email" className="w-100 form-control" value={props.email} />
+          <input type="email" id="new-email" className="w-100 form-control" defaultValue={props.email} />
         </div>
         <div className="input-group mb-3">
           <label htmlFor="new_username" className="mb-2">Felhasználónév:</label>
-          <input type="text" id="new_username" className="w-100 form-control" value={props.user} />
+          <input type="text" id="new_username" className="w-100 form-control" defaultValue={props.user} />
         </div>
         <div className="form-check mb-3">
           {/* TODO EZ : NEM JÓ A CHECK A MODIFY-NÁL*/}
-          <input className="form-check-input" type="checkbox" id="flexCheckDefault" {...props.isPaid ? "checked" : ""} />
+          <input className="form-check-input" type="checkbox" id="flexCheckDefault" defaultChecked={props.isPaid ? true : false} />
           <label className="form-check-label" htmlFor="flexCheckDefault">
             Befizetve
           </label>
@@ -74,7 +95,7 @@ export default function AdminDatabaseModal(props) {
           <label htmlFor="new_amount" className="mb-2">Összeg:</label>
           <div className="input-group">
             {/* TODO EZ2 : NEM JÓ A VALUE A MODIFY-NÁL*/}
-            <input type="number" className="form-control" />
+            <input type="number" className="form-control" defaultValue={props.value ? props.value.split(' ')[0] : ""}/>
             <span className="input-group-text"> Ft</span>
           </div>
         </div>
