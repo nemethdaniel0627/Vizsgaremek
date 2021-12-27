@@ -1,5 +1,6 @@
 const functions = require('./functions');
 const sqlQueries = require('./sqlQueries');
+const user = require('./user');
 
 class databaseDownload {
     async getMenu(date) {
@@ -9,7 +10,7 @@ class databaseDownload {
         const startDate = functions.convertDateWithDash(date);        
         date.setDate(date.getDate() + 6);
         const endDate = functions.convertDateWithDash(date);        
-        await sqlQueries.CreateConnection();
+        await sqlQueries.CreateConnection(true);
         const menu = await sqlQueries.innerSelect(
             "menu",
             "mealReggeli.nev," +
@@ -25,8 +26,31 @@ class databaseDownload {
             "INNER JOIN meal AS mealVacsora ON menu.vacsoraId = mealVacsora.id ",
             `days.datum BETWEEN "${startDate}" AND "${endDate}"`
         )
-        await sqlQueries.EndConnection();        
+        await sqlQueries.EndConnection();
         return menu;
+    }
+
+    async getUser(userOM) {
+        let tmpUser = await user.getBy('*', `felhasznaloNev = ${userOM}`);
+        tmpUser = tmpUser[0];
+        await sqlQueries.CreateConnection();
+        let order = await sqlQueries.select('orders', '*', `userId = ${tmpUser.id}`);
+        order = order[0];
+        await sqlQueries.EndConnection();
+        let vNev = tmpUser.nev.split(' ')[0];
+        let kNev = tmpUser.nev.split(' ').splice(1, 2).toString().replace(/,/, ' ');
+        const data = {
+            vNev: vNev,
+            kNev: kNev,
+            osztaly: tmpUser.osztaly,
+            befizetve: order.lemondva == null ? true : false,
+            datum: new Date(),
+            om: tmpUser.felhasznaloNev,
+            iskolaOM: tmpUser.iskolaOM,
+            email: tmpUser.email
+        };
+        console.log(data);
+        return data;
     }
 }
 
