@@ -1,7 +1,7 @@
 import React from "react";
 import { Accordion } from "react-bootstrap";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheck, faEdit, faTimes, faUserTie, faUserTimes } from "@fortawesome/free-solid-svg-icons";
+import { faCheck, faEdit, faTimes, faUserTimes } from "@fortawesome/free-solid-svg-icons";
 
 export default function AdminDatabaseAccodrion(props) {
 
@@ -40,8 +40,8 @@ export default function AdminDatabaseAccodrion(props) {
                                 <span className="align-middle">Lemondott napok:</span>
                                 <select className="form-select w-25 float-end fs-4">
                                     {props.date ? <option>Napok:</option> : <option>Nincs</option>}
-                                    {dates.map(date => (
-                                        <option>{date}</option>
+                                    {dates.map((date, index) => (
+                                        <option key={`option_${index}`}>{date}</option>
                                     ))}
                                     
                                 </select>

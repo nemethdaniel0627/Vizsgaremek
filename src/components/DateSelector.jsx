@@ -69,6 +69,7 @@ export default function DateSelector() {
       showSelectedDate();
       setStartInputValue("");
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [startInputValue])
 
   useEffect(() => {
@@ -77,6 +78,7 @@ export default function DateSelector() {
       setStartInputValue("");
       setEndInputValue("");
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [endInputValue])
 
   return (

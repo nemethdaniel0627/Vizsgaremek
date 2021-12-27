@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFileUpload, faTimesCircle } from "@fortawesome/free-solid-svg-icons";
 import Modal from "react-bootstrap/Modal";
-import ModalHeader from 'react-bootstrap/ModalHeader'
 
 export default function AdminDatabaseModal(props) {
   const [search, setSearch] = useState(props.show);

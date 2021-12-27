@@ -48,6 +48,18 @@ export default function QrCodeReader() {
 
     }, [isCamera])
 
+    function setSearchBarHeight() {
+        const actualHeight = window.innerHeight;
+        let elementHeight = document.getElementById('control-height');
+        const root = document.querySelector(":root");
+        if (elementHeight && root) {
+            elementHeight = elementHeight.clientHeight;
+            const barHeight = elementHeight - actualHeight;
+            root.style.setProperty("--searchBarHeight", `${barHeight}px`);
+        }
+        
+    }
+
     function askPermission(denied) {
         var now = Date.now();
         navigator.mediaDevices.getUserMedia({ audio: false, video: true })
@@ -64,14 +76,20 @@ export default function QrCodeReader() {
         setQrResult({ nev: "", osztaly: "", befizetve: null });
     }
 
+    useEffect(() => {
+        setSearchBarHeight();
+    })
+
     return (
         <div>
+            <div id="control-height"></div>
             {isCamera && isCamera !== "false" && qrResult.befizetve === null ?
                 <QrReader
                     delay={300}
                     onError={handleError}
                     onScan={handleScan}
                     style={{ width: '100%' }}
+                    className="qr-reader"
                 />
                 : isCamera === null ?
                     <PermissionPopup />

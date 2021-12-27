@@ -32,7 +32,7 @@ app.post("/etlap", async (req, res) => {
   let day3 = [];
   let day4 = [];
   let day5 = [];
-  let date = new Date("2021-12-20");
+  let date = new Date("2021-12-27");
 
   // menu.forEach(async (day, index) => {
   //   date = await databaseUpload.insertDay(day, date);
@@ -60,6 +60,19 @@ app.post("/add", async (req, res) => {
     if (ret === 1) count++;
   }
   res.send(`${count} record(s) added`);
+})
+
+app.get("/user", (req, res) => {
+  res.json({
+    vNev: "Winch",
+    kNev: "Eszter",
+    osztaly: "12.A",
+    befizetve: null,
+    datum: "2021.12.01",
+    om: "71767844485",
+    iskolaOm: "771122",
+    email: "asd@asd.com"
+  });
 })
 
 app.put("/update", async (req, res) => {
