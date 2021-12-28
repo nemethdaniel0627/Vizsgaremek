@@ -23,6 +23,7 @@ export default function AdminDatabaseModal(props) {
     props.user.value=document.getElementById('new_amount').value;
     props.user.date=dates.join('#');
     ModalClose();
+    
   }
 
   function deleteUser()
