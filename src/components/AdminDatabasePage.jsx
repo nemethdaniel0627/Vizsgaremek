@@ -12,13 +12,15 @@ export default function AdminDatabasePage() {
     const [modalAppear, setModal] = useState(false);
     const [uploadModalAppear, setUploadModal] = useState(false);
     const [newModalAppear, setNewModal] = useState(false);
+    const [choosenUser, setChoosenUser] = useState("");
 
-    const users = [{ name: "Teszt Elek", class: "12.A", email: "teszt.elek@students.jedlik.eu", user: "Teszt.Elek", isPaid: true, value: "15000 Ft", date: "2022-05-16#2022-05-18#2022-05-20" }, { name: "Teszt Elek Béla", class: "13.A", email: "teszt.elek.bela@students.jedlik.eu", user: "Teszt.Elek.Bela", isPaid: false, value: "", date: "" }, { name: "Teszt Elek", class: "12.A", email: "teszt.elek@students.jedlik.eu", user: "Teszt.Elek", isPaid: true, value: "15000 Ft", date: "2022-05-16#2022-05-18#2022-05-20" }]
+    const users = [{ name: "Teszt Elek", class: "12.A", email: "teszt.elek@students.jedlik.eu", user: "Teszt.Elek", isPaid: true, value: "15000 Ft", date: "2022-05-16#2022-05-18#2022-05-20", isDeleted: false }, { name: "Teszt Elek Béla", class: "13.A", email: "teszt.elek.bela@students.jedlik.eu", user: "Teszt.Elek.Bela", isPaid: false, value: "", date: "",  isDeleted: false }, { name: "Teszt Elek", class: "12.A", email: "teszt.elek@students.jedlik.eu", user: "Teszt.Elek", isPaid: true, value: "15000 Ft", date: "2022-05-16#2022-05-18#2022-05-20",  isDeleted: false }]
 
     function Search() {
         setSearch(!search);
         modify ? setModify(!modify) : setModify(modify);
     }
+    
 
     function Modify() {
         setModify(!modify);
@@ -46,10 +48,10 @@ export default function AdminDatabasePage() {
             {modalAppear ? <Modal ModalClose={ModalClose} title="Figyelem" message="Biztosan törölni szeretné?" button="Törlés" show={modalAppear}></Modal> : <></>}
             <div className="container mt-5">
                 <div className="row">
-                    <div className="col-12 col-lg-8 admin-db-acc">
+                    <div className="col-12 col-lg-8 admin-db-acc mb-5 mb-lg-0">
                         <Accordion>
                             {users.map((user, index) => (
-                                <Accord key={index} eventkey={index} name={user.name} class={user.class} user={user.user} email={user.email} isPaid={user.isPaid} value={user.value} date={user.date}></Accord>
+                                <Accord key={index} eventkey={index} user={user}></Accord>
                             ))}
                         </Accordion>
 
