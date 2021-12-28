@@ -33,7 +33,6 @@ export default function AdminDatabaseModal(props) {
   }
 
   function TextAbstract(text, length) {
-    console.log(text);
     if (text == null) {
       return "";
     }
@@ -85,7 +84,6 @@ export default function AdminDatabaseModal(props) {
           <input type="text" id="new_username" className="w-100 form-control" defaultValue={props.user} />
         </div>
         <div className="form-check mb-3">
-          {/* TODO EZ : NEM JÓ A CHECK A MODIFY-NÁL*/}
           <input className="form-check-input" type="checkbox" id="flexCheckDefault" defaultChecked={props.isPaid ? true : false} />
           <label className="form-check-label" htmlFor="flexCheckDefault">
             Befizetve
@@ -94,7 +92,6 @@ export default function AdminDatabaseModal(props) {
         <div className="mb-3">
           <label htmlFor="new_amount" className="mb-2">Összeg:</label>
           <div className="input-group">
-            {/* TODO EZ2 : NEM JÓ A VALUE A MODIFY-NÁL*/}
             <input type="number" className="form-control" defaultValue={props.value ? props.value.split(' ')[0] : ""}/>
             <span className="input-group-text"> Ft</span>
           </div>

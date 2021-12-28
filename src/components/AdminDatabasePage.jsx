@@ -5,6 +5,7 @@ import Modal from "./AdminDatabaseModal";
 import Accord from "./AdminDatabaseAccordion";
 import { Accordion } from "react-bootstrap";
 
+
 export default function AdminDatabasePage() {
     const [search, setSearch] = useState(false);
     const [modify, setModify] = useState(false);
@@ -48,7 +49,6 @@ export default function AdminDatabasePage() {
                     <div className="col-12 col-lg-8 admin-db-acc">
                         <Accordion>
                             {users.map((user, index) => (
-
                                 <Accord key={index} eventkey={index} name={user.name} class={user.class} user={user.user} email={user.email} isPaid={user.isPaid} value={user.value} date={user.date}></Accord>
                             ))}
                         </Accordion>

@@ -48,15 +48,15 @@ export default function AdminDatabaseAccodrion(props) {
                         </div>
                         <div className="col-sm-12 col-lg-6 fs-4 mb-3">
                             <span>Összeg:</span>
-                            <span className="me-5 float-end">{props.value}</span>
+                            <span className="me-5 float-end">{props.value ? props.value : "Nincs befizetve!"}</span>
                         </div>
                         <hr />
                         <div className="col-sm-12 col-lg-12 fs-4 mb-3">
                             <span className="align-middle">Lemondott napok:</span>
                             <select className="form-select w-25 float-end fs-4">
                                 {props.date ? <option className="opt-first" >Napok:</option> : <option className="opt-first" >Nincs</option>}
-                                {dates.map(date => (
-                                    <option>{DateRewrite(date)}</option>
+                                {dates.map((date,index) => (
+                                    <option key={index}>{DateRewrite(date)}</option>
                                 ))}
 
                             </select>
