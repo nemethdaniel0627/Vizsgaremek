@@ -46,19 +46,7 @@ export default function QrCodeReader() {
                 })
         }
 
-    }, [isCamera])
-
-    function setSearchBarHeight() {
-        const actualHeight = window.innerHeight;
-        let elementHeight = document.getElementById('control-height');
-        const root = document.querySelector(":root");
-        if (elementHeight && root) {
-            elementHeight = elementHeight.clientHeight;
-            const barHeight = elementHeight - actualHeight;
-            root.style.setProperty("--searchBarHeight", `${barHeight}px`);
-        }
-        
-    }
+    }, [isCamera])    
 
     function askPermission(denied) {
         var now = Date.now();
@@ -75,10 +63,6 @@ export default function QrCodeReader() {
         setIsCamera(false);
         setQrResult({ nev: "", osztaly: "", befizetve: null });
     }
-
-    useEffect(() => {
-        setSearchBarHeight();
-    })
 
     return (
         <div>

@@ -9,6 +9,7 @@
   --numberOfDays: 0;
   --dropDownHeight: 18.6rem;
   --searchBarHeight: 0px;
+  --fullScreen: calc(100vh - 6rem - (var(--searchBarHeight)));
 }
 
 // ::selection {            

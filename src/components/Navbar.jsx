@@ -75,7 +75,7 @@ export default function Navbar(props) {
                         <img alt="ICON" id="Logo" src={foodE_logo} />
                     </label>
                     <div className="navbar--item">
-                        <Link to="/etlap"><FontAwesomeIcon icon={faCalendarAlt} /> Étrend</Link>
+                        <Link to="/etlap"><FontAwesomeIcon icon={faCalendarAlt} /> Étlap</Link>
                     </div>
                     <div className="navbar--item">
                         <Link to="/lemondas"><FontAwesomeIcon icon={faCalendarTimes} /> Lemondás</Link>
@@ -133,7 +133,7 @@ export default function Navbar(props) {
             {AuthUser._authorization === "user" ?
                 <div className="navbar--items-container--collapse">
                     <div className="navbar--items-container--collapse--item">
-                        <Link to="/etlap"><FontAwesomeIcon icon={faCalendarAlt} /> Étrend</Link>
+                        <Link to="/etlap"><FontAwesomeIcon icon={faCalendarAlt} /> Étlap</Link>
                     </div>
                     <div className="navbar--items-container--collapse--item">
                         <Link to="/lemondas"><FontAwesomeIcon icon={faCalendarTimes} /> Lemondás</Link>

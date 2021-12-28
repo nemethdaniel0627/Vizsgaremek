@@ -86,11 +86,11 @@
 
 .qr-reader {
     section {
-        height: calc(100vh - 6rem - (var(--searchBarHeight)));
+        height: var(--fullScreen);
 
         div {
-            border-top: calc((100vh - 6rem - (var(--searchBarHeight))) / 3.3333) solid rgba(0, 0, 0, 0.3) !important;
-            border-bottom: calc((100vh - 6rem - (var(--searchBarHeight))) / 3.3333) solid rgba(0, 0, 0, 0.3) !important;
+            border-top: calc(var(--fullScreen) / 3.3333) solid rgba(0, 0, 0, 0.3) !important;
+            border-bottom: calc(var(--fullScreen) / 3.3333) solid rgba(0, 0, 0, 0.3) !important;
         }
     }
 }

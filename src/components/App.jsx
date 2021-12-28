@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Switch } from "react-router";
+import { Route, Switch, useLocation } from "react-router";
 import AuthRoute from "./AuthRoute";
 import LoginForm from "./LoginForm";
 import Menu from "./Menu";
@@ -12,11 +12,12 @@ import AdminDatabasePage from "./AdminDatabasePage";
 import QrCodeReader from "./QrCodeReader";
 import { Redirect } from "react-router-dom";
 import AuthUser from "../modules/AuthUser";
-import { useState } from "react";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
+import NotFoundPage from "./NotFoundPage";
 
 export default function App() {
+    const path = useLocation().pathname;
     const [user, setUser] = useState({
         vNev: "",
         kNev: "",
@@ -29,6 +30,7 @@ export default function App() {
     });
 
     useEffect(() => {
+        setSearchBarHeight();
         if (user.vNev === "") {
             axios.get("/user")
             .then(response => {                
@@ -40,13 +42,28 @@ export default function App() {
         }
     })
 
-    // const path = useLocation().pathname;
+    useEffect(()=> {
+        const openNavbar = document.getElementById("navbar--button");
+        if (openNavbar) openNavbar.checked = false;
+    }, [path])
+
+    function setSearchBarHeight() {
+        const actualHeight = window.innerHeight;
+        let elementHeight = document.getElementById('control-height');
+        const root = document.querySelector(":root");
+        if (elementHeight && root) {
+            elementHeight = elementHeight.clientHeight;
+            const barHeight = elementHeight - actualHeight;
+            root.style.setProperty("--searchBarHeight", `${barHeight}px`);
+        }
+        
+    }
 
     return (
         <div className="App">
             <Navbar userName={`${user.vNev} ${user.kNev}`} />
             <Switch>
-                <AuthRoute path="/" exact component={() =>
+                <AuthRoute path="/" auth="user" exact component={() =>
                     {
                         return AuthUser._authorization === "user" 
                         ?
@@ -63,39 +80,39 @@ export default function App() {
                     <LoginForm title="Jelszo" />
                 } />
 
-                <Route path="/etlap" component={() =>
+                <AuthRoute path="/etlap" auth="user" component={() =>
                     <Menu cancel={false} header="Étlap" disabledDays={[]} />
                 } />
 
-                <Route path="/ebedjegy" component={() =>
+                <AuthRoute path="/ebedjegy" auth="user" component={() =>
                     <LunchTicket user={user}/>
                 } />
 
-                <Route path="/lemondas" component={() =>
+                <AuthRoute path="/lemondas" auth="user" component={() =>
                     <LunchCancelation />
                 } />
 
-                <Route path="/adatlap" component={() =>
+                <AuthRoute path="/adatlap" auth="user" component={() =>
                     <AccountPage user={user}/>
                 } />
 
-                <Route path="/kapcsolat" component={() =>
+                <AuthRoute path="/kapcsolat" auth="user" component={() =>
                     <ReportPage />
                 } />
 
-                <Route path="/adatbazis" component={() =>
+                <AuthRoute path="/adatbazis" auth="admin" component={() =>
                     <AdminDatabasePage />
                 } />
 
-                <Route path="/beolvas" component={() =>
+                <AuthRoute path="/beolvas" auth="admin" component={() =>
                     <QrCodeReader />
                 } />
 
                 <Route>
-                    <Redirect to="/" />
+                    <NotFoundPage />                    
                 </Route>
 
-            </Switch>
+            </Switch>            
         </div>
     )
 }
