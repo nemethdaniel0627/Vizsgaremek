@@ -10,6 +10,7 @@ import { Link } from "react-router-dom";
 import AccountPage from "./AccountPage";
 import ReportPage from "./ReportPage";
 import AdminDatabase from "./AdminDatabasePage";
+import PaymentPage from "./PaymentPage";
 
 export default function App() {
 
@@ -45,6 +46,10 @@ export default function App() {
 
                 <Route path="/kapcsolat" component={() =>
                     <ReportPage />
+                } />
+
+                <Route path="/fizetes" component={() =>
+                    <PaymentPage />
                 } />
 
                 <Route path="/admin" component={() =>
