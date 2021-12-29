@@ -38,8 +38,19 @@
         color: inherit;
         font-size: 1.7rem;
         text-decoration: none;
+        transition: all .4s;
+        box-shadow: 0 1rem 2rem rgba(0,0,0,.2);
+
+        &:hover {
+            color: #fff;            
+            transform: skewX(-40deg);
+            & > * {
+                transform: skewX(40deg);
+            }
+        }
 
         & > * {
+            transition: inherit;
             transform: skewX(30deg);
         }
     }
@@ -63,5 +74,38 @@
         @media only screen and (max-width: 500px) {
             width: 25rem;
         }
+    }
+}
+
+#flame {
+    .flameRed {
+        // animation: name duration timing-function delay iteration-count direction fill-mode;
+        animation: fire 3s infinite;
+    }        
+}
+
+@keyframes fire {
+    0% {
+        stop-color: #f34915;
+    }
+    50% {
+        stop-color: #ff0000;
+    }
+    100% {
+        stop-color: #f34915;
+    }
+}
+
+@keyframes fireTop {
+    0% {
+        d: path("M 121.063 0.20199 C 121.227 0.0693505 121.374 0.00105562 121.5 0 C 121.354 0.0673598 121.209 0.13469 121.063 0.20199 C 117.774 2.86276 107.608 31.4164 122.29 62.5 C 136.129 91.1868 158 115.5 158 147 C 158 178.5 39.0001 114 39.0001 114 C 37.096 53.4563 57.514 29.6287 121.063 0.20199 Z");
+    }
+
+    50% {
+        
+    }
+
+    100% {
+        d: path("M 121.063 0.20199 C 121.227 0.0693505 121.374 0.00105562 121.5 0 C 121.354 0.0673598 121.209 0.13469 121.063 0.20199 C 117.774 2.86276 107.608 31.4164 122.29 62.5 C 136.129 91.1868 158 115.5 158 147 C 158 178.5 39.0001 114 39.0001 114 C 37.096 53.4563 57.514 29.6287 121.063 0.20199 Z");
     }
 }
