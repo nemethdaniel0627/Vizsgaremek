@@ -32,8 +32,8 @@ export default function PaymentDateTable(props) {
                     </thead>
                     <tbody>
                         <tr>
-                            {forFor.map(day => (
-                                <DateLoader day={dates[day + 0 * 7].day} month={dates[day + 0 * 7].month} row='0' 
+                            {forFor.map((day, index) => (
+                                <DateLoader key={index} day={dates[day + 0 * 7].day} month={dates[day + 0 * 7].month} row='0' 
                                     breakfast={props.type === "Teljes" || props.type === "Kollégium" || props.type === "Kollégium+" ? "Reggeli" : ""} 
                                     beforeLunch={props.type === "Teljes" ? "Tízórai" : ""} 
                                     lunch={props.type !== "Kollégium" ? "Ebéd" : ""} 
@@ -49,8 +49,8 @@ export default function PaymentDateTable(props) {
                             </td>
                         </tr>
                         <tr>
-                            {forFor.map(day => (
-                                <DateLoader day={dates[day + 1 * 7].day} month={dates[day + 1 * 7].month} row='1' 
+                            {forFor.map((day, index) => (
+                                <DateLoader key={index} day={dates[day + 1 * 7].day} month={dates[day + 1 * 7].month} row='1' 
                                 breakfast={props.type === "Teljes" || props.type === "Kollégium" || props.type === "Kollégium+" ? "Reggeli" : ""} 
                                 beforeLunch={props.type === "Teljes" ? "Tízórai" : ""} 
                                 lunch={props.type !== "Kollégium" ? "Ebéd" : ""} 
@@ -67,8 +67,8 @@ export default function PaymentDateTable(props) {
                         </tr>
 
                         <tr>
-                            {forFor.map(day => (
-                               <DateLoader day={dates[day + 2 * 7].day} month={dates[day + 2 * 7].month} row='2' 
+                            {forFor.map((day, index) => (
+                               <DateLoader key={index} day={dates[day + 2 * 7].day} month={dates[day + 2 * 7].month} row='2' 
                                breakfast={props.type === "Teljes" || props.type === "Kollégium" || props.type === "Kollégium+" ? "Reggeli" : ""} 
                                beforeLunch={props.type === "Teljes" ? "Tízórai" : ""} 
                                lunch={props.type !== "Kollégium" ? "Ebéd" : ""} 
@@ -84,8 +84,8 @@ export default function PaymentDateTable(props) {
                         </tr>
 
                         <tr>
-                            {forFor.map(day => (
-                                <DateLoader day={dates[day + 3 * 7].day} month={dates[day + 3 * 7].month} row='3' 
+                            {forFor.map((day, index) => (
+                                <DateLoader key={index} day={dates[day + 3 * 7].day} month={dates[day + 3 * 7].month} row='3' 
                                 breakfast={props.type === "Teljes" || props.type === "Kollégium" || props.type === "Kollégium+" ? "Reggeli" : ""} 
                                 beforeLunch={props.type === "Teljes" ? "Tízórai" : ""} 
                                 lunch={props.type !== "Kollégium" ? "Ebéd" : ""} 
@@ -101,8 +101,8 @@ export default function PaymentDateTable(props) {
                         </tr>
 
                         <tr>
-                            {forFor.map(day => (
-                                <DateLoader day={dates[day + 4 * 7].day} month={dates[day + 4 * 7].month} row='4' 
+                            {forFor.map((day, index) => (
+                                <DateLoader key={index} day={dates[day + 4 * 7].day} month={dates[day + 4 * 7].month} row='4' 
                                 breakfast={props.type === "Teljes" || props.type === "Kollégium" || props.type === "Kollégium+" ? "Reggeli" : ""} 
                                 beforeLunch={props.type === "Teljes" ? "Tízórai" : ""} 
                                 lunch={props.type !== "Kollégium" ? "Ebéd" : ""} 
@@ -112,6 +112,23 @@ export default function PaymentDateTable(props) {
                             ))}
                             <td className="text-center">
                                 <button className="cal-btn btn btn-primary" onClick={() => Opacity('4')} >
+                                    <FontAwesomeIcon icon={faAngleDoubleDown} />
+                                </button>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            {forFor.map((day, index) => (
+                                <DateLoader key={index} day={dates[day + 5 * 7].day} month={dates[day + 5 * 7].month} row='5' 
+                                breakfast={props.type === "Teljes" || props.type === "Kollégium" || props.type === "Kollégium+" ? "Reggeli" : ""} 
+                                beforeLunch={props.type === "Teljes" ? "Tízórai" : ""} 
+                                lunch={props.type !== "Kollégium" ? "Ebéd" : ""} 
+                                snack={props.type === "Teljes" ? "Uzsonna" : ""} 
+                                dinner={props.type === "Teljes" || props.type === "Kollégium" || props.type === "Kollégium+" ? "Vacsora" : ""} 
+                            />
+                            ))}
+                            <td className="text-center">
+                                <button className="cal-btn btn btn-primary" onClick={() => Opacity('5')} >
                                     <FontAwesomeIcon icon={faAngleDoubleDown} />
                                 </button>
                             </td>

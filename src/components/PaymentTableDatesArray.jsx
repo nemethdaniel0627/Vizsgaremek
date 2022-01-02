@@ -11,9 +11,9 @@ export default function PaymentTableDateArray() {
         };
         dates.push(day);
     }
-    for (let y = 0; y < 5; y++) {
+    for (let y = 0; y < 6; y++) {
         for (let x = 1; x < 8; x++) {
-            if (dates.length >= 5 * 7) {
+            if (dates.length >= 6 * 7) {
                 break;
             }
             var dayDate =

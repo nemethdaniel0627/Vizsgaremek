@@ -60,7 +60,7 @@ export default function PaymentPage() {
 
                 <div className="form-check mx-auto w-50 mt-5">
                     <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
-                    <label className="form-check-label fs-5 text-light" for="flexCheckDefault">
+                    <label className="form-check-label fs-5 text-light" htmlFor="flexCheckDefault">
                         Általános Szerződési Feltételek elfogadása
                     </label>
                 </div>

@@ -12,9 +12,27 @@
   font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
     "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
 
+  .cal-header{
+    font-family: 'Times New Roman', Times, serif;
+  }
+
   thead th {
     width: 15%;
     text-align: center;
+  }
+
+  tbody th:hover{
+    background-color: #00000040;
+    cursor: pointer;
+    border-radius: 1em;
+    padding-right: 0.5em;
+  }
+
+  .select{
+    background-color: #70000040;
+    cursor: pointer;
+    border-radius: 1em;
+    padding-right: 0.5em;
   }
 
   .cal-date {
