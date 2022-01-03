@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Date from "./PaymentDateTable";
 import DateMobile from "./PaymentDateTableMobile";
 import Card from "./PaymentOptionCard";
+import PaymentTableDateArray from "./PaymentTableDatesArray";
 
 export default function PaymentPage() {
 
@@ -12,14 +13,19 @@ export default function PaymentPage() {
 
     const [modify, cheking] = useState(false);
     const [type, typing] = useState('');
+    const dates = PaymentTableDateArray();
 
     function cardBtnClick(event) {
         cheking(!modify);
         typing(event.target.attributes[1].value.split('_')[1]);
     }
 
+    function Pay(){
+        console.log(dates);
+    }
+
     return (
-        <div className="mx-auto">
+        <div className="mx-auto payment-page">
 
             {!modify ? 
             <div className="container mt-0 mt-lg-4">
@@ -39,11 +45,11 @@ export default function PaymentPage() {
                 </div>
             </div>
              : 
-            <div className="mt-3">
+            <div className={"mt-3 div " + (!isMobile ? "desktop" : "mobile") }>
                 <div className="container">
                     <div className="row">
                         <div className="col-12 col-lg-10">
-                            {isMobile ?  <DateMobile type={type}></DateMobile> :  <Date type={type}></Date>}
+                            {!isMobile ? <Date type={type} dates={dates}></Date> : <DateMobile type={type} dates={dates}></DateMobile>}
                         </div>
 
                         <div className="col-12 col-lg-2 mt-5 mt-lg-0">
@@ -58,14 +64,13 @@ export default function PaymentPage() {
                     </div>
                 </div>
 
-                <div className="form-check mx-auto w-50 mt-5">
-                    <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
-                    <label className="form-check-label fs-5 text-light" htmlFor="flexCheckDefault">
-                        Általános Szerződési Feltételek elfogadása
-                    </label>
+                <div className="mx-auto w-75 btn-div mt-5">
+                    <button className="btn fs-3">Étlap megnyitása/letöltése</button>
                 </div>
+
+                <hr className="div-hr"/>
                 <div className="w-50 mx-auto mt-5">
-                    <input type="submit" value="Fizetés" className="btn btn-success w-100 rounded fs-3" />
+                    <button className="btn w-100 fs-2 btn-pay" onClick={Pay}>Fizetés</button>
                 </div>
             </div>
             }

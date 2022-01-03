@@ -6,35 +6,38 @@ var date = new Date();
 export default function DateLoader(props) {
 
   const [select, changeSelect] = useState(false);
+  
 
   function SelectedDate(){
-    if(props.month === "-1"){
+    if(props.date.month === "-1" || props.indexKey === 6){
       changeSelect(false);
     }else{
       changeSelect(!select);
+      props.date.cancel = !select;
+      console.log(props.date.cancel);
     }
   }
 
   return (
     <td
       className={
-        date.getDate() === props.day &&
-          props.month !== "-1"
-          ? "cal-today"
+        date.getDate() === props.date.day &&
+          props.date.month !== "-1"
+          ? ""
           : ""
       }
     >
       <table
         className={
           "cal-date-meals" +
-          (date.getMonth() + 1 !== props.month
+          ((date.getMonth() + 2 > 12 ? 1 : date.getMonth() + 2) !== props.date.month || props.indexKey === 6
             ? " text-secondary"
             : " fw-bold text-light")
         }
       >
         <thead>
           <tr>
-            <th className={"cal-date" + (select ? " select" : "")} onClick={SelectedDate}>{props.day}</th>
+            <th className={"cal-date" + (select ? " select" : "")} onClick={SelectedDate}>{props.date.day}</th>
           </tr>
         </thead>
         <tbody className={"meal_" + props.row + " cal-meals-display"}>
