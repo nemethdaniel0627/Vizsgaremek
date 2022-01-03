@@ -16,6 +16,7 @@ class User {
                     const row = r.trim();
                     this.#data.push(row);
                 });
+                console.log(this.#data);
             return (this.#data);
         } catch (error) {
             throw error;

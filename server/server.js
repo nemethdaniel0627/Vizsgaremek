@@ -7,6 +7,7 @@ const databaseUpload = require('./modules/databaseUpload');
 const sqlQueries = require('./modules/sqlQueries');
 const databaseDownload = require('./modules/databaseDownload');
 const user = require('./modules/user');
+const test = require('./modules/test');
 
 const app = express();
 
@@ -75,6 +76,12 @@ app.delete("/delete", async (req, res) => {
 app.post("/cancel", async (req, res) => {
   await user.cancelOrder('2021-12-19', [1, 0, 1, 0, 1]);
   res.send("Kész");
+})
+
+app.post("/test", async (req, res) => {
+  const data = await test.readFile('users.txt');
+  await test.generate(5);
+  res.send(data)
 })
 
 app.get("/", (req, res) => {
