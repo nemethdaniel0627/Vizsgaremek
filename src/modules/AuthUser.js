@@ -2,7 +2,7 @@ class AuthUser {
     _authorization = sessionStorage.getItem("auth");    
 
     isLoggedIn() {
-        console.log(sessionStorage.getItem("auth"));
+        // console.log(sessionStorage.getItem("auth"));
         if (sessionStorage.getItem("auth")) return true;
         
         else return false;

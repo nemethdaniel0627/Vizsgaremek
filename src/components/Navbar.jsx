@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import foodE_logo from "../images/FoodWeb_logo.png";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCalendarAlt, faCalendarTimes, faUserCircle, faCaretDown, faSignOutAlt, faTicketAlt, faUser, faQrcode, faDatabase } from "@fortawesome/free-solid-svg-icons";
+import { faCalendarAlt, faCalendarTimes, faUserCircle, faCaretDown, faSignOutAlt, faTicketAlt, faUser, faQrcode, faDatabase, faUpload } from "@fortawesome/free-solid-svg-icons";
 import { faCreditCard, faEnvelope, faIdCard } from "@fortawesome/free-regular-svg-icons";
 import AuthUser from "../modules/AuthUser";
 import { useEffect } from "react";
@@ -17,7 +17,7 @@ export default function Navbar(props) {
             tmpDarkMode = !darkMode;
             setDarkMode(!darkMode);
         }
-        
+
         if (tmpDarkMode) {
             root.style.setProperty('--dark-blue', "#0D1321");
             root.style.setProperty('--light-blue', "#1D2D44");
@@ -42,9 +42,9 @@ export default function Navbar(props) {
         const element = document.querySelector("style");
         if (dropdown && root && head && element) {
             dropdown.style.visibility = "hidden";
-            dropdown.style.height = "max-content";            
+            dropdown.style.height = "max-content";
 
-            var css = `.dropbtn:hover #dropdown { height: ${dropdown.offsetHeight}px }`;                     
+            var css = `.dropbtn:hover #dropdown { height: ${dropdown.offsetHeight}px }`;
 
             if (element.styleSheet) {
                 element.styleSheet.cssText = css;
@@ -56,7 +56,7 @@ export default function Navbar(props) {
 
             dropdown.style.height = "";
             dropdown.style.visibility = "visible";
-        }        
+        }
     }
 
     useState(() => {
@@ -95,6 +95,9 @@ export default function Navbar(props) {
                         <div className="navbar--item">
                             <Link to="/beolvas"><FontAwesomeIcon icon={faQrcode} /> Beolvasás</Link>
                         </div>
+                        <div className="navbar--item">
+                            <Link to="/etlapfeltolt"><FontAwesomeIcon icon={faUpload} /> Étlap feltöltés</Link>
+                        </div>
                     </div>
                     :
                     <div className="navbar--items-container">
@@ -119,11 +122,11 @@ export default function Navbar(props) {
                         </button>
                     </div>
                     : AuthUser._authorization === "admin" ?
-                    <div className="navbar--item">
-                        <div onClick={AuthUser.logoutUser}><FontAwesomeIcon icon={faSignOutAlt} /> Kijelentkezés</div>
-                    </div>
-                    :
-                    <i />
+                        <div className="navbar--item">
+                            <div onClick={AuthUser.logoutUser}><FontAwesomeIcon icon={faSignOutAlt} /> Kijelentkezés</div>
+                        </div>
+                        :
+                        <i />
                 }
             </div>
             <input type="checkbox" id="navbar--button" />
@@ -158,7 +161,10 @@ export default function Navbar(props) {
                     </div>
                     <div className="navbar--items-container--collapse--item">
                         <Link to="/beolvas"><FontAwesomeIcon icon={faQrcode} /> Beolvasás</Link>
-                    </div>                    
+                    </div>
+                    <div className="navbar--items-container--collapse--item">
+                        <Link to="/etlapfeltolt"><FontAwesomeIcon icon={faQrcode} /> Étlap feltöltés</Link>
+                    </div>
                     <div className="navbar--items-container--collapse--item">
                         <div onClick={AuthUser.logoutUser} className="dropdown--item"><FontAwesomeIcon icon={faSignOutAlt} /> Kijelentkezés</div>
                     </div>

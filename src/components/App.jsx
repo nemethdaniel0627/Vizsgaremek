@@ -15,6 +15,7 @@ import AuthUser from "../modules/AuthUser";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import NotFoundPage from "./NotFoundPage";
+import MenuUpload from "./MenuUpload";
 
 export default function App() {
     const path = useLocation().pathname;
@@ -33,16 +34,16 @@ export default function App() {
         setSearchBarHeight();
         if (user.vNev === "") {
             axios.get("/user")
-            .then(response => {                
-                setUser(response.data);
-            })
-            .catch(error => {
-                console.error(error);
-            })
+                .then(response => {
+                    setUser(response.data);
+                })
+                .catch(error => {
+                    console.error(error);
+                })
         }
     })
 
-    useEffect(()=> {
+    useEffect(() => {
         const openNavbar = document.getElementById("navbar--button");
         if (openNavbar) openNavbar.checked = false;
     }, [path])
@@ -56,24 +57,25 @@ export default function App() {
             const barHeight = elementHeight - actualHeight;
             root.style.setProperty("--searchBarHeight", `${barHeight}px`);
         }
-        
+
     }
 
     return (
         <div className="App">
             <Navbar userName={`${user.vNev} ${user.kNev}`} />
             <Switch>
-                <AuthRoute path="/" auth="user" exact component={() =>
-                    {
-                        return AuthUser._authorization === "user" 
+                {console.log("asd " + AuthUser._authorization)}
+                <AuthRoute path="/" auth={AuthUser._authorization} exact component={() => {
+
+                    return AuthUser._authorization === "user"
                         ?
                         <Redirect to="/etlap" />
                         : AuthUser._authorization === "admin" ?
-                        <Redirect to="/adatbazis" />
-                        :
-                        <Menu cancel={false} header="Étlap" disabledDays={[]} />
+                            <Redirect to="/adatbazis" />
+                            :
+                            <Menu cancel={false} header="Étlap" disabledDays={[]} />
 
-                    }
+                }
                 } />
 
                 <Route path="/login" component={() =>
@@ -85,7 +87,7 @@ export default function App() {
                 } />
 
                 <AuthRoute path="/ebedjegy" auth="user" component={() =>
-                    <LunchTicket user={user}/>
+                    <LunchTicket user={user} />
                 } />
 
                 <AuthRoute path="/lemondas" auth="user" component={() =>
@@ -93,7 +95,7 @@ export default function App() {
                 } />
 
                 <AuthRoute path="/adatlap" auth="user" component={() =>
-                    <AccountPage user={user}/>
+                    <AccountPage user={user} />
                 } />
 
                 <AuthRoute path="/kapcsolat" auth="user" component={() =>
@@ -108,11 +110,15 @@ export default function App() {
                     <QrCodeReader />
                 } />
 
+                <AuthRoute path="/etlapfeltolt" auth="admin" component={() =>
+                    <MenuUpload />
+                } />
+
                 <Route>
-                    <NotFoundPage />                    
+                    <NotFoundPage />
                 </Route>
 
-            </Switch>            
+            </Switch>
         </div>
     )
 }
