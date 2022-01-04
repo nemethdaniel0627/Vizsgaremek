@@ -46,7 +46,7 @@ export default function QrCodeReader() {
                 })
         }
 
-    }, [isCamera])
+    }, [isCamera])    
 
     function askPermission(denied) {
         var now = Date.now();
@@ -66,12 +66,14 @@ export default function QrCodeReader() {
 
     return (
         <div>
+            <div id="control-height"></div>
             {isCamera && isCamera !== "false" && qrResult.befizetve === null ?
                 <QrReader
                     delay={300}
                     onError={handleError}
                     onScan={handleScan}
                     style={{ width: '100%' }}
+                    className="qr-reader"
                 />
                 : isCamera === null ?
                     <PermissionPopup />

@@ -2,19 +2,22 @@ import React, { useState } from "react";
 import foodE_logo from "../images/FoodWeb_logo.png";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCalendarAlt, faCalendarTimes, faUserCircle, faCaretDown, faSignOutAlt, faTicketAlt, faUser } from "@fortawesome/free-solid-svg-icons";
+import { faCalendarAlt, faCalendarTimes, faUserCircle, faCaretDown, faSignOutAlt, faTicketAlt, faUser, faQrcode, faDatabase, faUpload } from "@fortawesome/free-solid-svg-icons";
 import { faCreditCard, faEnvelope, faIdCard } from "@fortawesome/free-regular-svg-icons";
+import AuthUser from "../modules/AuthUser";
+import { useEffect } from "react";
 
 export default function Navbar(props) {
     const [darkMode, setDarkMode] = useState(true);
+    const root = document.querySelector(':root');
 
     function darkModeChange(setDefault) {
         let tmpDarkMode = darkMode;
-        if (!setDefault || setDefault.type === "click") {            
+        if (!setDefault || setDefault.type === "click") {
             tmpDarkMode = !darkMode;
             setDarkMode(!darkMode);
         }
-        const root = document.querySelector(':root');
+
         if (tmpDarkMode) {
             root.style.setProperty('--dark-blue', "#0D1321");
             root.style.setProperty('--light-blue', "#1D2D44");
@@ -33,67 +36,140 @@ export default function Navbar(props) {
         }
     }
 
+    function setDropDownHeight() {
+        const dropdown = document.getElementById("dropdown");
+        const head = document.getElementsByTagName('head');
+        const element = document.querySelector("style");
+        if (dropdown && root && head && element) {
+            dropdown.style.visibility = "hidden";
+            dropdown.style.height = "max-content";
+
+            var css = `.dropbtn:hover #dropdown { height: ${dropdown.offsetHeight}px }`;
+
+            if (element.styleSheet) {
+                element.styleSheet.cssText = css;
+            } else {
+                element.appendChild(document.createTextNode(css));
+            }
+
+            head[0].appendChild(element);
+
+            dropdown.style.height = "";
+            dropdown.style.visibility = "visible";
+        }
+    }
+
     useState(() => {
         darkModeChange(true);
     }, [])
 
+    useEffect(() => {
+        setDropDownHeight();
+    })
+
     return (
         <div id="navbar" className="navbar">
-            <div className="navbar--items-container">
-                <label htmlFor="navbar--btn" id="navbar--photo" className="navbar--photo">
-                    <img alt="ICON" id="Logo" src={foodE_logo} />
-                </label>
-                <div className="navbar--item">
-                    <Link to="/etlap"><FontAwesomeIcon icon={faCalendarAlt} /> Étrend</Link>
-                </div>
-                <div className="navbar--item">
-                    <Link to="/lemondas"><FontAwesomeIcon icon={faCalendarTimes} /> Lemondás</Link>
-                </div>
-                <div className="navbar--item">
-                    <Link to="/ebedjegy"><FontAwesomeIcon icon={faTicketAlt} /> Ebédjegy</Link>
-                </div>
-            </div>
-            <div className="dropdown">
-                <button className="Login_button dropbtn"> <FontAwesomeIcon icon={faUser} /> Teszt Elek <FontAwesomeIcon icon={faCaretDown} />
-                    <div className="dropdown--content" id="dropdown">
-                        <Link to="/adatlap" className="dropdown--item"><FontAwesomeIcon icon={faIdCard} /> Adatlap</Link>
-                        <Link to="/fizetes" className="dropdown--item"><FontAwesomeIcon icon={faCreditCard} /> Fizetés</Link>
-                        <Link to="/kapcsolat" className="dropdown--item"><FontAwesomeIcon icon={faEnvelope} /> Kapcsolat</Link>
-                        <Link to="/login" className="dropdown--item"><FontAwesomeIcon icon={faSignOutAlt} /> Kijelentkezés</Link>
+            {AuthUser._authorization === "user" ?
+                <div className="navbar--items-container">
+                    <label htmlFor="navbar--btn" id="navbar--photo" className="navbar--photo">
+                        <img alt="ICON" id="Logo" src={foodE_logo} />
+                    </label>
+                    <div className="navbar--item">
+                        <Link to="/etlap"><FontAwesomeIcon icon={faCalendarAlt} /> Étlap</Link>
                     </div>
-                </button>
-            </div>
-            <div className="darkmode">
-                <input id="toggle" defaultChecked={darkMode} className="toggle" onClick={darkModeChange} type="checkbox" />
-                {/* <label className="switch" for="toggle">                    
-                    <span className="slider round"></span>
-                </label> */}
-                {/* <label for="toggle" class ="title">Toggle dark mode</label> */}
+                    <div className="navbar--item">
+                        <Link to="/lemondas"><FontAwesomeIcon icon={faCalendarTimes} /> Lemondás</Link>
+                    </div>
+                    <div className="navbar--item">
+                        <Link to="/ebedjegy"><FontAwesomeIcon icon={faTicketAlt} /> Ebédjegy</Link>
+                    </div>
+                </div>
+                : AuthUser._authorization === "admin" ?
+                    <div className="navbar--items-container">
+                        <label htmlFor="navbar--btn" id="navbar--photo" className="navbar--photo">
+                            <img alt="ICON" id="Logo" src={foodE_logo} />
+                        </label>
+                        <div className="navbar--item">
+                            <Link to="/adatbazis"><FontAwesomeIcon icon={faDatabase} /> Adatbázis</Link>
+                        </div>
+                        <div className="navbar--item">
+                            <Link to="/beolvas"><FontAwesomeIcon icon={faQrcode} /> Beolvasás</Link>
+                        </div>
+                        <div className="navbar--item">
+                            <Link to="/etlapfeltolt"><FontAwesomeIcon icon={faUpload} /> Étlap feltöltés</Link>
+                        </div>
+                    </div>
+                    :
+                    <div className="navbar--items-container">
+                        <label htmlFor="navbar--btn" id="navbar--photo" className="navbar--photo">
+                            <img alt="ICON" id="Logo" src={foodE_logo} />
+                        </label>
+                    </div>
+            }
+            <div className=" navbar--left-side-container">
+                <div className="darkmode">
+                    <input id="toggle" defaultChecked={darkMode} className="toggle" onClick={darkModeChange} type="checkbox" />
+                </div>
+                {AuthUser._authorization === "user" ?
+                    <div className="dropdown">
+                        <button className="Login_button dropbtn"> <FontAwesomeIcon icon={faUser} /> {props.userName} <FontAwesomeIcon icon={faCaretDown} />
+                            <div className="dropdown--content" id="dropdown">
+                                <Link to="/adatlap" className="dropdown--item"><FontAwesomeIcon icon={faIdCard} /> Adatlap</Link>
+                                <Link to="/fizetes" className="dropdown--item"><FontAwesomeIcon icon={faCreditCard} /> Fizetés</Link>
+                                <Link to="/kapcsolat" className="dropdown--item"><FontAwesomeIcon icon={faEnvelope} /> Kapcsolat</Link>
+                                <div onClick={AuthUser.logoutUser} className="dropdown--item"><FontAwesomeIcon icon={faSignOutAlt} /> Kijelentkezés</div>
+                            </div>
+                        </button>
+                    </div>
+                    : AuthUser._authorization === "admin" ?
+                        <div className="navbar--item">
+                            <div onClick={AuthUser.logoutUser}><FontAwesomeIcon icon={faSignOutAlt} /> Kijelentkezés</div>
+                        </div>
+                        :
+                        <i />
+                }
             </div>
             <input type="checkbox" id="navbar--button" />
             <label htmlFor="navbar--button" className="navbar--button--container">
                 <div className="navbar--button"></div>
             </label>
-            <div className="navbar--items-container--collapse">
-                <div className="navbar--items-container--collapse--item">
-                    <Link to="/etlap"><FontAwesomeIcon icon={faCalendarAlt} /> Étrend</Link>
+            {AuthUser._authorization === "user" ?
+                <div className="navbar--items-container--collapse">
+                    <div className="navbar--items-container--collapse--item">
+                        <Link to="/etlap"><FontAwesomeIcon icon={faCalendarAlt} /> Étlap</Link>
+                    </div>
+                    <div className="navbar--items-container--collapse--item">
+                        <Link to="/lemondas"><FontAwesomeIcon icon={faCalendarTimes} /> Lemondás</Link>
+                    </div>
+                    <div className="navbar--items-container--collapse--item">
+                        <Link to="/ebedjegy"><FontAwesomeIcon icon={faTicketAlt} /> Ebédjegy</Link>
+                    </div>
+                    <div className="navbar--items-container--collapse--item">
+                        <Link to="/fizetes" className="dropdown--item"><FontAwesomeIcon icon={faCreditCard} /> Fizetés</Link>
+                    </div>
+                    <div className="navbar--items-container--collapse--item">
+                        <Link to="/kapcsolat" className="dropdown--item"><FontAwesomeIcon icon={faEnvelope} /> Kapcsolat</Link>
+                    </div>
+                    <div className="navbar--items-container--collapse--item">
+                        <div onClick={AuthUser.logoutUser} className="dropdown--item"><FontAwesomeIcon icon={faSignOutAlt} /> Kijelentkezés</div>
+                    </div>
                 </div>
-                <div className="navbar--items-container--collapse--item">
-                    <Link to="/lemondas"><FontAwesomeIcon icon={faCalendarTimes} /> Lemondás</Link>
+                :
+                <div className="navbar--items-container--collapse">
+                    <div className="navbar--items-container--collapse--item">
+                        <Link to="/adatbazis"><FontAwesomeIcon icon={faDatabase} /> Adatbázis</Link>
+                    </div>
+                    <div className="navbar--items-container--collapse--item">
+                        <Link to="/beolvas"><FontAwesomeIcon icon={faQrcode} /> Beolvasás</Link>
+                    </div>
+                    <div className="navbar--items-container--collapse--item">
+                        <Link to="/etlapfeltolt"><FontAwesomeIcon icon={faQrcode} /> Étlap feltöltés</Link>
+                    </div>
+                    <div className="navbar--items-container--collapse--item">
+                        <div onClick={AuthUser.logoutUser} className="dropdown--item"><FontAwesomeIcon icon={faSignOutAlt} /> Kijelentkezés</div>
+                    </div>
                 </div>
-                <div className="navbar--items-container--collapse--item">
-                    <Link to="/ebedjegy"><FontAwesomeIcon icon={faTicketAlt} /> Ebédjegy</Link>
-                </div>
-                <div className="navbar--items-container--collapse--item">
-                    <Link to="/fizetes" className="dropdown--item"><FontAwesomeIcon icon={faCreditCard} /> Fizetés</Link>
-                </div>
-                <div className="navbar--items-container--collapse--item">
-                    <Link to="/kapcsolat" className="dropdown--item"><FontAwesomeIcon icon={faEnvelope} /> Kapcsolat</Link>
-                </div>
-                <div className="navbar--items-container--collapse--item">
-                    <Link to="/login" className="dropdown--item"><FontAwesomeIcon icon={faSignOutAlt} /> Kijelentkezés</Link>
-                </div>
-            </div>
+            }
             <Link to="/adatlap" className="account--item"><FontAwesomeIcon icon={faUserCircle} /> {props.userName}</Link>
         </div>
 

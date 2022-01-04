@@ -10,7 +10,9 @@ import {
   import Accordion from "react-bootstrap/Accordion";
   
   
-  export default function DataPage(props) {
+  export default function AccountPage(props) {
+    
+
     return (
       <div className="h3 m-5">
         <Accordion defaultActiveKey="0">
@@ -21,33 +23,41 @@ import {
             <Accordion.Body className="acc-body">
               <div className="container mw-100">
                 <div className="row">
-                  <div className="col-sm-12 col-lg-6 rowEven rowOdd">
-                    Családi név:
-                    {props.lastName}
-                  </div>
                   <div className="col-sm-12 col-lg-6 rowEven">
                     Vezetéknév:
-                    {props.firstName}
-                  </div>
-                  <div className="col-sm-12 col-lg-12 rowOdd">
-                    Útónév:
-                    {props.secondName}
+                    <span>
+                      {props.user.vNev}
+                    </span>
                   </div>
                   <div className="col-sm-12 col-lg-6 rowEven">
+                    Keresztnév:
+                    <span>
+                      {props.user.kNev}
+                    </span>
+                  </div>                  
+                  <div className="col-sm-12 col-lg-6 rowOdd">
                     OM azonosító:
-                    {props.userName}
-                  </div>
-                  <div className="col-sm-12 col-lg-6 rowEven rowOdd">
-                    Osztály:
-                    {props.userClass}
-                  </div>
-                  <div className="col-sm-12 col-lg-6 rowOddorEven">
-                    E-mail:
-                    {props.email}
+                    <span>
+                      {props.user.om}
+                    </span>
                   </div>
                   <div className="col-sm-12 col-lg-6 rowOdd">
+                    Osztály:
+                    <span>
+                      {props.user.osztaly}
+                    </span>
+                  </div>
+                  <div className="col-sm-12 col-lg-6 rowEven">
+                    E-mail:
+                    <span>
+                      {props.user.email}
+                    </span>
+                  </div>
+                  <div className="col-sm-12 col-lg-6 rowEven">
                     Iskola OM azonosítója:
-                    {props.schoolId}
+                    <span>
+                      {props.user.iskolaOm}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -185,8 +195,7 @@ import {
                   </div>
   
                   <div className="col-sm-12 col-lg-12 mt-lg-2 mt-4 ">
-                    <button
-                      onclick=""
+                    <button                      
                       className="btn btn-secondary mx-auto d-flex w-auto fs-2 px-4"
                     >
                       <FontAwesomeIcon icon={faKey} className="mt-2 me-2 fs-2" />

@@ -124,7 +124,8 @@ export default function Menu(props) {
     }, [])
 
     useEffect(() => {
-        convertDisplayWeek(new Date());        
+        convertDisplayWeek(new Date());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [weekLength])
 
     function checkNextWeek() {
