@@ -12,7 +12,6 @@ export default function PaymentDateTable(props) {
     ];
     const forFor = [0, 1, 2, 3, 4, 5, 6];
     const dates = props.dates;
-    console.log(dates);
 
 
     return (

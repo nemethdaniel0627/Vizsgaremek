@@ -9,7 +9,7 @@ export default function PaymentTableDateArray() {
         var day = {
             day: lastDayInTheMonth(month) - (d.getDay() - 1 - (index + 1)),
             month: "-1",
-            canel: null,
+            cancel: null,
         };
         dates.push(day);
     }
