@@ -85,6 +85,11 @@ app.delete("/delete", async (req, res) => {
   res.send(`${count} record(s) deleted`);
 })
 
+app.post("/cancel", async (req, res) => {
+  await user.cancelOrder('2021-12-19', [1, 0, 1, 0, 1]);
+  res.send("Kész");
+})
+
 app.get("/", (req, res) => {
   res.send("<div>Hello world</div>")
 })

@@ -16,6 +16,8 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import NotFoundPage from "./NotFoundPage";
 import MenuUpload from "./MenuUpload";
+import PaymentPage from "./PaymentPage";
+
 
 export default function App() {
     const path = useLocation().pathname;
@@ -102,9 +104,14 @@ export default function App() {
                     <ReportPage />
                 } />
 
+
                 <AuthRoute path="/adatbazis" auth="admin" component={() =>
                     <AdminDatabasePage />
                 } />
+                
+                <AuthRoute path="/fizetes" auth="user" component={() =>
+                    <PaymentPage />
+                } />                
 
                 <AuthRoute path="/beolvas" auth="admin" component={() =>
                     <QrCodeReader />
