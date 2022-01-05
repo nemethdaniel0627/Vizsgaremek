@@ -79,7 +79,7 @@ app.post("/cancel", async (req, res) => {
 })
 
 app.post("/test", async (req, res) => {
-  const data = await test.generate(10);
+  const data = await test.generate('users.txt', 100);
   res.send(data)
 })
 

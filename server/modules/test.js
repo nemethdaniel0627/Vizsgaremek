@@ -1,5 +1,5 @@
 const fs = require('fs').promises;
-
+const user = require('./user');
 class Test {
     #names;
     #data;
@@ -42,37 +42,30 @@ class Test {
         return this.#names[r];
     }
 
-    async generate(amount) {
+    async generate(filename, amount) {
         // felhasznaloNev;jelszo;nev;iskolaOM;osztaly;email
         const min = 72300000000;
         const max = 72400000000;
-        let row = '';
-        let data = [];
         this.#data = [];
         for (let i = 0; i < amount; i++) {
-            row = '';
-            row += await this.randomInt(min, max); // username
-            row += ';';
-            row += Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15); // password
-            row += ';';
-            let name = await this.randomName();
-            row += name; // name
-            row += ';';
-            row += `${await this.randomString(3)}${await this.randomInt(100, 1000)}`; // schoolOM
-            row += ';';
-            row += `${await this.randomInt(8, 13)}${await this.randomString(1)}`; // class
-            row += ';';
-            row += `${await name.toLowerCase().split(' ').join('.')}@gmail.com`; // email
+            let row = '';
+            const username = await this.randomInt(min, max);
+            const password = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+            const name = await this.randomName();
+            const schoolOM = `${await this.randomString(3)}${await this.randomInt(100, 1000)}`;
+            const _class = `${await this.randomInt(8, 13)}${await this.randomString(1)}`;
+            const email = `${await name.toLowerCase().split(' ').join('.')}@gmail.com`;
+            row = `${username};${password};${name};${schoolOM};${_class};${email}`;
             // console.log(row);
-            data.push(row);
+            // user.isUnique()
             this.#data.push(row);
         }
-        await this.writeFile('test.txt')
-        return data;
+        // const exits = await this.writeFile(filename)
+        return this.#data;
     }
 
     async writeFile(filename) {
-        fs.writeFile(`./${filename}`, `${this.#data[0]}`)
+        await fs.writeFile(`./${filename}`, `${this.#data.join('\n')}`);
     }
 }
 
