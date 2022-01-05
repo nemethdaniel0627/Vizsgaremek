@@ -79,8 +79,7 @@ app.post("/cancel", async (req, res) => {
 })
 
 app.post("/test", async (req, res) => {
-  const data = await test.readFile('users.txt');
-  await test.generate(5);
+  const data = await test.generate(10);
   res.send(data)
 })
 
