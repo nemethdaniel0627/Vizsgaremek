@@ -1,156 +1,104 @@
 import {
-    faKey,
-    faLock,
-    faPen,
-    faTrash,
-    faUnlock,
-  } from "@fortawesome/free-solid-svg-icons";
-  import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-  import React from "react";
-  import Accordion from "react-bootstrap/Accordion";
-  
-  
-  export default function DataPage(props) {
-    return (
-      <div className="h3 m-5">
-        <Accordion defaultActiveKey="0">
-          <Accordion.Item eventKey="0">
-            <Accordion.Header className="acc-head">
-              <span className="fs-2 m-2">Személyes adatok</span>
-            </Accordion.Header>
-            <Accordion.Body className="acc-body">
-              <div className="container mw-100">
-                <div className="row">
-                  <div className="col-sm-12 col-lg-6 rowEven rowOdd">
-                    Családi név:
-                    {props.lastName}
-                  </div>
-                  <div className="col-sm-12 col-lg-6 rowEven">
-                    Vezetéknév:
-                    {props.firstName}
-                  </div>
-                  <div className="col-sm-12 col-lg-12 rowOdd">
-                    Útónév:
-                    {props.secondName}
-                  </div>
-                  <div className="col-sm-12 col-lg-6 rowEven">
-                    OM azonosító:
-                    {props.userName}
-                  </div>
-                  <div className="col-sm-12 col-lg-6 rowEven rowOdd">
-                    Osztály:
-                    {props.userClass}
-                  </div>
-                  <div className="col-sm-12 col-lg-6 rowOddorEven">
-                    E-mail:
-                    {props.email}
-                  </div>
-                  <div className="col-sm-12 col-lg-6 rowOdd">
-                    Iskola OM azonosítója:
-                    {props.schoolId}
-                  </div>
-                </div>
+  faLock,
+  faPencilAlt,
+  faSyncAlt,
+  faTimesCircle,
+  faUnlock,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React from "react";
+import Activities from "./AccountPageActivities";
+import { useState } from "react";
+
+export default function DataPage(props) {
+
+  const [change, changing] = useState(false);
+
+  function PassChange() {
+    changing(!change);
+  }
+
+  return (
+    <div className="h3 m-5">
+      <div className="container datas">
+        <div className="row">
+          <div className="col-9 personal-datas">
+            <div className="important">
+              <div className="header">
+                <h1>Személyes adatok</h1>
+                <button className="btn modify-btn">
+                  {" "}
+                  Módosítás <FontAwesomeIcon icon={faPencilAlt} />
+                </button>
               </div>
-            </Accordion.Body>
-          </Accordion.Item>
-          <Accordion.Item eventKey="1">
-            <Accordion.Header className="acc-head">
-              <span className="fs-2 m-2">Bankkártya adatok</span>
-            </Accordion.Header>
-            <Accordion.Body className="acc-body">
-              <div className="container mw-100">
-                <div className="row">
-                  <div className="col-lg-6 col-sm-12 rowEven">
-                    <div className="container">
-                      <div className="row">
-                        <div className="col-lg-5 col-sm-12">Bankkártya szám:</div>
-                        <div className="col-lg-7 col-sm-12">
-                          <input
-                            type="text"
-                            name=""
-                            id="cardNumber"
-                            className="form-control cardData fs-3 w-100 h-100"
-                            disabled
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-lg-6 col-sm-12 rowEven rowOdd">
-                    <div className="container">
-                      <div className="row">
-                        <div className="col-lg-5 col-sm-12">
-                          Számlavezető bank:
-                        </div>
-                        <div className="col-lg-5 col-sm-12">
-                          <input
-                            type="text"
-                            name=""
-                            id="bankName"
-                            className="form-control cardData fs-3 h-100"
-                            disabled
-                            value=""
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-lg-6 col-sm-12 rowOddorEven">
-                    <div className="container">
-                      <div className="row">
-                        <div className="col-lg-5 col-sm-12">Tulajdonos neve:</div>
-                        <div className="col-lg-7 col-sm-12">
-                          <input
-                            type="text"
-                            name=""
-                            id="cardName"
-                            className="form-control cardData fs-3 w-100 h-100"
-                            disabled
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-lg-6 col-sm-12 mt-2 rowOdd">
-                    <div className="container">
-                      <div className="row">
-                        <div className="col-lg-5 col-sm-12">Lejárati dátum:</div>
-                        <div className="col-lg-4 col-sm-9 col-9">
-                          <input
-                            type="text"
-                            name=""
-                            id="cardExpiry"
-                            className="form-control cardData fs-3 h-100"
-                            disabled
-                          />
-                        </div>
-                        <div className="col-lg-3 col-sm-3 col-3 justify-content-center d-flex">
-                          <button className="btn btn-secondary fs-4">
-                            <FontAwesomeIcon icon={faPen} />
-                          </button>
-                          <button className="btn btn-secondary fs-4 ms-2">
-                            <FontAwesomeIcon icon={faTrash} />
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+
+              <table className="personal-tables">
+                <tr>
+                  <td className="key">Vezetéknév</td>
+                  <td className="value">Teszt</td>
+                  <td className="key">Osztály</td>
+                  <td className="value">12.A</td>
+                </tr>
+                <tr>
+                  <td className="key">Keresztnév</td>
+                  <td className="value">Elek</td>
+                  <td className="key">Iskola OM azonosító</td>
+                  <td className="value">2211556</td>
+                </tr>
+                <tr>
+                  <td className="key">Felhasználónév</td>
+                  <td className="value">Teszt.Elek</td>
+                  <td className="key">E-mail cím</td>
+                  <td className="value">teszt.elek@students.jedlik.eu</td>
+                </tr>
+              </table>
+            </div>
+            {/* <div className="bank-account">
+              <div className="header">
+                <h1>Banki adatok</h1>
+                <button className="btn delete-btn">
+                  {" "}
+                  Törlés <FontAwesomeIcon icon={faTimesCircle} />
+                </button>
+                <button className="btn modify-btn">
+                  {" "}
+                  Módosítás <FontAwesomeIcon icon={faPencilAlt} />
+                </button>
               </div>
-            </Accordion.Body>
-          </Accordion.Item>
-          <Accordion.Item eventKey="2">
-            <Accordion.Header className="acc-head">
-              <span className="fs-2 m-2">Jelszó változtatás</span>
-            </Accordion.Header>
-            <Accordion.Body className="acc-body">
-              <div className="container">
-                <div className="row">
-                  <div className="col-sm-6 col-lg-2 mt-2">
-                    <h2>Régi jelszó:</h2>
-                  </div>
-  
-                  <div className="col-sm-6 col-lg-3 mt-1">
+
+              <table className="personal-tables">
+                <tr>
+                  <td className="key">Bankkártya szám</td>
+                  <td className="value"></td>
+                  <td className="key">Számlavezető bank</td>
+                  <td className="value"></td>
+                </tr>
+                <tr>
+                  <td className="key">Tulajdonos neve</td>
+                  <td className="value"></td>
+                  <td className="key">Lejárati dátum</td>
+                  <td className="value"></td>
+                </tr>
+              </table>
+            </div> */}
+            <div className="password-change">
+              <div className="header">
+                <h1>Jelszó módosítás</h1>
+                {change ?
+                  <button className="btn modify-btn text-danger border-danger" onClick={PassChange}>
+                    {" "}
+                    Mégsem <FontAwesomeIcon icon={faTimesCircle} />
+                  </button> :
+                  <button className="btn modify-btn" onClick={PassChange}>
+                    {" "}
+                    Módosítás <FontAwesomeIcon icon={faPencilAlt} />
+                  </button>}
+              </div>
+
+              {!change ? <></> : <table className="personal-tables">
+                <tr>
+                  <td className="key">Régi jelszó</td>
+                  <td className="value">
                     <div className="input-group h-100">
                       <span className="input-group-text fs-4">
                         <FontAwesomeIcon icon={faUnlock} />
@@ -162,43 +110,51 @@ import {
                         id="oldPass"
                       />
                     </div>
-                  </div>
-  
-                  <div className="col-sm-0 col-lg-2"></div>
-  
-                  <div className="col-sm-6 col-lg-2 mt-2">
-                    <h2>Új jelszó:</h2>
-                  </div>
-  
-                  <div className="col-sm-6 col-lg-3 mt-1">
-                    <div className="input-group  h-100">
-                      <span className="input-group-text  fs-4">
+                  </td>
+                  <td className="key">Új jelszó</td>
+                  <td className="value">
+                    <div className="input-group h-100">
+                      <span className="input-group-text fs-4">
                         <FontAwesomeIcon icon={faLock} />
                       </span>
                       <input
                         type="password"
-                        className="form-control w-75 fs-3"
+                        className="form-control w-50 fs-3"
                         required
                         id="newPass"
                       />
                     </div>
-                  </div>
-  
-                  <div className="col-sm-12 col-lg-12 mt-lg-2 mt-4 ">
-                    <button
-                      onclick=""
-                      className="btn btn-secondary mx-auto d-flex w-auto fs-2 px-4"
-                    >
-                      <FontAwesomeIcon icon={faKey} className="mt-2 me-2 fs-2" />
-                      Módosítás
-                    </button>
-                  </div>
-                </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td colSpan={4} className="text-center"><button className="btn passChange-btn">Módosítás</button></td>
+                </tr>
+              </table>}
+            </div>
+          </div>
+          <div className="col-3 personal-activities">
+            <div className="activities">
+              <div className="header">
+                <h1>Tevékenység</h1>
+                <button className="btn refresh-btn">
+                  <FontAwesomeIcon icon={faSyncAlt} />
+                </button>
               </div>
-            </Accordion.Body>
-          </Accordion.Item>
-        </Accordion>
+              <hr />
+              <Activities
+                activity="Befizetett ebéd"
+                date="2022.01.04"
+                type="pay"
+              ></Activities>
+              <Activities
+                activity="Lemondott nap(ok)"
+                date="2021.12.20"
+                type="cancel"
+              ></Activities>
+            </div>
+          </div>
+        </div>
       </div>
-    );
-  }
-  
+    </div>
+  );
+}
