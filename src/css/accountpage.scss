@@ -1,4 +1,5 @@
 .personal-datas{
+  
 
   .important{
     border-radius: 1em;
@@ -83,7 +84,15 @@
     }
   }
 }
+.mobile-h1{
+  font-size: 1.7em!important;
+  margin-left: 0.2em!important;
+}
 
+.mobile-btn
+{
+  margin-top: 0em!important;
+}
 .personal-activities{
   .activities{
     border-radius: 1em;
@@ -92,8 +101,13 @@
     padding: 4%;
     margin-bottom: 5%;
     height: 100%;
+    
+  }
+
+  .desktop{
     margin-left: 5%;
   }
+
 
   .header{
     height: max-content;
@@ -136,6 +150,9 @@
     }
     .cancel{
       color:rgb(255, 66, 66);
+    }
+    .undefined{
+      color:rgb(255, 198, 41);
     }
   }
 }
