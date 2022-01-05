@@ -52,16 +52,16 @@ export default function PaymentPage() {
                 <div className="container mt-0 mt-lg-4">
                     <div className="row">
                         <div className={"col-6 col-lg-3 mt-4 mt-lg-0 "}>
-                            <Card btnClick={cardBtnClick} name="Teljes" price="10 000" breakfast="van" snackBefore="van" lunch="van" snackAfter="van" dinner="van"></Card>
+                            <Card btnClick={cardBtnClick} name="Teljes" price="10 000" breakfast="van" snackBefore="van" lunch="van" snackAfter="van" dinner="van" mobile={isMobile}></Card>
                         </div>
                         <div className={"col-6 col-lg-3 mt-4 mt-lg-0 "}>
-                            <Card btnClick={cardBtnClick} name="Kollégium+" price="9 000" breakfast="van" lunch="van" dinner="van"></Card>
+                            <Card btnClick={cardBtnClick} name="Kollégium+" price="9 000" breakfast="van" lunch="van" dinner="van" mobile={isMobile}></Card>
                         </div>
                         <div className={"col-6 col-lg-3 mt-4 mt-lg-0"}>
-                            <Card btnClick={cardBtnClick} name="Kollégium" price="8 000" breakfast="van" dinner="van"></Card>
+                            <Card btnClick={cardBtnClick} name="Kollégium" price="8 000" breakfast="van" dinner="van" mobile={isMobile}></Card>
                         </div>
                         <div className={"col-6 col-lg-3 mt-4 mt-lg-0 "}>
-                            <Card btnClick={cardBtnClick} name="Ebéd" price="5 000" lunch="van" ></Card>
+                            <Card btnClick={cardBtnClick} name="Ebéd" price="5 000" lunch="van" mobile={isMobile}></Card>
                         </div>
                     </div>
                 </div>
@@ -90,7 +90,7 @@ export default function PaymentPage() {
                     </div>
 
                     <hr className="div-hr" />
-                    <div className="w-50 mx-auto mt-5">
+                    <div className="w-50 mx-auto mt-5 mb-5">
                         <button className={"btn w-100 fs-2 btn-pay " + (payable ? "" : "notpayable")} onClick={Pay}>Fizetés</button>
                         {payable ? <></> : <div className="alert text-danger"><FontAwesomeIcon icon={faInfoCircle} /> Ne legyen minden nap kiválasztva lemondásra!</div>}
                     </div>
