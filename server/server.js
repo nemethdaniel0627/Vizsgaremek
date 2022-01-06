@@ -79,8 +79,8 @@ app.post("/cancel", async (req, res) => {
 })
 
 app.post("/test", async (req, res) => {
-  const data = await test.generate('users.txt', 100);
-  res.send(data)
+  const create = await test.generate('users.txt', 1);
+  res.send(create);
 })
 
 app.get("/", (req, res) => {

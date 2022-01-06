@@ -47,6 +47,7 @@ class Test {
         const min = 72300000000;
         const max = 72400000000;
         this.#data = [];
+        if (amount < this.#data.length) return "No enough data"
         for (let i = 0; i < amount; i++) {
             let row = '';
             const username = await this.randomInt(min, max);
@@ -57,15 +58,21 @@ class Test {
             const email = `${await name.toLowerCase().split(' ').join('.')}@gmail.com`;
             row = `${username};${password};${name};${schoolOM};${_class};${email}`;
             // console.log(row);
-            // user.isUnique()
+            user.add(row);
             this.#data.push(row);
         }
-        // const exits = await this.writeFile(filename)
-        return this.#data;
+        const exits = await this.writeFile(filename)
+        return exits;
     }
 
     async writeFile(filename) {
-        await fs.writeFile(`./${filename}`, `${this.#data.join('\n')}`);
+        try {
+            await fs.readFile(`./${filename}`)
+        } catch (error) {
+            await fs.writeFile(`./${filename}`, `${this.#data.join('\n')}`);
+            return `${filename} created`;
+        }
+        return `${filename} exists`;
     }
 }
 
