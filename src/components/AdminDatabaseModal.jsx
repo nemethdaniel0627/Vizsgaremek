@@ -3,12 +3,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faFileUpload, faPlus, faTimes, faTimesCircle, faUserPlus, faUserTimes } from "@fortawesome/free-solid-svg-icons";
 import Modal from "react-bootstrap/Modal";
 import ModalHeader from 'react-bootstrap/ModalHeader'
+import Chips from './Chips';
 
 export default function AdminDatabaseModal(props) {
   const [search, setSearch] = useState(props.show);
   const [dates, setDates] = useState([]);
   const [datesBool, setDatesBool] = useState(true);
   const [fileURL, setFileURL] = useState("");
+  
   if (props.user.date && dates.length == 0 && datesBool) {
     setDates(props.user.date.split('#'));
     setDatesBool(false);
@@ -84,7 +86,7 @@ export default function AdminDatabaseModal(props) {
 
   function NewUserModal(props) {
     return (
-      <div className="fs-4">
+      <div className="fs-4 admin-modal">
         <div className="input-group mb-3">
           <label htmlFor="new_name" className="mb-2">Név:</label>
           <input type="text" id="new_name" className="w-100 form-control" defaultValue={props.user.name} />
@@ -114,7 +116,7 @@ export default function AdminDatabaseModal(props) {
             <span className="input-group-text"> Ft</span>
           </div>
         </div>
-        <div>
+        <div className="mb-4">
           <label htmlFor="new_date" className="mb-2">Lemondott nap(ok) hozzáadása</label>
           <div className="input-group">
             <input type="date" className="form-control" id="new_date" />
@@ -123,7 +125,7 @@ export default function AdminDatabaseModal(props) {
         </div>
         {dates.lenght != 0 ?
           dates.map((date, index) => (
-            <Chips key={"c_" + index} date={date} />
+            <Chips key={"c_" + index} date={DateRewrite(date)} />
           )) : <></>}
 
       </div>
@@ -135,18 +137,6 @@ export default function AdminDatabaseModal(props) {
     return temporaryDate[0] + ". " + temporaryDate[1] + ". " + temporaryDate[2] + ".";
   }
 
-  function Chips(props) {
-    return (
-      <div className="mt-2 admin-chips fs-5">
-        <div className="">
-
-          <label>{DateRewrite(props.date)}</label>
-          {/* <input type="date" value= className="border-0" readOnly disabled /> */}
-          <span className="ms-3 new-date-add" id={"btn_" + props.date} onClick={NewDateCancelDelete}>X</span>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div>
