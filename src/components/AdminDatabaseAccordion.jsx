@@ -33,26 +33,26 @@ export default function AdminDatabaseAccodrion(props) {
                 <div className="container mw-100">
                     <div className="row">
                         <div className="col-sm-12 col-lg-6 fs-4 mb-3">
-                            <span>Felhasználónév:</span>
+                            <span className="key">Felhasználónév:</span>
                             <span className="me-5 float-end">{props.user.user}</span>
 
                         </div>
                         <div className="col-sm-12 col-lg-6 fs-4 mb-3">
-                            <span>E-mail:</span>
+                            <span className="key">E-mail:</span>
                             <span className="me-5 float-end">{props.user.email}</span>
                         </div>
                         <hr />
                         <div className="col-sm-12 col-lg-6 fs-4 mb-3">
-                            <span>Befizetve:</span>
-                            <span className="me-5 float-end">{props.user.isPaid ? <FontAwesomeIcon icon={faCheck} /> : <FontAwesomeIcon icon={faTimes} />}</span>
+                            <span className="key">Befizetve:</span>
+                            <span className={"me-5 float-end" + (props.user.isPaid ? " text-success" : " text-danger")}>{props.user.isPaid ? <FontAwesomeIcon icon={faCheck} /> : <FontAwesomeIcon icon={faTimes} />}</span>
                         </div>
                         <div className="col-sm-12 col-lg-6 fs-4 mb-3">
-                            <span>Összeg:</span>
-                            <span className="me-5 float-end">{props.user.value ? props.user.value : "Nincs befizetve!"}</span>
+                            <span className="key">Összeg:</span>
+                            <span className={"me-5 float-end"}>{props.user.value ? props.user.value : "Nincs befizetve!"}</span>
                         </div>
                         <hr />
                         <div className="col-sm-12 col-lg-12 fs-4 mb-3">
-                            <span className="align-middle">Lemondott napok:</span>
+                            <span className="align-middle key">Lemondott napok:</span>
                             <select className="form-select w-25 float-end fs-4">
                                 {props.user.date ? <option className="opt-first" >Napok:</option> : <option className="opt-first" >Nincs</option>}
                                 {dates.map((date,index) => (

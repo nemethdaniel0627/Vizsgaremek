@@ -10,11 +10,17 @@ export default function AdminDatabaseModal(props) {
   const [dates, setDates] = useState([]);
   const [datesBool, setDatesBool] = useState(true);
   const [fileURL, setFileURL] = useState("");
-  
-  if (props.user.date && dates.length == 0 && datesBool) {
-    setDates(props.user.date.split('#'));
-    setDatesBool(false);
+  let user = {};
+
+  if(props.user !== undefined){
+    user = props.user;
+    if (props.user.date && dates.length == 0 && datesBool) {
+      setDates(props.user.date.split('#'));
+      setDatesBool(false);
+    }
   }
+  
+  
 
   function newUserClick(){
     props.user.name=document.getElementById('new_name').value;
@@ -22,7 +28,7 @@ export default function AdminDatabaseModal(props) {
     props.user.email=document.getElementById('new_email').value;
     props.user.user=document.getElementById('new_username').value;
     props.user.isPaid=document.getElementById('new_isPaid').value;
-    props.user.value=document.getElementById('new_amount').value;
+    props.user.value=document.getElementById('new_amount').value + " Ft";
     props.user.date=dates.join('#');
     ModalClose();
     
@@ -88,23 +94,23 @@ export default function AdminDatabaseModal(props) {
     return (
       <div className="fs-4 admin-modal">
         <div className="input-group mb-3">
-          <label htmlFor="new_name" className="mb-2">Név:</label>
-          <input type="text" id="new_name" className="w-100 form-control" defaultValue={props.user.name} />
+          <label htmlFor="new_name " className="mb-2">Név:</label>
+          <input type="text" id="new_name" className="w-100 form-control" defaultValue={user.name} />
         </div>
         <div className="input-group mb-3">
           <label htmlFor="new_class" className="mb-2">Osztály:</label>
-          <input type="text" id="new_class" className="w-100 form-control" defaultValue={props.user.class} />
+          <input type="text" id="new_class" className="w-100 form-control" defaultValue={user.class} />
         </div>
         <div className="input-group mb-3">
           <label htmlFor="new_email" className="mb-2">E-mail cím:</label>
-          <input type="email" id="new_email" className="w-100 form-control" defaultValue={props.user.email} />
+          <input type="email" id="new_email" className="w-100 form-control" defaultValue={user.email} />
         </div>
         <div className="input-group mb-3">
           <label htmlFor="new_username" className="mb-2">Felhasználónév:</label>
-          <input type="text" id="new_username" className="w-100 form-control" defaultValue={props.user.user} />
+          <input type="text" id="new_username" className="w-100 form-control" defaultValue={user.user} />
         </div>
         <div className="form-check mb-3">
-          <input className="form-check-input" type="checkbox" id="new_isPaid" defaultChecked={props.user.isPaid ? true : false} />
+          <input className="form-check-input" type="checkbox" id="new_isPaid" defaultChecked={user.isPaid ? true : false} />
           <label className="form-check-label" htmlFor="new_isPaid">
             Befizetve
           </label>
@@ -112,7 +118,7 @@ export default function AdminDatabaseModal(props) {
         <div className="mb-3">
           <label htmlFor="new_amount" className="mb-2">Összeg:</label>
           <div className="input-group">
-            <input type="number" className="form-control" id = "new_amount" defaultValue={props.user.value ? props.user.value.split(' ')[0] : ""}/>
+            <input type="number" className="form-control" id = "new_amount" defaultValue={user.value ? props.user.value.split(' ')[0] : ""}/>
             <span className="input-group-text"> Ft</span>
           </div>
         </div>
@@ -150,7 +156,7 @@ export default function AdminDatabaseModal(props) {
         </Modal.Body>
         <Modal.Footer>
           {props.type === "New" ? 
-            <button type="button" className="btn btn-primary fs-4" onClick={newUserClick}>
+            <button type="button" className="btn btn-primary fs-4">
               <FontAwesomeIcon icon={faUserPlus} /> <span> {props.button}</span>
             </button> : 
             props.type === "File" ? 
