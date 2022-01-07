@@ -15,7 +15,7 @@ class Test {
                     const row = r.trim();
                     this.#names.push(row);
                 });
-                // console.log(this.#names);
+            // console.log(this.#names);
             return (this.#names);
         } catch (error) {
             throw error;
@@ -27,13 +27,13 @@ class Test {
     }
 
     async randomString(length) {
-            let result = '';
-            let characters  = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-            let charactersLength = characters.length;
-            for ( let i = 0; i < length; i++ ) {
-              result += characters.charAt(Math.floor(Math.random() * charactersLength));
-           }
-           return result;
+        let result = '';
+        let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        let charactersLength = characters.length;
+        for (let i = 0; i < length; i++) {
+            result += characters.charAt(Math.floor(Math.random() * charactersLength));
+        }
+        return result;
     }
 
     async randomName() {
@@ -55,13 +55,13 @@ class Test {
             const name = await this.randomName();
             const schoolOM = `${await this.randomString(3)}${await this.randomInt(100, 1000)}`;
             const _class = `${await this.randomInt(8, 13)}${await this.randomString(1)}`;
-            const email = `${await name.toLowerCase().split(' ').join('.')}@gmail.com`;
+            const email = `${await name.toLowerCase().split(' ').join('.')}@gmail.com`.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
             row = `${username};${password};${name};${schoolOM};${_class};${email}`;
-            // console.log(row);
-            user.add(row);
-            this.#data.push(row);
+            const count = await user.add(row);
+            // console.log(`${i} - ${count} - ${row}`);
+            await this.#data.push(row);
         }
-        const exits = await this.writeFile(filename)
+        const exits = await this.writeFile(filename);
         return exits;
     }
 
@@ -74,6 +74,8 @@ class Test {
         }
         return `${filename} exists`;
     }
+
+
 }
 
 module.exports = new Test()

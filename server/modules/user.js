@@ -32,7 +32,7 @@ class User {
     }
   
     async add(data = '') {
-        let count = 0;
+        let added = false;
         await sqlQueries.CreateConnection();
 
         if ((await this.isUnique('felhasznaloNev', data.split(';')[0])) && (await this.isUnique('email', data.split(';')[5])))
@@ -45,10 +45,10 @@ class User {
             "osztaly, " +
             "email",
             `"${data.split(";")[0]}", "${data.split(";")[1]}", "${data.split(";")[2]}", "${data.split(";")[3]}", "${data.split(";")[4]}", "${data.split(";")[5]}"`);
-            count++;
+            added = true;
         }
         await sqlQueries.EndConnection();
-        return count;
+        return added;
     }
 
     async getAll() {
