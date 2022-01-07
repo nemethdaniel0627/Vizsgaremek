@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit, faFileDownload, faFileUpload, faSearch, faSyncAlt, faTimesCircle, faUserPlus } from "@fortawesome/free-solid-svg-icons";
+import { faEdit, faFileDownload, faFileUpload, faSearch, faSyncAlt, faTimesCircle, faUserPlus, faCaretUp, faCaretDown } from "@fortawesome/free-solid-svg-icons";
 import Modal from "./AdminDatabaseModal";
 import { Accordion } from "react-bootstrap";
 
@@ -37,12 +37,12 @@ export default function Manager() {
     }
 
     return (
-        <div className="admin-db-mg">
+        <div className="admin-db-mg mt-5">
 
 
-            {!search ? <button className="btn-new btn btn-mg fs-3 w-100 mb-3" onClick={Search}><FontAwesomeIcon icon={faSearch} /> Keresés</button> :
+            {!search ? <button className="btn-new btn btn-mg fs-3 w-100 mb-3" onClick={Search}><span className="float-start"><FontAwesomeIcon icon={faSearch} /> Keresés</span> <span className="float-end"><FontAwesomeIcon icon={faCaretDown}/></span></button> :
                 <div className="w-100 search">
-                    <button className="btn-new btn fs-3 w-100 mb-3 btn-mg active" onClick={Search}><FontAwesomeIcon icon={faSearch} /> Keresés</button>
+                    <button className="btn-new btn fs-3 w-100 mb-3 btn-mg active" onClick={Search}><span className="float-start"><FontAwesomeIcon icon={faSearch} /> Keresés</span> <span className="float-end"><FontAwesomeIcon icon={faCaretUp}/></span></button>
                     <hr />
                     <div className="search-plus">
                         <div className="input-group mb-3 search-group">
@@ -58,9 +58,9 @@ export default function Manager() {
 
             <button className="btn-new btn fs-3 w-100 mb-3 btn-mg" onClick={refreshPage}><FontAwesomeIcon icon={faSyncAlt} /> Frissítés</button>
             <button className="btn-new btn fs-3 w-100 mb-3 btn-mg"><FontAwesomeIcon icon={faFileDownload} /> Letöltés</button>
-            {!modify ? <button className="btn-new btn fs-3 w-100 btn-mg" onClick={Modify}><FontAwesomeIcon icon={faEdit} /> Módosítás</button> :
+            {!modify ? <button className="btn-new btn fs-3 w-100 btn-mg" onClick={Modify}><FontAwesomeIcon icon={faEdit} /> Módosítás <span className="float-end"><FontAwesomeIcon icon={faCaretDown}/></span></button> :
                 <div className="w-100 search ">
-                    <button className="btn-new btn fs-3 w-100 btn-mg active" onClick={Modify}><FontAwesomeIcon icon={faEdit} /> Módosítás</button>
+                    <button className="btn-new btn fs-3 w-100 btn-mg active" onClick={Modify}><FontAwesomeIcon icon={faEdit} /> Módosítás <span className="float-end"><FontAwesomeIcon icon={faCaretUp}/></span></button>
                     <hr />
                     <div className="modify-mg">
                         <button className="btn-new btn fs-3 w-100 mb-3 btn-m" onClick={NewModal}><FontAwesomeIcon icon={faUserPlus} /> Új személy</button>

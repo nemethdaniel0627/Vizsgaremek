@@ -4,6 +4,9 @@
     background-color: #131321;
     width: 15%;
     padding-top: 3em;
+    position: fixed;
+    top:0px;
+    z-index: -100;
 
     .btn-new{
         text-align: left!important;
