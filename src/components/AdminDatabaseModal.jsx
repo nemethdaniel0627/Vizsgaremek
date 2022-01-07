@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faFileUpload, faPlus, faTimes, faTimesCircle, faUserPlus, faUserTimes } from "@fortawesome/free-solid-svg-icons";
 import Modal from "react-bootstrap/Modal";
-import ModalHeader from 'react-bootstrap/ModalHeader'
 import Chips from './Chips';
 
 export default function AdminDatabaseModal(props) {
@@ -27,8 +26,9 @@ export default function AdminDatabaseModal(props) {
     props.user.class=document.getElementById('new_class').value;
     props.user.email=document.getElementById('new_email').value;
     props.user.user=document.getElementById('new_username').value;
-    props.user.isPaid=document.getElementById('new_isPaid').value;
-    props.user.value=document.getElementById('new_amount').value + " Ft";
+    props.user.isPaid=document.getElementById('new_isPaid').checked;
+    props.user.value=document.getElementById('new_amount').value ? document.getElementById('new_amount').value + " Ft" : "Nincs befizetve!";
+    !document.getElementById('new_amount').value ? props.user.isPaid=false : props.user.isPaid=props.user.isPaid;
     props.user.date=dates.join('#');
     ModalClose();
     
