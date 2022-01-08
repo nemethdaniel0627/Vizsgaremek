@@ -46,7 +46,7 @@ export default function Manager() {
                     <hr />
                     <div className="search-plus">
                         <div className="input-group mb-3 search-group">
-                            <input type="text" class="form-control btn btn-new" placeholder="Keresés" />
+                            <input type="text" className="form-control btn btn-new" placeholder="Keresés" />
                             <button className="input-group-text btn-search" ><FontAwesomeIcon icon={faSearch} /></button>
                         </div>
                     </div>
