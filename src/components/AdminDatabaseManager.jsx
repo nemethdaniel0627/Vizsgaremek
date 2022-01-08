@@ -37,10 +37,10 @@ export default function Manager() {
     }
 
     return (
-        <div className="admin-db-mg mt-5">
+        <div className="admin-db-mg">
 
 
-            {!search ? <button className="btn-new btn btn-mg fs-3 w-100 mb-3" onClick={Search}><span className="float-start"><FontAwesomeIcon icon={faSearch} /> Keresés</span> <span className="float-end"><FontAwesomeIcon icon={faCaretDown}/></span></button> :
+            {/* {!search ? <button className="btn-new btn btn-mg fs-3 w-100 mb-3" onClick={Search}><span className="float-start"><FontAwesomeIcon icon={faSearch} /> Keresés</span> <span className="float-end"><FontAwesomeIcon icon={faCaretDown}/></span></button> :
                 <div className="w-100 search">
                     <button className="btn-new btn fs-3 w-100 mb-3 btn-mg active" onClick={Search}><span className="float-start"><FontAwesomeIcon icon={faSearch} /> Keresés</span> <span className="float-end"><FontAwesomeIcon icon={faCaretUp}/></span></button>
                     <hr />
@@ -54,7 +54,7 @@ export default function Manager() {
                     <hr className="bug-hr" />
 
                 </div>
-            }
+            } */}
 
             <button className="btn-new btn fs-3 w-100 mb-3 btn-mg" onClick={refreshPage}><FontAwesomeIcon icon={faSyncAlt} /> Frissítés</button>
             <button className="btn-new btn fs-3 w-100 mb-3 btn-mg"><FontAwesomeIcon icon={faFileDownload} /> Letöltés</button>

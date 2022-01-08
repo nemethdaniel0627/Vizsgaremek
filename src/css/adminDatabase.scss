@@ -98,3 +98,49 @@
         }
     }
 }
+
+.admin-db-mg{
+    margin-top: 15%;
+}
+
+.manager{
+
+    padding: 1em;
+    margin-bottom: 1%;
+
+    .div-page-number{
+        padding: 0.1em;
+    }
+
+    .div-max select{
+        width: 70%;
+    }
+
+    .search-group{
+        border: 1px solid #ffffff50;
+        border-radius: 1em;
+    }
+
+    .btn-search{
+        background-color: #ffffff10!important;
+        border-radius: 0 1em 1em 0;
+    }
+
+    .btn-search:hover{
+        background-color: #ffffff30!important;
+    }
+
+    .btn-page{
+        border-radius: 2em;
+        border: 1px solid #ffffffa0!important;
+        margin: 0 0.5em;
+    }
+
+    .btn-page:hover{
+        background-color: #ffffff40!important;
+    }
+
+    .div-page-number{
+        font-size: 1.5em;
+    }
+}
