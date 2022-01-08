@@ -25,7 +25,7 @@ export default function AdminDatabaseAccodrion(props) {
     const dates = props.user.date ? props.user.date.split('#') : [];
 
     return (
-        <Accordion.Item eventKey={props.eventkey} className="mb-2">
+        <Accordion.Item eventKey={props.eventkey} className="acc">
             <Accordion.Header className="acc-head ">
                 <span className="fs-3">{props.user.name} - {props.user.class}</span>
             </Accordion.Header>

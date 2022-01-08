@@ -54,19 +54,19 @@ export default function AdminDatabasePage() {
                                 <div className="row">
                                     <div className="div-search col-12 col-lg-3">
                                         <div className="input-group search-group">
-                                            <input type="text" className="form-control btn btn-new" placeholder="Keresés" />
+                                            <input type="text" className="form-control btn btn-new i-search" placeholder="Keresés" />
                                             <button className="input-group-text btn-search" ><FontAwesomeIcon icon={faSearch} /></button>
                                         </div>
                                     </div>
 
 
-                                    <div className="col-0 col-lg-2"></div>
+                                    <div className="col-0 col-lg-1"></div>
 
-                                    <div className="col-6 col-lg-1 mt-3 mt-lg-0"><label htmlFor="" className="fs-5 p-1">Egy oldalon: </label></div>
+                                    <div className="col-6 col-lg-2 mt-3 mt-lg-0"><label htmlFor="" className="fs-4 p-1 float-end">Egy oldalon: </label></div>
 
                                     <div className="div-max col-6 col-lg-1 mt-3 mt-lg-0">
                                         
-                                        <select name="" id="" className="form-select">
+                                        <select name="" id="" className="form-select mt-1">
                                             <option value="10">10</option>
                                             <option value="25">25</option>
                                             <option value="50">50</option>

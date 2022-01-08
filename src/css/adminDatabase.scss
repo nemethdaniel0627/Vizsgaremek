@@ -104,9 +104,8 @@
 }
 
 .manager{
-
+    background-color: #ffffff20;
     padding: 1em;
-    margin-bottom: 1%;
 
     .div-page-number{
         padding: 0.1em;
@@ -124,6 +123,19 @@
     .btn-search{
         background-color: #ffffff10!important;
         border-radius: 0 1em 1em 0;
+        color:white;
+    }
+
+    .i-search:focus, .i-search:active{
+        background-color: #00000070;
+    }
+
+    .i-search, .i-search::placeholder{
+        color:white;
+    }
+
+    .i-search{
+        font-weight: 800;
     }
 
     .btn-search:hover{
@@ -134,6 +146,7 @@
         border-radius: 2em;
         border: 1px solid #ffffffa0!important;
         margin: 0 0.5em;
+        color:white;
     }
 
     .btn-page:hover{
@@ -142,5 +155,36 @@
 
     .div-page-number{
         font-size: 1.5em;
+    }
+}
+
+.admin-db-acc{
+    .acc-head{
+        border: 1px solid #ffffff10;
+        color:white;
+    }
+
+    
+
+    .acc{
+        background-color: #ffffff50;
+        color:black;
+        
+        .key{
+            color:#00000080!important;
+        }
+        
+    
+        .acc-head{
+            background: none;
+        }
+        .accordion-button{
+            background-color: #ffffff60;
+            color: white!important;
+        }
+
+        .collapsed{
+            background: none!important;
+        }
     }
 }
