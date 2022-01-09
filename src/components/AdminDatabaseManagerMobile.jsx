@@ -37,24 +37,7 @@ export default function Manager() {
     }
 
     return (
-        <div className="admin-db-mg">
-
-
-            {!search ? <button className="btn-new btn btn-mg fs-3 w-100 mb-3 mobile" onClick={Search}><FontAwesomeIcon icon={faSearch} /></button> :
-                <div className="w-100 search">
-                    <button className="btn-new btn fs-3 w-100 mb-3 btn-mg active mobile" onClick={Search}><FontAwesomeIcon icon={faSearch} /></button>
-                    <hr />
-                    <div className="search-plus">
-                        <div className="input-group mb-3 search-group">
-                            <input type="text" class="form-control btn btn-new" placeholder="Keresés" />
-                            <button className="input-group-text btn-search" ><FontAwesomeIcon icon={faSearch} /></button>
-                        </div>
-                    </div>
-                    
-                    <hr className="bug-hr" />
-
-                </div>
-            }
+        <div className="admin-db-mg mt-5">
 
             <button className="btn-new btn fs-3 w-100 mb-3 btn-mg mobile" onClick={refreshPage}><FontAwesomeIcon icon={faSyncAlt} /></button>
             <button className="btn-new btn fs-3 w-100 mb-3 btn-mg mobile"><FontAwesomeIcon icon={faFileDownload} /></button>

@@ -169,6 +169,7 @@
     .acc{
         background-color: #ffffff50;
         color:black;
+        margin: 0.2em 0;
         
         .key{
             color:#00000080!important;
@@ -187,4 +188,44 @@
             background: none!important;
         }
     }
+}
+
+.btn-modify,.btn-delete{
+    border-radius: 1em;
+    padding: 0.2em 1em;
+    font-weight: 800;
+
+    border: 1px solid #000000a0;
+    color:#000000a0;
+
+    transition: 0.5s;
+}
+
+.btn-modify:hover{
+    border: 1px solid #0300c4ad;
+    color:#0300c4ad;
+}
+
+.btn-delete:hover{
+    border: 1px solid #ff2121ad;
+    color:#ff2121ad;
+}
+
+.acc-body{
+    .opt-first{
+        background-color: #00000040;
+        text-align: center;
+    }
+}
+
+.mobile-email{
+    font-size: 0.8em;
+}
+
+.mobile-select{
+    width: 100%;
+}
+
+.cancel-select{
+    width: fit-content;
 }

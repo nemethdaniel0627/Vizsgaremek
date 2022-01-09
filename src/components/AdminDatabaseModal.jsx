@@ -156,25 +156,25 @@ export default function AdminDatabaseModal(props) {
         </Modal.Body>
         <Modal.Footer>
           {props.type === "New" ? 
-            <button type="button" className="btn btn-primary fs-4">
+            <button type="button" className="btn btn-modify fs-4">
               <FontAwesomeIcon icon={faUserPlus} /> <span> {props.button}</span>
             </button> : 
             props.type === "File" ? 
-            <button type="button" className="btn btn-primary fs-4">
+            <button type="button" className="btn btn-modify fs-4">
               <FontAwesomeIcon icon={faFileUpload} /> <span> {props.button}</span>
             </button> : 
             props.type === "Modify" ? 
-            <button type="button" className="btn btn-primary fs-4" onClick={newUserClick}>
+            <button type="button" className="btn btn-modify fs-4" onClick={newUserClick}>
               <FontAwesomeIcon icon={faEdit} /> <span> {props.button}</span>
             </button> : 
             props.type === "Delete" ? 
-            <button type="button" className="btn btn-primary fs-4" onClick={deleteUser}>
+            <button type="button" className="btn btn-modify fs-4" onClick={deleteUser}>
               <FontAwesomeIcon icon={faUserTimes} /> <span> {props.button}</span>
             </button> : <></>
           }
           <button
             type="button"
-            className="btn btn-danger fs-4"
+            className="btn btn-delete fs-4"
             data-bs-dismiss="modal"
             onClick={ModalClose}
           >

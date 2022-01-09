@@ -23,10 +23,10 @@ export default function AdminDatabasePage() {
     function ModalClose() {
         setModal(!modalAppear);
     }
-    let users = [{ name: "Teszt Elek", class: "12.A", email: "teszt.elek@students.jedlik.eu", user: "Teszt.Elek", isPaid: true, value: "15000 Ft", date: "2022-05-16#2022-05-18#2022-05-20", isDeleted: false }, { name: "Teszt Elek Béla", class: "13.A", email: "teszt.elek.bela@students.jedlik.eu", user: "Teszt.Elek.Bela", isPaid: false, value: "", date: "", isDeleted: false }, { name: "Teszt Elek", class: "12.A", email: "teszt.elek@students.jedlik.eu", user: "Teszt.Elek", isPaid: true, value: "15000 Ft", date: "2022-05-16#2022-05-18#2022-05-20", isDeleted: false }]
+    let users = [];
     const user = { name: "Teszt Elek", class: "12.A", email: "teszt.elek@students.jedlik.eu", user: "Teszt.Elek", isPaid: true, value: "15000 Ft", date: "2022-05-16#2022-05-18#2022-05-20", isDeleted: false };
 
-    for (let index = 0; index < 20; index++) {
+    for (let index = 0; index < 10; index++) {
         users.push(user);
 
     }
@@ -92,7 +92,7 @@ export default function AdminDatabasePage() {
 
                         <Accordion>
                             {users.map((user, index) => (
-                                <Accord key={index} eventkey={index} user={user}></Accord>
+                                <Accord key={index} eventkey={index} user={user} isMobile={isMobile}></Accord>
                             ))}
                         </Accordion>
 
