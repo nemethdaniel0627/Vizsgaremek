@@ -57,7 +57,7 @@ app.post("/add", async (req, res) => {
   const data = await user.readFile('users.txt');
   let count = 0;
   for (let i = 0; i < data.length; i++) {
-    let added = await user.add(data[i], "users.txt");
+    let added = await user.add(data[i]);
     if (added) count++;
   }
   res.send(`${count} record(s) added`);
@@ -79,7 +79,7 @@ app.post("/cancel", async (req, res) => {
 })
 
 app.post("/test", async (req, res) => {
-  const create = await test.generate('users.txt', 100);
+  const create = await test.generate('users1.txt', 50);
   res.send(create);
 })
 
