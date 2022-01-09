@@ -24,7 +24,7 @@ export default function AdminDatabasePage() {
         setModal(!modalAppear);
     }
     let users = [];
-    const user = { name: "Teszt Elek", class: "12.A", email: "teszt.elek@students.jedlik.eu", user: "Teszt.Elek", isPaid: true, value: "15000 Ft", date: "2022-05-16#2022-05-18#2022-05-20", isDeleted: false };
+    const user = { name: "Teszt Elek", class: "12.A", email: "teszt.elek@students.jedlik.eu", user: "Teszt.Elek", isPaid: true, value: "15000 Ft", date: "2022-05-16#2022-05-18#2022-05-20" };
 
     for (let index = 0; index < 10; index++) {
         users.push(user);
@@ -38,29 +38,34 @@ export default function AdminDatabasePage() {
 
     function Download() {
 
-        let csvContent = "data:text/csv;charset=utf-8,";
+        var csv = [];
+        let csvHeader = "Nev;Osztaly;E-mail;Felhasznalonev;Befizetett;Osszeg;Lemondott napok";
 
-        
+        csv.push(csvHeader);
 
+        let csvBody = "";
         for (const user of users) {
             for (const key in user) {
-
                 if (user.hasOwnProperty(key)) {
-    
-                    csvContent += `${user[key]};`;
+                    csvBody += `${user[key]};`;
                 }
-                
             }
-            csvContent += "\r\n"; 
+            csv.push(csvBody);
+            csvBody = "";
         }
 
-        var encodedUri = encodeURI(csvContent);
+        var csv_string = csv.join("\n");
+        var filename = "tanulok" + ".csv";
         var link = document.createElement("a");
-        link.setAttribute("href", encodedUri);
-        link.setAttribute("download", "Tanulok.csv");
+        link.setAttribute(
+            "href",
+            "data:text/csv;charset=utf-8," + encodeURIComponent(csv_string)
+        );
+        link.setAttribute("download", filename);
         document.body.appendChild(link);
-
         link.click();
+        document.body.removeChild(link);
+
     }
 
 
@@ -70,7 +75,7 @@ export default function AdminDatabasePage() {
         <div>
 
             <div className="admin-mg">
-                {!isMobile ? <Manager Download={Download}></Manager> : <ManagerMobile></ManagerMobile>}
+                {!isMobile ? <Manager Download={Download}></Manager> : <ManagerMobile Download={Download}></ManagerMobile>}
             </div>
 
 
