@@ -28,7 +28,39 @@ export default function AdminDatabasePage() {
 
     for (let index = 0; index < 10; index++) {
         users.push(user);
+    }
 
+
+
+
+
+
+
+    function Download() {
+
+        let csvContent = "data:text/csv;charset=utf-8,";
+
+        
+
+        for (const user of users) {
+            for (const key in user) {
+
+                if (user.hasOwnProperty(key)) {
+    
+                    csvContent += `${user[key]};`;
+                }
+                
+            }
+            csvContent += "\r\n"; 
+        }
+
+        var encodedUri = encodeURI(csvContent);
+        var link = document.createElement("a");
+        link.setAttribute("href", encodedUri);
+        link.setAttribute("download", "Tanulok.csv");
+        document.body.appendChild(link);
+
+        link.click();
     }
 
 
@@ -38,15 +70,15 @@ export default function AdminDatabasePage() {
         <div>
 
             <div className="admin-mg">
-                {!isMobile ? <Manager></Manager> : <ManagerMobile></ManagerMobile>}
+                {!isMobile ? <Manager Download={Download}></Manager> : <ManagerMobile></ManagerMobile>}
             </div>
 
 
             {modalAppear ? <Modal ModalClose={ModalClose} title="Figyelem" message="Biztosan törölni szeretné?" button="Törlés" show={modalAppear}></Modal> : <></>}
             <div className="container">
                 <div className="row">
-                    <div className="col-2 col-lg-1"></div>
-                    <div className="col-10 col-lg-11 admin-db-acc mb-5 mb-lg-0 mt-5">
+                    <div className="col-2 col-lg-2"></div>
+                    <div className="col-10 col-lg-10 admin-db-acc mb-5 mb-lg-0 mt-5">
 
 
                         <div className="acc-head manager">
@@ -65,7 +97,7 @@ export default function AdminDatabasePage() {
                                     <div className="col-6 col-lg-2 mt-3 mt-lg-0"><label htmlFor="" className="fs-4 p-1 float-end">Egy oldalon: </label></div>
 
                                     <div className="div-max col-6 col-lg-1 mt-3 mt-lg-0">
-                                        
+
                                         <select name="" id="" className="form-select mt-1">
                                             <option value="10">10</option>
                                             <option value="25">25</option>

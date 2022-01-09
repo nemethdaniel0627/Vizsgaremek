@@ -4,7 +4,7 @@ import { faEdit, faFileDownload, faFileUpload, faSearch, faSyncAlt, faTimesCircl
 import Modal from "./AdminDatabaseModal";
 import { Accordion } from "react-bootstrap";
 
-export default function Manager() {
+export default function Manager(props) {
     const [uploadModalAppear, setUploadModal] = useState(false);
     const [newModalAppear, setNewModal] = useState(false);
 
@@ -36,6 +36,10 @@ export default function Manager() {
         window.location.reload(false);
     }
 
+    function Download(){
+        props.Download();
+    }
+
     return (
         <div className="admin-db-mg">
 
@@ -57,7 +61,7 @@ export default function Manager() {
             } */}
 
             <button className="btn-new btn fs-3 w-100 mb-3 btn-mg" onClick={refreshPage}><FontAwesomeIcon icon={faSyncAlt} /> Frissítés</button>
-            <button className="btn-new btn fs-3 w-100 mb-3 btn-mg"><FontAwesomeIcon icon={faFileDownload} /> Letöltés</button>
+            <button className="btn-new btn fs-3 w-100 mb-3 btn-mg" onClick={Download}><FontAwesomeIcon icon={faFileDownload} /> Letöltés</button>
             {!modify ? <button className="btn-new btn fs-3 w-100 btn-mg" onClick={Modify}><FontAwesomeIcon icon={faEdit} /> Módosítás <span className="float-end"><FontAwesomeIcon icon={faCaretDown}/></span></button> :
                 <div className="w-100 search ">
                     <button className="btn-new btn fs-3 w-100 btn-mg active" onClick={Modify}><FontAwesomeIcon icon={faEdit} /> Módosítás <span className="float-end"><FontAwesomeIcon icon={faCaretUp}/></span></button>
