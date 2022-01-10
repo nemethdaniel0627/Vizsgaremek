@@ -1,8 +1,10 @@
 import { faFileExcel } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import axios from "axios";
 import React from "react";
 import { useEffect } from "react";
-
+import XLSX from 'xlsx';
+import { URL } from '../utils/constants.js'
 export default function MenuUpload() {
 
     // Design By
@@ -127,35 +129,19 @@ export default function MenuUpload() {
                     // After File Reader Loaded 
                     fileReader.addEventListener('load', function () {
                         // After Half Second 
-                        setTimeout(function () {
-                            // Add className (upload-area--open) On (uploadArea)
-                            uploadArea.classList.add('upload-area--open');
 
-                            // Hide Loading-text (please-wait) Element
-                            loadingText.style.display = "none";
-                            // Show Preview Image
-                            previewImage.style.display = 'block';
-
-                            // Add className (file-details--open) On (fileDetails)
-                            fileDetails.classList.add('file-details--open');
-                            // Add className (uploaded-file--open) On (uploadedFile)
-                            uploadedFile.classList.add('uploaded-file--open');
-                            // Add className (uploaded-file__info--active) On (uploadedFileInfo)
-                            uploadedFileInfo.classList.add('uploaded-file__info--active');
-                        }, 500); // 0.5s
 
                         // Add The (fileReader) Result Inside (previewImage) Source
                         // previewImage.setAttribute('src', fileReader.result);
 
-                        // Add File Name Inside Uploaded File Name
-                        uploadedFileName.innerHTML = file.name;
 
-                        // Call Function progressMove();
-                        progressMove();
+
                     });
 
+                    Upload();
                     // Read (file) As Data Url 
-                    fileReader.readAsDataURL(file);
+                    // fileReader.readAsDataURL(file);
+
                 } else { // Else
                     return this;
                     // fileValidate(fileType, fileSize); // (this) Represent The fileValidate(fileType, fileSize) Function
@@ -189,6 +175,65 @@ export default function MenuUpload() {
             }, 600);
         };
 
+        function Upload() {
+            const regex = /^([a-zA-Z0-9\s_\\.\-:])+(.xls|.xlsx)$/;
+            console.log(fileInput.value.toLowerCase());
+            if (regex.test(fileInput.value.toLowerCase())) {
+                let fileName = fileInput.files[0].name;
+                if (typeof (FileReader) !== 'undefined') {
+                    const reader = new FileReader();
+                    if (reader.readAsBinaryString) {
+                        reader.onload = (e) => {
+                            processExcel(reader.result);
+                            setTimeout(function () {
+                                // Add className (upload-area--open) On (uploadArea)
+                                uploadArea.classList.add('upload-area--open');
+
+                                // Hide Loading-text (please-wait) Element
+                                loadingText.style.display = "none";
+                                // Show Preview Image
+                                previewImage.style.display = 'block';
+
+                                // Add className (file-details--open) On (fileDetails)
+                                fileDetails.classList.add('file-details--open');
+                                // Add className (uploaded-file--open) On (uploadedFile)
+                                uploadedFile.classList.add('uploaded-file--open');
+                                // Add className (uploaded-file__info--active) On (uploadedFileInfo)
+                                uploadedFileInfo.classList.add('uploaded-file__info--active');
+
+                                // Add File Name Inside Uploaded File Name
+                                uploadedFileName.innerHTML = fileName;
+
+                                // Call Function progressMove();
+                                progressMove();
+                            }, 500); // 0.5s
+                        };
+                        reader.readAsBinaryString(fileInput.files[0]);
+                    }
+                } else {
+                    console.log("This browser does not support HTML5.");
+                }
+            } else {
+                console.log("Please upload a valid Excel file.");
+            }
+        }
+
+        function processExcel(data) {
+            const workbook = XLSX.read(data, { type: "binary" });
+            const firstSheet = workbook.SheetNames[0];
+            console.log(workbook.Sheets[firstSheet]);
+            const excelRows = XLSX.utils.sheet_to_json(workbook.Sheets[firstSheet]);
+
+            axios.post(`${URL}/etlap`, {
+                excelRows: excelRows
+            })
+                .then((response) => {
+                    console.log(response);
+                })
+                .catch((error) => {
+                    console.log(error.response);
+                })
+        }
 
         // Simple File Validate Function
         function fileValidate(fileType, fileSize) {
@@ -200,7 +245,6 @@ export default function MenuUpload() {
                 return fileType.indexOf(`application/vnd.ms-excel`) !== -1 ? true : fileType.indexOf(`application/vnd.openxmlformats-officedocument.spreadsheetml.sheet`) !== -1 && type === "xlsx" ? true : false;
                 // return fileType.indexOf(`image/${type}`) !== -1;
             });
-            console.log(isGoodFormat);
 
             uploadedFileIconText.innerHTML = isGoodFormat[0];
             // If The Uploaded File Is An Image

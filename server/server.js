@@ -14,6 +14,7 @@ const PORT = process.env.PORT || 5000;
 
 const buildPath = path.join(__dirname, '..', 'build');
 app.use(express.static(buildPath));
+app.use(express.json());
 app.use(cors());
 
 app.get("/etlap", async (req, res) => {
@@ -23,16 +24,18 @@ app.get("/etlap", async (req, res) => {
 });
 
 app.post("/etlap", async (req, res) => {
-  // const menu = req.body.menu;
-
-  const menu = await menuConvert.dayUpload();
+  // console.log(req.body);
+  let excelRows = req.body.excelRows;
+  // menuConvert._menu = menu;
+  // await menuConvert.readFromExcel();
+  const menu = await menuConvert.convert(excelRows);  
 
   let day1 = [];
   let day2 = [];
   let day3 = [];
   let day4 = [];
   let day5 = [];
-  let date = new Date("2021-12-27");
+  let date = new Date("2022-01-10");
 
   // menu.forEach(async (day, index) => {
   //   date = await databaseUpload.insertDay(day, date);
@@ -86,8 +89,11 @@ app.delete("/delete", async (req, res) => {
 })
 
 app.post("/cancel", async (req, res) => {
-  await user.cancelOrder('2021-12-19', [1, 0, 1, 0, 1]);
-  res.send("Kész");
+  const dates = req.body.dates;
+  dates.forEach(async date => {
+    await user.cancelOrder(date, [1, 0, 1, 0, 1]);
+  });
+  res.send("Ok");
 })
 
 app.get("/", (req, res) => {
