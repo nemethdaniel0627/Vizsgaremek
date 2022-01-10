@@ -24,14 +24,12 @@ class User {
 
     async isUnique(field, con) {
         const array = await sqlQueries.select('user', `${field}`, `${field} = '${con}'`);
-        const unique = array.find(element => element = con);
+        const unique = await array.find(element => element = con);
         if (unique) return false;
         return true;
     }
   
-    async add(data = '', addable = true) {
-        if (addable)
-        {
+    async add(data = '') {
         let added = false;
         await sqlQueries.CreateConnection();
 
@@ -49,7 +47,6 @@ class User {
         }
         await sqlQueries.EndConnection();
         return added;
-    }
     }
 
     async getAll() {

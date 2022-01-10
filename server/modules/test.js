@@ -50,7 +50,7 @@ class Test {
         const max = this.#names.length;
         this.#data = [];
         try {
-            await this.readFile(filename)
+            await this.readFile(filename);
         } catch (error) {
             if (amount > max) return `No enough data\nMaximum: ${max}`;
             let i = 0;
@@ -64,9 +64,16 @@ class Test {
                 const _class = `${await this.randomInt(8, 13)}${await this.randomString(1)}`;
                 const email = `${await name.toLowerCase().split(' ').join('.')}@gmail.com`.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
                 row = `${username};${password};${name};${schoolOM};${_class};${email}`;
-
-                // const added = await user.add(row);
+                const added = await user.add(row);
+                if (added) {
+                    i++;
+                    this.#data.push(row);
+                }
+                console.log(`${i} - ${added} - ${row}`);
                 //unique 
+                const unique = await this.#data.find(element => (element.split(';')[0] === row.split(';')[0]));
+                if (unique) console.log(unique);
+                // console.log(unique);
             }
             return await this.writeFile(filename);
         }
