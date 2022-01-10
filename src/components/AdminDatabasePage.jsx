@@ -24,9 +24,10 @@ export default function AdminDatabasePage() {
         setModal(!modalAppear);
     }
     let users = [];
-    const user = { name: "Teszt Elek", class: "12.A", email: "teszt.elek@students.jedlik.eu", user: "Teszt.Elek", isPaid: true, value: "15000 Ft", date: "2022-05-16#2022-05-18#2022-05-20" };
+    const user = { id: 0, name: "Teszt Elek", class: "12.A", email: "teszt.elek@students.jedlik.eu", user: "Teszt.Elek", isPaid: true, value: "15000 Ft", date: "2022-05-16#2022-05-18#2022-05-20" };
 
     for (let index = 0; index < 10; index++) {
+        user.id = index;
         users.push(user);
     }
 
@@ -72,7 +73,7 @@ export default function AdminDatabasePage() {
 
 
     return (
-        <div>
+        <div className="admin-db">
 
             <div className="admin-mg">
                 {!isMobile ? <Manager Download={Download}></Manager> : <ManagerMobile Download={Download}></ManagerMobile>}

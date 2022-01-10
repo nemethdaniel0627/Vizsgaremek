@@ -152,7 +152,7 @@ export default function AdminDatabaseModal(props) {
         </Modal.Header>
         <Modal.Body>
           {props.type === "File" ? <FileUploadModal /> : props.type === "New" ? <NewUserModal /> : props.type === "Modify" ? <NewUserModal name={props.name} class={props.class} email={props.email} user={props.user} isPaid={props.isPaid} value={props.value} dates={props.dates} /> : <></>}
-          {props.message}
+          <span className="fs-3">{props.message}</span>
         </Modal.Body>
         <Modal.Footer>
           {props.type === "New" ? 

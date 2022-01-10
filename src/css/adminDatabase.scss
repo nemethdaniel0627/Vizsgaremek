@@ -3,9 +3,8 @@
     height: 100vh;
     background-color: #131321;
     width: 15%;
-    padding-top: 3em;
-    position: fixed;
-    top:0px;
+    position: sticky;
+    top:0em;
 
     .btn-new{
         text-align: left!important;
@@ -202,13 +201,13 @@
 }
 
 .btn-modify:hover{
-    border: 1px solid #0300c4ad;
-    color:#0300c4ad;
+    border: 1px solid #0011ff;
+    color:#0011ff;
 }
 
 .btn-delete:hover{
-    border: 1px solid #ff2121ad;
-    color:#ff2121ad;
+    border: 1px solid #ff2121;
+    color:#ff2121;
 }
 
 .acc-body{
@@ -218,14 +217,16 @@
     }
 }
 
-.mobile-email{
-    font-size: 0.8em;
-}
-
-.mobile-select{
-    width: 100%;
-}
-
-.cancel-select{
-    width: fit-content;
+.admin-db{
+    .mobile-email{
+        font-size: 0.8em;
+    }
+    
+    .mobile-select{
+        width: 100%;
+    }
+    
+    .cancel-select{
+        width: fit-content;
+    }
 }
