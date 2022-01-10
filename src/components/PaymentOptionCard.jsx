@@ -9,10 +9,12 @@ export default function PaymentOptionCard(props) {
     props.btnClick(event);
   }
 
+  console.log(props.mobile);
+
   return (
     <div className="card">
       <div className="pt-3">
-        <h1 className="text-light card-header-text">{props.name}</h1>
+        <h1 className={"text-light card-header-text " + (props.mobile === true ? "mobile-h1-name" : "")}>{props.name}</h1>
         <hr />
       </div>
       <div className="card-price text-center pt-3">
