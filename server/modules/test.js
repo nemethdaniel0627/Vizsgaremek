@@ -26,9 +26,9 @@ class Test {
         return Math.floor(Math.random() * ((max) - min) + min)
     }
 
-    async randomString(length) {
+    async randomString(length, chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ') {
         let result = '';
-        let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        let characters = chars;
         let charactersLength = characters.length;
         for (let i = 0; i < length; i++) {
             result += characters.charAt(Math.floor(Math.random() * charactersLength));
@@ -61,19 +61,18 @@ class Test {
                 const password = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
                 const name = await this.randomName('nevek.txt');
                 const schoolOM = `${await this.randomString(3)}${await this.randomInt(100, 1000)}`;
-                const _class = `${await this.randomInt(8, 13)}${await this.randomString(1)}`;
+                const _class = `${await this.randomInt(8, 13)}${await this.randomString(1, 'ABCDEF')}`;
                 const email = `${await name.toLowerCase().split(' ').join('.')}@gmail.com`.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
                 row = `${username};${password};${name};${schoolOM};${_class};${email}`;
-                const added = await user.add(row);
-                if (added) {
+                
+                const unique = await this.#data.find(element => 
+                                                    (element.split(';')[0] === username.toString()) || 
+                                                    (element.split(';')[5]) === email.toString());
+                if (!unique)
+                {
                     i++;
                     this.#data.push(row);
                 }
-                console.log(`${i} - ${added} - ${row}`);
-                //unique 
-                const unique = await this.#data.find(element => (element.split(';')[0] === row.split(';')[0]));
-                if (unique) console.log(unique);
-                // console.log(unique);
             }
             return await this.writeFile(filename);
         }
