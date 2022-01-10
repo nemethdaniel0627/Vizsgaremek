@@ -38,10 +38,15 @@
     }
 }
 
+.accordion-item {
+    background-color: transparent;
+}
+
 .new-date-add:hover{
     color: #00000060;
     cursor: pointer;
 }
+
 .new-date-add{
     font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     font-weight: bold;

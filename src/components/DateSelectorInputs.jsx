@@ -1,18 +1,8 @@
-import { faCalendar, faCalendarAlt } from "@fortawesome/free-regular-svg-icons";
+import { faCalendar } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 
 export default function DateSelectorInput(props) {
-    function dateClick() {
-        console.log("click");
-        let element = document.getElementById("startDate");
-        element.focus();
-        var ev = document.createEvent('KeyboardEvent');
-        ev.initKeyboardEvent('keydown', true, true, document.defaultView, 'F4', 0);
-        element.dispatchEvent(ev);
-
-    }
-
     return (
         <div className="date-selector--input-container  ">
             <div className="date-selector--input--col mt-3" id="DayPicker">

@@ -1,5 +1,4 @@
 import React from "react";
-import Modal from "./Modal";
 import ReportPageItems from "./ReportPageItems";
 import contantIMG from "../images/icon.png";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
