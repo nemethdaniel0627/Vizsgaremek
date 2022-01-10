@@ -4,9 +4,11 @@ import React from "react";
 
 export default function Chips(props) {
     
-    function closeSelect(event) {        
-        const element = document.getElementById(`select_${props.date}`);
-        if (element) element.style.display = "none";
+    function closeSelect() {        
+        // const element = document.getElementById(`select_${props.date}`);
+        // if (element) element.style.display = "none";
+        // console.log(typeof(props.closeDate));
+        props.closeDate(props.removeIndex);
     }
 
     return (
