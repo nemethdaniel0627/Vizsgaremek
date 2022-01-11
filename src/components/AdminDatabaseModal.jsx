@@ -86,6 +86,8 @@ export default function AdminDatabaseModal(props) {
           </span>
         </label>
 
+        <div className="alert alert-file">A fájl formátumának meg kell felelnie a következőnek: <span className="fw-bold">.xls</span> vagy <span className="fw-bold">.csv</span> kiterjesztésű</div>
+
       </div>
     );
   }
