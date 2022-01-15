@@ -163,14 +163,18 @@ export default function Navbar(props) {
                         <Link to="/beolvas"><FontAwesomeIcon icon={faQrcode} /> Beolvasás</Link>
                     </div>
                     <div className="navbar--items-container--collapse--item">
-                        <Link to="/etlapfeltolt"><FontAwesomeIcon icon={faQrcode} /> Étlap feltöltés</Link>
+                        <Link to="/etlapfeltolt"><FontAwesomeIcon icon={faUpload} /> Étlap feltöltés</Link>
                     </div>
                     <div className="navbar--items-container--collapse--item">
-                        <div onClick={AuthUser.logoutUser} className="dropdown--item"><FontAwesomeIcon icon={faSignOutAlt} /> Kijelentkezés</div>
+                        <div onClick={AuthUser.logoutUser}><FontAwesomeIcon icon={faSignOutAlt} /> Kijelentkezés</div>
                     </div>
                 </div>
             }
-            <Link to="/adatlap" className="account--item"><FontAwesomeIcon icon={faUserCircle} /> {props.userName}</Link>
+            {AuthUser._authorization === "user" ?
+                <Link to="/adatlap" className="account--item"><FontAwesomeIcon icon={faUserCircle} /> {props.userName}</Link>
+                : <label htmlFor="navbar--btn" id="navbar--photo" className="navbar--photo__admin">
+                    <img alt="ICON" src={foodE_logo} />
+                </label>}
         </div>
 
     );

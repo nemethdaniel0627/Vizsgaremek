@@ -2,10 +2,12 @@ import { faFileExcel } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
 import React from "react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import XLSX from 'xlsx';
 import { URL } from '../utils/constants.js'
 export default function MenuUpload() {
+
+    const [excelRows, setExcelRows] = useState();
 
     // Design By
     // - https://dribbble.com/shots/13992184-File-Uploader-Drag-Drop
@@ -126,19 +128,8 @@ export default function MenuUpload() {
                     // Remove className (uploaded-file__info--active) from (uploadedFileInfo)
                     uploadedFileInfo.classList.remove('uploaded-file__info--active');
 
-                    // After File Reader Loaded 
-                    fileReader.addEventListener('load', function () {
-                        // After Half Second 
-
-
-                        // Add The (fileReader) Result Inside (previewImage) Source
-                        // previewImage.setAttribute('src', fileReader.result);
-
-
-
-                    });
-
-                    Upload();
+                    console.log(file);
+                    Upload(file);
                     // Read (file) As Data Url 
                     // fileReader.readAsDataURL(file);
 
@@ -175,47 +166,36 @@ export default function MenuUpload() {
             }, 600);
         };
 
-        function Upload() {
-            const regex = /^([a-zA-Z0-9\s_\\.\-:])+(.xls|.xlsx)$/;
-            console.log(fileInput.value.toLowerCase());
-            if (regex.test(fileInput.value.toLowerCase())) {
-                let fileName = fileInput.files[0].name;
-                if (typeof (FileReader) !== 'undefined') {
-                    const reader = new FileReader();
-                    if (reader.readAsBinaryString) {
-                        reader.onload = (e) => {
-                            processExcel(reader.result);
-                            setTimeout(function () {
-                                // Add className (upload-area--open) On (uploadArea)
-                                uploadArea.classList.add('upload-area--open');
+        function Upload(file) {
+            const reader = new FileReader();
+            if (reader.readAsBinaryString) {
+                reader.onload = (e) => {
+                    processExcel(reader.result);
+                    setTimeout(function () {
+                        // Add className (upload-area--open) On (uploadArea)
+                        uploadArea.classList.add('upload-area--open');
 
-                                // Hide Loading-text (please-wait) Element
-                                loadingText.style.display = "none";
-                                // Show Preview Image
-                                previewImage.style.display = 'block';
+                        // Hide Loading-text (please-wait) Element
+                        loadingText.style.display = "none";
+                        // Show Preview Image
+                        previewImage.style.display = 'block';
 
-                                // Add className (file-details--open) On (fileDetails)
-                                fileDetails.classList.add('file-details--open');
-                                // Add className (uploaded-file--open) On (uploadedFile)
-                                uploadedFile.classList.add('uploaded-file--open');
-                                // Add className (uploaded-file__info--active) On (uploadedFileInfo)
-                                uploadedFileInfo.classList.add('uploaded-file__info--active');
+                        // Add className (file-details--open) On (fileDetails)
+                        fileDetails.classList.add('file-details--open');
+                        // Add className (uploaded-file--open) On (uploadedFile)
+                        uploadedFile.classList.add('uploaded-file--open');
+                        // Add className (uploaded-file__info--active) On (uploadedFileInfo)
+                        uploadedFileInfo.classList.add('uploaded-file__info--active');
 
-                                // Add File Name Inside Uploaded File Name
-                                uploadedFileName.innerHTML = fileName;
+                        // Add File Name Inside Uploaded File Name
+                        uploadedFileName.innerHTML = file.name;
 
-                                // Call Function progressMove();
-                                progressMove();
-                            }, 500); // 0.5s
-                        };
-                        reader.readAsBinaryString(fileInput.files[0]);
-                    }
-                } else {
-                    console.log("This browser does not support HTML5.");
-                }
-            } else {
-                console.log("Please upload a valid Excel file.");
-            }
+                        // Call Function progressMove();
+                        progressMove();
+                    }, 500); // 0.5s
+                };                
+                reader.readAsBinaryString(file);
+            }          
         }
 
         function processExcel(data) {
@@ -223,25 +203,13 @@ export default function MenuUpload() {
             const firstSheet = workbook.SheetNames[0];
             console.log(workbook.Sheets[firstSheet]);
             const excelRows = XLSX.utils.sheet_to_json(workbook.Sheets[firstSheet]);
-
-            axios.post(`${URL}/etlap`, {
-                excelRows: excelRows
-            })
-                .then((response) => {
-                    console.log(response);
-                })
-                .catch((error) => {
-                    console.log(error.response);
-                })
+            setExcelRows(excelRows);
         }
 
         // Simple File Validate Function
         function fileValidate(fileType, fileSize) {
             // File Type Validation
-            let isGoodFormat = fileTypes.filter((type) => {
-                console.log(fileType);
-                console.log(type);
-                console.log(fileType.indexOf(`application/vnd.ms-excel`) !== -1 ? true : fileType.indexOf(`application/vnd.openxmlformats-officedocument.spreadsheetml.sheet`) !== -1 && type === "xlsx" ? true : false);
+            let isGoodFormat = fileTypes.filter((type) => {                
                 return fileType.indexOf(`application/vnd.ms-excel`) !== -1 ? true : fileType.indexOf(`application/vnd.openxmlformats-officedocument.spreadsheetml.sheet`) !== -1 && type === "xlsx" ? true : false;
                 // return fileType.indexOf(`image/${type}`) !== -1;
             });
@@ -261,17 +229,31 @@ export default function MenuUpload() {
         };
 
     })
+
+    function sendExcelRows() {
+        axios.post(`${URL}/etlap`, {
+            excelRows: excelRows
+        })
+            .then((response) => {
+                console.log(response);
+            })
+            .catch((error) => {
+                console.log(error.response);
+            })
+    }
+
+
     return (
         <div className="upload--container">
             {/* < !--Upload Area -- > */}
             <div id="uploadArea" className="upload-area">
                 {/* <!-- Header --> */}
                 <div className="upload-area__header">
-                    <h1 className="upload-area__title">Upload your file</h1>
+                    <h1 className="upload-area__title">Töltse fel az étlapot</h1>
                     <p className="upload-area__paragraph">
-                        File should be a table format
+                        A fájlnak ilyen formátumúnak kell lennie
                         <strong className="upload-area__tooltip">
-                            Like
+                            Mint
                             <span className="upload-area__tooltip-data"></span>{/*  <!-- Data Will be Comes From Js --> */}
                         </strong>
                     </p>
@@ -283,8 +265,8 @@ export default function MenuUpload() {
                     <span className="drop-zoon__icon">
                         <FontAwesomeIcon icon={faFileExcel} />
                     </span>
-                    <p className="drop-zoon__paragraph">Drop your file here or Click to browse</p>
-                    <span id="loadingText" className="drop-zoon__loading-text">Please Wait</span>
+                    <p className="drop-zoon__paragraph">Húzza be a fájlt vagy Kattintson tallózásért</p>
+                    <span id="loadingText" className="drop-zoon__loading-text">Kérem várjon</span>
                     <FontAwesomeIcon id="previewImage" className="drop-zoon__preview-image" icon={faFileExcel} />
                     <input type="file" id="fileInput" className="drop-zoon__file-input" accept=".csv,.xls,.xlsx" />
                 </div>
@@ -292,7 +274,7 @@ export default function MenuUpload() {
 
                 {/* <!-- File Details --> */}
                 <div id="fileDetails" className="upload-area__file-details file-details">
-                    <h3 className="file-details__title">Uploaded File</h3>
+                    <h3 className="file-details__title">Feltöltött fájl</h3>
 
                     <div id="uploadedFile" className="uploaded-file">
                         <div className="uploaded-file__icon-container">
@@ -301,9 +283,10 @@ export default function MenuUpload() {
                         </div>
 
                         <div id="uploadedFileInfo" className="uploaded-file__info">
-                            <span className="uploaded-file__name">Proejct 1</span>
+                            <span className="uploaded-file__name">Projekt 1</span>
                             <span className="uploaded-file__counter">0%</span>
                         </div>
+                        <button className="upload-area__button" onClick={sendExcelRows}>Étlap feltöltése</button>
                     </div>
                 </div>
                 {/* <!-- End File Details --> */}
