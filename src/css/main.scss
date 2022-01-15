@@ -18,13 +18,9 @@
   --clr-light-blue: rgb(171, 202, 255);
 }
 
-// ::selection {            
-//   background-color: var(--darkModeFontColor);
-// }
 
 html {
-  font-size: 62.5%;
-
+  font-size: 62.5%;  
   @media only screen and(max-width:600px) {
     font-size: 70%;    
   }
