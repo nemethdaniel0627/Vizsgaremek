@@ -1,61 +1,130 @@
 import React from "react";
-import { Route, Switch } from "react-router";
+import { Route, Switch, useLocation } from "react-router";
 import AuthRoute from "./AuthRoute";
 import LoginForm from "./LoginForm";
 import Menu from "./Menu";
 import Navbar from "./Navbar";
 import LunchTicket from "./LunchTicket";
 import LunchCancelation from "./LunchCancelation";
-import { Link } from "react-router-dom";
 import AccountPage from "./AccountPage";
 import ReportPage from "./ReportPage";
-import AdminDatabase from "./AdminDatabasePage";
+import AdminDatabasePage from "./AdminDatabasePage";
+import QrCodeReader from "./QrCodeReader";
+import { Redirect } from "react-router-dom";
+import AuthUser from "../modules/AuthUser";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import NotFoundPage from "./NotFoundPage";
+import MenuUpload from "./MenuUpload";
 import PaymentPage from "./PaymentPage";
 
-export default function App() {
 
-    // const path = useLocation().pathname;
+export default function App() {
+    const path = useLocation().pathname;
+    const [user, setUser] = useState({
+        vNev: "",
+        kNev: "",
+        osztaly: "12.",
+        befizetve: null,
+        datum: "2021.12.",
+        om: "",
+        iskolaOm: "",
+        email: ""
+    });
+
+    useEffect(() => {
+        setSearchBarHeight();
+        if (user.vNev === "") {
+            axios.get("/user")
+                .then(response => {
+                    setUser(response.data);
+                })
+                .catch(error => {
+                    console.error(error);
+                })
+        }
+    })
+
+    useEffect(() => {
+        const openNavbar = document.getElementById("navbar--button");
+        if (openNavbar) openNavbar.checked = false;
+    }, [path])
+
+    function setSearchBarHeight() {
+        const actualHeight = window.innerHeight;
+        let elementHeight = document.getElementById('control-height');
+        const root = document.querySelector(":root");
+        if (elementHeight && root) {
+            elementHeight = elementHeight.clientHeight;
+            const barHeight = elementHeight - actualHeight;
+            root.style.setProperty("--searchBarHeight", `${barHeight}px`);
+        }
+
+    }
 
     return (
-        <div className="App">            
-            <Navbar userName="Teszt Elek"/>            
+        <div className="App">
+            <Navbar userName={`${user.vNev} ${user.kNev}`} />
             <Switch>
-                <AuthRoute path="/" exact component={() =>
-                    <LoginForm title="Jelszo" />
+                {console.log("asd " + AuthUser._authorization)}
+                <AuthRoute path="/" auth={AuthUser._authorization} exact component={() => {
+
+                    return AuthUser._authorization === "user"
+                        ?
+                        <Redirect to="/etlap" />
+                        : AuthUser._authorization === "admin" ?
+                            <Redirect to="/adatbazis" />
+                            :
+                            <Menu cancel={false} header="Étlap" disabledDays={[]} />
+
+                }
                 } />
 
                 <Route path="/login" component={() =>
                     <LoginForm title="Jelszo" />
                 } />
 
-                <Route path="/etlap" component={() =>
+                <AuthRoute path="/etlap" auth="user" component={() =>
                     <Menu cancel={false} header="Étlap" disabledDays={[]} />
                 } />
 
-                <Route path="/ebedjegy" component={() =>
-                    <LunchTicket />
+                <AuthRoute path="/ebedjegy" auth="user" component={() =>
+                    <LunchTicket user={user} />
                 } />
 
-                <Route path="/lemondas" component={() =>
+                <AuthRoute path="/lemondas" auth="user" component={() =>
                     <LunchCancelation />
                 } />
-                      
-                <Route path="/adatlap" component={() =>
-                    <AccountPage />
+
+                <AuthRoute path="/adatlap" auth="user" component={() =>
+                    <AccountPage user={user} />
                 } />
 
-                <Route path="/kapcsolat" component={() =>
+                <AuthRoute path="/kapcsolat" auth="user" component={() =>
                     <ReportPage />
                 } />
 
-                <Route path="/fizetes" component={() =>
+
+                <AuthRoute path="/adatbazis" auth="admin" component={() =>
+                    <AdminDatabasePage />
+                } />
+                
+                <AuthRoute path="/fizetes" auth="user" component={() =>
                     <PaymentPage />
+                } />                
+
+                <AuthRoute path="/beolvas" auth="admin" component={() =>
+                    <QrCodeReader />
                 } />
 
-                <Route path="/admin" component={() =>
-                    <AdminDatabase />
+                <AuthRoute path="/etlapfeltolt" auth="admin" component={() =>
+                    <MenuUpload />
                 } />
-  
+
+                <Route>
+                    <NotFoundPage />
+                </Route>
+
             </Switch>
         </div>
     )

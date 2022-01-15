@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import DateSelectorInput from "./DateSelectorInputs";
 import Chips from "./Chips";
 
-export default function DateSelector() {
+export default function DateSelector(props) {
   const [justOneDay, setJustOneDay] = useState(false);
   const [startInputValue, setStartInputValue] = useState("");
   const [endInputValue, setEndInputValue] = useState("");
@@ -10,6 +10,10 @@ export default function DateSelector() {
 
   function justOneDayChange() {
     setJustOneDay(!justOneDay);
+    if (startInputValue) {
+      showSelectedDate(true);
+      setStartInputValue("");
+    }
   }
 
   function dateInputChange(event) {
@@ -36,32 +40,64 @@ export default function DateSelector() {
     }
   }
 
-  function showSelectedDate() {
+  function sameDateCheck() {
+    let hasInterval = false;
+    selectedDates.forEach(date => {
+      if (date.includes("-")) hasInterval = true;
+    })
+    if (hasInterval) {
+      selectedDates.sort().forEach((date, index) => {
+        if (date.includes("-")) {
+          const tmpStart = date.toString().split("-")[0].trim();
+          const tmpEnd = date.toString().split("-")[1].trim();
+          if (!(new Date(tmpStart) < new Date(startInputValue) && new Date(tmpEnd) > new Date(startInputValue))) {
+            setSelectedDates((prevDates) => {
+              return [...prevDates, startInputValue.replaceAll("-", ".")];
+            });
+            return false;
+          }
+
+        }
+      })
+    }
+    return true;
+  }
+
+
+
+  function showSelectedDate(manuJustOneDay = null) {
     if (justOneDay) {
-      setSelectedDates((prevDates) => {
-        return [...prevDates, startInputValue.replaceAll("-", ".")];
-      });
+      const sameDate = sameDateCheck();
+      console.log(sameDate);
+      if (!selectedDates.includes(startInputValue.replaceAll("-", ".")) && sameDate)
+        setSelectedDates((prevDates) => {
+          return [...prevDates, startInputValue.replaceAll("-", ".")];
+        });
     }
     else if (startInputValue === endInputValue) {
-      setSelectedDates((prevDates) => {
-        return [...prevDates, startInputValue.replaceAll("-", ".")];
-      });
+      const sameDate = sameDateCheck();
+      if (!sameDate)
+        setSelectedDates((prevDates) => {
+          return [...prevDates, startInputValue.replaceAll("-", ".")];
+        });
     }
-    let tmpDates = [];
-    selectedDates.sort().forEach((date, index) => {
-      if (new Date(date) < new Date(startInputValue) && new Date(date) > new Date(endInputValue)) {
-        tmpDates.push(date);
-      }
-      else if (new Date(date) > new Date(endInputValue)) {
-        tmpDates.push(`${startInputValue.replaceAll("-", ".")} - ${endInputValue.replaceAll("-", ".")}`);
-        tmpDates.push(date);
-      }
-    })
-    // const dateInterval = `${startInputValue.replaceAll("-", ".")} - ${endInputValue.replaceAll("-", ".")}`;
-    // setSelectedDates((prevDates) => {
-    //   return [...prevDates, dateInterval];
-    // });
-    setSelectedDates(tmpDates);
+    else {
+      const dateInterval = `${startInputValue.replaceAll("-", ".")} - ${endInputValue.replaceAll("-", ".")}`;
+      if (!selectedDates.includes(dateInterval))
+        setSelectedDates((prevDates) => {
+          return [...prevDates, dateInterval];
+        });
+    }
+    // setSelectedDates(tmpDates);
+  }
+
+  function closeDate(index) {
+    setSelectedDates((prevDates) => {
+      if (index > -1) {
+          prevDates.splice(index, 1);
+        }
+      return [...prevDates];
+    });
   }
 
   useEffect(() => {
@@ -69,6 +105,8 @@ export default function DateSelector() {
       showSelectedDate();
       setStartInputValue("");
     }
+    props.getDates(selectedDates);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [startInputValue])
 
   useEffect(() => {
@@ -77,7 +115,9 @@ export default function DateSelector() {
       setStartInputValue("");
       setEndInputValue("");
     }
-  }, [endInputValue])
+    props.getDates(selectedDates);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [endInputValue])  
 
   return (
     <div className="date-selector">
@@ -87,7 +127,7 @@ export default function DateSelector() {
         </div>
         {
           selectedDates.sort().map((date, index) => {
-            return <Chips key={`selectedDate-${index}`} date={date} />
+            return <Chips key={`selectedDate-${index}`} removeIndex={index} date={date} closeDate={closeDate} />
           })
         }
         <DateSelectorInput

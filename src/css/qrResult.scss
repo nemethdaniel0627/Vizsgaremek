@@ -24,9 +24,9 @@
 
     &--item {
         justify-self: start;
-        padding: 4rem 0;      
+        padding: 4rem 0;
         @media only screen and (max-width: 600px) {
-            padding: 3rem 0;            
+            padding: 3rem 0;
         }
 
         &--school {
@@ -37,7 +37,7 @@
     &--name {
         justify-self: start;
         font-size: 3.5rem;
-        position: relative;        
+        position: relative;
         align-self: baseline;
         width: 100%;
         padding: 0;
@@ -57,7 +57,6 @@
             bottom: -1rem;
             left: 0;
             transform: skew(-50deg);
-            
         }
     }
 
@@ -75,6 +74,23 @@
 
         & > * {
             transform: skew(20deg);
+        }
+    }
+}
+
+#control-height {
+    height: 100vh;
+    width: 0;
+    position: absolute;
+}
+
+.qr-reader {
+    section {
+        height: var(--fullScreen);
+
+        div {
+            border-top: calc(var(--fullScreen) / 3.3333) solid rgba(0, 0, 0, 0.3) !important;
+            border-bottom: calc(var(--fullScreen) / 3.3333) solid rgba(0, 0, 0, 0.3) !important;
         }
     }
 }

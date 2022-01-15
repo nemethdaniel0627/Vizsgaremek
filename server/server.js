@@ -14,6 +14,7 @@ const PORT = process.env.PORT || 5000;
 
 const buildPath = path.join(__dirname, '..', 'build');
 app.use(express.static(buildPath));
+app.use(express.json());
 app.use(cors());
 
 app.get("/etlap", async (req, res) => {
@@ -23,16 +24,18 @@ app.get("/etlap", async (req, res) => {
 });
 
 app.post("/etlap", async (req, res) => {
-  // const menu = req.body.menu;
-
-  const menu = await menuConvert.dayUpload();
+  // console.log(req.body);
+  let excelRows = req.body.excelRows;
+  // menuConvert._menu = menu;
+  // await menuConvert.readFromExcel();
+  const menu = await menuConvert.convert(excelRows);  
 
   let day1 = [];
   let day2 = [];
   let day3 = [];
   let day4 = [];
   let day5 = [];
-  let date = new Date("2021-12-20");
+  let date = new Date("2022-01-10");
 
   // menu.forEach(async (day, index) => {
   //   date = await databaseUpload.insertDay(day, date);
@@ -62,6 +65,19 @@ app.post("/add", async (req, res) => {
   res.send(`${count} record(s) added`);
 })
 
+app.get("/user", (req, res) => {
+  res.json({
+    vNev: "Winch",
+    kNev: "Eszter",
+    osztaly: "12.A",
+    befizetve: null,
+    datum: "2021.12.01",
+    om: "71767844485",
+    iskolaOm: "771122",
+    email: "asd@asd.com"
+  });
+})
+
 app.put("/update", async (req, res) => {
   const count = await user.modify('felhasznaloNev = 123456789', 'felhasznaloNev = 723011004754');
   res.send(`${count} record(s) updated`);
@@ -73,8 +89,11 @@ app.delete("/delete", async (req, res) => {
 })
 
 app.post("/cancel", async (req, res) => {
-  await user.cancelOrder('2021-12-19', [1, 0, 1, 0, 1]);
-  res.send("Kész");
+  const dates = req.body.dates;
+  dates.forEach(async date => {
+    await user.cancelOrder(date, [1, 0, 1, 0, 1]);
+  });
+  res.send("Ok");
 })
 
 app.get("/", (req, res) => {
