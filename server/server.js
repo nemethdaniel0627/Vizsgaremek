@@ -28,14 +28,14 @@ app.post("/etlap", async (req, res) => {
   let excelRows = req.body.excelRows;
   // menuConvert._menu = menu;
   // await menuConvert.readFromExcel();
-  const menu = await menuConvert.convert(excelRows);  
+  const menu = await menuConvert.convert(excelRows);
 
   let day1 = [];
   let day2 = [];
   let day3 = [];
   let day4 = [];
   let day5 = [];
-  let date = new Date("2022-01-10");
+  let date = new Date("2022-01-17");
 
   // menu.forEach(async (day, index) => {
   //   date = await databaseUpload.insertDay(day, date);

@@ -93,6 +93,7 @@ export default function MenuUpload() {
         dropZoon.addEventListener('click', function (event) {
             // Click The (fileInput)
             fileInput.click();
+            console.log("click");
         });
 
         // When (fileInput) has (change) Event 
@@ -134,12 +135,12 @@ export default function MenuUpload() {
                     // fileReader.readAsDataURL(file);
 
                 } else { // Else
+                    console.log("this");
                     return this;
                     // fileValidate(fileType, fileSize); // (this) Represent The fileValidate(fileType, fileSize) Function
 
                 };
-            } catch (error) {
-                alert("Hiba a fájl kiválasztásakor")
+            } catch (error) {                
             }
         };
 
@@ -204,6 +205,7 @@ export default function MenuUpload() {
             console.log(workbook.Sheets[firstSheet]);
             const excelRows = XLSX.utils.sheet_to_json(workbook.Sheets[firstSheet]);
             setExcelRows(excelRows);
+            console.log(excelRows);
         }
 
         // Simple File Validate Function
@@ -214,7 +216,7 @@ export default function MenuUpload() {
                 // return fileType.indexOf(`image/${type}`) !== -1;
             });
 
-            uploadedFileIconText.innerHTML = isGoodFormat[0];
+            // uploadedFileIconText.innerHTML = isGoodFormat[0];
             // If The Uploaded File Is An Image
             if (isGoodFormat.length !== 0) {
                 // Check, If File Size Is 2MB or Less
@@ -228,7 +230,7 @@ export default function MenuUpload() {
             };
         };
 
-    })
+    },[])
 
     function sendExcelRows() {
         axios.post(`${URL}/etlap`, {
