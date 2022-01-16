@@ -8,6 +8,7 @@ const sqlQueries = require('./modules/sqlQueries');
 const databaseDownload = require('./modules/databaseDownload');
 const user = require('./modules/user');
 const test = require('./modules/test');
+const order = require('./modules/order');
 
 const app = express();
 
@@ -77,9 +78,15 @@ app.delete("/delete", async (req, res) => {
   res.send(`${count} record(s) deleted`);
 })
 
+app.post("/order", async (req, res) => {
+  // const o = await order.order(1, [1, 0, 1, 0, 1], '2021-12-21');
+  const o = await order.getOrders();
+  res.send(o);
+})
+
 app.post("/cancel", async (req, res) => {
-  await user.cancelOrder('2021-12-19', [1, 0, 1, 0, 1]);
-  res.send("Kész");
+  const o = await order.cancelOrder(10, [1, 0, 1, 0, 1], '2021-12-20');
+  res.send(o);
 })
 
 app.post("/test", async (req, res) => {

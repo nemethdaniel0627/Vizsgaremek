@@ -1,5 +1,4 @@
 const fs = require('fs').promises;
-const user = require('./user');
 class Test {
     #names;
     #data;
@@ -7,16 +6,16 @@ class Test {
     async readFile(filename) {
         try {
             this.#names = [];
-            const data = await (await fs.readFile(filename, 'utf-8'))
-                .toString()
-                .trim()
-                .split('\n')
-                .forEach(r => {
-                    const row = r.trim();
-                    this.#names.push(row);
-                });
-            // console.log(this.#names);
-            return true;
+            fs.readFile(filename, 'utf-8')
+            .toString()
+            .trim()
+            .split('\n')
+            .forEach(r => {
+                const row = r.trim();
+                this.#names.push(row);
+            });
+        // console.log(this.#names);
+        return true;
         } catch (error) {
             throw error;
         }
