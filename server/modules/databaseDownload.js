@@ -13,11 +13,11 @@ class databaseDownload {
         await sqlQueries.CreateConnection(true);
         const menu = await sqlQueries.innerSelect(
             "menu",
-            "mealReggeli.nev," +
-            "mealTizorai.nev," +
-            "mealEbed.nev," +
-            "mealUszonna.nev," +
-            "mealVacsora.nev ",
+            "mealReggeli.*," +
+            "mealTizorai.*," +
+            "mealEbed.*," +
+            "mealUszonna.*," +
+            "mealVacsora.* ",
             "INNER JOIN days ON menu.daysId = days.id " +
             "INNER JOIN meal AS mealReggeli ON menu.reggeliId = mealReggeli.id " +
             "INNER JOIN meal AS mealTizorai ON menu.tizoraiId = mealTizorai.id " +
@@ -27,7 +27,22 @@ class databaseDownload {
             `days.datum BETWEEN "${startDate}" AND "${endDate}"`
         )
         await sqlQueries.EndConnection();
-        return menu;
+        let tmpMenu = [];
+        menu.forEach(day => {
+            let tmpDays = [];
+            let tmpMeals = [];
+            day.forEach((item, index) => {
+                if (typeof (item) === typeof (1) && index !== 0) {
+                    tmpDays.push(tmpMeals);
+                    tmpMeals = [];
+                }
+                else if (index !== 0) tmpMeals.push(item);
+            })
+            tmpDays.push(tmpMeals);
+            tmpMenu.push(tmpDays);
+
+        })
+        return tmpMenu;
     }
 
     async getUser(userOM) {
