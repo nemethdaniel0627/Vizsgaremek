@@ -84,7 +84,7 @@ app.post("/order", async (req, res) => {
 })
 
 app.post("/cancel", async (req, res) => {
-  const o = await order.cancelOrder(1, [1, 0, 1, 0, 1], '2021-12-20');
+  const o = await order.cancelOrder(2, [0, 0, 0, 0, 0], '2021-12-20');
   res.send(o);
 })
 

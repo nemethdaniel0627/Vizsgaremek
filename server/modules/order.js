@@ -56,6 +56,7 @@ class Order {
         await sqlQueries.CreateConnection();
         const menuId = await sqlQueries.innerSelect('menu', 'menu.id', 'INNER JOIN days ON menu.daysId = days.id', `days.datum = '${date}'`);
         if (menuId.length === 0) return `No menu with this date ${date}`;
+        
         await sqlQueries.insert('orders',
             'menuId, ' +
             'userId, ' +
@@ -72,23 +73,46 @@ class Order {
     }
 
     async cancelOrder(UId, meals, date) {
-        //TODO: befizetve ellenőrzése
+        // Id;menuId;userId;reggeli;tizorai;ebed;uzsonna;vacsora;ar;lemondva
         const orders = await this.getOrdersByUserId(UId);
         console.log(orders);
-        // Id - console.log(orders[0][0]);
-        // menuId - console.log(orders[0][1]);
-        // userId - console.log(orders[0][2]);
-        // reggeli - console.log(orders[0][3]);
-        // tizorai - console.log(orders[0][4]);
-        // ebed - console.log(orders[0][5]);
-        // uzsonna - console.log(orders[0][6]);
-        // vacsora - console.log(orders[0][7]);
-        // ar - console.log(orders[0][8]);
-        // datum - console.log(orders[0][9]);
         if (orders === -1) return `No user with ${UId} ID`;
         if (orders === 0) return `This ID: (${UId}) has no orders`;
+        let tmpOrders = [];
+        for (let index = 0; index < orders.length; index++) {
+            if (orders[index][9] === null) tmpOrders.push(orders[index]);
+        }
+
         await sqlQueries.CreateConnection();
         const menuId = await sqlQueries.innerSelect('menu', 'menu.id', 'INNER JOIN days ON menu.daysId = days.id', `days.datum = '${date}'`);
+        if (menuId.length === 0) return `No menu with this date ${date}`;
+
+        tmpOrders.forEach(element => {
+            if (element[1] === menuId[0][0])
+            {
+                let array = [];
+                array.push(element[0]);
+                array.push(element[3]);
+                array.push(element[4]);
+                array.push(element[5]);
+                array.push(element[6]);
+                array.push(element[7]);
+                
+                console.log(array);
+                console.log('  ', meals);
+                
+                if (array[1] === 0 || array[1] === meals[0]) console.log('Reggeli nem lemondható');
+                else console.log('Reggeli lemondva');
+                if (array[2] === 0 || array[2] === meals[1]) console.log('Tízórai nem lemondható');
+                else console.log('Tízórai lemondva');
+                if (array[3] === 0 || array[3] === meals[2]) console.log('Ebéd nem lemondható');
+                else console.log('Ebéd lemondva');
+                if (array[4] === 0 || array[4] === meals[3]) console.log('Uzsonna nem lemondható');
+                else console.log('Uzsonna lemondva');
+                if (array[5] === 0 || array[5] === meals[4]) console.log('Vacsora nem lemondható');
+                else console.log('Vacsora lemondva');
+            }
+        });
         const userId = UId;
         await sqlQueries.insert('orders',
             'menuId, ' +
