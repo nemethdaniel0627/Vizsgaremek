@@ -1,8 +1,8 @@
 :root {
-  --dark-blue: #001E6C;
+  --dark-blue: #001e6c;
   --blue: #035397;
-  --light-blue: #5089C6;
-  --orange: #FFAA4C;
+  --light-blue: #5089c6;
+  --orange: #ffaa4c;
   --bodyBackground: #fff;
   --darkModeFontColor: #000;
   --currentDay: #adf7b0;
@@ -18,24 +18,27 @@
   --clr-light-blue: rgb(171, 202, 255);
 }
 
-
 html {
-  font-size: 62.5%;  
+  font-size: 62.5%;
   @media only screen and(max-width:600px) {
-    font-size: 70%;    
+    font-size: 70%;
   }
 }
 
-body {  
+body {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
   background-color: var(--bodyBackground);
   font-family: Verdana, sans-serif;
+
+  @media only screen and (max-width: 600px) {
+    padding-top: 6rem;
+  }
 }
 
 .hidden {
-  visibility: hidden;  
+  visibility: hidden;
 }
 
 /////norbiiii

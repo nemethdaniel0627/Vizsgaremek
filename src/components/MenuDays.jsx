@@ -45,17 +45,17 @@ export default function MenuDays(props) {
                 }
             </h3>
             {meals.map((meal, index) => {
-                return <span key={`meal_${index}`}>
-                    {meal.replaceAll("\r\n", ", ")}
+                return <span key={`meal_${index}`}>                    
+                    {props.notDay ? meal : meal[0].replaceAll("\r\n", ", ")}
                     {!props.notDay ? <div className="menu--day-table--meals--infos d-none">
-                        <div className="menu--day-table--meals--infos--energia">Energia: 1,087.02 Kcal / 4,543.74 Kj</div>
+                        <div className="menu--day-table--meals--infos--energia">Energia: {meal[1]}</div>
                         <div className="menu--day-table--meals--infos--tapertek">
                             <div>
                                 <span>
                                     Fehérje
                                 </span>
                                 <span>
-                                    33.43 g
+                                {meal[2]}
                                 </span>
                             </div>
                             <div>
@@ -63,7 +63,7 @@ export default function MenuDays(props) {
                                     Zsír
                                 </span>
                                 <span>
-                                    33.43 g
+                                {meal[3]}
                                 </span>
                             </div>
                             <div>
@@ -71,7 +71,7 @@ export default function MenuDays(props) {
                                     T.Zsírsav
                                 </span>
                                 <span>
-                                    33.43 g
+                                    {meal[4]}
                                 </span>
                             </div>
                             <div>
@@ -79,7 +79,7 @@ export default function MenuDays(props) {
                                     Szénhidrát
                                 </span>
                                 <span>
-                                    33.43 g
+                                    {meal[5]}
                                 </span>
                             </div>
                             <div>
@@ -87,7 +87,7 @@ export default function MenuDays(props) {
                                     Cukor
                                 </span>
                                 <span>
-                                    33.43 g
+                                    {meal[6]}
                                 </span>
                             </div>
                             <div>
@@ -95,11 +95,11 @@ export default function MenuDays(props) {
                                     Só
                                 </span>
                                 <span>
-                                    33.43 g
+                                    {meal[7]}
                                 </span>
                             </div>
                         </div>
-                        <div className="menu--day-table--meals--infos--allergen">Allergének: 1,2,(12)</div>
+                        <div className="menu--day-table--meals--infos--allergen">Allergének: {meal[8]}</div>
                     </div> : <i />}
                 </span>
             })}
