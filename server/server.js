@@ -79,13 +79,12 @@ app.delete("/delete", async (req, res) => {
 })
 
 app.post("/order", async (req, res) => {
-  // const o = await order.order(1, [1, 0, 1, 0, 1], '2021-12-21');
-  const o = await order.getOrders();
+  const o = await order.order(1, [1, 0, 1, 0, 1], '2021-12-21');
   res.send(o);
 })
 
 app.post("/cancel", async (req, res) => {
-  const o = await order.cancelOrder(10, [1, 0, 1, 0, 1], '2021-12-20');
+  const o = await order.cancelOrder(1, [1, 0, 1, 0, 1], '2021-12-20');
   res.send(o);
 })
 

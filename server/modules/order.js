@@ -23,16 +23,14 @@ class Order {
 
     async getOrders() {
         await sqlQueries.CreateConnection();
-        const orders = await sqlQueries.select('orders', '*', 'lemondva = null');
-        console.log(orders);
+        const orders = await sqlQueries.select('orders', '*', 'lemondva is null');
         await sqlQueries.EndConnection();
         return orders;
     }
 
     async getCanceledOrders() {
         await sqlQueries.CreateConnection();
-        const canceled = await sqlQueries.select('orders', '*', 'lemondva != null');
-        console.log(canceled);
+        const canceled = await sqlQueries.select('orders', '*', 'lemondva is not null');
         await sqlQueries.EndConnection();
         return canceled;
     }
@@ -77,16 +75,16 @@ class Order {
         //TODO: befizetve ellenőrzése
         const orders = await this.getOrdersByUserId(UId);
         console.log(orders);
-        // Id - orders[0] 
-        // menuId - orders[1]
-        // userId - orders[2]
-        // reggeli - orders[3]
-        // tizorai - orders[4]
-        // ebed - orders[5]
-        // uzsonna - orders[6]
-        // vacsora - orders[7]
-        // ar - orders[8]
-        // datum - orders[9]
+        // Id - console.log(orders[0][0]);
+        // menuId - console.log(orders[0][1]);
+        // userId - console.log(orders[0][2]);
+        // reggeli - console.log(orders[0][3]);
+        // tizorai - console.log(orders[0][4]);
+        // ebed - console.log(orders[0][5]);
+        // uzsonna - console.log(orders[0][6]);
+        // vacsora - console.log(orders[0][7]);
+        // ar - console.log(orders[0][8]);
+        // datum - console.log(orders[0][9]);
         if (orders === -1) return `No user with ${UId} ID`;
         if (orders === 0) return `This ID: (${UId}) has no orders`;
         await sqlQueries.CreateConnection();
