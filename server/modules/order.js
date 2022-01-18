@@ -49,25 +49,39 @@ class Order {
         return order.affectedRows;
     }
 
-    async order(UId, meals, date) {
-        const orders = await this.getOrdersByUserId(UId);
-        const userId = UId;
-        if (orders === -1) return `No user with ${userId} ID`;
+    async selectMenuId(date) {
         await sqlQueries.CreateConnection();
         const menuId = await sqlQueries.innerSelect('menu', 'menu.id', 'INNER JOIN days ON menu.daysId = days.id', `days.datum = '${date}'`);
         if (menuId.length === 0) return `No menu with this date ${date}`;
+        await sqlQueries.EndConnection();
+        return menuId;
+    }
+
+    async userSumOrdersByMenuId(userId, meals) {
+        // Id;menuId;userId;reggeli;tizorai;ebed;uzsonna;vacsora;ar;lemondva
+        const orders = await this.getOrdersByUserId(userId);
+        // console.log(orders);
+
+    }
+
+    async order(userId, meals, date) {
+        // Id;menuId;userId;reggeli;tizorai;ebed;uzsonna;vacsora;ar;lemondva
+        const orders = await this.getOrdersByUserId(userId);
+        if (orders === -1) return `No user with ${userId} ID`;
+        const menuId = await this.selectMenuId(date);
+        console.log(menuId);
         
-        await sqlQueries.insert('orders',
-            'menuId, ' +
-            'userId, ' +
-            'reggeli, ' +
-            'tizorai, ' +
-            'ebed, ' +
-            'uzsonna, ' +
-            'vacsora, ' +
-            'ar, ' +
-            'lemondva',
-            `${menuId}, ${userId}, ${meals[0]}, ${meals[1]}, ${meals[2]}, ${meals[3]}, ${meals[4]}, 1000, null`);
+        // await sqlQueries.insert('orders',
+        //     'menuId, ' +
+        //     'userId, ' +
+        //     'reggeli, ' +
+        //     'tizorai, ' +
+        //     'ebed, ' +
+        //     'uzsonna, ' +
+        //     'vacsora, ' +
+        //     'ar, ' +
+        //     'lemondva',
+        //     `${menuId}, ${userId}, ${meals[0]}, ${meals[1]}, ${meals[2]}, ${meals[3]}, ${meals[4]}, 1000, null`);
         await sqlQueries.EndConnection();
         return 'Done';
     }
