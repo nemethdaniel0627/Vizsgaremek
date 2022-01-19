@@ -29,7 +29,7 @@ export default function RegisterForm(props) {
 
                                         <hr className="mb-3" />
                                         <div className="form-outline form-white mb-4">
-                                            <input type="text" className="form-control form-control-lg fs-4 --input" placeholder="Felhasználónév" autoFocus required name="name" />
+                                            <input type="text" className="form-control form-control-lg fs-4 --input" placeholder="OM azonosító" autoFocus required name="name" />
                                         </div>
 
                                         <div className="form-outline form-white mb-4">

@@ -55,7 +55,7 @@ export default function LoginForm(props) {
 
                                             <hr className="mb-5" />
                                             <div className="form-outline form-white mb-4">
-                                                <input type="text" className="form-control form-control-lg fs-4 --input" placeholder="Felhasználónév" autoFocus required name="name" onChange={inputChange} value={user.name} />
+                                                <input type="text" className="form-control form-control-lg fs-4 --input" placeholder="OM azonosító" autoFocus required name="name" onChange={inputChange} value={user.name} />
 
                                             </div>
 
