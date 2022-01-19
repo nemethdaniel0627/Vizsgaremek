@@ -30,9 +30,6 @@ export default function RegisterForm(props) {
                                         <hr className="mb-3" />
                                         <div className="form-outline form-white mb-4">
                                             <input type="text" className="form-control form-control-lg fs-4 --input" placeholder="Felhasználónév" autoFocus required name="name" />
-                                            <div class="valid-feedback">
-                                                Looks good!
-                                            </div>
                                         </div>
 
                                         <div className="form-outline form-white mb-4">
@@ -60,7 +57,7 @@ export default function RegisterForm(props) {
                                         <div className="form-outline form-white mb-4">
                                             <input className="form-check-input mt-1" type="checkbox" value="" id="flexCheckDefault" />
                                             <label className="form-check-label fs-5 ms-2" htmlFor="flexCheckDefault">
-                                                Elfogadom az <a href="">általános szerződési</a> feltételeket!
+                                                Elfogadom az <a href="https://policies.google.com/terms?hl=hu">általános szerződési feltételeket</a>!
                                             </label>
                                         </div>
 
