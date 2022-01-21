@@ -49,15 +49,29 @@ class Order {
         return order.affectedRows;
     }
 
-    async selectMenuId(date) {
+    async selectUsersMenuIds(userId, date) {
         await sqlQueries.CreateConnection();
-        const menuId = await sqlQueries.innerSelect('menu', 'menu.id', 'INNER JOIN days ON menu.daysId = days.id', `days.datum = '${date}'`);
-        if (menuId.length === 0) return `No menu with this date ${date}`;
+        const menuId = await sqlQueries.innerSelect(
+            'menu',
+            'menu.id',
+            'INNER JOIN days ON menu.daysId = days.id ' +
+            'INNER JOIN orders ON orders.menuId = menu.id',
+            `orders.userId = ${userId} AND days.datum = '${date}'`);
+        if (menuId.length === 0) return -1;
         await sqlQueries.EndConnection();
         return menuId;
     }
 
-    async userSumOrdersByMenuId(userId, meals) {
+    async selectMenuIdByDate(date) {
+        await sqlQueries.CreateConnection();
+        const menuId = await sqlQueries.innerSelect('menu', 'menu.id', 'INNER JOIN days ON menu.daysId = days.id', `days.datum = '${date}'`);
+        await sqlQueries.EndConnection();
+        // console.log(menuId.length);
+        if (menuId.length === 0) return -1;
+        return menuId;
+    }
+
+    async sumOrdersByMenuId(userId, meals) {
         // Id;menuId;userId;reggeli;tizorai;ebed;uzsonna;vacsora;ar;lemondva
         const orders = await this.getOrdersByUserId(userId);
         // console.log(orders);
@@ -68,42 +82,43 @@ class Order {
         // Id;menuId;userId;reggeli;tizorai;ebed;uzsonna;vacsora;ar;lemondva
         const orders = await this.getOrdersByUserId(userId);
         if (orders === -1) return `No user with ${userId} ID`;
-        const menuId = await this.selectMenuId(date);
-        console.log(menuId);
-        
-        // await sqlQueries.insert('orders',
-        //     'menuId, ' +
-        //     'userId, ' +
-        //     'reggeli, ' +
-        //     'tizorai, ' +
-        //     'ebed, ' +
-        //     'uzsonna, ' +
-        //     'vacsora, ' +
-        //     'ar, ' +
-        //     'lemondva',
-        //     `${menuId}, ${userId}, ${meals[0]}, ${meals[1]}, ${meals[2]}, ${meals[3]}, ${meals[4]}, 1000, null`);
+        const menuId = await this.selectMenuIdByDate(date);
+        if (menuId === -1) return `No order with this date: ${date} or ID: ${userId}`;
+        // van-e már rendelése
+
+        await sqlQueries.CreateConnection();
+        await sqlQueries.insert('orders',
+            'menuId, ' +
+            'userId, ' +
+            'reggeli, ' +
+            'tizorai, ' +
+            'ebed, ' +
+            'uzsonna, ' +
+            'vacsora, ' +
+            'ar, ' +
+            'lemondva',
+            `${menuId}, ${userId}, ${meals[0]}, ${meals[1]}, ${meals[2]}, ${meals[3]}, ${meals[4]}, 1000, null`);
         await sqlQueries.EndConnection();
         return 'Done';
     }
 
-    async cancelOrder(UId, meals, date) {
+    async cancelOrder(userId, meals, date) {
         // Id;menuId;userId;reggeli;tizorai;ebed;uzsonna;vacsora;ar;lemondva
-        const orders = await this.getOrdersByUserId(UId);
-        console.log(orders);
-        if (orders === -1) return `No user with ${UId} ID`;
-        if (orders === 0) return `This ID: (${UId}) has no orders`;
+        const orders = await this.getOrdersByUserId(userId);
+        // console.log(orders);
+        if (orders === -1) return `No user with ${userId} ID`;
+        if (orders === 0) return `No order with this ID: ${userId}`;
+        const menuId = await this.selectMenuIdByDate(date);
+        if (menuId === -1) return `No order with this date: ${date} or ID: ${userId}`;
         let tmpOrders = [];
         for (let index = 0; index < orders.length; index++) {
             if (orders[index][9] === null) tmpOrders.push(orders[index]);
         }
 
-        await sqlQueries.CreateConnection();
-        const menuId = await sqlQueries.innerSelect('menu', 'menu.id', 'INNER JOIN days ON menu.daysId = days.id', `days.datum = '${date}'`);
-        if (menuId.length === 0) return `No menu with this date ${date}`;
+        console.log(menuId);
 
         tmpOrders.forEach(element => {
-            if (element[1] === menuId[0][0])
-            {
+            if (element[1] === menuId[0][0]) {
                 let array = [];
                 array.push(element[0]);
                 array.push(element[3]);
@@ -111,10 +126,10 @@ class Order {
                 array.push(element[5]);
                 array.push(element[6]);
                 array.push(element[7]);
-                
+
                 console.log(array);
                 console.log('  ', meals);
-                
+
                 if (array[1] === 0 || array[1] === meals[0]) console.log('Reggeli nem lemondható');
                 else console.log('Reggeli lemondva');
                 if (array[2] === 0 || array[2] === meals[1]) console.log('Tízórai nem lemondható');
@@ -127,7 +142,8 @@ class Order {
                 else console.log('Vacsora lemondva');
             }
         });
-        const userId = UId;
+        
+        await sqlQueries.CreateConnection();
         await sqlQueries.insert('orders',
             'menuId, ' +
             'userId, ' +
