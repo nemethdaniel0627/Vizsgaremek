@@ -1,5 +1,4 @@
 const fs = require('fs').promises;
-const user = require('./user');
 class Test {
     #names;
     #data;
@@ -7,7 +6,7 @@ class Test {
     async readFile(filename) {
         try {
             this.#names = [];
-            const data = await (await fs.readFile(filename, 'utf-8'))
+            fs.readFile(filename, 'utf-8')
                 .toString()
                 .trim()
                 .split('\n')
@@ -15,7 +14,6 @@ class Test {
                     const row = r.trim();
                     this.#names.push(row);
                 });
-            // console.log(this.#names);
             return true;
         } catch (error) {
             throw error;
@@ -65,9 +63,10 @@ class Test {
                 const email = `${await name.toLowerCase().split(' ').join('.')}@gmail.com`.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
                 row = `${username};${password};${name};${schoolOM};${_class};${email}`;
                 
-                const unique = await this.#data.find(element => 
-                                                    (element.split(';')[0] === username.toString()) || 
-                                                    (element.split(';')[5]) === email.toString());
+                const unique = await this.#data.find(
+                    element => (element.split(';')[0] === username.toString()) || 
+                               (element.split(';')[5]) === email.toString());
+                
                 if (!unique)
                 {
                     i++;
