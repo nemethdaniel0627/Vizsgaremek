@@ -1,6 +1,5 @@
 const sqlQueries = require("./sqlQueries");
 const fs = require("fs").promises;
-const functions = require("./functions");
 
 class User {
     #data;
@@ -16,22 +15,22 @@ class User {
                     const row = r.trim();
                     this.#data.push(row);
                 });
-            return (this.#data);
+                // console.log(this.#data);
+            return this.#data;
         } catch (error) {
             throw error;
         }
     }
 
-
     async isUnique(field, con) {
         const array = await sqlQueries.select('user', `${field}`, `${field} = '${con}'`);
-        const unique = array.find(element => element = con);
+        const unique = await array.find(element => element = con);
         if (unique) return false;
         return true;
     }
   
     async add(data = '') {
-        let count = 0;
+        let added = false;
         await sqlQueries.CreateConnection();
 
         if ((await this.isUnique('felhasznaloNev', data.split(';')[0])) && (await this.isUnique('email', data.split(';')[5])))
@@ -44,10 +43,10 @@ class User {
             "osztaly, " +
             "email",
             `"${data.split(";")[0]}", "${data.split(";")[1]}", "${data.split(";")[2]}", "${data.split(";")[3]}", "${data.split(";")[4]}", "${data.split(";")[5]}"`);
-            count++;
+            added = true;
         }
         await sqlQueries.EndConnection();
-        return count;
+        return added;
     }
 
     async getAll() {
@@ -82,7 +81,7 @@ class User {
         const validDate = await sqlQueries.select('days', 'datum', `datum = '${date}'`);
         if (!validDate) return false;
         const menuId = await sqlQueries.innerSelect('menu', 'menu.id', 'INNER JOIN days ON menu.daysId = days.id', `days.datum = '${date}'`);
-        const userId = 1 //this.user.id
+        const userId = 1 //user.id
         await sqlQueries.insert('orders',
             'menuId, ' +
             'userId, ' +
