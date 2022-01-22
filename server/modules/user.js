@@ -59,6 +59,7 @@ class User {
         await sqlQueries.CreateConnection();
         const result = await sqlQueries.select('user', `${fields}`, `${conditions}`);
         await sqlQueries.EndConnection();
+        return result;
     }
 
     async delete(condition) {
