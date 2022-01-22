@@ -5,6 +5,7 @@ import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons
 import axios from "axios";
 import { URL, allgergens } from "../utils/constants";
 import DaySelector from "./DaySelector";
+import modules from "../modules/modules";
 
 export default function Menu(props) {
     const [displayWeek, setDisplayWeek] = useState();
@@ -12,6 +13,7 @@ export default function Menu(props) {
     const [menu, setMenu] = useState([]);
     const [selectedDay, setSelectedDay] = useState();
     const [weekLength, setWeekLength] = useState(4);
+    const [selectedDates, setSelectedDates] = useState([]);
 
     const dayNames = ["Hétfő", "Kedd", "Szerda", "Csütörtök", "Péntek", "Szombat"];
     const mealTypes = ["Reggeli", "Tízórai", "Ebéd", "Uzsonna", "Vacsora"];
@@ -138,7 +140,13 @@ export default function Menu(props) {
         const input = document.getElementById(event.target.attributes[2].value);
         const day = document.getElementById(event.target.attributes[2].value.split("_")[1]);
         if (day && input) {
-            if (input.checked) day.style.backgroundImage = "linear-gradient(rgba(255, 0, 0, 0.349), var(--bodyBackground))"
+            if (input.checked) {
+                day.style.backgroundImage = "linear-gradient(rgba(255, 0, 0, 0.349), var(--bodyBackground))";
+                setSelectedDates(prevDates => {
+                    return [...prevDates, input.value];
+                })
+                props.getDates()
+            }
             else day.style.backgroundImage = null;
         }
     }
@@ -151,6 +159,12 @@ export default function Menu(props) {
         checkNextWeek()
 
     }, [firstDay])
+
+    useEffect(() => {
+        if (props.getDates) {
+            props.getDates(selectedDates);
+        }
+    }, [selectedDates])
 
     return (
         <div className="menu">
@@ -190,6 +204,9 @@ export default function Menu(props) {
                         meals={mealTypes} />
                 </div>
                 {menu.map((meal, index) => {
+                    let tmpFirstDay = new Date(firstDay);
+                    tmpFirstDay.setDate(tmpFirstDay.getDate() + index);
+
                     return (
                         <label
                             onChange={cancelSelect}
@@ -206,7 +223,8 @@ export default function Menu(props) {
                                     key={`menucheck_day-${index + 1}`}
                                     className="menu--day-table--input"
                                     type="checkbox"
-                                    id={`menucheck_day-${index + 1}`} />
+                                    id={`menucheck_day-${index + 1}`}
+                                    value={modules.convertDateWithDash(tmpFirstDay)} />
                                 : ""
                             }
                             <MenuDays

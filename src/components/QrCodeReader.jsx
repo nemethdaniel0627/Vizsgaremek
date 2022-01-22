@@ -17,6 +17,7 @@ export default function QrCodeReader() {
                 befizetve: tmpJson.befizetve,
                 iskola: tmpJson.iskola
             });
+            console.log(isCamera);
         }
     }
 

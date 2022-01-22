@@ -9,7 +9,7 @@
 
     &-area {
         width: 100%;
-        max-width: 45rem;        
+        max-width: 45rem;
         max-height: fit-content;
         background-color: var(--dark-blue);
         box-shadow: 0 10px 60px rgb(218, 229, 255);
@@ -327,4 +327,29 @@
 .uploaded-file__counter {
     font-size: 1em;
     color: #fff;
+}
+
+.css {
+    &-i4bv87-MuiSvgIcon-root {
+        font-size: 2.5rem !important;
+    }
+
+    &-l0iinn {
+        font-size: 1.8rem !important;
+    }
+
+    &-f4950f-MuiSvgIcon-root,
+    &-fd2y78-MuiSvgIcon-root {
+        font-size: 1.8rem !important;
+    }
+
+    &-1w13o7u-MuiTypography-root,
+    &-15i50ny-MuiButtonBase-root-MuiPickersDay-root,
+    &-ew58n9-MuiButtonBase-root-MuiPickersDay-root,
+    &-es6xc3-MuiButtonBase-root-MuiPickersDay-root,
+    &-12isdk9-MuiButtonBase-root-MuiPickersDay-root,
+    &-1wakf7n-MuiButtonBase-root-MuiPickersDay-root,
+    &-wc95jc-MuiButtonBase-root-MuiPickersDay-root {
+        font-size: 1.2rem !important;
+    }
 }

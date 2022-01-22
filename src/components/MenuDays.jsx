@@ -7,7 +7,7 @@ import { useEffect } from "react";
 export default function MenuDays(props) {
 
     const [meals, setMeals] = useState([]);
-    const [moreInfos, setMoreInfos] = useState(false);    
+    const [moreInfos, setMoreInfos] = useState(false);
 
     function inputChange() {
         const tmpChecked = !moreInfos;
@@ -45,7 +45,7 @@ export default function MenuDays(props) {
                 }
             </h3>
             {meals.map((meal, index) => {
-                return <span key={`meal_${index}`}>                    
+                return <span key={`meal_${index}`}>
                     {props.notDay ? meal : meal[0].replaceAll("\r\n", ", ")}
                     {!props.notDay ? <div className="menu--day-table--meals--infos d-none">
                         <div className="menu--day-table--meals--infos--energia">Energia: {meal[1]}</div>
@@ -55,7 +55,7 @@ export default function MenuDays(props) {
                                     Fehérje
                                 </span>
                                 <span>
-                                {meal[2]}
+                                    {meal[2]}
                                 </span>
                             </div>
                             <div>
@@ -63,7 +63,7 @@ export default function MenuDays(props) {
                                     Zsír
                                 </span>
                                 <span>
-                                {meal[3]}
+                                    {meal[3]}
                                 </span>
                             </div>
                             <div>
@@ -102,7 +102,7 @@ export default function MenuDays(props) {
                         <div className="menu--day-table--meals--infos--allergen">Allergének: {meal[8]}</div>
                     </div> : <i />}
                 </span>
-            })}
+            })}            
         </label>
     )
 }

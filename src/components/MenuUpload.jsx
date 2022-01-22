@@ -4,7 +4,40 @@ import axios from "axios";
 import React from "react";
 import { useEffect, useState } from "react";
 import XLSX from 'xlsx';
-import { URL } from '../utils/constants.js'
+import { URL } from '../utils/constants.js';
+import { styled, createTheme } from '@mui/material/styles';
+import TextField from '@mui/material/TextField';
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import LocalizationProvider from '@mui/lab/LocalizationProvider';
+import StaticDatePicker from '@mui/lab/StaticDatePicker';
+import PickersDay from '@mui/lab/PickersDay';
+import endOfWeek from 'date-fns/endOfWeek';
+import isSameDay from 'date-fns/isSameDay';
+import isWithinInterval from 'date-fns/isWithinInterval';
+import startOfWeek from 'date-fns/startOfWeek';
+
+const CustomPickersDay = styled(PickersDay, {
+    shouldForwardProp: (prop) =>
+        prop !== 'dayIsBetween' && prop !== 'isFirstDay' && prop !== 'isLastDay',
+})(({ theme, dayIsBetween, isFirstDay, isLastDay }) => ({
+    ...(dayIsBetween && {
+        borderRadius: 0,
+        backgroundColor: theme.palette.primary.main,
+        color: theme.palette.common.white,
+        '&:hover, &:focus': {
+            backgroundColor: theme.palette.primary.dark,
+        },
+    }),
+    ...(isFirstDay && {
+        borderTopLeftRadius: '50%',
+        borderBottomLeftRadius: '50%',
+    }),
+    ...(isLastDay && {
+        borderTopRightRadius: '50%',
+        borderBottomRightRadius: '50%',
+    }),
+}));
+
 export default function MenuUpload() {
 
     const [excelRows, setExcelRows] = useState();
@@ -39,9 +72,6 @@ export default function MenuUpload() {
 
         // Uploaded File  Name
         const uploadedFileName = document.querySelector('.uploaded-file__name');
-
-        // Uploaded File Icon
-        const uploadedFileIconText = document.querySelector('.uploaded-file__icon-text');
 
         // Uploaded File Counter
         const uploadedFileCounter = document.querySelector('.uploaded-file__counter');
@@ -140,7 +170,7 @@ export default function MenuUpload() {
                     // fileValidate(fileType, fileSize); // (this) Represent The fileValidate(fileType, fileSize) Function
 
                 };
-            } catch (error) {                
+            } catch (error) {
             }
         };
 
@@ -194,9 +224,9 @@ export default function MenuUpload() {
                         // Call Function progressMove();
                         progressMove();
                     }, 500); // 0.5s
-                };                
+                };
                 reader.readAsBinaryString(file);
-            }          
+            }
         }
 
         function processExcel(data) {
@@ -211,7 +241,7 @@ export default function MenuUpload() {
         // Simple File Validate Function
         function fileValidate(fileType, fileSize) {
             // File Type Validation
-            let isGoodFormat = fileTypes.filter((type) => {                
+            let isGoodFormat = fileTypes.filter((type) => {
                 return fileType.indexOf(`application/vnd.ms-excel`) !== -1 ? true : fileType.indexOf(`application/vnd.openxmlformats-officedocument.spreadsheetml.sheet`) !== -1 && type === "xlsx" ? true : false;
                 // return fileType.indexOf(`image/${type}`) !== -1;
             });
@@ -230,7 +260,7 @@ export default function MenuUpload() {
             };
         };
 
-    },[])
+    }, [])
 
     function sendExcelRows() {
         axios.post(`${URL}/etlap`, {
@@ -242,7 +272,36 @@ export default function MenuUpload() {
             .catch((error) => {
                 console.log(error.response);
             })
-    }
+    }    
+
+    const [value, setValue] = React.useState(new Date());
+
+    const renderWeekPickerDay = (date, selectedDates, pickersDayProps) => {
+        if (!value) {
+            return <PickersDay {...pickersDayProps} />;
+        }
+
+        const start = startOfWeek(value);
+        const end = endOfWeek(value);
+
+        const dayIsBetween = isWithinInterval(date, { start, end });
+        const isFirstDay = isSameDay(date, start);
+        const isLastDay = isSameDay(date, end);
+
+        return (
+            <CustomPickersDay
+                {...pickersDayProps}
+                disableMargin
+                dayIsBetween={dayIsBetween}
+                isFirstDay={isFirstDay}
+                isLastDay={isLastDay}
+            />
+        );
+    };
+
+    useEffect(() => {
+        console.log(value);
+    }, [value])
 
 
     return (
@@ -288,12 +347,26 @@ export default function MenuUpload() {
                             <span className="uploaded-file__name">Projekt 1</span>
                             <span className="uploaded-file__counter">0%</span>
                         </div>
+
                         <button className="upload-area__button" onClick={sendExcelRows}>Étlap feltöltése</button>
                     </div>
                 </div>
                 {/* <!-- End File Details --> */}
             </div>
             {/* <!-- End Upload Area --></div> */}
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <StaticDatePicker
+                    displayStaticWrapperAs="desktop"
+                    label="Week picker"
+                    value={value}
+                    onChange={(newValue) => {
+                        setValue(newValue);
+                    }}
+                    renderDay={renderWeekPickerDay}
+                    renderInput={(params) => <TextField {...params} />}
+                    inputFormat="'Week of' MMM dddd"                    
+                />
+            </LocalizationProvider>
         </div>
     )
 }

@@ -66,8 +66,6 @@ export default function DateSelector(props) {
     return true;
   }
 
-
-
   function showSelectedDate(manuJustOneDay = null) {
     if (justOneDay || manuJustOneDay === true) {
       const sameDate = sameDateCheck();
@@ -126,7 +124,7 @@ export default function DateSelector(props) {
     <div className="date-selector">
       <div className="row w-100">
         <div className="col-sm-12 col-lg-12 mb-5 w-100 mt-2 date-selector--col">
-          <h1 className="menu--header">Lemondás</h1>
+          <h2 className="menu--header">Lemondás</h2>
         </div>
         {
           selectedDates.sort().map((date, index) => {
