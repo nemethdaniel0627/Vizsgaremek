@@ -79,18 +79,20 @@ app.delete("/delete", async (req, res) => {
 })
 
 app.post("/order", async (req, res) => {
-  const o = await order.order(1, [1, 0, 1, 0, 1], '2021-12-21');
+  const o = await order.order(10, [true, false, true, false, true], '2021-12-22');
   res.send(o);
 })
 
 app.post("/cancel", async (req, res) => {
-  const o = await order.cancelOrder(2, [0, 0, 0, 0, 0], '2021-12-20');
+  const o = await order.cancelOrder(1, [1, 0, 0, 0, 1], '2021-12-21');
   res.send(o);
 })
 
 app.post("/test", async (req, res) => {
-  const create = await test.generate('users.txt', 82);
-  res.send(create);
+  // const create = await test.generate('users.txt', 82);
+  // res.send(create);
+  const sum = await order.userOrdersByMenuId(1, '2021-12-21');
+  res.send(sum);
 })
 
 app.get("/", (req, res) => {
