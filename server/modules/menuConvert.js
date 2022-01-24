@@ -89,7 +89,7 @@ class menuConvert {
         let rowNumber = 0;
         let unnepJelzo = 0;
         rows.forEach((row, index) => {
-            if (index > 34) return;
+            if (index > 38) return;
             const keys = Object.keys(row);
             if (row.__EMPTY !== undefined) {
                 type++;

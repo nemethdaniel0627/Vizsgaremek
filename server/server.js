@@ -27,33 +27,43 @@ app.get("/etlap", async (req, res) => {
 app.post("/etlap", async (req, res) => {
   // console.log(req.body);
   let excelRows = req.body.excelRows;
+  const setDate = req.body.date;
   // menuConvert._menu = menu;
   // await menuConvert.readFromExcel();
-  const menu = await menuConvert.convert(excelRows);  
+  await sqlQueries.CreateConnection();
+  const selectDaysId = await sqlQueries.select("days", "id", `datum = "${setDate}"`);
+  if (selectDaysId.length === 0) {
+    await sqlQueries.EndConnection();
+    console.log(selectDaysId);
+    const menu = await menuConvert.convert(excelRows);
 
-  let day1 = [];
-  let day2 = [];
-  let day3 = [];
-  let day4 = [];
-  let day5 = [];
-  let date = new Date("2022-01-10");
+    let day1 = [];
+    let day2 = [];
+    let day3 = [];
+    let day4 = [];
+    let day5 = [];
+    let date = new Date(setDate);
 
-  // menu.forEach(async (day, index) => {
-  //   date = await databaseUpload.insertDay(day, date);
-  // });
+    // menu.forEach(async (day, index) => {
+    //   date = await databaseUpload.insertDay(day, date);
+    // });
 
-  try {
-    for await (const day of menu) {
-      date = await databaseUpload.insertDay(day, date);
+    try {
+      for await (const day of menu) {
+        date = await databaseUpload.insertDay(day, date);
+      }
+    } catch (error) {
+      res.status(404);
+      res.send("Error")
+      throw error;
+
     }
-  } catch (error) {
-    res.status(404);
-    res.send("Error")
-    throw error;
-
+    res.send("Kész");
   }
-
-  res.send("Kész");
+  else {
+    res.status(409);
+    res.send("Erre a hétre már van étlap feltöltve");
+  }
 });
 
 app.post("/add", async (req, res) => {
