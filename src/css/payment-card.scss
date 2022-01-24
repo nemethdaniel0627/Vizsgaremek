@@ -101,8 +101,8 @@
     border-color: rgb(255, 136, 0);
   }
   
-  .card:hover{
-    box-shadow: 1px 1px 10px 1px white;
+  .card-hover:hover{
+    box-shadow: 1px 1px 10px 3px var(--darkModeFontColor);
     transition: 0.5s;
   }
   

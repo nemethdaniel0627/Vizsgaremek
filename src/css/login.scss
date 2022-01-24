@@ -53,10 +53,31 @@
     a{
         cursor: pointer;
     }
+
+    .page-changer{
+        transition: 0.5s;
+        text-decoration: none;
+    }
+    .page-changer:hover{
+        text-decoration: underline;
+    }
 }
 
 .register{
     option{
         background-color: #494949;
+    }
+
+
+    .rule{
+        color: var(--a-rule);
+    }
+
+    .page-changer{
+        transition: 0.5s;
+        text-decoration: none;
+    }
+    .page-changer:hover{
+        text-decoration: underline;
     }
 }
