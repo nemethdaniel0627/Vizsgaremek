@@ -89,10 +89,10 @@ app.post("/cancel", async (req, res) => {
 })
 
 app.post("/test", async (req, res) => {
-  // const create = await test.generate('users.txt', 82);
-  // res.send(create);
-  const sum = await order.userOrdersByMenuId(1, '2021-12-21');
-  res.send(sum);
+  const create = await test.generate('users2.txt', 82);
+  res.send(create);
+  // const sum = await order.userOrdersByMenuId(1, '2021-12-21');
+  // res.send(sum);
 })
 
 app.get("/", (req, res) => {
