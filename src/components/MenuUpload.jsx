@@ -276,6 +276,7 @@ export default function MenuUpload() {
 
     function sendExcelRows() {
         const startDay = modules.getFirstDayOfWeek(week);
+        console.log(startDay);
         axios.post(`${URL}/etlap`, {
             excelRows: excelRows,
             date: modules.convertDateWithDash(startDay)
