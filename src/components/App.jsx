@@ -81,7 +81,7 @@ export default function App() {
                 } />
 
                 <Route path="/login" component={() =>
-                    <LoginForm title="Jelszo" />
+                    <LoginForm title="Bejelentkezés" />
                 } />
 
                 <AuthRoute path="/etlap" auth="user" component={() =>

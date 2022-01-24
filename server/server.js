@@ -7,6 +7,7 @@ const databaseUpload = require('./modules/databaseUpload');
 const sqlQueries = require('./modules/sqlQueries');
 const databaseDownload = require('./modules/databaseDownload');
 const user = require('./modules/user');
+const test = require('./modules/test');
 
 const app = express();
 
@@ -66,13 +67,17 @@ app.post("/etlap", async (req, res) => {
 });
 
 app.post("/add", async (req, res) => {
-  const data = await user.readFile('users.txt');
-  let count = 0;
-  for (let i = 0; i < data.length; i++) {
-    let ret = await user.add(data[i]);
-    if (ret === 1) count++;
+  try {
+      const data = await user.readFile('users.txt');
+      let count = 0;
+      for (let i = 0; i < data.length; i++) {
+        let added = await user.add(data[i]);
+      if (added) count++;
   }
-  res.send(`${count} record(s) added`);
+    res.send(`${count} record(s) added`);
+  } catch (error) {
+      res.send("No such file");
+  }
 })
 
 app.get("/user", (req, res) => {
@@ -104,6 +109,11 @@ app.post("/cancel", async (req, res) => {
     await user.cancelOrder(date, [1, 0, 1, 0, 1]);
   });
   res.send("Ok");
+})
+
+app.post("/test", async (req, res) => {
+  const create = await test.generate('users.txt', 82);
+  res.send(create);
 })
 
 app.get("/", (req, res) => {
