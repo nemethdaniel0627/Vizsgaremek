@@ -9,6 +9,7 @@ const databaseDownload = require('./modules/databaseDownload');
 const user = require('./modules/user');
 const test = require('./modules/test');
 const auth = require('./modules/auth');
+const Exception = require('./exceptions/Exceptions');
 
 const app = express();
 
@@ -18,6 +19,7 @@ const buildPath = path.join(__dirname, '..', 'build');
 app.use(express.static(buildPath));
 app.use(express.json());
 app.use(cors());
+app.use(Exception.exception)
 
 app.get("/etlap", async (req, res) => {
   const menu = await databaseDownload.getMenu(new Date());
@@ -82,11 +84,13 @@ app.get("/user", auth.tokenAutheticate, async (req, res) => {
   //   iskolaOm: "771122",
   //   email: "asd@asd.com"
   // });
-  const userName = req.body.userName;
-  console.log(userName);
-  const userResult = await user.getBy("felhasznaloNev", `felhasznaloNev = "${userName}"`);
-  console.log(userResult);
-  res.send(userResult);
+  // const userName = req.body.userName;
+  // const userResult = await user.getBy("felhasznaloNev", `felhasznaloNev = "${userName}"`);
+  // console.log(new NoUserFoundException());
+  // res.send(userResult);
+
+  res.unauthorized();
+
 })
 
 app.post("/register", async (req, res) => {

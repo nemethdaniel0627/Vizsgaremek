@@ -1,5 +1,0 @@
-
-
-class NoUserFoundException extends Error {
-
-}
