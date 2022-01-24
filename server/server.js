@@ -103,6 +103,11 @@ app.delete("/delete", async (req, res) => {
   res.send(`${count} record(s) deleted`);
 })
 
+app.get("/user", async (req, res) => {
+  const user = await databaseDownload.getUser('723172100147');
+  res.send(user);
+})
+
 app.post("/cancel", async (req, res) => {
   const dates = req.body.dates;
   dates.forEach(async date => {
