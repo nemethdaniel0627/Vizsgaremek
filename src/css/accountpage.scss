@@ -1,14 +1,6 @@
 .personal-datas{
-  
-  .important{
-    border-radius: 1em;
-    border: 1px solid black;
-    box-shadow: 1px 1px 5px 1px black;
-    padding: 2%;
-    margin-bottom: 5%;
-  }
 
-  .bank-account{
+  .bank-account, .important, .password-change{
     border-radius: 1em;
     border: 1px solid black;
     box-shadow: 1px 1px 5px 1px black;
@@ -17,11 +9,6 @@
   }
 
   .password-change{
-    border-radius: 1em;
-    border: 1px solid black;
-    box-shadow: 1px 1px 5px 1px black;
-    padding: 2%;
-    margin-bottom: 5%;
 
     .passChange-btn{
       border-radius: 2em;
@@ -157,5 +144,5 @@
 }
 
 .important, .password-change, .activities{
-  background-color: #00000040;
+  background-color: var(--accountBackground);
 }
