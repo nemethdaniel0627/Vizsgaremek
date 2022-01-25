@@ -17,7 +17,6 @@ export default function QrCodeReader() {
                 befizetve: tmpJson.befizetve,
                 iskola: tmpJson.iskola
             });
-            console.log(isCamera);
         }
     }
 
@@ -66,7 +65,7 @@ export default function QrCodeReader() {
     }
 
     return (
-        <div className="qr-result--wrapper">
+        <div>
             <div id="control-height"></div>
             {isCamera && isCamera !== "false" && qrResult.befizetve === null ?
                 <QrReader

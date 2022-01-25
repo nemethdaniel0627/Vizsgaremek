@@ -49,9 +49,7 @@ export default function DateSelector(props) {
       selectedDates.sort().forEach((date, index) => {
         if (date.includes("-")) {
           const tmpStart = date.toString().split("-")[0].trim();
-          console.log(tmpStart);
           const tmpEnd = date.toString().split("-")[1].trim();
-          console.log(tmpEnd);
           if (!(new Date(tmpStart) < new Date(startInputValue) && new Date(tmpEnd) > new Date(startInputValue))) {
             setSelectedDates((prevDates) => {
               return [...prevDates, startInputValue.replaceAll("-", ".")];
@@ -62,12 +60,13 @@ export default function DateSelector(props) {
         }
       })
     }
-    else
     return true;
   }
 
+
+
   function showSelectedDate(manuJustOneDay = null) {
-    if (justOneDay || manuJustOneDay === true) {
+    if (justOneDay) {
       const sameDate = sameDateCheck();
       console.log(sameDate);
       if (!selectedDates.includes(startInputValue.replaceAll("-", ".")) && sameDate)
@@ -124,7 +123,7 @@ export default function DateSelector(props) {
     <div className="date-selector">
       <div className="row w-100">
         <div className="col-sm-12 col-lg-12 mb-5 w-100 mt-2 date-selector--col">
-          <h2 className="menu--header">Lemondás</h2>
+          <h1 className="menu--header">Lemondás</h1>
         </div>
         {
           selectedDates.sort().map((date, index) => {

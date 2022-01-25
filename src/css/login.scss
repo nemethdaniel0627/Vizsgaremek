@@ -18,7 +18,7 @@
 
     .card{
         border-radius: 3em;
-        background-color: #00000060;
+        background-color:  var(--accountBackground);
         border: 1px solid black;
         box-shadow: 1px 1px 5px 1px black;
 
@@ -53,10 +53,31 @@
     a{
         cursor: pointer;
     }
+
+    .page-changer{
+        transition: 0.5s;
+        text-decoration: none;
+    }
+    .page-changer:hover{
+        text-decoration: underline;
+    }
 }
 
 .register{
     option{
         background-color: #494949;
+    }
+
+
+    .rule{
+        color: var(--a-rule);
+    }
+
+    .page-changer{
+        transition: 0.5s;
+        text-decoration: none;
+    }
+    .page-changer:hover{
+        text-decoration: underline;
     }
 }

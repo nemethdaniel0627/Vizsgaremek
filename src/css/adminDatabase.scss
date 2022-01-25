@@ -1,7 +1,7 @@
 .admin-mg{
     float: left;
     height: 100vh;
-    background-color: #131321;
+    background-color: var(--dark-blue);
     width: 15%;
     position: sticky;
     top:0em;
@@ -89,7 +89,7 @@
     }
 
     .modal-header{
-        background-color: #0d1321;
+        background-color: var(--dark-blue);
         color:white;
 
         button{
@@ -103,7 +103,7 @@
 }
 
 .manager{
-    background-color: #ffffff20;
+    background-color:  var(--accountBackground);
     padding: 1em;
 
     .div-page-number{
@@ -172,12 +172,12 @@
     
 
     .acc{
-        background-color: #ffffff50;
-        color:black;
+        background-color: var(--adminDb);
+        color:var(--darkModeFontColor);
         margin: 0.2em 0;
         
         .key{
-            color:#00000080!important;
+            color:var(--adminDbFontKey)!important;
         }
         
     
@@ -186,7 +186,7 @@
         }
         .accordion-button{
             background-color: #ffffff60;
-            color: white!important;
+            color: var(--darkModeFontColor)!important;
         }
 
         .collapsed{
@@ -204,6 +204,11 @@
     color:#000000a0;
 
     transition: 0.5s;
+}
+
+.btn-darkMode{
+    border-color: var(--darkModeFontColor);
+    color: var(--darkModeFontColor);
 }
 
 .btn-modify:hover{

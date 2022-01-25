@@ -1,11 +1,17 @@
 :root {
-  --dark-blue: #001e6c;
+  --dark-blue: #001E6C;
   --blue: #035397;
-  --light-blue: #5089c6;
-  --orange: #ffaa4c;
+  --light-blue: #5089C6;
+  --orange: #FFAA4C;
   --bodyBackground: #fff;
   --darkModeFontColor: #000;
   --currentDay: #adf7b0;
+  --accountBackground: #00000040;
+  --paymentCardBg: #000b26c0;
+  --adminDb: #ffffff40;
+  --adminDbFontKey: #ffffffa0;
+  --a-rule: #5797ff;
+
   --numberOfDays: 0;
   --dropDownHeight: 18.6rem;
   --searchBarHeight: 0px;
@@ -13,33 +19,31 @@
   --clr-white: rgb(255, 255, 255);
   --clr-black: rgb(0, 0, 0);
   --clr-light: rgb(245, 248, 255);
-  --clr-light-gray: #fff;
+  --clr-light-gray: rgb(196, 195, 196);
   --clr-blue: rgb(63, 134, 255);
   --clr-light-blue: rgb(171, 202, 255);
 }
 
+
 html {
-  font-size: 62.5%;
+  font-size: 62.5%;  
   @media only screen and(max-width:600px) {
-    font-size: 70%;
+    font-size: 70%;    
   }
 }
 
-body {
+body {  
   padding: 0;
   margin: 0;
   box-sizing: border-box;
   background-color: var(--bodyBackground);
   font-family: Verdana, sans-serif;
-
-  @media only screen and (max-width: 600px) {
-    padding-top: 6rem;
-  }
 }
 
 .hidden {
-  visibility: hidden;
+  visibility: hidden;  
 }
+
 
 /////norbiiii
 

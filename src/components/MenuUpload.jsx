@@ -1,56 +1,17 @@
-import React from "react";
-import { faFileExcel, faTimesCircle } from "@fortawesome/free-solid-svg-icons";
+import { faFileExcel } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
+import React from "react";
 import { useEffect, useState } from "react";
 import XLSX from 'xlsx';
-import { URL } from '../utils/constants.js';
-import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
-import { Alert, AlertTitle, TextField, Collapse, IconButton } from "@mui/material";
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import LocalizationProvider from '@mui/lab/LocalizationProvider';
-import StaticDatePicker from '@mui/lab/StaticDatePicker';
-import PickersDay from '@mui/lab/PickersDay';
-import endOfWeek from 'date-fns/endOfWeek';
-import isSameDay from 'date-fns/isSameDay';
-import isWithinInterval from 'date-fns/isWithinInterval';
-import startOfWeek from 'date-fns/startOfWeek';
-import locale from 'date-fns/locale/hu'
-import modules from "../modules/modules.js";
-
-const CustomPickersDay = styled(PickersDay, {
-    shouldForwardProp: (prop) =>
-        prop !== 'dayIsBetween' && prop !== 'isFirstDay' && prop !== 'isLastDay',
-})(({ theme, dayIsBetween, isFirstDay, isLastDay, outsideCurrentMonth }) => ({
-    backgroundColor: "red",
-    color: "#fff",
-    ...(dayIsBetween && {
-        borderRadius: 0,
-        backgroundColor: "var(--dark-blue) !important",
-        color: theme.palette.common.white,
-        '&:hover, &:focus': {
-            backgroundColor: "var(--blue) !important",
-        },
-    }),
-    ...(isFirstDay && {
-        borderTopLeftRadius: '50%',
-        borderBottomLeftRadius: '50%',
-    }),
-    ...(isLastDay && {
-        borderTopRightRadius: '50%',
-        borderBottomRightRadius: '50%',
-    }),
-    ...(outsideCurrentMonth && {
-        filter: "brightness(75%)"
-    })
-}));
-
+import { URL } from '../utils/constants.js'
 export default function MenuUpload() {
 
     const [excelRows, setExcelRows] = useState();
 
     // Design By
-    // - https://dribbble.com/shots/13992184-File-Uploader-Drag-Drop    
+    // - https://dribbble.com/shots/13992184-File-Uploader-Drag-Drop
+
     useEffect(() => {
         // Select Upload-Area
         const uploadArea = document.querySelector('#uploadArea')
@@ -79,7 +40,11 @@ export default function MenuUpload() {
         // Uploaded File  Name
         const uploadedFileName = document.querySelector('.uploaded-file__name');
 
-        // Uploaded File Counter        
+        // Uploaded File Icon
+        const uploadedFileIconText = document.querySelector('.uploaded-file__icon-text');
+
+        // Uploaded File Counter
+        const uploadedFileCounter = document.querySelector('.uploaded-file__counter');
 
         // ToolTip Data
         const toolTipData = document.querySelector('.upload-area__tooltip-data');
@@ -128,7 +93,6 @@ export default function MenuUpload() {
         dropZoon.addEventListener('click', function (event) {
             // Click The (fileInput)
             fileInput.click();
-            console.log("click");
         });
 
         // When (fileInput) has (change) Event 
@@ -170,17 +134,37 @@ export default function MenuUpload() {
                     // fileReader.readAsDataURL(file);
 
                 } else { // Else
-                    console.log("this");
                     return this;
                     // fileValidate(fileType, fileSize); // (this) Represent The fileValidate(fileType, fileSize) Function
 
                 };
             } catch (error) {
+                alert("Hiba a fájl kiválasztásakor")
             }
         };
 
         // Progress Counter Increase Function
+        function progressMove() {
+            // Counter Start
+            let counter = 0;
 
+            // After 600ms 
+            setTimeout(() => {
+                // Every 100ms
+                let counterIncrease = setInterval(() => {
+                    // If (counter) is equle 100 
+                    if (counter === 100) {
+                        // Stop (Counter Increase)
+                        clearInterval(counterIncrease);
+                    } else { // Else
+                        // plus 10 on counter
+                        counter = counter + 10;
+                        // add (counter) vlaue inisde (uploadedFileCounter)
+                        uploadedFileCounter.innerHTML = `${counter}%`
+                    }
+                }, 100);
+            }, 600);
+        };
 
         function Upload(file) {
             const reader = new FileReader();
@@ -200,16 +184,18 @@ export default function MenuUpload() {
                         fileDetails.classList.add('file-details--open');
                         // Add className (uploaded-file--open) On (uploadedFile)
                         uploadedFile.classList.add('uploaded-file--open');
-                        // Add className (uploaded-file__info--active) On (uploadedFileInfo)                        
+                        // Add className (uploaded-file__info--active) On (uploadedFileInfo)
+                        uploadedFileInfo.classList.add('uploaded-file__info--active');
 
                         // Add File Name Inside Uploaded File Name
                         uploadedFileName.innerHTML = file.name;
 
-                        // Call Function progressMove();                        
+                        // Call Function progressMove();
+                        progressMove();
                     }, 500); // 0.5s
-                };
+                };                
                 reader.readAsBinaryString(file);
-            }
+            }          
         }
 
         function processExcel(data) {
@@ -218,18 +204,17 @@ export default function MenuUpload() {
             console.log(workbook.Sheets[firstSheet]);
             const excelRows = XLSX.utils.sheet_to_json(workbook.Sheets[firstSheet]);
             setExcelRows(excelRows);
-            console.log(excelRows);
         }
 
         // Simple File Validate Function
         function fileValidate(fileType, fileSize) {
             // File Type Validation
-            let isGoodFormat = fileTypes.filter((type) => {
+            let isGoodFormat = fileTypes.filter((type) => {                
                 return fileType.indexOf(`application/vnd.ms-excel`) !== -1 ? true : fileType.indexOf(`application/vnd.openxmlformats-officedocument.spreadsheetml.sheet`) !== -1 && type === "xlsx" ? true : false;
                 // return fileType.indexOf(`image/${type}`) !== -1;
             });
 
-            // uploadedFileIconText.innerHTML = isGoodFormat[0];
+            uploadedFileIconText.innerHTML = isGoodFormat[0];
             // If The Uploaded File Is An Image
             if (isGoodFormat.length !== 0) {
                 // Check, If File Size Is 2MB or Less
@@ -243,84 +228,19 @@ export default function MenuUpload() {
             };
         };
 
-    }, [])
-
-    function progressMove() {
-        // Counter Start
-        let counter = 0;
-        const uploadedFileCounter = document.querySelector('.uploaded-file__counter');
-        const uploadedFileInfo = document.querySelector('#uploadedFileInfo');
-        if (uploadedFileInfo) {
-            uploadedFileInfo.classList.add('uploaded-file__info--active');
-        }
-
-        // After 600ms 
-        if (uploadedFileCounter) {
-            setTimeout(() => {
-                // Every 100ms
-                let counterIncrease = setInterval(() => {
-                    // If (counter) is equle 100 
-                    if (counter === 100) {
-                        // Stop (Counter Increase)
-                        clearInterval(counterIncrease);
-                    } else { // Else
-                        // plus 10 on counter
-                        counter = counter + 10;
-                        // add (counter) vlaue inisde (uploadedFileCounter)
-                        uploadedFileCounter.innerHTML = `${counter}%`
-                    }
-                }, 100);
-            }, 600);
-        }
-    };
+    })
 
     function sendExcelRows() {
-        const startDay = modules.getFirstDayOfWeek(week);
-        console.log(startDay);
         axios.post(`${URL}/etlap`, {
-            excelRows: excelRows,
-            date: modules.convertDateWithDash(startDay)
+            excelRows: excelRows
         })
             .then((response) => {
                 console.log(response);
-                progressMove();
             })
             .catch((error) => {
-                setErrorOpen(true);
-                console.error(error);
-            });
+                console.log(error.response);
+            })
     }
-
-    const [week, setWeek] = useState(new Date());
-    const [errorOpen, setErrorOpen] = useState(false);
-
-    const renderWeekPickerDay = (date, selectedDates, pickersDayProps) => {
-        if (!week) {
-            return <PickersDay {...pickersDayProps} />;
-        }
-
-
-        const start = startOfWeek(week, { weekStartsOn: 1 });
-        const end = endOfWeek(week, { weekStartsOn: 1 });
-
-        const dayIsBetween = isWithinInterval(date, { start, end });
-        const isFirstDay = isSameDay(date, start);
-        const isLastDay = isSameDay(date, end);
-
-        return (
-            <CustomPickersDay
-                {...pickersDayProps}
-                disableMargin
-                dayIsBetween={dayIsBetween}
-                isFirstDay={isFirstDay}
-                isLastDay={isLastDay}
-                sx={{
-                    fontSize: "1.1rem",
-                    backgroundColor: "var(--blue)"
-                }}
-            />
-        );
-    };
 
 
     return (
@@ -366,54 +286,12 @@ export default function MenuUpload() {
                             <span className="uploaded-file__name">Projekt 1</span>
                             <span className="uploaded-file__counter">0%</span>
                         </div>
-
-                        <div className="week-selector">
-                            <LocalizationProvider dateAdapter={AdapterDateFns} locale={locale}>
-                                <StaticDatePicker
-                                    displayStaticWrapperAs="desktop"
-                                    label="Week picker"
-                                    value={week}
-                                    onChange={(newValue) => {
-                                        setWeek(newValue);
-                                    }}
-                                    showDaysOutsideCurrentMonth={true}
-                                    renderDay={renderWeekPickerDay}
-                                    renderInput={(params) => <TextField {...params} />}
-                                    inputFormat="'Week of' MMM dd"
-                                />
-                            </LocalizationProvider>
-                        </div>
-
                         <button className="upload-area__button" onClick={sendExcelRows}>Étlap feltöltése</button>
                     </div>
                 </div>
                 {/* <!-- End File Details --> */}
             </div>
             {/* <!-- End Upload Area --></div> */}
-            <div className="upload-area--error-message">
-                <Collapse in={errorOpen}>
-                    <Alert
-                        severity="error"
-                        action={
-                            <IconButton
-                                aria-label="close"
-                                color="inherit"
-                                size="large"
-                                onClick={() => {
-                                    setErrorOpen(false);
-                                }}
-                            >
-                                <FontAwesomeIcon icon={faTimesCircle} />
-                            </IconButton>
-                        }
-                        sx={{ mb: 2, fontSize: '1.2rem' }}
-                    >
-                        <AlertTitle sx={{ fontSize: '1.8rem' }}>Hiba</AlertTitle>
-                        Hiba történt az étlap elküldésekor!<br />
-                        Kérjük ellnőrizze a <strong>formátumot!</strong>
-                    </Alert>
-                </Collapse>
-            </div>
         </div>
     )
 }
