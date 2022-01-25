@@ -2,6 +2,7 @@ const sqlQueries = require("./sqlQueries");
 
 class Order {
     async getOrdersByUserId(userId) {
+        if (isNaN(Number(userId))) return -1;
         await sqlQueries.CreateConnection();
         const user = await sqlQueries.select('user', '*', `Id = ${userId}`);
         if (user.length === 0) return -1;
@@ -9,7 +10,7 @@ class Order {
         if (orders.length === 0) return 0;
         await sqlQueries.EndConnection();
         return 1;
-        // -1 - nincs ilyen user
+        // -1 - nincs ilyen user / hiba
         //  0 - van ilyen user, de nincs orderje
         //  1 - van ilyen user és van orderje
     }
@@ -50,6 +51,7 @@ class Order {
     }
 
     async selectMenuIdByUserId(userId, date) {
+        if (isNaN(Number(userId))) return -1;
         await sqlQueries.CreateConnection();
         const menuId = await sqlQueries.innerSelect(
             'menu',
@@ -57,7 +59,8 @@ class Order {
             'INNER JOIN days ON menu.daysId = days.id ' +
             'INNER JOIN orders ON orders.menuId = menu.id',
             `orders.userId = ${userId} AND days.datum = '${date}'`);
-        if (menuId.length === 0) return false;
+            if (menuId.length === 0) return false;
+            console.log(new Date(`${date}`));
         await sqlQueries.EndConnection();
         return menuId;
     }
