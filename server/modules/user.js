@@ -7,7 +7,7 @@ class User {
     async readFile(filename) {
         try {
             this.#data = [];
-            fs.readFile(filename, 'utf-8')
+            (await fs.readFile(filename, 'utf-8'))
             .toString()
             .trim()
             .split('\n')

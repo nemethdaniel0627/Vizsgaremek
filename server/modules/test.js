@@ -65,9 +65,10 @@ class Test {
                 const email = `${await name.toLowerCase().split(' ').join('.')}@gmail.com`.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
                 row = `${username};${password};${name};${schoolOM};${_class};${email}`;
                 
-                const unique = await this.#data.find(element => 
-                                                    (element.split(';')[0] === username.toString()) || 
-                                                    (element.split(';')[5]) === email.toString());
+                const unique = await this.#data.find(
+                    element => (element.split(';')[0] === username.toString()) || 
+                               (element.split(';')[5]) === email.toString());
+                
                 if (!unique)
                 {
                     i++;
