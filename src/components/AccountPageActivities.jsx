@@ -1,6 +1,6 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheckCircle, faClock, faTimesCircle, faUserCircle } from "@fortawesome/free-solid-svg-icons";
+import { faCheckCircle, faClock, faTimesCircle } from "@fortawesome/free-solid-svg-icons";
 
 export default function Activities(props)
 {
@@ -13,9 +13,7 @@ export default function Activities(props)
                         <FontAwesomeIcon icon={faCheckCircle} className="fs-1"/> : 
                         props.type==="cancel" ? 
                         <FontAwesomeIcon icon={faTimesCircle} className="fs-1"/> :
-                        props.type==="modify" ? 
-                        <FontAwesomeIcon icon={faUserCircle} className="fs-1"/> : 
-                        <FontAwesomeIcon icon={faClock} className="fs-1"/>
+                        <FontAwesomeIcon icon={faClock} className="fs-1"/> 
                         }
                     </div>
                     <div className="col-10">

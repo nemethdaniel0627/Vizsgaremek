@@ -70,8 +70,8 @@ export default function AdminDatabaseAccodrion(props) {
                         </div>
                         <hr />
                         <div className={"col-12" + (props.isMobile ? " text-center" : "")}>
-                            <button className="btn btn-modify btn-darkMode fs-3 me-lg-5 mb-2 mb-lg-0" id={"btn_" + props.user.name + "-" + props.user.class} onClick={ModifyModal} ><FontAwesomeIcon id={"icon_" + props.user.name + "-" + props.user.class} icon={faEdit} /> Módosítás</button>
-                            <button className="btn btn-delete btn-darkMode fs-3" id={"btn2_" + props.user.name + "-" + props.user.class} onClick={DeleteModal}><FontAwesomeIcon id={"icon2_" + props.user.name + "-" + props.user.class} icon={faUserTimes} /> Törlés</button>
+                            <button className="btn btn-modify fs-3 me-lg-5 mb-2 mb-lg-0" id={"btn_" + props.user.name + "-" + props.user.class} onClick={ModifyModal} ><FontAwesomeIcon id={"icon_" + props.user.name + "-" + props.user.class} icon={faEdit} /> Módosítás</button>
+                            <button className="btn btn-delete fs-3" id={"btn2_" + props.user.name + "-" + props.user.class} onClick={DeleteModal}><FontAwesomeIcon id={"icon2_" + props.user.name + "-" + props.user.class} icon={faUserTimes} /> Törlés</button>
                         </div>
                         {modifyModalAppear ? <Modal ModalClose={ModifyModal} title="Személy módosítása" message="" button="Módosítás" show={modifyModalAppear} type="Modify" user={props.user}></Modal> : <></>}
                         {deleteModalAppear ? <Modal ModalClose={DeleteModal} title="Személy törlése" message={"Biztosan törölni akarok ezt a személyt? (" + props.user.name + ")"} user={props.user} button="Törlés" show={deleteModalAppear} type="Delete" ></Modal> : <></>}

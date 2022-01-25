@@ -4,7 +4,7 @@ import { faCheckCircle, faClock, faTimesCircle } from "@fortawesome/free-solid-s
 import Desktop from "./AccountPageDesktop";
 import Mobile from "./AccountPageMobile";
 
-export default function Page(user)
+export default function Page(props)
 {
 
   let isMobile = false;
@@ -14,7 +14,7 @@ export default function Page(user)
 
     return(
         <div>
-          {!isMobile ? <Desktop user = {user}/> : <Mobile user={user}/>}
+          {!isMobile ? <Desktop/> : <Mobile/>}
         </div>
     );
 }

@@ -25,12 +25,6 @@ export default function Navbar(props) {
             root.style.setProperty('--bodyBackground', "#3E5C76");
             root.style.setProperty('--darkModeFontColor', "#fff");
             root.style.setProperty('--currentDay', "#28622a");
-            root.style.setProperty('--accountBackground', "#00000040");
-            root.style.setProperty('--paymentCardBg', "#000b26c0");
-            root.style.setProperty('--paymentCardBgEdit', "#000b26a0");
-            root.style.setProperty('--adminDb', "#ffffff40");
-            root.style.setProperty('--adminDbFontKey', "#ffffffa0");
-            root.style.setProperty('--a-rule', "#5797ff");
         }
         else {
             root.style.setProperty('--dark-blue', "#001E6C");
@@ -39,12 +33,6 @@ export default function Navbar(props) {
             root.style.setProperty('--bodyBackground', "#fff");
             root.style.setProperty('--darkModeFontColor', "#000");
             root.style.setProperty('--currentDay', "#adf7b0");
-            root.style.setProperty('--accountBackground', "#001E6Cca");
-            root.style.setProperty('--paymentCardBg', "#000b26f0");
-            root.style.setProperty('--paymentCardBgEdit', "#000b26a0");
-            root.style.setProperty('--adminDb', "#00000040");
-            root.style.setProperty('--adminDbFontKey', "#000000a0");
-            root.style.setProperty('--a-rule', "#5797ff");
         }
     }
 

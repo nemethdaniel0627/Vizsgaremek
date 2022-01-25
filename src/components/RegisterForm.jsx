@@ -57,7 +57,7 @@ export default function RegisterForm(props) {
                                         <div className="form-outline form-white mb-4">
                                             <input className="form-check-input mt-1" type="checkbox" value="" id="flexCheckDefault" />
                                             <label className="form-check-label fs-5 ms-2" htmlFor="flexCheckDefault">
-                                                Elfogadom az <a className="rule" href="https://policies.google.com/terms?hl=hu">általános szerződési feltételeket</a>!
+                                                Elfogadom az <a href="https://policies.google.com/terms?hl=hu">általános szerződési feltételeket</a>!
                                             </label>
                                         </div>
 
@@ -71,7 +71,7 @@ export default function RegisterForm(props) {
 
 
                                 <div>
-                                    <p className="mb-0">Van fiókod? <a className="text-white-50 fw-bold page-changer" onClick={RegisterOff}>Bejeletkezés</a></p>
+                                    <p className="mb-0">Van fiókod? <a className="text-white-50 fw-bold" onClick={RegisterOff}>Bejeletkezés</a></p>
                                 </div>
 
                             </div>

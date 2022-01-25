@@ -21,7 +21,7 @@ h1 {
   font-family: Georgia;
 }
 .contact-form {
-  background-color: var(--accountBackground);
+  background-color: #00000040;
   margin-bottom: 5%;
   border-radius: 1rem;
   border: 1px solid black;
@@ -30,7 +30,7 @@ h1 {
 }
 .box{
   box-shadow: 1px 1px 10px 1px black;
-  background-color:  var(--accountBackground);
+  background-color: #00000040;
   border-radius: 1em;
   width: min-content!important;
   padding: 0.5em;
