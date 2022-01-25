@@ -10,7 +10,7 @@ export default function MealTicket(props) {
                     <div className="row">
                         <div className="col-lg-4 col-sm-12 col-md-12">
                             <img src={ticketImg} alt="Icon" className="mx-auto d-none d-lg-block align-center" id="Ticket_img" />
-                            {props.user.befizetve !== false && props.user.befizetett !== null ?
+                            {props.user.befizetve !== false && props.user.befizetve !== null ?
                                 <div className="qrcode w-100 d-flex justify-content-center d-block d-lg-none p-3" id="qrcode">
                                     <QRcode value={`{"nev": "${props.user.vNev} ${props.user.kNev}", "osztaly": "${props.user.osztaly}", "userOM": "${props.user.om}", "iskolaOM": "${props.user.iskolaOm}", "befizetve": ${props.user.befizetve}}`} bgColor="#ffffff00" width="20%" height='20%' size={100} />
                                 </div>
