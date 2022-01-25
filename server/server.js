@@ -16,6 +16,7 @@ const PORT = process.env.PORT || 5000;
 
 const buildPath = path.join(__dirname, '..', 'build');
 app.use(express.static(buildPath));
+app.use(express.json());
 app.use(cors());
 
 app.get("/etlap", async (req, res) => {
@@ -25,33 +26,45 @@ app.get("/etlap", async (req, res) => {
 });
 
 app.post("/etlap", async (req, res) => {
-  // const menu = req.body.menu;
+  // console.log(req.body);
+  let excelRows = req.body.excelRows;
+  const setDate = req.body.date;
+  // menuConvert._menu = menu;
+  // await menuConvert.readFromExcel();
+  await sqlQueries.CreateConnection();
+  const selectDaysId = await sqlQueries.select("days", "id", `datum = "${setDate}"`);
+  if (selectDaysId.length === 0) {
+    await sqlQueries.EndConnection();
+    console.log(selectDaysId);
+    const menu = await menuConvert.convert(excelRows);
 
-  const menu = await menuConvert.dayUpload();
+    let day1 = [];
+    let day2 = [];
+    let day3 = [];
+    let day4 = [];
+    let day5 = [];
+    let date = new Date(setDate);
 
-  let day1 = [];
-  let day2 = [];
-  let day3 = [];
-  let day4 = [];
-  let day5 = [];
-  let date = new Date("2021-12-20");
+    // menu.forEach(async (day, index) => {
+    //   date = await databaseUpload.insertDay(day, date);
+    // });
 
-  // menu.forEach(async (day, index) => {
-  //   date = await databaseUpload.insertDay(day, date);
-  // });
+    try {
+      for await (const day of menu) {
+        date = await databaseUpload.insertDay(day, date);
+      }
+    } catch (error) {
+      res.status(404);
+      res.send("Error")
+      throw error;
 
-  try {
-    for await (const day of menu) {
-      date = await databaseUpload.insertDay(day, date);
     }
-  } catch (error) {
-    res.status(404);
-    res.send("Error")
-    throw error;
-
+    res.send("Kész");
   }
-
-  res.send("Kész");
+  else {
+    res.status(409);
+    res.send("Erre a hétre már van étlap feltöltve");
+  }
 });
 
 app.post("/add", async (req, res) => {
@@ -66,6 +79,19 @@ app.post("/add", async (req, res) => {
   } catch (error) {
       res.send("No such file");
   }
+})
+
+app.get("/user", (req, res) => {
+  res.json({
+    vNev: "Winch",
+    kNev: "Eszter",
+    osztaly: "12.A",
+    befizetve: null,
+    datum: "2021.12.01",
+    om: "71767844485",
+    iskolaOm: "771122",
+    email: "asd@asd.com"
+  });
 })
 
 app.put("/update", async (req, res) => {

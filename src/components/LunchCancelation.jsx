@@ -4,8 +4,9 @@ import Menu from "./Menu";
 import modules from "../modules/modules";
 
 export default function LunchCancelation() {
-    const [isMenuChecked, setIsMenuChecked] = useState(false);
-    const [disabledDays, setDisabledDays] = useState([])
+    const [isMenuChecked, setIsMenuChecked] = useState(true);
+    const [disabledDays, setDisabledDays] = useState([]);
+    const [dates, setDates] = useState([]);
     function checkChange() {
         setIsMenuChecked(!isMenuChecked)
     }
@@ -14,9 +15,9 @@ export default function LunchCancelation() {
         const date = new Date();
         const day = date.getDay();
         const time = Number(date.getHours().toString() + modules.toZeroForm(date.getMinutes()));
-        setDisabledDays((prevDays) => {
-            return [...prevDays, day]
-        });        
+        // setDisabledDays((prevDays) => {
+        //     return [...prevDays, day]
+        // });        
         if (day !== 0) {
             for (let i = 1; i <= day; i++) {                
                 if (i === day && time >= 830) {
@@ -38,8 +39,17 @@ export default function LunchCancelation() {
         }
     }
 
+    function cancelMeal() {
+        console.log(dates);
+    }
+
+    function getDates(selectedDates) {
+        setDates(selectedDates);
+    }
+
     useEffect(() => {
-        createDisabledDays();        
+        createDisabledDays();
+        
     }, [])   
 
     return (
@@ -50,9 +60,9 @@ export default function LunchCancelation() {
                 <label htmlFor="etlapCancel" id="etlapCancelItem" className="lunch-cncl--menu--item">Étlap alapú lemondás</label>
                 <label htmlFor="datumCancel" id="datumCancelItem" className="lunch-cncl--menu--item">Dátum alapú lemondás</label>
             </div>
-            {isMenuChecked ? <Menu disabledDays={disabledDays} cancel={true} header="Lemondás" /> : <DateSelector />}
+            {isMenuChecked ? <Menu disabledDays={disabledDays} getDates={getDates} cancel={true} header="Lemondás" /> : <DateSelector getDates={getDates} />}
             <div className="lunch-cncl--button--container">
-                <input type="button" name="ResignBTN" id="ResignBTN" className="btn btn-success mt-5 lunch-cncl--button" value="Lemondás" />
+                <input onClick={cancelMeal} type="button" name="ResignBTN" id="ResignBTN" className="btn btn-success mt-5 lunch-cncl--button" value="Lemondás" />
             </div>
         </div>
     )

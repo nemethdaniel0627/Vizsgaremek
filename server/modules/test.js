@@ -7,15 +7,14 @@ class Test {
         try {
             this.#names = [];
             fs.readFile(filename, 'utf-8')
-            .toString()
-            .trim()
-            .split('\n')
-            .forEach(r => {
-                const row = r.trim();
-                this.#names.push(row);
-            });
-        // console.log(this.#names);
-        return true;
+                .toString()
+                .trim()
+                .split('\n')
+                .forEach(r => {
+                    const row = r.trim();
+                    this.#names.push(row);
+                });
+            return true;
         } catch (error) {
             throw error;
         }
@@ -64,9 +63,10 @@ class Test {
                 const email = `${await name.toLowerCase().split(' ').join('.')}@gmail.com`.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
                 row = `${username};${password};${name};${schoolOM};${_class};${email}`;
                 
-                const unique = await this.#data.find(element => 
-                                                    (element.split(';')[0] === username.toString()) || 
-                                                    (element.split(';')[5]) === email.toString());
+                const unique = await this.#data.find(
+                    element => (element.split(';')[0] === username.toString()) || 
+                               (element.split(';')[5]) === email.toString());
+                
                 if (!unique)
                 {
                     i++;

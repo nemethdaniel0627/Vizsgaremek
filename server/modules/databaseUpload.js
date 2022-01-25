@@ -3,19 +3,20 @@ const sqlQueries = require("./sqlQueries");
 
 class databaseUpload {
     async insertDay(day, date) {
-        await sqlQueries.CreateConnection();
-
+        await sqlQueries.CreateConnection();        
         let idPrefix;
-        idPrefix = functions.convertDate(date);
+        idPrefix = functions.convertDate(date);        
         try {
-            if (day.length === 0) {
+            if (day[0] === undefined) {
                 for (let i = 1; i <= 5; i++) {
                     await sqlQueries.insert("meal", "id, nev", `${idPrefix}${i}, "ünnep"`);
                 }
-    
+
                 await sqlQueries.insert("days", "datum, hetkoznap", `"${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}", "${date.getDay()}"`);
-                const selectDaysId = await sqlQueries.select("days", "id", `datum = "${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}"`);
-                const selectMealsIds = await sqlQueries.select("meal", "id", `FLOOR(id/10) = "${date.getFullYear()}${date.getMonth() + 1}${date.getDate()}"`);
+                const selectMealsIds = await sqlQueries.select("meal", "id", `FLOOR(id/10) = "${functions.convertDate(date)}"`);
+                const selectDaysId = await sqlQueries.select("days", "id", `datum = "${functions.convertDateWithDash(date)}"`);
+                console.log(selectDaysId);
+                console.log(selectMealsIds);
                 await sqlQueries.insert(
                     "menu",
                     "daysId, reggeliId, tizoraiId, ebedId, uzsonnaId, vacsoraId",
@@ -46,7 +47,7 @@ class databaseUpload {
                     "daysId, reggeliId, tizoraiId, ebedId, uzsonnaId, vacsoraId",
                     `${selectDaysId[0]}, ${selectMealsIds[0]}, ${selectMealsIds[1]}, ${selectMealsIds[2]}, ${selectMealsIds[3]}, ${selectMealsIds[4]}`);
                 date.setDate(date.getDate() + 1);
-    
+
             }
         } catch (error) {
             throw error;

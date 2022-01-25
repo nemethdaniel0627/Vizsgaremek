@@ -6,3 +6,14 @@
         transform: scale(1) ;
     }
 }
+
+
+@keyframes slidDown {
+    from {
+        height: 28.125em; /* 450px */
+    }
+
+    to {
+        height: 35em; /* 560px */
+    }
+}

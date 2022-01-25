@@ -1,7 +1,8 @@
 import React from "react";
-import Modal from "./Modal";
 import ReportPageItems from "./ReportPageItems";
 import contantIMG from "../images/icon.png";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faExclamationTriangle } from "@fortawesome/free-solid-svg-icons";
 
 export default function ReportPage() {
   return (
@@ -9,10 +10,11 @@ export default function ReportPage() {
     <div id="Report">
       <div className="container mt-4">
         <div className="row">
-          <div className="col-lg-8 col-sm-12 contact-form">
-            <div className="contact-image">
-              <img src={contantIMG} alt="rocket_contact" />
+          <div className="col-lg-8 col-12 contact-form">
+            <div className="contact-h1">
+              <h1><FontAwesomeIcon icon={faExclamationTriangle}/> Hiba bejelentése</h1>
             </div>
+            <hr />
             <form method="post">
               <div className="form-group">
                 <input
@@ -42,8 +44,8 @@ export default function ReportPage() {
             </form>
           </div>
           <div className="col-lg-2"></div>
-          <div className="col-lg-2 col-sm-12">
-            <ul className="list-group list-group-horizontal mt-5 w-100 mx-auto d-flex d-lg-none justify-content-center ">
+          <div className="col-lg-2 col-12">
+            <ul className="list-group list-group-horizontal d-flex d-lg-none box ulHorizontal">
               <ReportPageItems class="mb-3 me-2" href="mailto: asd@example.com" size="32" iconClass="bi-at text-success" path="M13.106 7.222c0-2.967-2.249-5.032-5.482-5.032-3.35 0-5.646 2.318-5.646 5.702 0 3.493 2.235 5.708 5.762 5.708.862 0 1.689-.123 2.304-.335v-.862c-.43.199-1.354.328-2.29.328-2.926 0-4.813-1.88-4.813-4.798 0-2.844 1.921-4.881 4.594-4.881 2.735 0 4.608 1.688 4.608 4.156 0 1.682-.554 2.769-1.416 2.769-.492 0-.772-.28-.772-.76V5.206H8.923v.834h-.11c-.266-.595-.881-.964-1.6-.964-1.4 0-2.378 1.162-2.378 2.823 0 1.737.957 2.906 2.379 2.906.8 0 1.415-.39 1.709-1.087h.11c.081.67.703 1.148 1.503 1.148 1.572 0 2.57-1.415 2.57-3.643zm-7.177.704c0-1.197.54-1.907 1.456-1.907.93 0 1.524.738 1.524 1.907S8.308 9.84 7.371 9.84c-.895 0-1.442-.725-1.442-1.914z" />
 
               <ReportPageItems class="mb-3 me-2" href="https://www.facebook.com/" size="32" iconClass="bi-facebook text-primary" path="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z" />
@@ -56,7 +58,7 @@ export default function ReportPage() {
 
             </ul>
 
-            <ul className="list-group mt-5 w-75 ms-5 d-none d-lg-block ulVertical">
+            <ul className="list-group w-75 ms-5 d-none d-lg-block ulVertical box">
 
               <ReportPageItems class="mb-3" href="mailto: asd@example.com" size="32" iconClass="bi-at text-success" path="M13.106 7.222c0-2.967-2.249-5.032-5.482-5.032-3.35 0-5.646 2.318-5.646 5.702 0 3.493 2.235 5.708 5.762 5.708.862 0 1.689-.123 2.304-.335v-.862c-.43.199-1.354.328-2.29.328-2.926 0-4.813-1.88-4.813-4.798 0-2.844 1.921-4.881 4.594-4.881 2.735 0 4.608 1.688 4.608 4.156 0 1.682-.554 2.769-1.416 2.769-.492 0-.772-.28-.772-.76V5.206H8.923v.834h-.11c-.266-.595-.881-.964-1.6-.964-1.4 0-2.378 1.162-2.378 2.823 0 1.737.957 2.906 2.379 2.906.8 0 1.415-.39 1.709-1.087h.11c.081.67.703 1.148 1.503 1.148 1.572 0 2.57-1.415 2.57-3.643zm-7.177.704c0-1.197.54-1.907 1.456-1.907.93 0 1.524.738 1.524 1.907S8.308 9.84 7.371 9.84c-.895 0-1.442-.725-1.442-1.914z" />
 
