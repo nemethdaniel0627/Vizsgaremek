@@ -8,6 +8,7 @@ const sqlQueries = require('./modules/sqlQueries');
 const databaseDownload = require('./modules/databaseDownload');
 const user = require('./modules/user');
 const test = require('./modules/test');
+const order = require('./modules/order');
 
 const app = express();
 
@@ -103,22 +104,21 @@ app.delete("/delete", async (req, res) => {
   res.send(`${count} record(s) deleted`);
 })
 
-app.get("/user", async (req, res) => {
-  const user = await databaseDownload.getUser('723172100147');
-  res.send(user);
+app.post("/order", async (req, res) => {
+  const o = await order.order(10, [true, false, true, false, true], '2021-12-22');
+  res.send(o);
 })
 
 app.post("/cancel", async (req, res) => {
-  const dates = req.body.dates;
-  dates.forEach(async date => {
-    await user.cancelOrder(date, [1, 0, 1, 0, 1]);
-  });
-  res.send("Ok");
+  const o = await order.cancelOrder(1, [1, 0, 0, 0, 1], '2021-12-21');
+  res.send(o);
 })
 
 app.post("/test", async (req, res) => {
-  const create = await test.generate('users.txt', 82);
-  res.send(create);
+  // const create = await test.generate('users.txt', 82);
+  // res.send(create);
+  const sum = await order.userOrdersByMenuId(1, '2021-12-21');
+  res.send(sum);
 })
 
 app.get("/", (req, res) => {

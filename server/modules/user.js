@@ -7,15 +7,15 @@ class User {
     async readFile(filename) {
         try {
             this.#data = [];
-            const data = await (await fs.readFile(filename, 'utf-8'))
-                .toString()
-                .trim()
-                .split('\n')
-                .forEach(r => {
-                    const row = r.trim();
-                    this.#data.push(row);
-                });
-                // console.log(this.#data);
+            (await fs.readFile(filename, 'utf-8'))
+            .toString()
+            .trim()
+            .split('\n')
+            .forEach(r => {
+                const row = r.trim();
+                this.#data.push(row);
+            });
+            // console.log(this.#data);
             return this.#data;
         } catch (error) {
             throw error;
@@ -75,28 +75,6 @@ class User {
         const user = await sqlQueries.update('user', `${fieldValues}`, `${conditions}`);
         await sqlQueries.EndConnection();
         return user.affectedRows;
-    }
-
-    async cancelOrder(date, meals) {
-        //TODO: befizetve ellenőrzése
-        await sqlQueries.CreateConnection();
-        const validDate = await sqlQueries.select('days', 'datum', `datum = '${date}'`);
-        if (!validDate) return false;
-        const menuId = await sqlQueries.innerSelect('menu', 'menu.id', 'INNER JOIN days ON menu.daysId = days.id', `days.datum = '${date}'`);
-        const userId = 1 //user.id
-        await sqlQueries.insert('orders',
-            'menuId, ' +
-            'userId, ' +
-            'reggeli, ' +
-            'tizorai, ' +
-            'ebed, ' +
-            'uzsonna, ' +
-            'vacsora, ' +
-            'ar, ' +
-            'lemondva',
-            `${menuId}, ${userId}, ${meals[0]}, ${meals[1]}, ${meals[2]}, ${meals[3]}, ${meals[4]}, 1000, '${date}'`);
-        await sqlQueries.EndConnection();
-        return true;
     }
 }
 

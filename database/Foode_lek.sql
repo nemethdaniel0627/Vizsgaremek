@@ -17,6 +17,9 @@ DELETE FROM user;
 
 ALTER TABLE user AUTO_INCREMENT = 1;
 
+DELETE FROM orders;
+
+ALTER TABLE orders AUTO_INCREMENT = 1;
 
 
 -- SELECT id FROM days WHERE datum = "2021-12-1";
