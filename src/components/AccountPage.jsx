@@ -15,6 +15,7 @@ export default function Page(user)
     return(
         <div>
           {!isMobile ? <Desktop user = {user}/> : <Mobile user={user}/>}
+          
         </div>
     );
 }
