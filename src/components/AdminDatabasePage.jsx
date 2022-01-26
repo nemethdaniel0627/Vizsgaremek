@@ -91,7 +91,7 @@ export default function AdminDatabasePage() {
 
                         <Accordion>
 
-                            <Accord user={user} isMobile={isMobile} new="true"></Accord>
+                            <Accord eventkey='1' user={user} isMobile={isMobile} new="true"></Accord>
 
                             {users.map((user, index) => (
                                 <Accord key={index} eventkey={index} user={user} isMobile={isMobile}></Accord>
