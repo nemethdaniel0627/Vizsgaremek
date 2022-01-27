@@ -1,4 +1,5 @@
 const fs = require('fs').promises;
+const bcrypt = require("bcrypt");
 class Test {
     #names;
     #data;
@@ -6,15 +7,15 @@ class Test {
     async readFile(filename) {
         try {
             this.#names = [];
-            fs.readFile(filename, 'utf-8')
-                .toString()
-                .trim()
-                .split('\n')
-                .forEach(r => {
-                    const row = r.trim();
-                    this.#names.push(row);
-                });
-            return true;
+            (await fs.readFile(filename, 'utf-8'))
+            .toString()
+            .trim()
+            .split('\n')
+            .forEach(r => {
+                const row = r.trim();
+                this.#names.push(row);
+            });
+        return true;
         } catch (error) {
             throw error;
         }
@@ -56,8 +57,9 @@ class Test {
             {
                 let row = '';
                 const username = await this.randomInt(minIndex, maxIndex);
-                const password = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
                 const name = await this.randomName('nevek.txt');
+                const tmpPassword = name.toLowerCase().split(' ').join('.').normalize('NFD').replace(/[\u0300-\u036f]/g, "");
+                const password = bcrypt.hashSync(tmpPassword, 10);
                 const schoolOM = `${await this.randomString(3)}${await this.randomInt(100, 1000)}`;
                 const _class = `${await this.randomInt(8, 13)}${await this.randomString(1, 'ABCDEF')}`;
                 const email = `${await name.toLowerCase().split(' ').join('.')}@gmail.com`.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
@@ -71,6 +73,7 @@ class Test {
                 {
                     i++;
                     this.#data.push(row);
+                    console.log(`${this.#data.length} / ${amount}`);
                 }
             }
             return await this.writeFile(filename);

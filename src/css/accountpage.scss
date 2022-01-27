@@ -1,6 +1,6 @@
 .personal-datas{
-  
-  .important{
+
+  .bank-account, .important, .password-change{
     border-radius: 1em;
     border: 1px solid black;
     box-shadow: 1px 1px 5px 1px black;
@@ -8,34 +8,24 @@
     margin-bottom: 5%;
   }
 
-  .bank-account{
-    border-radius: 1em;
+  .passChange-btn{
+    border-radius: 2em;
     border: 1px solid black;
-    box-shadow: 1px 1px 5px 1px black;
-    padding: 2%;
-    margin-bottom: 5%;
+    margin-top: 1em;
+    font-size: 1.2em;
+    padding: 0.2em 1.5em;
+    transition: 0.5s;
+    margin-left: 1em;
+  }
+  .passChange-btn:hover{
+    border: 1px solid white;
+    color:white;
   }
 
   .password-change{
-    border-radius: 1em;
-    border: 1px solid black;
-    box-shadow: 1px 1px 5px 1px black;
-    padding: 2%;
-    margin-bottom: 5%;
 
-    .passChange-btn{
-      border-radius: 2em;
-      border: 1px solid black;
-      margin-top: 1em;
-      font-size: 1.2em;
-      padding: 0.2em 1.5em;
-      transition: 0.5s;
-      margin-left: 1em;
-    }
-    .passChange-btn:hover{
-      border: 1px solid white;
-      color:white;
-    }
+    
+    
   }
 
   .header{
@@ -54,6 +44,10 @@
       margin-top: 1em;
       transition: 0.5s;
       margin-left: 1em;
+    }
+
+    .modify-btn-mobile{
+      margin-top: 0.5em!important;
     }
     .modify-btn:hover,.delete-btn:hover{
       border: 1px solid white;
@@ -145,7 +139,7 @@
       color:#ffffff50
     }
     .pay{
-      color:greenyellow;
+      color:rgb(173, 255, 47);
     }
     .cancel{
       color:rgb(255, 66, 66);
@@ -153,9 +147,12 @@
     .undefined{
       color:rgb(255, 198, 41);
     }
+    .modify{
+      color: rgb(95, 151, 255)
+    }
   }
 }
 
 .important, .password-change, .activities{
-  background-color: #00000040;
+  background-color: var(--accountBackground);
 }
