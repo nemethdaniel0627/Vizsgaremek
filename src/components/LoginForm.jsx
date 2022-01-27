@@ -49,21 +49,22 @@ export default function LoginForm(props) {
 
                                         <div className="mb-md-5 mt-md-4 pb-5">
                                             <form onSubmit={formSend}>
-                                            <div className="mb-5 text-center">
-                                                <h2 className="fw-bold text-uppercase --header"> <FontAwesomeIcon icon={faSignInAlt}></FontAwesomeIcon> {props.title}</h2>
-                                            </div>
+                                                <div className="mb-5 text-center">
+                                                    <h2 className="fw-bold text-uppercase --header"> <FontAwesomeIcon icon={faSignInAlt}></FontAwesomeIcon> {props.title}</h2>
+                                                </div>
 
-                                            <hr className="mb-5" />
-                                            <div className="form-outline form-white mb-4">
-                                                <input type="text" className="form-control form-control-lg fs-4 --input" placeholder="OM azonosító" autoFocus required name="name" onChange={inputChange} value={user.name} />
+                                                <hr className="mb-5" />
+                                                <div className="form-outline form-white mb-4">
+                                                    <input type="text" className="form-control form-control-lg fs-4 --input" placeholder="OM azonosító" autoFocus required name="name" onChange={inputChange} value={user.name} />
 
-                                            </div>
+                                                </div>
 
-                                            <div className="form-outline form-white mb-4">
-                                                <input type="password" onChange={inputChange} required value={user.password} name="password" className="form-control form-control-lg fs-4 --input" placeholder="Jelszó" />
-                                            </div>
-                                            {/* <p class="text-white-50 mb-5 alert">Felhasználónév vagy jelszó nem megfelelő!</p> */}
-                                            <button className="btn btn-outline-light btn-lg px-5" onClick={loginUser}>Bejelentkezés</button>
+                                                <div className="form-outline form-white mb-4">
+                                                    <input type="password" onChange={inputChange} required value={user.password} name="password" className="form-control form-control-lg fs-4 --input" placeholder="Jelszó" />
+                                                </div>
+                                                {/* <p class="text-white-50 mb-5 alert">Felhasználónév vagy jelszó nem megfelelő!</p> */}
+                                                <button className="btn btn-outline-light btn-lg px-5" onClick={loginUser}>Bejelentkezés</button>
+
                                             </form>
 
 
@@ -79,7 +80,7 @@ export default function LoginForm(props) {
                         </div>
                     </div>
                 </section> :
-                <RegisterForm title="Regisztráció" RegisterOff = {Register}></RegisterForm>
+                    <RegisterForm title="Regisztráció" RegisterOff={Register}></RegisterForm>
             }
 
         </div>

@@ -2,7 +2,7 @@ const mysql = require('mysql2/promise');
 class sqlQueries {
     _connection;
 
-    async CreateConnection(array = false) {
+    async CreateConnection(array = true) {
         this._connection = await mysql.createConnection({
             host: 'localhost',
             user: 'root',
@@ -16,7 +16,7 @@ class sqlQueries {
     }
 
     async insert(tableName, fields, values) {
-        try {            
+        try {
             let [results, resultInfo] = await this._connection.execute(`INSERT INTO ${tableName} (${fields}) VALUES (${values});`);
             return results;
         } catch (error) {
@@ -25,7 +25,7 @@ class sqlQueries {
     }
 
     async select(tableName, field, conditions) {
-        try {            
+        try {
             let [results, resultInfo] = await this._connection.query(`SELECT ${field} FROM ${tableName} WHERE ${conditions}`);
             return results;
         } catch (error) {
@@ -34,7 +34,7 @@ class sqlQueries {
     }
 
     async selectAll(tableName) {
-        try {            
+        try {
             let [results, resultInfo] = await this._connection.query(`SELECT * FROM ${tableName}`);
             return results;
         } catch (error) {
@@ -52,7 +52,7 @@ class sqlQueries {
     }
 
     async delete(tableName, conditions) {
-        try {            
+        try {
             let [results, resultInfo] = await this._connection.query(`DELETE FROM ${tableName} WHERE ${conditions}`);
             return results;
         } catch (error) {
@@ -61,7 +61,7 @@ class sqlQueries {
     }
 
     async update(tableName, sets, conditions) {
-        try {            
+        try {
             let [results, resultInfo] = await this._connection.query(`UPDATE ${tableName} SET ${sets} WHERE ${conditions}`);
             return results;
         } catch (error) {

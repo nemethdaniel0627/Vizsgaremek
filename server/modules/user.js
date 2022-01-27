@@ -56,8 +56,8 @@ class User {
         return all;
     }
 
-    async getBy(fields, conditions) {
-        await sqlQueries.CreateConnection();
+    async getBy(fields, conditions, array = true) {
+        await sqlQueries.CreateConnection(array);
         const result = await sqlQueries.select('user', `${fields}`, `${conditions}`);
         await sqlQueries.EndConnection();
         return result;
