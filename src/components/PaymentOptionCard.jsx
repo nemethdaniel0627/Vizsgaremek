@@ -12,7 +12,7 @@ export default function PaymentOptionCard(props) {
   console.log(props.mobile);
 
   return (
-    <div className="card">
+    <div className={"card" + (props.modify ? " card-edit" : " card-hover")}>
       <div className="pt-3">
         <h1 className={"text-light card-header-text " + (props.mobile === true ? "mobile-h1-name" : "")}>{props.name}</h1>
         <hr />

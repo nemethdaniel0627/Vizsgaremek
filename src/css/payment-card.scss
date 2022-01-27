@@ -20,8 +20,12 @@
     height: 100%;
     border-radius: 24px;
   
-    background: var(--dark);
+    background: var(--paymentCardBg);
     transition: 0.5s;
+  }
+
+  .card-edit{
+    background: var(--paymentCardBgEdit);
   }
   
   .card ul {
@@ -97,8 +101,8 @@
     border-color: rgb(255, 136, 0);
   }
   
-  .card:hover{
-    box-shadow: 1px 1px 10px 1px white;
+  .card-hover:hover{
+    box-shadow: 1px 1px 10px 3px var(--darkModeFontColor);
     transition: 0.5s;
   }
   
