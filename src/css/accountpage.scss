@@ -8,21 +8,24 @@
     margin-bottom: 5%;
   }
 
+  .passChange-btn{
+    border-radius: 2em;
+    border: 1px solid black;
+    margin-top: 1em;
+    font-size: 1.2em;
+    padding: 0.2em 1.5em;
+    transition: 0.5s;
+    margin-left: 1em;
+  }
+  .passChange-btn:hover{
+    border: 1px solid white;
+    color:white;
+  }
+
   .password-change{
 
-    .passChange-btn{
-      border-radius: 2em;
-      border: 1px solid black;
-      margin-top: 1em;
-      font-size: 1.2em;
-      padding: 0.2em 1.5em;
-      transition: 0.5s;
-      margin-left: 1em;
-    }
-    .passChange-btn:hover{
-      border: 1px solid white;
-      color:white;
-    }
+    
+    
   }
 
   .header{
@@ -41,6 +44,10 @@
       margin-top: 1em;
       transition: 0.5s;
       margin-left: 1em;
+    }
+
+    .modify-btn-mobile{
+      margin-top: 0.5em!important;
     }
     .modify-btn:hover,.delete-btn:hover{
       border: 1px solid white;
