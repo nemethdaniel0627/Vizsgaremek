@@ -121,18 +121,22 @@ export default function Navbar(props) {
                             </div>
                         </button>
                     </div>
-                    : AuthUser._authorization === "admin" ?
+                    : AuthUser._authorization === "admin" || AuthUser._authorization === "alkalmazott" ?
                         <div className="navbar--item">
                             <div onClick={AuthUser.logoutUser}><FontAwesomeIcon icon={faSignOutAlt} /> Kijelentkezés</div>
                         </div>
                         :
-                        <i />
+                        <></>
                 }
             </div>
             <input type="checkbox" id="navbar--button" />
-            <label htmlFor="navbar--button" className="navbar--button--container">
-                <div className="navbar--button"></div>
-            </label>
+            {
+                AuthUser._authorization === "user" || AuthUser._authorization === "admin" || AuthUser._authorization === "alkalmazott" ?
+                    <label htmlFor="navbar--button" className="navbar--button--container">
+                        <div className="navbar--button"></div>
+                    </label>
+                    : <></>
+            }
             {AuthUser._authorization === "user" ?
                 <div className="navbar--items-container--collapse">
                     <div className="navbar--items-container--collapse--item">
@@ -155,27 +159,40 @@ export default function Navbar(props) {
                     </div>
                 </div>
                 :
-                <div className="navbar--items-container--collapse">
-                    <div className="navbar--items-container--collapse--item">
-                        <Link to="/adatbazis"><FontAwesomeIcon icon={faDatabase} /> Adatbázis</Link>
+                AuthUser._authorization === "admin" ?
+                    <div className="navbar--items-container--collapse">
+                        <div className="navbar--items-container--collapse--item">
+                            <Link to="/adatbazis"><FontAwesomeIcon icon={faDatabase} /> Adatbázis</Link>
+                        </div>
+                        <div className="navbar--items-container--collapse--item">
+                            <Link to="/beolvas"><FontAwesomeIcon icon={faQrcode} /> Beolvasás</Link>
+                        </div>
+                        <div className="navbar--items-container--collapse--item">
+                            <Link to="/etlapfeltolt"><FontAwesomeIcon icon={faUpload} /> Étlap feltöltés</Link>
+                        </div>
+                        <div className="navbar--items-container--collapse--item">
+                            <div onClick={AuthUser.logoutUser}><FontAwesomeIcon icon={faSignOutAlt} /> Kijelentkezés</div>
+                        </div>
                     </div>
-                    <div className="navbar--items-container--collapse--item">
-                        <Link to="/beolvas"><FontAwesomeIcon icon={faQrcode} /> Beolvasás</Link>
-                    </div>
-                    <div className="navbar--items-container--collapse--item">
-                        <Link to="/etlapfeltolt"><FontAwesomeIcon icon={faUpload} /> Étlap feltöltés</Link>
-                    </div>
-                    <div className="navbar--items-container--collapse--item">
-                        <div onClick={AuthUser.logoutUser}><FontAwesomeIcon icon={faSignOutAlt} /> Kijelentkezés</div>
-                    </div>
-                </div>
+                    : AuthUser._authorization === "alkalmazott" ?
+                        <div className="navbar--items-container--collapse">
+                            <div className="navbar--items-container--collapse--item">
+                                <Link to="/beolvas"><FontAwesomeIcon icon={faQrcode} /> Beolvasás</Link>
+                            </div>
+                            <div className="navbar--items-container--collapse--item">
+                                <div onClick={AuthUser.logoutUser}><FontAwesomeIcon icon={faSignOutAlt} /> Kijelentkezés</div>
+                            </div>
+                        </div>
+                        : <></>
             }
-            {AuthUser._authorization === "user" ?
-                <Link to="/adatlap" className="account--item"><FontAwesomeIcon icon={faUserCircle} /> {props.userName}</Link>
-                : <label htmlFor="navbar--btn" id="navbar--photo" className="navbar--photo__admin">
-                    <img alt="ICON" src={foodE_logo} />
-                </label>}
-        </div>
+            {
+                AuthUser._authorization === "user" ?
+                    <Link to="/adatlap" className="account--item"><FontAwesomeIcon icon={faUserCircle} /> {props.userName}</Link>
+                    : <label htmlFor="navbar--btn" id="navbar--photo" className="navbar--photo__admin">
+                        <img alt="ICON" src={foodE_logo} />
+                    </label>
+            }
+        </div >
 
     );
 }

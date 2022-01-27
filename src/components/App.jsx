@@ -20,30 +20,20 @@ import PaymentPage from "./PaymentPage";
 
 
 export default function App() {
-    const path = useLocation().pathname;
+    const path = useLocation().pathname;    
     const [user, setUser] = useState({
-        vNev: "",
-        kNev: "",
-        osztaly: "12.",
-        befizetve: null,
-        datum: "2021.12.",
-        om: "",
-        iskolaOm: "",
-        email: ""
+        email: "",
+        felhasznaloNev: "",
+        id: "",
+        iskolaOM: "",
+        jelszo: "",
+        nev: "",
+        osztaly: ""
     });
 
     useEffect(() => {
         setSearchBarHeight();
-        if (user.vNev === "") {
-            axios.get("/user")
-                .then(response => {
-                    setUser(response.data);
-                })
-                .catch(error => {
-                    console.error(error);
-                })
-        }
-    })
+    }, [])
 
     useEffect(() => {
         const openNavbar = document.getElementById("navbar--button");
@@ -62,20 +52,41 @@ export default function App() {
 
     }
 
+    function getUser() {
+        axios.post("/user",
+            {
+                userId: Number(sessionStorage.getItem("userId"))
+            },
+            {
+                headers: {
+                    "Authorization": `Baerer ${sessionStorage.getItem("token")}`
+                }
+            })
+            .then(response => {
+                setUser(response.data[0]);
+            })
+            .catch(error => {
+                console.error(error);
+
+            });
+    }
+
     return (
         <div className="App">
-            <Navbar userName={`${user.vNev} ${user.kNev}`} />
+            <Navbar userName={`${user.nev}`} />
             <Switch>
                 {console.log("asd " + AuthUser._authorization)}
                 <AuthRoute path="/" auth={AuthUser._authorization} exact component={() => {
-
+                    getUser();
                     return AuthUser._authorization === "user"
                         ?
                         <Redirect to="/etlap" />
                         : AuthUser._authorization === "admin" ?
                             <Redirect to="/adatbazis" />
-                            :
-                            <Menu cancel={false} header="Étlap" disabledDays={[]} />
+                            : AuthUser._authorization === "alkalmazott" ?
+                                <Redirect to="/beolvas" />
+                                :
+                                <Menu cancel={false} header="Étlap" disabledDays={[]} />
 
                 }
                 } />
@@ -108,12 +119,12 @@ export default function App() {
                 <AuthRoute path="/adatbazis" auth="admin" component={() =>
                     <AdminDatabasePage />
                 } />
-                
+
                 <AuthRoute path="/fizetes" auth="user" component={() =>
                     <PaymentPage />
-                } />                
+                } />
 
-                <AuthRoute path="/beolvas" auth="admin" component={() =>
+                <AuthRoute path="/beolvas" auth="admin alkalmazott" component={() =>
                     <QrCodeReader />
                 } />
 

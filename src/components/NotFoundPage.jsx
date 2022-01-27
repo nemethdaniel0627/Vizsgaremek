@@ -16,7 +16,7 @@ export default function NotFoundPage() {
                 <path d="M435 393.251V383.251H425H357.16V20V10H347.16H271.246H265.797L262.843 14.579L11.5968 404.042L10 406.517V409.463V451.536V461.536H20H265.485V582V592H275.485H347.16H357.16V582V461.536H425H435V451.536V393.251ZM265.485 383.251H119.171L265.485 154.063V383.251Z" stroke="currentColor" strokeWidth="20" />
                 <path d="M1816 393.251V383.251H1806H1738.16V20V10H1728.16H1652.25H1646.8L1643.84 14.579L1392.6 404.042L1391 406.517V409.463V451.536V461.536H1401H1646.49V582V592H1656.49H1728.16H1738.16V582V461.536H1806H1816V451.536V393.251ZM1646.49 383.251H1500.17L1646.49 154.063V383.251Z" stroke="currentColor" strokeWidth="20" />
             </svg>
-            <Link to="/etlap" className="notfound--button"><div>Vissza a főoldalra</div></Link>
+            <Link to="/" className="notfound--button"><div>Vissza a főoldalra</div></Link>
             <svg id="flame" width="195" height="256" viewBox="0 0 195 256" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M24.7898 80C8.73248 95.0592 2.79537 106.197 1.00024 133L39.5 114.5C30.2192 104.61 25.9166 95.6946 24.7898 80Z" fill="url(#paint0_radial_117_2341)" />
                 <path d="M177.186 86.4848C172.697 118.21 166.156 133.991 157 148L192.5 165C195.045 127.494 190.647 111.241 177.186 86.4848Z" fill="url(#paint1_radial_117_2341)" />

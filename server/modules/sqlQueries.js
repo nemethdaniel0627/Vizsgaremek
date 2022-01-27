@@ -2,12 +2,12 @@ const mysql = require('mysql2/promise');
 class sqlQueries {
     _connection;
 
-    async CreateConnection() {
+    async CreateConnection(array = true) {
         this._connection = await mysql.createConnection({
             host: 'localhost',
             user: 'root',
             database: 'foode',
-            rowsAsArray: true
+            rowsAsArray: array
         });
     }
 

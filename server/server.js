@@ -73,24 +73,15 @@ app.post("/add", async (req, res) => {
   }
 })
 
-app.get("/user", auth.tokenAutheticate, async (req, res) => {
-  // res.json({
-  //   vNev: "Winch",
-  //   kNev: "Eszter",
-  //   osztaly: "12.A",
-  //   befizetve: null,
-  //   datum: "2021.12.01",
-  //   om: "71767844485",
-  //   iskolaOm: "771122",
-  //   email: "asd@asd.com"
-  // });
-  // const userName = req.body.userName;
-  // const userResult = await user.getBy("felhasznaloNev", `felhasznaloNev = "${userName}"`);
-  // console.log(new NoUserFoundException());
-  // res.send(userResult);
+app.post("/user", auth.tokenAutheticate, async (req, res) => {
+  const userId = req.body.userId;
+  const userResult = await user.getBy("*", `id = "${userId}"`, false);
+  if (userResult) res.send(userResult);
+  else res.notFound();
+})
 
-  res.unauthorized();
-
+app.post("/token", auth.tokenAutheticate, (req, res) => {
+  res.json({ message: "Ok" });
 })
 
 app.post("/register", async (req, res) => {
@@ -101,7 +92,7 @@ app.post("/register", async (req, res) => {
     res.send("Felhasználó már létezik");
   }
   else {
-    res.setHeader("Set-Cookie", [auth.createCookie(authResult.tokenData)]);
+    res.setHeader("Authorization", [auth.createCookie(authResult.tokenData)]);
     res.send(authResult.user);
   }
 });
@@ -114,7 +105,7 @@ app.post("/login", async (req, res) => {
     res.send("Unauthorized");
   }
   else {
-    res.setHeader("Set-Cookie", [auth.createCookie(authResult.tokenData)]);
+    res.setHeader("Authorization", [auth.createCookie(authResult.tokenData)]);
     res.send(authResult.user);
   }
 });
