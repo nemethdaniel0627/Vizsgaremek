@@ -10,13 +10,15 @@ import {
   import Activities from "./AccountPageActivities";
   import { useState } from "react";
   
-  export default function DataPage(props) {
+  export default function DataPage(user) {
   
     const [change, changing] = useState(false);
   
     function PassChange() {
       changing(!change);
     }
+
+    console.log(user.user.user);
   
     return (
       <div className="h3 m-5">
@@ -33,24 +35,27 @@ import {
                 </div>
   
                 <table className="personal-tables">
-                  <tr>
-                    <td className="key">Vezetéknév</td>
-                    <td className="value">Teszt</td>
-                    <td className="key">Osztály</td>
-                    <td className="value">12.A</td>
-                  </tr>
-                  <tr>
-                    <td className="key">Keresztnév</td>
-                    <td className="value">Elek</td>
-                    <td className="key">Iskola OM azonosító</td>
-                    <td className="value">2211556</td>
-                  </tr>
-                  <tr>
-                    <td className="key">Felhasználónév</td>
-                    <td className="value">Teszt.Elek</td>
-                    <td className="key">E-mail cím</td>
-                    <td className="value">teszt.elek@students.jedlik.eu</td>
-                  </tr>
+                  <tbody>
+                    <tr>
+                      <td className="key">Vezetéknév</td>
+                      <td className="value">{user.user.user.vNev}</td>
+                      <td className="key">Osztály</td>
+                      <td className="value">{user.user.user.osztaly}</td>
+                    </tr>
+                    <tr>
+                      <td className="key">Keresztnév</td>
+                      <td className="value">{user.user.user.kNev}</td>
+                      <td className="key">Iskola OM azonosító</td>
+                      <td className="value">{user.user.user.iskolaOm}</td>
+                    </tr>
+                    <tr>
+                      <td className="key">Felhasználónév</td>
+                      <td className="value">{user.user.user.om}</td>
+                      <td className="key">E-mail cím</td>
+                      <td className="value">{user.user.user.email}</td>
+                    </tr>
+                  </tbody>
+                  
                 </table>
               </div>
               {/* <div className="bank-account">
@@ -152,8 +157,13 @@ import {
                   type="cancel"
                 ></Activities>
                 <Activities
-                  activity="Lemondott nap(ok)"
+                  activity="????????"
                   date="2021.12.20"
+                ></Activities>
+                <Activities
+                  activity="Adatmódosítás"
+                  date="2022.01.24"
+                  type="modify"
                 ></Activities>
               </div>
             </div>

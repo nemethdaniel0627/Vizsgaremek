@@ -4,7 +4,7 @@ import AuthRoute from "./AuthRoute";
 import LoginForm from "./LoginForm";
 import Menu from "./Menu";
 import Navbar from "./Navbar";
-import LunchTicket from "./LunchTicket";
+import MealTicket from "./MealTicket";
 import LunchCancelation from "./LunchCancelation";
 import AccountPage from "./AccountPage";
 import ReportPage from "./ReportPage";
@@ -23,7 +23,7 @@ export default function App() {
     const path = useLocation().pathname;    
     const [user, setUser] = useState({
         email: "",
-        felhasznaloNev: "",
+        omAzon: "",
         id: "",
         iskolaOM: "",
         jelszo: "",
@@ -75,7 +75,6 @@ export default function App() {
         <div className="App">
             <Navbar userName={`${user.nev}`} />
             <Switch>
-                {console.log("asd " + AuthUser._authorization)}
                 <AuthRoute path="/" auth={AuthUser._authorization} exact component={() => {
                     getUser();
                     return AuthUser._authorization === "user"
@@ -100,7 +99,7 @@ export default function App() {
                 } />
 
                 <AuthRoute path="/ebedjegy" auth="user" component={() =>
-                    <LunchTicket user={user} />
+                    <MealTicket user={user} />
                 } />
 
                 <AuthRoute path="/lemondas" auth="user" component={() =>
