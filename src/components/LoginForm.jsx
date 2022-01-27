@@ -63,6 +63,7 @@ export default function LoginForm(props) {
                                                     <input type="password" onChange={inputChange} required value={user.password} name="password" className="form-control form-control-lg fs-4 --input" placeholder="Jelszó" />
                                                 </div>
                                                 {/* <p class="text-white-50 mb-5 alert">Felhasználónév vagy jelszó nem megfelelő!</p> */}
+                                                
                                                 <button className="btn btn-outline-light btn-lg px-5" onClick={loginUser}>Bejelentkezés</button>
 
                                             </form>

@@ -145,9 +145,18 @@ export default function Menu(props) {
                 setSelectedDates(prevDates => {
                     return [...prevDates, input.value];
                 })
-                props.getDates()
             }
-            else day.style.backgroundImage = null;
+            else {
+                if (selectedDates.includes(input.value)) {
+                    let tmpSelectedDates = selectedDates;
+                    const index = tmpSelectedDates.indexOf(input.value);
+                    if (index > -1) {
+                        tmpSelectedDates.splice(index, 1);
+                    }
+                    setSelectedDates(tmpSelectedDates);
+                }
+                day.style.backgroundImage = null;
+            }
         }
     }
 
