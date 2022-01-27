@@ -179,7 +179,15 @@
         .key{
             color:var(--adminDbFontKey)!important;
         }
-        
+
+        .acc-head-new {
+
+            background: linear-gradient(to right, #232f7090 50%, #00000000 100%)!important;
+
+            .new{
+                margin-right: 1em;
+            }
+        }
     
         .acc-head{
             background: none;
@@ -194,6 +202,8 @@
         }
     }
 }
+
+
 
 .btn-modify,.btn-delete{
     border-radius: 1em;

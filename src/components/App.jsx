@@ -4,7 +4,7 @@ import AuthRoute from "./AuthRoute";
 import LoginForm from "./LoginForm";
 import Menu from "./Menu";
 import Navbar from "./Navbar";
-import LunchTicket from "./LunchTicket";
+import MealTicket from "./MealTicket";
 import LunchCancelation from "./LunchCancelation";
 import AccountPage from "./AccountPage";
 import ReportPage from "./ReportPage";
@@ -24,9 +24,9 @@ export default function App() {
     const [user, setUser] = useState({
         vNev: "",
         kNev: "",
-        osztaly: "12.",
+        osztaly: "",
         befizetve: null,
-        datum: "2021.12.",
+        datum: "",
         om: "",
         iskolaOm: "",
         email: ""
@@ -37,6 +37,7 @@ export default function App() {
         if (user.vNev === "") {
             axios.get("/user")
                 .then(response => {
+                    console.log(response.data);
                     setUser(response.data);
                 })
                 .catch(error => {
@@ -66,7 +67,6 @@ export default function App() {
         <div className="App">
             <Navbar userName={`${user.vNev} ${user.kNev}`} />
             <Switch>
-                {console.log("asd " + AuthUser._authorization)}
                 <AuthRoute path="/" auth={AuthUser._authorization} exact component={() => {
 
                     return AuthUser._authorization === "user"
@@ -89,7 +89,7 @@ export default function App() {
                 } />
 
                 <AuthRoute path="/ebedjegy" auth="user" component={() =>
-                    <LunchTicket user={user} />
+                    <MealTicket user={user} />
                 } />
 
                 <AuthRoute path="/lemondas" auth="user" component={() =>
@@ -108,10 +108,10 @@ export default function App() {
                 <AuthRoute path="/adatbazis" auth="admin" component={() =>
                     <AdminDatabasePage />
                 } />
-                
+
                 <AuthRoute path="/fizetes" auth="user" component={() =>
                     <PaymentPage />
-                } />                
+                } />
 
                 <AuthRoute path="/beolvas" auth="admin" component={() =>
                     <QrCodeReader />

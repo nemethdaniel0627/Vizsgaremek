@@ -5,26 +5,32 @@
     box-shadow: 2px 5px 15px 0px #17161694;
     background-color: #122529;
     border-radius: 5px;
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+    color: var(--clr-light-gray)
 }
 
-body{
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+body {
+    font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva, Verdana,
+        sans-serif;
 }
 
-h1
-{
-    font-family: Georgia, 'Times New Roman', Times, serif;
+h1 {
+    font-family: Georgia, "Times New Roman", Times, serif;
     font-size: 4em;
 }
 
-#Ticket_img
-{
-    width: 40%!important;
+#Ticket_img {
+    width: 40% !important;
     margin-top: 5%;
 }
 
 #ticket .container {
     background-color: rgba(255, 255, 255, 0.363);
     border-radius: 10px;
-  }
+}
+
+#Ticket_info {
+    @media only screen and (max-width: 600px) {        
+        font-size: 2rem;
+    }
+}

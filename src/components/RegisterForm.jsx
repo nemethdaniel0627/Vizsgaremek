@@ -29,16 +29,25 @@ export default function RegisterForm(props) {
 
                                         <hr className="mb-3" />
                                         <div className="form-outline form-white mb-4">
-                                            <input type="text" className="form-control form-control-lg fs-4 --input" placeholder="OM azonosító" autoFocus required name="name" />
+                                            <input type="text" className="form-control form-control-lg fs-4 --input" placeholder="Név" autoFocus required name="name" />
+                                        </div>
+
+                                        <div className="form-outline form-white mb-4">
+                                            <input type="text" className="form-control form-control-lg fs-4 --input" placeholder="Osztály"  required name="name" />
+                                        </div>
+
+                                        <div className="form-outline form-white mb-4">
+                                            <input type="number" className="form-control form-control-lg fs-4 --input" placeholder="OM azonosító"  required name="name" />
+                                        </div>
+
+                                        <div className="form-outline form-white mb-4">
+                                            <input type="email" required name="email" className="form-control form-control-lg fs-4 --input" placeholder="E-mail" />
                                         </div>
 
                                         <div className="form-outline form-white mb-4">
                                             <input type="password" required name="password" className="form-control form-control-lg fs-4 --input" placeholder="Jelszó" />
                                         </div>
 
-                                        <div className="form-outline form-white mb-4">
-                                            <input type="email" required name="email" className="form-control form-control-lg fs-4 --input" placeholder="E-mail" />
-                                        </div>
 
                                         <div className="form-outline form-white mb-4">
                                             <select name="schools" className="form-select fs-4 --input" onChange={SelectionChange}>
