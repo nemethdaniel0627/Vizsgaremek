@@ -15,6 +15,11 @@ class sqlQueries {
         await this._connection.end();
     }
 
+    async isConnection() {
+        if (this._connection === undefined || this._connection.connection._closing === true) return false;
+        else return true;
+    }
+
     async insert(tableName, fields, values) {
         try {
             let [results, resultInfo] = await this._connection.execute(`INSERT INTO ${tableName} (${fields}) VALUES (${values});`);

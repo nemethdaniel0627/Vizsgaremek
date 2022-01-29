@@ -3,7 +3,7 @@ const sqlQueries = require("./sqlQueries");
 class Order {
     async getOrdersByUserId(userId) {
         if (isNaN(Number(userId))) return -1;
-        await sqlQueries.CreateConnection();
+        if (await sqlQueries.isConnection() === false) await sqlQueries.CreateConnection();
         const user = await sqlQueries.select('user', '*', `Id = ${userId}`);
         if (user.length === 0) return -1;
         const orders = await sqlQueries.select('orders', '*', `userId = ${userId}`);
@@ -16,35 +16,35 @@ class Order {
     }
 
     async getAll() {
-        await sqlQueries.CreateConnection();
+        if (await sqlQueries.isConnection() === false) await sqlQueries.CreateConnection();
         const all = await sqlQueries.selectAll('orders');
         await sqlQueries.EndConnection();
         return all;
     }
 
     async getOrders() {
-        await sqlQueries.CreateConnection();
+        if (await sqlQueries.isConnection() === false) await sqlQueries.CreateConnection();
         const orders = await sqlQueries.select('orders', '*', 'lemondva is null');
         await sqlQueries.EndConnection();
         return orders;
     }
 
     async getCanceledOrders() {
-        await sqlQueries.CreateConnection();
+        if (await sqlQueries.isConnection() === false) await sqlQueries.CreateConnection();
         const canceled = await sqlQueries.select('orders', '*', 'lemondva is not null');
         await sqlQueries.EndConnection();
         return canceled;
     }
 
     async delete(condition) {
-        await sqlQueries.CreateConnection();
+        if (await sqlQueries.isConnection() === false) await sqlQueries.CreateConnection();
         const deleted = await sqlQueries.delete('orders', `${condition}`);
         await sqlQueries.EndConnection();
         return deleted.affectedRows;
     }
 
     async modify(fieldValues, conditions) {
-        await sqlQueries.CreateConnection();
+        if (await sqlQueries.isConnection() === false) await sqlQueries.CreateConnection();
         const order = await sqlQueries.update('orders', `${fieldValues}`, `${conditions}`);
         await sqlQueries.EndConnection();
         return order.affectedRows;
@@ -52,7 +52,7 @@ class Order {
 
     async selectMenuIdByUserId(userId, date) {
         if (isNaN(Number(userId))) return -1;
-        await sqlQueries.CreateConnection();
+        if (await sqlQueries.isConnection() === false) await sqlQueries.CreateConnection();
         const menuId = await sqlQueries.innerSelect(
             'menu',
             'menu.id',
@@ -60,13 +60,12 @@ class Order {
             'INNER JOIN orders ON orders.menuId = menu.id',
             `orders.userId = ${userId} AND days.datum = '${date}'`);
             if (menuId.length === 0) return false;
-            console.log(new Date(`${date}`));
         await sqlQueries.EndConnection();
         return menuId;
     }
 
     async selectMenuIdByDate(date) {
-        await sqlQueries.CreateConnection();
+        if (await sqlQueries.isConnection() === false) await sqlQueries.CreateConnection();
         const menuId = await sqlQueries.innerSelect(
             'menu', 
             'menu.id', 
@@ -83,7 +82,7 @@ class Order {
         const menuId = await this.selectMenuIdByDate(date);
         if (menuId === -1) return `No menu for this date: ${date}`;
 
-        await sqlQueries.CreateConnection();
+        if (await sqlQueries.isConnection() === false) await sqlQueries.CreateConnection();
         let userOrder = await sqlQueries.select(
             'orders',
             'reggeli, ' +
@@ -127,7 +126,7 @@ class Order {
         const exists = await this.selectMenuIdByUserId(userId, date)
         if (exists) return `Already has order\nId: ${userId}\nDate: ${date}`;
         
-        await sqlQueries.CreateConnection();
+        if (await sqlQueries.isConnection() === false) await sqlQueries.CreateConnection();
         await sqlQueries.insert(
             'orders',
             'menuId, ' +
@@ -153,7 +152,7 @@ class Order {
         const menuId = await this.selectMenuIdByDate(date);
         if (menuId === -1) return `No order for this date: ${date}`;
 
-        await sqlQueries.CreateConnection();
+        if (await sqlQueries.isConnection() === false) await sqlQueries.CreateConnection();
         const orderExists = await sqlQueries.select(
             'orders',
             'id',

@@ -9,7 +9,7 @@ const databaseDownload = require('./modules/databaseDownload');
 const user = require('./modules/user');
 const test = require('./modules/test');
 const auth = require('./modules/auth');
-const Exception = require('./exceptions/Exceptions');
+const exception = require('./exceptions/exceptions');
 const order = require('./modules/order');
 
 const app = express();
@@ -20,7 +20,7 @@ const buildPath = path.join(__dirname, '..', 'build');
 app.use(express.static(buildPath));
 app.use(express.json());
 app.use(cors());
-app.use(Exception.exception)
+app.use(exception.exception)
 
 app.get("/etlap", async (req, res) => {
   const menu = await databaseDownload.getMenu(new Date());  
@@ -31,10 +31,10 @@ app.post("/etlap", async (req, res) => {
   let excelRows = req.body.excelRows;
   const setDate = req.body.date;
 
-  await sqlQueries.CreateConnection();
+  // await sqlQueries.CreateConnection();
   const selectDaysId = await sqlQueries.select("days", "id", `datum = "${setDate}"`);
   if (selectDaysId.length === 0) {
-    await sqlQueries.EndConnection();    
+    // await sqlQueries.EndConnection();
     const menu = await menuConvert.convert(excelRows);
     
     let date = new Date(setDate);
@@ -105,12 +105,12 @@ app.post("/login", async (req, res) => {
 });
 
 app.put("/update", async (req, res) => {
-  const count = await user.modify('felhasznaloNev = 123456789', 'felhasznaloNev = 723011004754');
+  const count = await user.modify('omAzon = 72339825529', 'omAzon = 72339825529');
   res.send(`${count} record(s) updated`);
 })
 
 app.delete("/delete", async (req, res) => {
-  const count = await user.delete('nev = "Teszt Elek1"');
+  const count = await user.delete('omAzon = 72339825529');
   res.send(`${count} record(s) deleted`);
 })
 
