@@ -33,10 +33,10 @@ class User {
         let added = false;
         await sqlQueries.CreateConnection();
 
-        if ((await this.isUnique('felhasznaloNev', data.split(';')[0])) && (await this.isUnique('email', data.split(';')[5])))
+        if ((await this.isUnique('omAzon', data.split(';')[0])) && (await this.isUnique('email', data.split(';')[5])))
         {
             await sqlQueries.insert("user", 
-            "felhasznaloNev," +
+            "omAzon," +
             "jelszo, " +
             "nev, " +
             "iskolaOM, " +

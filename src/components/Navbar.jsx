@@ -31,6 +31,7 @@ export default function Navbar(props) {
             root.style.setProperty('--adminDb', "#ffffff40");
             root.style.setProperty('--adminDbFontKey', "#ffffffa0");
             root.style.setProperty('--a-rule', "#5797ff");
+            root.style.setProperty('--report-card-bg', "#ffffff");
         }
         else {
             root.style.setProperty('--dark-blue', "#001E6C");
@@ -45,6 +46,7 @@ export default function Navbar(props) {
             root.style.setProperty('--adminDb', "#00000040");
             root.style.setProperty('--adminDbFontKey', "#000000a0");
             root.style.setProperty('--a-rule', "#5797ff");
+            root.style.setProperty('--report-card-bg', "#00000030");
         }
     }
 

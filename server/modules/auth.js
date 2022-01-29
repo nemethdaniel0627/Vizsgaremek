@@ -7,7 +7,7 @@ require('dotenv').config();
 
 class Auth {
     async register(user) {
-        const userResult = await USER.getBy("felhasznaloNev", `felhasznaloNev = "${user.userName}"`);
+        const userResult = await USER.getBy("omAzon", `omAzon = "${user.userName}"`);
         if (userResult.length !== 0) {
             return undefined;
         }
@@ -15,7 +15,7 @@ class Auth {
             const hashedPassword = bcrypt.hashSync(user.password, 10);
             const created = await USER.add(`${user.userName};${hashedPassword};${user.name};${user.iskolaOM};${user.osztaly};${user.email}`);
             if (created) {
-                const createdUserId = await USER.getBy("id", `felhasznaloNev = "${user.userName}"`);
+                const createdUserId = await USER.getBy("id", `omAzon = "${user.userName}"`);
                 await sqlQueries.CreateConnection();
                 await sqlQueries.insert("user_role", "userId, roleId", `${createdUserId}, 2`);
                 const roles = await sqlQueries.select("user_role", "roleId", `userId = ${createdUserId}`);
@@ -31,7 +31,7 @@ class Auth {
     }
 
     async login(user) {
-        const userResult = await USER.getBy("jelszo", `felhasznaloNev = "${user.userName}"`);
+        const userResult = await USER.getBy("jelszo", `omAzon = "${user.userName}"`);
         if (userResult.length === 0) {
             return undefined;
         }
@@ -39,7 +39,7 @@ class Auth {
             const isPasswordMatching = bcrypt.compareSync(user.password, userResult[0][0]);
             if (isPasswordMatching) {
                 user.password = undefined;
-                const loginUserId = await USER.getBy("id", `felhasznaloNev = "${user.userName}"`);
+                const loginUserId = await USER.getBy("id", `omAzon = "${user.userName}"`);
                 await sqlQueries.CreateConnection();
                 const roles = await sqlQueries.select("user_role", "roleId", `userId = ${loginUserId}`);
                 await sqlQueries.EndConnection();
@@ -68,7 +68,7 @@ class Auth {
     }
 
     #createToken(userId, options = null) {
-        const expiresIn = 60; // 1 day
+        const expiresIn = 60*60*24; // 1 day
         const secret = process.env.JWT_SECRET;
         const dataStoredInToken = userId.toString();
         return {
