@@ -41,6 +41,12 @@ export default function ReportPage() {
             <span className="--space d-flex d-lg-none"></span>
             <div className="col-12 col-lg-4"><ReportPageCard title="+36 40 123 7555" fontSize="small" type="text" header="Telefon:"/></div>
 
+            <span className="--space"></span>
+            <div className="col-12 col-lg-4"><ReportPageCard title="5231 Fegyvernek, Fő út 8" fontSize="small" type="text" header="Cím:"/></div>
+            <div className="col-12 col-lg-2"></div>
+            <span className="--space d-flex d-lg-none"></span>
+            <div className="col-12 col-lg-4"><ReportPageCard title="?????" fontSize="small" type="text" header="?????:"/></div>
+
           </div>
         </div>
         <ReportPageModal show={error} ModalClose = {ErrorSendRequest}/>
