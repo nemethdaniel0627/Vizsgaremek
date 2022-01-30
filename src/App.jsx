@@ -1,26 +1,26 @@
 import React from "react";
 import { Route, Switch, useLocation } from "react-router";
-import AuthRoute from "./AuthRoute";
-import LoginForm from "./LoginForm";
-import Menu from "./Menu";
-import Navbar from "./Navbar";
-import MealTicket from "./MealTicket";
-import LunchCancelation from "./LunchCancelation";
-import AccountPage from "./AccountPage";
-import ReportPage from "./ReportPage";
-import AdminDatabasePage from "./AdminDatabasePage";
-import QrCodeReader from "./QrCodeReader";
+import AuthRoute from "./routes/AuthRoute";
+import LoginForm from "./pages/LoginForm";
+import Menu from "./pages/Menu";
+import Navbar from "./layouts/Navbar";
+import MealTicket from "./pages/MealTicket";
+import LunchCancelation from "./pages/LunchCancelation";
+import AccountPage from "./pages/AccountPage";
+import ReportPage from "./pages/ReportPage";
+import AdminDatabasePage from "./pages/AdminDatabasePage";
+import QrCodeReader from "./pages/QrCodeReader";
 import { Redirect } from "react-router-dom";
-import AuthUser from "../modules/AuthUser";
+import AuthUser from "./modules/AuthUser";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import NotFoundPage from "./NotFoundPage";
-import MenuUpload from "./MenuUpload";
-import PaymentPage from "./PaymentPage";
+import NotFoundPage from "./pages/NotFoundPage";
+import MenuUpload from "./pages/MenuUpload";
+import PaymentPage from "./pages/PaymentPage";
 
 
 export default function App() {
-    const path = useLocation().pathname;    
+    const path = useLocation().pathname;
     const [user, setUser] = useState({
         email: "",
         omAzon: "",

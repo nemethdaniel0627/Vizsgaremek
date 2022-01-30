@@ -1,8 +1,8 @@
 
-import React, { useEffect } from "react";
+import React from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
-import DateLoader from "./PaymentDateTableLoader";
+import DateLoader from "../components/PaymentDateTableLoader";
 
 
 export default function PaymentDateTable(props) {
@@ -41,12 +41,6 @@ export default function PaymentDateTable(props) {
                                     dinner={props.type === "Teljes" || props.type === "Kollégium" || props.type === "Kollégium+" ? "Vacsora" : ""} 
                                 />
                             ))}
-
-                            {/* <td className="text-center">
-                                <button className="cal-btn btn btn-primary" onClick={() => Opacity('0')} >
-                                    <FontAwesomeIcon icon={faAngleDoubleDown} />
-                                </button>
-                            </td> */}
                         </tr>
                         <tr>
                             {forFor.map((day, index) => (
@@ -58,12 +52,6 @@ export default function PaymentDateTable(props) {
                                 dinner={props.type === "Teljes" || props.type === "Kollégium" || props.type === "Kollégium+" ? "Vacsora" : ""} 
                             />
                             ))}
-                            {/* <td className="text-center">
-                                <button className="cal-btn btn btn-primary" onClick={() => Opacity('1')} >
-                                    <FontAwesomeIcon icon={faAngleDoubleDown} />
-                                </button>
-
-                            </td> */}
                         </tr>
 
                         <tr>
@@ -75,12 +63,7 @@ export default function PaymentDateTable(props) {
                                snack={props.type === "Teljes" ? "Uzsonna" : ""} 
                                dinner={props.type === "Teljes" || props.type === "Kollégium" || props.type === "Kollégium+" ? "Vacsora" : ""} 
                            />
-                            ))}
-                            {/* <td className="text-center">
-                                <button className="cal-btn btn btn-primary" onClick={() => Opacity('2')} >
-                                    <FontAwesomeIcon icon={faAngleDoubleDown} />
-                                </button>
-                            </td> */}
+                            ))}                            
                         </tr>
 
                         <tr>
@@ -92,12 +75,7 @@ export default function PaymentDateTable(props) {
                                 snack={props.type === "Teljes" ? "Uzsonna" : ""} 
                                 dinner={props.type === "Teljes" || props.type === "Kollégium" || props.type === "Kollégium+" ? "Vacsora" : ""} 
                             />
-                            ))}
-                            {/* <td className="text-center">
-                                <button className="cal-btn btn btn-primary" onClick={() => Opacity('3')} >
-                                    <FontAwesomeIcon icon={faAngleDoubleDown} />
-                                </button>
-                            </td> */}
+                            ))}                            
                         </tr>
 
                         <tr>
@@ -109,12 +87,7 @@ export default function PaymentDateTable(props) {
                                 snack={props.type === "Teljes" ? "Uzsonna" : ""} 
                                 dinner={props.type === "Teljes" || props.type === "Kollégium" || props.type === "Kollégium+" ? "Vacsora" : ""} 
                             />
-                            ))}
-                            {/* <td className="text-center">
-                                <button className="cal-btn btn btn-primary" onClick={() => Opacity('4')} >
-                                    <FontAwesomeIcon icon={faAngleDoubleDown} />
-                                </button>
-                            </td> */}
+                            ))}                        
                         </tr>
 
                         <tr className={dates[5 * 7].month === '-1' ? "d-none" : ""}>
@@ -126,12 +99,7 @@ export default function PaymentDateTable(props) {
                                 snack={props.type === "Teljes" ? "Uzsonna" : ""} 
                                 dinner={props.type === "Teljes" || props.type === "Kollégium" || props.type === "Kollégium+" ? "Vacsora" : ""} 
                             />
-                            ))}
-                            {/* <td className="text-center">
-                                <button className="cal-btn btn btn-primary" onClick={() => Opacity('5')} >
-                                    <FontAwesomeIcon icon={faAngleDoubleDown} />
-                                </button>
-                            </td> */}
+                            ))}                            
                         </tr>
                     </tbody>
                 </table>
@@ -140,35 +108,3 @@ export default function PaymentDateTable(props) {
         </div>
     );
 }
-
-
-
-function Opacity(props) {
-    if (document.getElementsByClassName('meal_' + props)[0].style.display === 'block') {
-        for (const meals of document.getElementsByClassName('cal-meals-display')) {
-            meals.style = "display: none";
-        }
-
-    } else {
-
-        for (const meals of document.getElementsByClassName('cal-meals-display')) {
-            meals.style = "display: none";
-        }
-
-        for (const meals of document.getElementsByClassName('meal_' + props)) {
-            meals.style = "display: block";
-        }
-    }
-}
-
-function isInTheSameRow() {
-    for (const meals of document.getElementsByClassName('cal-meals-display')) {
-        meals.style = "display: none";
-    }
-    for (const item of document.getElementsByClassName('cal-meals-display')) {
-        if (item.className.split(' ')[0].split('_')[1] === document.querySelector(".cal-today tbody").className.split(" ")[0].split("_")[1]) {
-            item.style = "display:block";
-        }
-    }
-}
-

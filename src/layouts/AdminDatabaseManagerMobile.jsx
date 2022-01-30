@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit, faFileDownload, faFileUpload, faSearch, faSyncAlt, faTimesCircle, faUserPlus } from "@fortawesome/free-solid-svg-icons";
-import Modal from "./AdminDatabaseModal";
-import { Accordion } from "react-bootstrap";
+import { faEdit, faFileDownload, faFileUpload, faSyncAlt, faUserPlus } from "@fortawesome/free-solid-svg-icons";
+import Modal from "../components/AdminDatabaseModal";
 
 export default function Manager(props) {
     const [uploadModalAppear, setUploadModal] = useState(false);
@@ -11,18 +10,10 @@ export default function Manager(props) {
     const [search, setSearch] = useState(false);
     const [modify, setModify] = useState(false);
 
-    function Search() {
-        setSearch(!search);
-        modify ? setModify(!modify) : setModify(modify);
-    }
-
-
     function Modify() {
         setModify(!modify);
         search ? setSearch(!search) : setSearch(search);
     }
-
-
 
     function UploadModal() {
         setUploadModal(!uploadModalAppear);
@@ -36,7 +27,7 @@ export default function Manager(props) {
         window.location.reload(false);
     }
 
-    function Download(){
+    function Download() {
         props.Download();
     }
 
@@ -56,10 +47,8 @@ export default function Manager(props) {
                         {uploadModalAppear ? <Modal ModalClose={UploadModal} title="Feltöltés" message="" button="Feltöltés" show={uploadModalAppear} type="File"></Modal> : <></>}
                     </div>
                     <hr />
-
                 </div>
             }
-
         </div>
     );
 }

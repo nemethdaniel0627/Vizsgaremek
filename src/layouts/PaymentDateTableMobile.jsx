@@ -1,16 +1,12 @@
 
-import React, { useEffect } from "react";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleDoubleDown, faAngleDoubleUp } from "@fortawesome/free-solid-svg-icons";
-import DateLoader from "./PaymentDateTableLoader";
-import PaymentTableDateArray from "./PaymentTableDatesArray";
+import React from "react";
+import DateLoader from "../components/PaymentDateTableLoader";
 
 export default function PaymentDateTable(props) {
     const date = new Date();
     const monthNames = ["Január", "Február", "Március", "Április", "Május", "Június",
         "Július", "Augusztus", "Szeptember", "October", "November", "December"
-    ];
-    const forFor = [0, 1, 2, 3, 4, 5];
+    ];    
     const dates = props.dates;
 
 
@@ -304,35 +300,3 @@ export default function PaymentDateTable(props) {
         </div>
     );
 }
-
-
-
-function Opacity(props) {
-    if (document.getElementsByClassName('meal_' + props)[0].style.display === 'block') {
-        for (const meals of document.getElementsByClassName('cal-meals-display')) {
-            meals.style = "display: none";
-        }
-
-    } else {
-
-        for (const meals of document.getElementsByClassName('cal-meals-display')) {
-            meals.style = "display: none";
-        }
-
-        for (const meals of document.getElementsByClassName('meal_' + props)) {
-            meals.style = "display: block";
-        }
-    }
-}
-
-function isInTheSameRow() {
-    for (const meals of document.getElementsByClassName('cal-meals-display')) {
-        meals.style = "display: none";
-    }
-    for (const item of document.getElementsByClassName('cal-meals-display')) {
-        if (item.className.split(' ')[0].split('_')[1] === document.querySelector(".cal-today tbody").className.split(" ")[0].split("_")[1]) {
-            item.style = "display:block";
-        }
-    }
-}
-

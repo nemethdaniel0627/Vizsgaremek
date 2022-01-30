@@ -1,4 +1,3 @@
-import React from "react";
 var date = new Date();
 
 export default function PaymentTableDateArray() {
@@ -22,10 +21,10 @@ export default function PaymentTableDateArray() {
                 x + y * 7 > lastDayInTheMonth((month + 1 > 12 ? 1 : month + 1))
                     ? x + y * 7 - lastDayInTheMonth((month + 1 > 12 ? 1 : month + 1))
                     : x + y * 7;
-            if (x + y * 7 > lastDayInTheMonth((month + 1 > 12 ? 1 :  month + 1))) {
-                day = { day: dayDate, month: "-1" ,cancel: null};
+            if (x + y * 7 > lastDayInTheMonth((month + 1 > 12 ? 1 : month + 1))) {
+                day = { day: dayDate, month: "-1", cancel: null };
             } else {
-                day = { day: dayDate, month: (month + 1 > 12 ? 1 : month + 1) ,cancel: false};
+                day = { day: dayDate, month: (month + 1 > 12 ? 1 : month + 1), cancel: false };
             }
             dates.push(day);
         }

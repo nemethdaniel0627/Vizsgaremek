@@ -1,7 +1,6 @@
 import { faUserPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
-import login_icon from "../images/icon.png";
 export default function RegisterForm(props) {
 
     const [selected, setSelect] = useState(-1);
@@ -33,11 +32,11 @@ export default function RegisterForm(props) {
                                         </div>
 
                                         <div className="form-outline form-white mb-4">
-                                            <input type="text" className="form-control form-control-lg fs-4 --input" placeholder="Osztály"  required name="name" />
+                                            <input type="text" className="form-control form-control-lg fs-4 --input" placeholder="Osztály" required name="name" />
                                         </div>
 
                                         <div className="form-outline form-white mb-4">
-                                            <input type="number" className="form-control form-control-lg fs-4 --input" placeholder="OM azonosító"  required name="name" />
+                                            <input type="number" className="form-control form-control-lg fs-4 --input" placeholder="OM azonosító" required name="name" />
                                         </div>
 
                                         <div className="form-outline form-white mb-4">
@@ -80,6 +79,7 @@ export default function RegisterForm(props) {
 
 
                                 <div>
+                                    {/*eslint-disable-next-line jsx-a11y/anchor-is-valid*/}
                                     <p className="mb-0">Van fiókod? <a className="text-white-50 fw-bold page-changer" onClick={RegisterOff}>Bejeletkezés</a></p>
                                 </div>
 

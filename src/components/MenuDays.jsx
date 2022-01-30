@@ -1,8 +1,6 @@
 import { faCheck, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React from "react";
-import { useState } from "react";
-import { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
 export default function MenuDays(props) {
 
@@ -102,7 +100,7 @@ export default function MenuDays(props) {
                         <div className="menu--day-table--meals--infos--allergen">Allergének: {meal[8]}</div>
                     </div> : <i />}
                 </span>
-            })}            
+            })}
         </label>
     )
 }

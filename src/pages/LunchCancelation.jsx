@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import DateSelector from "./DateSelector";
+import DateSelector from "../layouts/DateSelector";
 import Menu from "./Menu";
-import modules from "../modules/modules";
+import modules from "../helpers/modules";
 
 export default function LunchCancelation() {
     const [isMenuChecked, setIsMenuChecked] = useState(true);
@@ -19,7 +19,7 @@ export default function LunchCancelation() {
         //     return [...prevDays, day]
         // });        
         if (day !== 0) {
-            for (let i = 1; i <= day; i++) {                
+            for (let i = 1; i <= day; i++) {
                 if (i === day && time >= 830) {
                     setDisabledDays((prevDays) => {
                         return [...prevDays, (i + 1)]
@@ -49,8 +49,8 @@ export default function LunchCancelation() {
 
     useEffect(() => {
         createDisabledDays();
-        
-    }, [])   
+
+    }, [])
 
     return (
         <div className="lunch-cncl--container">
