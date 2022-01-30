@@ -67,29 +67,45 @@
 }
 
 .Report-Modal{
-
-  textarea{
-    resize: none;
+  .modal-content{
+    border-radius: 2em;
+  }
+  .modal-header{
+    border-radius: 1.7em 1.7em 0 0 ;
   }
 
-  .btn-cancel, .btn-send{
-    border-radius: 1em;
-    padding: 0.2em 1em;
-    font-weight: 800;
-
-    border: 1px solid #000000a0;
-    color:#000000a0;
-
-    transition: 0.5s;
-  }
-
-  .btn-send:hover{
-    border: 1px solid #0011ff;
-    color:#0011ff;
-  }
-
-  .btn-cancel:hover{
-      border: 1px solid #ff2121;
-      color:#ff2121;
+  .Report-Modal--body{
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  
+    textarea{
+      resize: none;
+      border-radius: 1em !important;
+    }
+  
+    input[type=text]{
+      border-radius: 1em !important;
+    }
+  
+    .btn-cancel, .btn-send{
+      border-radius: 1em;
+      padding: 0.2em 1em;
+      font-weight: 800;
+  
+      border: 1px solid #000000a0;
+      color:#000000a0;
+  
+      transition: 0.5s;
+    }
+  
+    .btn-send:hover{
+      border: 1px solid #0011ff;
+      color:#0011ff;
+    }
+  
+    .btn-cancel:hover{
+        border: 1px solid #ff2121;
+        color:#ff2121;
+    }
   }
 }
+
