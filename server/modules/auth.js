@@ -40,9 +40,9 @@ class Auth {
             if (isPasswordMatching) {
                 user.password = undefined;
                 const loginUserId = await USER.getBy("id", `omAzon = "${user.userName}"`);
-                // await sqlQueries.CreateConnection();
+                if (await sqlQueries.isConnection() === false) await sqlQueries.CreateConnection();
                 const roles = await sqlQueries.select("user_role", "roleId", `userId = ${loginUserId}`);
-                // await sqlQueries.EndConnection();
+                await sqlQueries.EndConnection();
                 return {
                     tokenData: this.#createToken(loginUserId, { roles: roles[0][0] }),
                     user: user

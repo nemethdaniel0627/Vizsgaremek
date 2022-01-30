@@ -31,10 +31,10 @@ app.post("/etlap", async (req, res) => {
   let excelRows = req.body.excelRows;
   const setDate = req.body.date;
 
-  // await sqlQueries.CreateConnection();
+  if (await sqlQueries.isConnection() === false) await sqlQueries.CreateConnection();
   const selectDaysId = await sqlQueries.select("days", "id", `datum = "${setDate}"`);
   if (selectDaysId.length === 0) {
-    // await sqlQueries.EndConnection();
+    await sqlQueries.EndConnection();
     const menu = await menuConvert.convert(excelRows);
     
     let date = new Date(setDate);
@@ -115,12 +115,12 @@ app.delete("/delete", async (req, res) => {
 })
 
 app.post("/order", async (req, res) => {
-  const o = await order.order(10, [true, false, true, false, true], '2021-12-22');
+  const o = await order.order(10, [true, false, true, false, true], '2022-01-28');
   res.send(o);
 })
 
 app.post("/cancel", async (req, res) => {
-  const o = await order.cancelOrder(1, [1, 0, 0, 0, 1], '2021-12-21');
+  const o = await order.cancelOrder(10, [1, 0, 0, 0, 1], '2022-01-28');
   res.send(o);
 })
 
