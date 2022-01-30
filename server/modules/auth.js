@@ -16,10 +16,10 @@ class Auth {
             const created = await USER.add(`${user.userName};${hashedPassword};${user.name};${user.iskolaOM};${user.osztaly};${user.email}`);
             if (created) {
                 const createdUserId = await USER.getBy("id", `omAzon = "${user.userName}"`);
-                // await sqlQueries.CreateConnection();
+                if (await sqlQueries.isConnection() === false) await sqlQueries.CreateConnection();
                 await sqlQueries.insert("user_role", "userId, roleId", `${createdUserId}, 2`);
                 const roles = await sqlQueries.select("user_role", "roleId", `userId = ${createdUserId}`);
-                // await sqlQueries.EndConnection();
+                await sqlQueries.EndConnection();
                 user.password = undefined;
                 return {
                     tokenData: this.#createToken(createdUserId, { roles: roles[0] }),
