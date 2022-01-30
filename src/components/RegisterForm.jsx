@@ -2,6 +2,8 @@ import { faUserPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
 import login_icon from "../images/icon.png";
+import emailjs, { send } from 'emailjs-com';
+
 export default function RegisterForm(props) {
 
     const [selected, setSelect] = useState(-1);
@@ -14,6 +16,19 @@ export default function RegisterForm(props) {
         props.RegisterOff();
     }
 
+    function Regist(e) {
+        e.preventDefault();
+
+        emailjs.send('gmail', 'registration', {
+            name: "Teszt Elek",
+            subject: "Sikeres regisztráció",
+            email: ""
+        }, 'user_o4UcHcGE4vZKf1FT7oMAO').then((result) => {
+        }, (error) => {
+            console.log(error.text);
+        });
+    }
+
     return (
         <section className="gradient-custom login register">
             <div className="container py-5">
@@ -21,7 +36,7 @@ export default function RegisterForm(props) {
                     <div className="col-12 col-md-8 col-lg-6 col-xl-5">
                         <div className="card text-white">
                             <div className="card-body p-5 text-center">
-                                <form action="">
+                                <form action="" onSubmit={Regist}>
                                     <div className="mb-md-5 mt-md-4 pb-5">
                                         <div className="justify-content-center d-flex row mb-5">
                                             <h2 className="fw-bold text-uppercase --header"> <FontAwesomeIcon icon={faUserPlus} /> {props.title}</h2>
@@ -33,11 +48,11 @@ export default function RegisterForm(props) {
                                         </div>
 
                                         <div className="form-outline form-white mb-4">
-                                            <input type="text" className="form-control form-control-lg fs-4 --input" placeholder="Osztály"  required name="name" />
+                                            <input type="text" className="form-control form-control-lg fs-4 --input" placeholder="Osztály" required name="name" />
                                         </div>
 
                                         <div className="form-outline form-white mb-4">
-                                            <input type="number" className="form-control form-control-lg fs-4 --input" placeholder="OM azonosító"  required name="name" />
+                                            <input type="number" className="form-control form-control-lg fs-4 --input" placeholder="OM azonosító" required name="name" />
                                         </div>
 
                                         <div className="form-outline form-white mb-4">

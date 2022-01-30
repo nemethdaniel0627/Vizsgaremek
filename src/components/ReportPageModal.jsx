@@ -10,6 +10,8 @@ export default function ReportPageModal(props) {
     const [sended, changeSended] = useState(false);
     const [sending, changeSending] = useState(false);
 
+    const [error, setError] = useState(false);
+
     function ModalClose() {
         changeSended(false);
         props.ModalClose();
@@ -24,39 +26,49 @@ export default function ReportPageModal(props) {
         changeSending(!sending);
     }
 
-    function sendEmail(e) {
-        Sending();
-        e.preventDefault();
-        
-        emailjs.send('gmail', 'thxForReport', {
-            message_where: document.getElementById('message_where').value,
-            message_what: document.getElementById('message_what').value,
-            from: props.user.nev,
-            class: props.user.osztaly,
-            email: props.user.email
-        }, 'user_o4UcHcGE4vZKf1FT7oMAO').then((result) => {
-            console.log(result.text);
-            Send();
-        }, (error) => {
-            console.log(error.text);
-        });
+    function Checking() {
+        setError(false);
+        return document.getElementById('message_where').value !== "" && document.getElementById('message_what').value !== "" ? true : false;
+    }
 
+    function sendEmail(e) {
+        if (Checking()) {
+            Sending();
+            e.preventDefault();
+
+            emailjs.send('gmail', 'thxForReport', {
+                message_where: document.getElementById('message_where').value,
+                message_what: document.getElementById('message_what').value,
+                from: props.user.nev,
+                class: props.user.osztaly,
+                email: props.user.email
+            }, 'user_o4UcHcGE4vZKf1FT7oMAO').then((result) => {
+                Send();
+            }, (error) => {
+                console.log(error.text);
+            });
+
+        }else{
+            setError(true);
+        }
 
     }
 
 
+
+
     function ErrorModal() {
         return (
-            <div className="fs-4 ">
+            <div className="fs-4 text-center">
                 <div className="input-group mb-3">
                     <label htmlFor="where_error" className="mb-2">Hol a hiba?</label>
                     <input type="text" id="message_where" className="w-100 form-control" name="message_where" />
                 </div>
-                <div className="input-group mb-3">
+                <div className="input-group mb-5">
                     <label htmlFor="error" className="mb-2">Hiba rövid leírása:</label>
                     <textarea className="w-100 form-control" name="" id="message_what" cols="30" rows="10" name="message_what"></textarea>
                 </div>
-
+                {error ? <span className="alert alert-danger mb-2">Nincs kitöltve minden adat!</span> : <></>}
             </div>
         );
     }
@@ -90,7 +102,7 @@ export default function ReportPageModal(props) {
             <div className="fs-4 ">
                 <div disabled>
                     <span className="spinner-border" role="status" aria-hidden="true"></span>
-                     <strong>E-mail küldése...</strong>
+                    <strong>E-mail küldése...</strong>
                 </div>
             </div>
         );
