@@ -1,25 +1,60 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faExclamationTriangle, faPaperPlane, faTimesCircle } from "@fortawesome/free-solid-svg-icons";
+import { faCheckCircle, faExclamationTriangle, faPaperPlane, faTimesCircle } from "@fortawesome/free-solid-svg-icons";
 import React, { useState } from "react";
 import Modal from "react-bootstrap/Modal";
+import emailjs, { send } from 'emailjs-com';
 
 export default function ReportPageModal(props) {
 
+
+    const [sended, changeSended] = useState(false);
+    const [sending, changeSending] = useState(false);
+
     function ModalClose() {
+        changeSended(false);
         props.ModalClose();
+    }
+
+    function Send() {
+        changeSended(!sended);
+        changeSending(false);
+    }
+
+    function Sending() {
+        changeSending(!sending);
+    }
+
+    function sendEmail(e) {
+        Sending();
+        e.preventDefault();
+        
+        emailjs.send('gmail', 'thxForReport', {
+            message_where: document.getElementById('message_where').value,
+            message_what: document.getElementById('message_what').value,
+            from: props.user.nev,
+            class: props.user.osztaly,
+            email: props.user.email
+        }, 'user_o4UcHcGE4vZKf1FT7oMAO').then((result) => {
+            console.log(result.text);
+            Send();
+        }, (error) => {
+            console.log(error.text);
+        });
+
+
     }
 
 
     function ErrorModal() {
         return (
-            <div className="fs-4 admin-modal">
+            <div className="fs-4 ">
                 <div className="input-group mb-3">
                     <label htmlFor="where_error" className="mb-2">Hol a hiba?</label>
-                    <input type="text" id="where_error" className="w-100 form-control" />
+                    <input type="text" id="message_where" className="w-100 form-control" name="message_where" />
                 </div>
                 <div className="input-group mb-3">
                     <label htmlFor="error" className="mb-2">Hiba rövid leírása:</label>
-                    <textarea className="w-100 form-control" name="" id="error" cols="30" rows="10"></textarea>
+                    <textarea className="w-100 form-control" name="" id="message_what" cols="30" rows="10" name="message_what"></textarea>
                 </div>
 
             </div>
@@ -28,7 +63,7 @@ export default function ReportPageModal(props) {
 
     function EmailModal() {
         return (
-            <div className="fs-4 admin-modal">
+            <div className="fs-4">
                 <div className="input-group mb-3">
                     <label htmlFor="where_error" className="mb-2">Tárgy:</label>
                     <input type="text" id="where_error" className="w-100 form-control" />
@@ -42,33 +77,53 @@ export default function ReportPageModal(props) {
         );
     }
 
+    function EmailSendedBody() {
+        return (
+            <div className="fs-4 ">
+                <h2>E-mail elküldve!</h2>
+            </div>
+        );
+    }
+
+    function EmailSending() {
+        return (
+            <div className="fs-4 ">
+                <div disabled>
+                    <span className="spinner-border" role="status" aria-hidden="true"></span>
+                     <strong>E-mail küldése...</strong>
+                </div>
+            </div>
+        );
+    }
+
 
     return (
-        <div >
+        <form>
             <Modal show={props.show} className="Report-Modal">
                 <Modal.Header closeButton>
                     <Modal.Title>{props.type === "error" ? <span className="fw-bold fs-2">Hiba jelentés</span> : props.type === "email" ? <span className="fw-bold fs-2">E-mail küldés</span> : <></>}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body className="Report-Modal--body">
-                    {props.type === "error" ? <ErrorModal/> : props.type === "email" ? <EmailModal/> : <></>}
+                    {sending ? <EmailSending /> : sended ? <EmailSendedBody /> : props.type === "error" ? <ErrorModal /> : props.type === "email" ? <EmailModal /> : <></>}
                 </Modal.Body>
                 <Modal.Footer className="Report-Modal--body">
-                    {props.type === "error" ? <button type="button" className="btn btn-send fs-4">
+                    {sended ? <></> : props.type === "error" ? <button type="submit" className="btn btn-send fs-4" onClick={sendEmail} disabled={sending}>
                         <FontAwesomeIcon icon={faExclamationTriangle} /> <span> Jelentés</span>
-                    </button> : props.type === "email" ? <button type="button" className="btn btn-send fs-4">
+                    </button> : props.type === "email" ? <button type="submit" className="btn btn-send fs-4" disabled={sending}>
                         <FontAwesomeIcon icon={faPaperPlane} /> <span> Küldés</span>
                     </button> : <></>}
                     <button
                         type="button"
-                        className="btn btn-cancel fs-4"
+                        className={"btn fs-4" + (sended ? " btn-send" : " btn-cancel")}
                         data-bs-dismiss="modal"
                         onClick={ModalClose}
+                        disabled={sending}
                     >
-                        <FontAwesomeIcon icon={faTimesCircle} /> Mégsem
+                        {sended ? <span><FontAwesomeIcon icon={faCheckCircle} /> Értem</span> : <span><FontAwesomeIcon icon={faTimesCircle} /> Mégsem</span>}
                     </button>
                 </Modal.Footer>
             </Modal>
 
-        </div>
+        </form>
     );
 }

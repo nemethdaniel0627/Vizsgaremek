@@ -109,9 +109,8 @@ export default function App() {
                 <AuthRoute path="/adatlap" auth="user" component={() =>
                     <AccountPage user={user} />
                 } />
-
                 <AuthRoute path="/kapcsolat" auth="user" component={() =>
-                    <ReportPage />
+                    <ReportPage user={user}/>
                 } />
 
 
