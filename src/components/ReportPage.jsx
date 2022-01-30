@@ -35,12 +35,13 @@ export default function ReportPage(props) {
             <span className="--space"></span>
             <div className="col-12 col-lg-4"><ReportPageCard title="Hiba jelentés" type="error" button="true" ErrorSendRequest={ErrorSendRequest} /></div>
             <div className="col-0 col-lg-2"></div>
+            <div className="col-12 col-lg-4"></div>
             <span className="--space d-flex d-lg-none"></span>
-            <div className="col-0 col-lg-4"><ReportPageCard title="Facebook" type="facebook" button="true" /></div>
+            
 
             <span className="--space"></span>
-            <div className="col-12 col-lg-4"><ReportPageCard title="E-mail küldés" type="email" button="true" EmailModal={EmailModal} /></div>
-
+            <div className="col-0 col-lg-4"><ReportPageCard title="Facebook" type="facebook" button="true" /></div>
+            {/* <div className="col-12 col-lg-4"><ReportPageCard title="E-mail küldés" type="email" button="true" EmailModal={EmailModal} /></div> */}
             <div className="col-12 col-lg-2"></div>
             <span className="--space d-flex d-lg-none"></span>
             <div className="col-12 col-lg-4"><ReportPageCard title="+36 40 123 7555" fontSize="small" type="text" header="Telefon:" /></div>
