@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEdit, faFileUpload, faPlus, faTimes, faTimesCircle, faUserPlus, faUserTimes } from "@fortawesome/free-solid-svg-icons";
+import { faEdit, faFileUpload, faPlus, faTimesCircle, faUserPlus, faUserTimes } from "@fortawesome/free-solid-svg-icons";
 import Modal from "react-bootstrap/Modal";
 import Chips from './Chips';
 
@@ -13,7 +13,7 @@ export default function AdminDatabaseModal(props) {
 
   if(props.user !== undefined){
     user = props.user;
-    if (props.user.date && dates.length == 0 && datesBool) {
+    if (props.user.date && dates.length === 0 && datesBool) {
       setDates(props.user.date.split('#'));
       setDatesBool(false);
     }
@@ -28,7 +28,8 @@ export default function AdminDatabaseModal(props) {
     props.user.user=document.getElementById('new_username').value;
     props.user.isPaid=document.getElementById('new_isPaid').checked;
     props.user.value=document.getElementById('new_amount').value ? document.getElementById('new_amount').value + " Ft" : "Nincs befizetve!";
-    !document.getElementById('new_amount').value ? props.user.isPaid=false : props.user.isPaid=props.user.isPaid;
+    let tmpIsPaid = props.user.isPaid;
+    !document.getElementById('new_amount').value ? props.user.isPaid=false : props.user.isPaid = tmpIsPaid;
     props.user.date=dates.join('#');
     ModalClose();
     
@@ -52,12 +53,6 @@ export default function AdminDatabaseModal(props) {
     }
   }
 
-  function NewDateCancelDelete(e) {
-    const id = e.target.id;
-
-    setDates(dates.filter(date => date != id.split('_')[1]));
-  }
-
   function TextAbstract(text, length) {
     if (text == null) {
       return "";
@@ -74,7 +69,7 @@ export default function AdminDatabaseModal(props) {
     setFileURL(TextAbstract(e.target.value,40));
   }
 
-  function FileUploadModal(props) {
+  function FileUploadModal() {
     return (
       <div>
 
@@ -131,7 +126,7 @@ export default function AdminDatabaseModal(props) {
             <span className="input-group-text new-date-add" onClick={NewDateCancel}><FontAwesomeIcon icon={faPlus} /></span>
           </div>
         </div>
-        {dates.lenght != 0 ?
+        {dates.lenght !== 0 ?
           dates.map((date, index) => (
             <Chips key={"c_" + index} date={DateRewrite(date)} />
           )) : <></>}

@@ -1,8 +1,6 @@
 import React from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheckCircle, faClock, faTimesCircle } from "@fortawesome/free-solid-svg-icons";
-import Desktop from "./AccountPageDesktop";
-import Mobile from "./AccountPageMobile";
+import Desktop from "../layouts/AccountPageDesktop";
+import Mobile from "../layouts/AccountPageMobile";
 
 export default function Page(user)
 {

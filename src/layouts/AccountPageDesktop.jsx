@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import {
   faLock,
   faPencilAlt,
@@ -6,9 +7,7 @@ import {
   faUnlock,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React from "react";
-import Activities from "./AccountPageActivities";
-import { useState } from "react";
+import Activities from "../components/AccountPageActivities";
 
 export default function DataPage(user) {
   const [change, changing] = useState(false);

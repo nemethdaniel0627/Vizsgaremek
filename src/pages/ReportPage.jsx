@@ -1,6 +1,5 @@
 import React from "react";
-import ReportPageItems from "./ReportPageItems";
-import contantIMG from "../images/icon.png";
+import ReportPageItems from "../components/ReportPageItems";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExclamationTriangle } from "@fortawesome/free-solid-svg-icons";
 

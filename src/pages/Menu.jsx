@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import MenuDays from "./MenuDays";
+import MenuDays from "../components/MenuDays";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import axios from "axios";
 import { URL, allgergens } from "../utils/constants";
-import DaySelector from "./DaySelector";
-import modules from "../modules/modules";
+import DaySelector from "../components/DaySelector";
+import modules from "../helpers/modules";
 
 export default function Menu(props) {
     const [displayWeek, setDisplayWeek] = useState();
@@ -169,10 +169,15 @@ export default function Menu(props) {
 
     }, [firstDay])
 
-    useEffect(() => {
+    function getDates(tmpSelectedDates) {
         if (props.getDates) {
-            props.getDates(selectedDates);
+            props.getDates(tmpSelectedDates);
         }
+    }
+
+    useEffect(() => {
+        getDates(selectedDates);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [selectedDates])
 
     return (

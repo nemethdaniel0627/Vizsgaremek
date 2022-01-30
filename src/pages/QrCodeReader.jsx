@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import QrReader from "react-qr-reader";
-import PermissionPopup from "./PermissionPopup";
+import PermissionPopup from "../components/PermissionPopup";
 
 export default function QrCodeReader() {
     const [isCamera, setIsCamera] = useState(false);

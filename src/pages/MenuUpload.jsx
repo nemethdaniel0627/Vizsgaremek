@@ -5,7 +5,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import XLSX from 'xlsx';
 import { URL } from '../utils/constants.js';
-import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 import { Alert, AlertTitle, TextField, Collapse, IconButton } from "@mui/material";
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
@@ -16,7 +16,7 @@ import isSameDay from 'date-fns/isSameDay';
 import isWithinInterval from 'date-fns/isWithinInterval';
 import startOfWeek from 'date-fns/startOfWeek';
 import locale from 'date-fns/locale/hu'
-import modules from "../modules/modules.js";
+import modules from "../helpers/modules.js";
 
 const CustomPickersDay = styled(PickersDay, {
     shouldForwardProp: (prop) =>
@@ -143,8 +143,6 @@ export default function MenuUpload() {
         // Upload File Function
         function uploadFile(file) {
             try {
-                // FileReader()
-                const fileReader = new FileReader();
                 // File Type 
                 const fileType = file.type;
                 // File Size 

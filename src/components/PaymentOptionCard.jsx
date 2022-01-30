@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 
 export default function PaymentOptionCard(props) {
-  const [modify, cheking] = useState(false);
-  const [type] = useState(props.name);
+  const [modify, cheking] = useState(false);  
 
   function btnClick(event) {
     cheking(!modify);
