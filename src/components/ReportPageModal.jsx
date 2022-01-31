@@ -14,16 +14,19 @@ export default function ReportPageModal(props) {
 
     function ModalClose() {
         changeSended(false);
+        setError(false);
         props.ModalClose();
     }
 
     function Send() {
         changeSended(!sended);
         changeSending(false);
+        setCheck(true);
     }
 
     function Sending() {
         changeSending(!sending);
+        setCheck(false);
     }
 
     function Checking() {
@@ -48,18 +51,21 @@ export default function ReportPageModal(props) {
                 console.log(error.text);
             });
 
-        }else{
+        } else {
             setError(true);
         }
 
     }
 
+    const [check, setCheck] = useState(false);
 
-
+    function CheckboxChange(e){
+        setCheck(e.target.checked);
+    }
 
     function ErrorModal() {
         return (
-            <div className="fs-4 text-center">
+            <div className="fs-4 text-center ReportModal">
                 <div className="input-group mb-3">
                     <label htmlFor="where_error" className="mb-2">Hol a hiba?</label>
                     <input type="text" id="message_where" className="w-100 form-control" name="message_where" />
@@ -68,7 +74,13 @@ export default function ReportPageModal(props) {
                     <label htmlFor="error" className="mb-2">Hiba rövid leírása:</label>
                     <textarea className="w-100 form-control" name="" id="message_what" cols="30" rows="10" name="message_what"></textarea>
                 </div>
-                {error ? <span className="alert alert-danger mb-2">Nincs kitöltve minden adat!</span> : <></>}
+                <div className="form-check checkbox">
+                    <input className="form-check-input" type="checkbox" id="hozza" onChange={CheckboxChange}/>
+                        <label className="form-check-label" htmlFor="hozza">
+                            Hozzájárulok az adataim elküldésére
+                        </label>
+                </div>
+                {error ? <span className="alert alert-danger mb-2 ">Nincs kitöltve minden adat!</span> : <></>}
             </div>
         );
     }
@@ -119,7 +131,7 @@ export default function ReportPageModal(props) {
                     {sending ? <EmailSending /> : sended ? <EmailSendedBody /> : props.type === "error" ? <ErrorModal /> : props.type === "email" ? <EmailModal /> : <></>}
                 </Modal.Body>
                 <Modal.Footer className="Report-Modal--body">
-                    {sended ? <></> : props.type === "error" ? <button type="submit" className="btn btn-send fs-4" onClick={sendEmail} disabled={sending}>
+                    {sended ? <></> : props.type === "error" ? <button type="submit" className="btn btn-send fs-4" onClick={sendEmail} disabled={!check}>
                         <FontAwesomeIcon icon={faExclamationTriangle} /> <span> Jelentés</span>
                     </button> : props.type === "email" ? <button type="submit" className="btn btn-send fs-4" disabled={sending}>
                         <FontAwesomeIcon icon={faPaperPlane} /> <span> Küldés</span>
