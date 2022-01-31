@@ -68,7 +68,7 @@ class Auth {
     }
 
     #createToken(userId, options = null) {
-        const expiresIn = 60; // 1 day
+        const expiresIn = 60 * 60 * 24; // 1 day
         const secret = process.env.JWT_SECRET;
         const dataStoredInToken = userId.toString();
         return {

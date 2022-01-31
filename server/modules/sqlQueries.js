@@ -22,6 +22,7 @@ class sqlQueries {
 
     async insert(tableName, fields, values) {
         try {
+            if (await this.isConnection() === false) await this.CreateConnection();
             let [results, resultInfo] = await this._connection.execute(`INSERT INTO ${tableName} (${fields}) VALUES (${values});`);
             return results;
         } catch (error) {
@@ -31,6 +32,7 @@ class sqlQueries {
 
     async select(tableName, field, conditions) {
         try {
+            if (await this.isConnection() === false) await this.CreateConnection();
             let [results, resultInfo] = await this._connection.query(`SELECT ${field} FROM ${tableName} WHERE ${conditions}`);
             return results;
         } catch (error) {
@@ -40,6 +42,7 @@ class sqlQueries {
 
     async selectAll(tableName) {
         try {
+            if (await this.isConnection() === false) await this.CreateConnection();
             let [results, resultInfo] = await this._connection.query(`SELECT * FROM ${tableName}`);
             return results;
         } catch (error) {
@@ -49,6 +52,7 @@ class sqlQueries {
 
     async innerSelect(tableName, fields, innerJoins, conditions) {
         try {
+            if (await this.isConnection() === false) await this.CreateConnection();
             let [results, resultInfo] = await this._connection.query(`SELECT ${fields} FROM ${tableName} ${innerJoins} WHERE ${conditions}`);
             return results
         } catch (error) {
@@ -58,6 +62,7 @@ class sqlQueries {
 
     async delete(tableName, conditions) {
         try {
+            if (await this.isConnection() === false) await this.CreateConnection();
             let [results, resultInfo] = await this._connection.query(`DELETE FROM ${tableName} WHERE ${conditions}`);
             return results;
         } catch (error) {
@@ -67,6 +72,7 @@ class sqlQueries {
 
     async update(tableName, sets, conditions) {
         try {
+            if (await this.isConnection() === false) await this.CreateConnection();
             let [results, resultInfo] = await this._connection.query(`UPDATE ${tableName} SET ${sets} WHERE ${conditions}`);
             return results;
         } catch (error) {
@@ -75,6 +81,4 @@ class sqlQueries {
     }
 }
 
-module.exports = new sqlQueries()
-
-
+module.exports = new sqlQueries();

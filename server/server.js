@@ -115,20 +115,20 @@ app.delete("/delete", async (req, res) => {
 })
 
 app.post("/order", async (req, res) => {
-  const o = await order.order(10, [true, false, true, false, true], '2022-01-28');
+  const o = await order.order(6, [true, false, true, false, true], '2022-01-31');
   res.send(o);
 })
 
 app.post("/cancel", async (req, res) => {
-  const o = await order.cancelOrder(10, [1, 0, 0, 0, 1], '2022-01-28');
+  const o = await order.cancelOrder(6, [1, 0, 0, 0, 1], '2022-01-31');
   res.send(o);
 })
 
 app.post("/test", async (req, res) => {
-  const create = await test.generate('users2.txt', 82);
-  res.send(create);
-  // const sum = await order.userOrdersByMenuId(1, '2021-12-21');
-  // res.send(sum);
+  // const create = await test.generate('users2.txt', 82);
+  // res.send(create);
+  const sum = await order.userOrdersByMenuId(6, '2022-01-31');
+  res.send(sum);
 })
 
 app.get("/", (req, res) => {
