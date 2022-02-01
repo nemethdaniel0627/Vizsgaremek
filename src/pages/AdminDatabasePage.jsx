@@ -8,7 +8,7 @@ import ManagerSearchBar from "../components/AdminDatabaseManagerSearch";
 
 import { Accordion } from "react-bootstrap";
 
-export default function AdminDatabasePage() {
+export default function AdminDatabasePage(props) {
 
     let isMobile = false;
     if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
@@ -60,9 +60,6 @@ export default function AdminDatabasePage() {
         document.body.removeChild(link);
 
     }
-
-
-
 
     return (
         <div className="admin-db">
