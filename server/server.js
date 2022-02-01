@@ -74,7 +74,7 @@ app.post("/user", auth.tokenAutheticate, async (req, res) => {
   else res.notFound();
 })
 
-app.post("/token", auth.tokenAutheticate, (req, res) => {
+app.post("/token", auth.tokenAutheticate, (req, res) => {  
   res.json({ message: "Ok" });
 })
 
