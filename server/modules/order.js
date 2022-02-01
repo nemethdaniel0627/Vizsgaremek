@@ -145,7 +145,6 @@ class Order {
 
     async cancelOrder(userId, meals, date) {
         if (meals.length !== 5) return 'Meals array error';
-        if (meals[0] === 0 && meals[1] === 0 && meals[2] === 0 && meals[3] === 0 && meals[4] === 0) return 'Idiot';
         const orders = await this.getOrdersByUserId(userId);
         if (orders === -1) return `No user with ${userId} ID`;
         if (orders === 0) return `No order with this ID: ${userId}`;
@@ -153,12 +152,23 @@ class Order {
         if (menuId === -1) return `No order for this date: ${date}`;
 
         if (await sqlQueries.isConnection() === false) await sqlQueries.CreateConnection();
-        const orderExists = await sqlQueries.select(
+        let ordered = await sqlQueries.select(
             'orders',
-            'id',
+            'reggeli, ' +
+            'tizorai, ' +
+            'ebed, ' +
+            'uzsonna, ' +
+            'vacsora', 
             `orders.menuId = ${menuId} AND orders.userId = ${userId} AND orders.lemondva IS NULL`);
-        if (orderExists.length === 0) return `No order for ${date} with ID ${userId}`;
+        if (ordered.length === 0) return `No order for ${date} with ID ${userId}`;
 
+        ordered = ordered[0]
+        let equals = true;
+        for (let i = 0; i < ordered.length; i++) {
+            if (ordered[i] !== meals[i]) equals = false;
+        }
+        if (equals) return 'Nothing cancelled';
+        
         const underCancellation = await sqlQueries.select(
             'orders',
             'id',
