@@ -1,5 +1,13 @@
 module.exports.exception = function (req, res, next) {
 
+    res.ok = function () {
+        return res.status(200).json({message: "Sikeres művelet"});
+    }
+
+    res.created = function () {
+        return res.status(201).json({message: "Sikeresen létrehozva"});
+    }
+
     res.badRequest = function () {
         return res.status(401).json({message: "Nincs ilyen művelet"});
     }

@@ -9,7 +9,7 @@ const databaseDownload = require('./modules/databaseDownload');
 const user = require('./modules/user');
 const test = require('./modules/test');
 const auth = require('./modules/auth');
-const Exception = require('./exceptions/Exceptions');
+const exception = require('./exceptions/exceptions');
 const order = require('./modules/order');
 
 const app = express();
@@ -20,7 +20,7 @@ const buildPath = path.join(__dirname, '..', 'build');
 app.use(express.static(buildPath));
 app.use(express.json());
 app.use(cors());
-app.use(Exception.exception)
+app.use(exception.exception)
 
 app.get("/etlap", async (req, res) => {
   const menu = await databaseDownload.getMenu(new Date());  
@@ -31,10 +31,10 @@ app.post("/etlap", async (req, res) => {
   let excelRows = req.body.excelRows;
   const setDate = req.body.date;
 
-  await sqlQueries.CreateConnection();
+  if (await sqlQueries.isConnection() === false) await sqlQueries.CreateConnection();
   const selectDaysId = await sqlQueries.select("days", "id", `datum = "${setDate}"`);
   if (selectDaysId.length === 0) {
-    await sqlQueries.EndConnection();    
+    await sqlQueries.EndConnection();
     const menu = await menuConvert.convert(excelRows);
     
     let date = new Date(setDate);
@@ -105,30 +105,30 @@ app.post("/login", async (req, res) => {
 });
 
 app.put("/update", async (req, res) => {
-  const count = await user.modify('felhasznaloNev = 123456789', 'felhasznaloNev = 723011004754');
+  const count = await user.modify('omAzon = 72339825529', 'omAzon = 72339825529');
   res.send(`${count} record(s) updated`);
 })
 
 app.delete("/delete", async (req, res) => {
-  const count = await user.delete('nev = "Teszt Elek1"');
+  const count = await user.delete('omAzon = 72339825529');
   res.send(`${count} record(s) deleted`);
 })
 
 app.post("/order", async (req, res) => {
-  const o = await order.order(10, [true, false, true, false, true], '2021-12-22');
+  const o = await order.order(6, [true, false, true, false, true], '2022-01-31');
   res.send(o);
 })
 
 app.post("/cancel", async (req, res) => {
-  const o = await order.cancelOrder(1, [1, 0, 0, 0, 1], '2021-12-21');
+  const o = await order.cancelOrder(6, [1, 0, 0, 0, 1], '2022-01-31');
   res.send(o);
 })
 
 app.post("/test", async (req, res) => {
-  const create = await test.generate('users2.txt', 82);
-  res.send(create);
-  // const sum = await order.userOrdersByMenuId(1, '2021-12-21');
-  // res.send(sum);
+  // const create = await test.generate('users2.txt', 82);
+  // res.send(create);
+  const sum = await order.userOrdersByMenuId(6, '2022-01-31');
+  res.send(sum);
 })
 
 app.get("/", (req, res) => {

@@ -10,7 +10,7 @@ class databaseDownload {
         const startDate = functions.convertDateWithDash(date);        
         date.setDate(date.getDate() + 6);
         const endDate = functions.convertDateWithDash(date);        
-        await sqlQueries.CreateConnection(true);
+        if (await sqlQueries.isConnection() === false) await sqlQueries.CreateConnection(true);
         const menu = await sqlQueries.innerSelect(
             "menu",
             "mealReggeli.*," +
@@ -46,9 +46,9 @@ class databaseDownload {
     }
 
     async getUser(userOM) {
-        let tmpUser = await user.getBy('*', `felhasznaloNev = ${userOM}`);
+        let tmpUser = await user.getBy('*', `omAzon = ${userOM}`);
         tmpUser = tmpUser[0];
-        await sqlQueries.CreateConnection();
+        if (await sqlQueries.isConnection() === false) await sqlQueries.CreateConnection();
         let order = await sqlQueries.select('orders', '*', `userId = ${tmpUser.id}`);
         order = order[0];
         await sqlQueries.EndConnection();
@@ -64,7 +64,6 @@ class databaseDownload {
             iskolaOM: tmpUser.iskolaOM,
             email: tmpUser.email
         };
-        console.log(data);
         return data;
     }
 }
