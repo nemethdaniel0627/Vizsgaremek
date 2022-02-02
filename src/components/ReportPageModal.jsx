@@ -8,6 +8,7 @@ export default function ReportPageModal(props) {
 
 
     const [sended, changeSended] = useState(false);
+    
     const [sending, changeSending] = useState(false);
 
     const [error, setError] = useState(false);
