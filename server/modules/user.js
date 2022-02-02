@@ -51,8 +51,8 @@ class User {
         return added;
     }
 
-    async getAll() {
-        if (await sqlQueries.isConnection() === false) await sqlQueries.CreateConnection();
+    async getAll(isJson) {
+        if (await sqlQueries.isConnection() === false) await sqlQueries.CreateConnection(isJson);
         const all = await sqlQueries.selectAll('user');
         await sqlQueries.EndConnection();
         return all;

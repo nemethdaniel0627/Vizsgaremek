@@ -32,14 +32,14 @@ export default function AdminDatabaseAccodrion(props) {
         <Accordion.Item eventKey={props.eventkey} className="acc">
             <Accordion.Header className={"acc-head " + (props.new ? "acc-head-new" : "")}>
                 {props.new ? <span className="fs-3 new"><FontAwesomeIcon icon={faUserPlus}/></span> :<></>}
-                <span className="fs-3">{props.user.name} - {props.user.class}</span>
+                <span className="fs-3">{props.user.nev} - {props.user.osztaly}</span>
             </Accordion.Header>
             <Accordion.Body className="acc-body">
                 <div className="container mw-100">
                     <div className="row">
                         <div className="col-sm-12 col-lg-6 fs-4 mb-3">
                             <span className="key">Om azonosító:</span>
-                            <span className="me-5 float-end">{props.user.user}</span>
+                            <span className="me-5 float-end">{props.user.omAzon}</span>
 
                         </div>
                         <hr className="col-12 col-lg-0 d-flex d-lg-none"/>
@@ -51,7 +51,7 @@ export default function AdminDatabaseAccodrion(props) {
                         <hr />
                         {!props.new ? <><div className="col-sm-12 col-lg-6 fs-4 mb-3">
                             <span className="key">Befizetve:</span>
-                            <span className={"me-5 float-end" + (props.user.isPaid ? " text-success" : " text-danger")}>{props.user.isPaid ? <FontAwesomeIcon icon={faCheck} /> : <FontAwesomeIcon icon={faTimes} />}</span>
+                            <span className={"me-5 float-end" + (props.user.befizetve ? " text-success" : " text-danger")}>{props.user.befizetve ? <FontAwesomeIcon icon={faCheck} /> : <FontAwesomeIcon icon={faTimes} />}</span>
                         </div>
                         <hr className="col-12 col-lg-0 d-flex d-lg-none"/>
                         <div className="col-sm-12 col-lg-6 fs-4 mb-3">

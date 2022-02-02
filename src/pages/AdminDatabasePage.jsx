@@ -1,14 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
-import Modal from "../components/AdminDatabaseModal";
-import Accord from "../components/AdminDatabaseAccordion";
-import Manager from "../layouts/AdminDatabaseManager";
-import ManagerMobile from "../layouts/AdminDatabaseManagerMobile";
-import ManagerSearchBar from "../components/AdminDatabaseManagerSearch";
+import AdminDatabaseModal from "../components/AdminDatabaseModal";
+import AdminDatabaseAccordion from "../components/AdminDatabaseAccordion";
+import AdminDatabaseManager from "../layouts/AdminDatabaseManager";
+import AdminDatabaseManagerMobile from "../layouts/AdminDatabaseManagerMobile";
+import AdminDatabaseManagerSearch from "../components/AdminDatabaseManagerSearch";
 
 import { Accordion } from "react-bootstrap";
+import axios from "axios";
 
 export default function AdminDatabasePage(props) {
+
+    const [users, setUsers] = useState([])
 
     let isMobile = false;
     if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
@@ -21,13 +24,29 @@ export default function AdminDatabasePage(props) {
     function ModalClose() {
         setModal(!modalAppear);
     }
-    let users = [];
-    const user = { id: 0, name: "Teszt Elek", class: "12.A", email: "teszt.elek@students.jedlik.eu", user: "Teszt.Elek", isPaid: true, value: "15000 Ft", date: "2022-05-16#2022-05-18#2022-05-20" };
+    // let users = [];
+    // // const user = { id: 0, name: "Teszt Elek", class: "12.A", email: "teszt.elek@students.jedlik.eu", user: "Teszt.Elek", isPaid: true, value: "15000 Ft", date: "2022-05-16#2022-05-18#2022-05-20" };
 
-    for (let index = 0; index < 10; index++) {
-        user.id = index;
-        users.push(user);
-    }
+    // for (let index = 0; index < 10; index++) {
+    //     user.id = index;
+    //     users.push(user);
+    // }
+
+    useEffect(() => {
+        axios.get("/alluser",
+            {
+                headers: {
+                    "Authorization": `Baerer ${sessionStorage.getItem("token")}`
+                }
+            })
+            .then(response => {
+                setUsers(response.data);
+                console.log(response.data);
+            })
+            .catch(error => {
+                console.error(error);
+            })
+    }, [])
 
     function Download() {
 
@@ -65,25 +84,25 @@ export default function AdminDatabasePage(props) {
         <div className="admin-db">
 
             <div className="admin-mg">
-                {!isMobile ? <Manager Download={Download}></Manager> : <ManagerMobile Download={Download}></ManagerMobile>}
+                {!isMobile ? <AdminDatabaseManager Download={Download}></AdminDatabaseManager> : <AdminDatabaseManagerMobile Download={Download}></AdminDatabaseManagerMobile>}
             </div>
 
 
-            {modalAppear ? <Modal ModalClose={ModalClose} title="Figyelem" message="Biztosan törölni szeretné?" button="Törlés" show={modalAppear}></Modal> : <></>}
+            {modalAppear ? <AdminDatabaseModal ModalClose={ModalClose} title="Figyelem" message="Biztosan törölni szeretné?" button="Törlés" show={modalAppear}></AdminDatabaseModal> : <></>}
             <div className="container">
                 <div className="row">
                     <div className="col-2 col-lg-2"></div>
                     <div className="col-10 col-lg-10 admin-db-acc mb-5 mb-lg-0 mt-5">
 
-                        <ManagerSearchBar/>
-                        
+                        <AdminDatabaseManagerSearch />
+
 
                         <Accordion>
 
-                            <Accord eventkey='1' user={user} isMobile={isMobile} new="true"></Accord>
+                            <AdminDatabaseAccordion eventkey='1' user={users} isMobile={isMobile} new="true"></AdminDatabaseAccordion>
 
                             {users.map((user, index) => (
-                                <Accord key={index} eventkey={index} user={user} isMobile={isMobile}></Accord>
+                                <AdminDatabaseAccordion key={index} eventkey={index} user={user} isMobile={isMobile}></AdminDatabaseAccordion>
                             ))}
                         </Accordion>
 

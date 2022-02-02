@@ -1,7 +1,8 @@
 const sqlQueries = require("./sqlQueries");
+const functions = require("./functions");
 
 class Order {
-    async getOrdersByUserId(userId) {
+    async isOrderOrUserExists(userId) {
         if (isNaN(Number(userId))) return -1;
         if (await sqlQueries.isConnection() === false) await sqlQueries.CreateConnection();
         const user = await sqlQueries.select('user', '*', `Id = ${userId}`);
@@ -14,6 +15,14 @@ class Order {
         //  0 - van ilyen user, de nincs orderje
         //  1 - van ilyen user és van orderje
     }
+
+    // async getOrdersByUserId(userId) {
+    //     if (isNaN(Number(userId))) return -1;
+    //     if (await sqlQueries.isConnection() === false) await sqlQueries.CreateConnection();
+    //     const orders = await sqlQueries.select('orders', '*', `userId = ${userId}`);
+    //     await sqlQueries.EndConnection();
+    //     return orders;
+    // }
 
     async getAll() {
         if (await sqlQueries.isConnection() === false) await sqlQueries.CreateConnection();
@@ -50,6 +59,20 @@ class Order {
         return order.affectedRows;
     }
 
+    async doesUserHaveOrderForDate(userId, date) {
+        if (isNaN(Number(userId))) return -1;
+        if (await sqlQueries.isConnection() === false) await sqlQueries.CreateConnection();
+        const orderId = await sqlQueries.innerSelect(
+            'menu',
+            'orders.id',
+            'INNER JOIN days ON menu.daysId = days.id ' +
+            'INNER JOIN orders ON orders.menuId = menu.id',
+            `orders.userId = ${userId} AND days.datum = '${functions.convertDateWithDash(date)}'`);
+        if (orderId.length === 0) return false;
+        await sqlQueries.EndConnection();
+        return orderId;
+    }
+
     async selectMenuIdByUserId(userId, date) {
         if (isNaN(Number(userId))) return -1;
         if (await sqlQueries.isConnection() === false) await sqlQueries.CreateConnection();
@@ -59,7 +82,7 @@ class Order {
             'INNER JOIN days ON menu.daysId = days.id ' +
             'INNER JOIN orders ON orders.menuId = menu.id',
             `orders.userId = ${userId} AND days.datum = '${date}'`);
-            if (menuId.length === 0) return false;
+        if (menuId.length === 0) return false;
         await sqlQueries.EndConnection();
         return menuId;
     }
@@ -67,8 +90,8 @@ class Order {
     async selectMenuIdByDate(date) {
         if (await sqlQueries.isConnection() === false) await sqlQueries.CreateConnection();
         const menuId = await sqlQueries.innerSelect(
-            'menu', 
-            'menu.id', 
+            'menu',
+            'menu.id',
             'INNER JOIN days ON menu.daysId = days.id', `days.datum = '${date}'`);
         await sqlQueries.EndConnection();
         if (menuId.length === 0) return -1;
@@ -76,7 +99,7 @@ class Order {
     }
 
     async userOrdersByMenuId(userId, date) {
-        const orders = await this.getOrdersByUserId(userId);
+        const orders = await this.isOrderOrUserExists(userId);
         if (orders === -1) return `No user with ${userId} ID`;
         if (orders === 0) return `No order with this ID: ${userId}`;
         const menuId = await this.selectMenuIdByDate(date);
@@ -101,10 +124,10 @@ class Order {
             'vacsora',
             `orders.menuId = ${menuId} AND orders.userId = ${userId} AND orders.lemondva IS NOT NULL`);
         await sqlQueries.EndConnection();
-        
+
         if (userOrder.length === 0) return `No order\nId: ${userId}\nDate: ${date}`;
         if (userCanceledOrder.length === 0) return `Meals: ${userOrder[0]}\nId: ${userId}\nDate: ${date}`;
-        
+
         const mealsDay = [];
         userOrder = userOrder[0];
         userCanceledOrder = userCanceledOrder[0];
@@ -119,13 +142,13 @@ class Order {
     async order(userId, meals, date) {
         if (meals.length !== 5) return 'Meals array error';
         if (meals[0] === 0 && meals[1] === 0 && meals[2] === 0 && meals[3] === 0 && meals[4] === 0) return 'Idiot';
-        const orders = await this.getOrdersByUserId(userId);
+        const orders = await this.isOrderOrUserExists(userId);
         if (orders === -1) return `No user with ${userId} ID`;
         const menuId = await this.selectMenuIdByDate(date);
         if (menuId === -1) return `No menu for this date: ${date}`;
         const exists = await this.selectMenuIdByUserId(userId, date)
         if (exists) return `Already has order\nId: ${userId}\nDate: ${date}`;
-        
+
         if (await sqlQueries.isConnection() === false) await sqlQueries.CreateConnection();
         await sqlQueries.insert(
             'orders',
@@ -146,7 +169,7 @@ class Order {
     async cancelOrder(userId, meals, date) {
         if (meals.length !== 5) return 'Meals array error';
         if (meals[0] === 0 && meals[1] === 0 && meals[2] === 0 && meals[3] === 0 && meals[4] === 0) return 'Idiot';
-        const orders = await this.getOrdersByUserId(userId);
+        const orders = await this.isOrderOrUserExists(userId);
         if (orders === -1) return `No user with ${userId} ID`;
         if (orders === 0) return `No order with this ID: ${userId}`;
         const menuId = await this.selectMenuIdByDate(date);
@@ -162,7 +185,7 @@ class Order {
         const underCancellation = await sqlQueries.select(
             'orders',
             'id',
-            `orders.menuId = ${menuId} AND orders.userId = ${userId} AND orders.lemondva IS NOT NULL`);     
+            `orders.menuId = ${menuId} AND orders.userId = ${userId} AND orders.lemondva IS NOT NULL`);
         if (underCancellation.length !== 0) return `Already canceled\nId: ${userId}\nDate: ${date}`;
 
         await sqlQueries.insert(

@@ -9,7 +9,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Activities from "../components/AccountPageActivities";
 
-export default function DataPage(user) {
+export default function DataPage(props) {
   const [change, changing] = useState(false);
   const [aChange, aChanging] = useState(false);
 
@@ -21,7 +21,7 @@ export default function DataPage(user) {
     aChanging(!aChange);
   }
 
-  console.log(user.user.user);
+  console.log(props.user);
 
   return (
     <div className="h3 m-5">
@@ -56,24 +56,24 @@ export default function DataPage(user) {
                       <td>
                         <input
                           className="form-input"
-                          value={user.user.user.vNev}
+                          value={props.user.nev.split(" ")[0]}
                           disabled
                         />
                       </td>
                     ) : (
-                      <td className="value">{user.user.user.vNev}</td>
+                      <td className="value">{props.user.nev.split(" ")[0]}</td>
                     )}
                     <td className="key">Osztály</td>
                     {aChange ? (
                       <td>
                         <input
                           className="form-input"
-                          value={user.user.user.osztaly}
+                          value={props.user.osztaly}
                           disabled
                         />
                       </td>
                     ) : (
-                      <td className="value">{user.user.user.osztaly}</td>
+                      <td className="value">{props.user.osztaly}</td>
                     )}
                   </tr>
                   <tr>
@@ -82,24 +82,24 @@ export default function DataPage(user) {
                       <td>
                         <input
                           className="form-input"
-                          value={user.user.user.kNev}
+                          value={props.user.nev.split(" ")[1]}
                           disabled
                         />
                       </td>
                     ) : (
-                      <td className="value">{user.user.user.kNev}</td>
+                      <td className="value">{props.user.nev.split(" ")[1]}</td>
                     )}
                     <td className="key">Iskola OM azonosító</td>
                     {aChange ? (
                       <td>
                         <input
                           className="form-input"
-                          value={user.user.user.iskolaOm}
+                          value={props.user.iskolaOM}
                           disabled
                         />
                       </td>
                     ) : (
-                      <td className="value">{user.user.user.iskolaOm}</td>
+                      <td className="value">{props.user.iskolaOM}</td>
                     )}
                   </tr>
                   <tr>
@@ -108,23 +108,23 @@ export default function DataPage(user) {
                       <td>
                         <input
                           className="form-input"
-                          value={user.user.user.om}
+                          value={props.user.omAzon}
                           disabled
                         />
                       </td>
                     ) : (
-                      <td className="value">{user.user.user.om}</td>
+                      <td className="value">{props.user.omAzon}</td>
                     )}
                     <td className="key">E-mail cím</td>
                     {aChange ? (
                       <td>
                         <input
                           className="form-input"
-                          value={user.user.user.email}
+                          value={props.user.email}
                         />
                       </td>
                     ) : (
-                      <td className="value">{user.user.user.email}</td>
+                      <td className="value">{props.user.email}</td>
                     )}
                   </tr>
                   {aChange ? (
