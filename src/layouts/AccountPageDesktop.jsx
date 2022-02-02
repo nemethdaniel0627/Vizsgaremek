@@ -21,7 +21,11 @@ export default function DataPage(user) {
     aChanging(!aChange);
   }
 
-  console.log(user.user.user);
+
+  const userName = {
+    vNev: user.user.user.nev.split(' ')[0],
+    kNev: user.user.user.nev.split(' ')[1]
+  }
 
   return (
     <div className="h3 m-5">
@@ -56,12 +60,12 @@ export default function DataPage(user) {
                       <td>
                         <input
                           className="form-input"
-                          value={user.user.user.vNev}
+                          value={userName.vNev}
                           disabled
                         />
                       </td>
                     ) : (
-                      <td className="value">{user.user.user.vNev}</td>
+                      <td className="value">{userName.vNev}</td>
                     )}
                     <td className="key">Osztály</td>
                     {aChange ? (
@@ -82,24 +86,24 @@ export default function DataPage(user) {
                       <td>
                         <input
                           className="form-input"
-                          value={user.user.user.kNev}
+                          value={userName.kNev}
                           disabled
                         />
                       </td>
                     ) : (
-                      <td className="value">{user.user.user.kNev}</td>
+                      <td className="value">{userName.kNev}</td>
                     )}
                     <td className="key">Iskola OM azonosító</td>
                     {aChange ? (
                       <td>
                         <input
                           className="form-input"
-                          value={user.user.user.iskolaOm}
+                          value={user.user.user.iskolaOM}
                           disabled
                         />
                       </td>
                     ) : (
-                      <td className="value">{user.user.user.iskolaOm}</td>
+                      <td className="value">{user.user.user.iskolaOM}</td>
                     )}
                   </tr>
                   <tr>
@@ -108,12 +112,12 @@ export default function DataPage(user) {
                       <td>
                         <input
                           className="form-input"
-                          value={user.user.user.om}
+                          value={user.user.user.omAzon}
                           disabled
                         />
                       </td>
                     ) : (
-                      <td className="value">{user.user.user.om}</td>
+                      <td className="value">{user.user.user.omAzon}</td>
                     )}
                     <td className="key">E-mail cím</td>
                     {aChange ? (
