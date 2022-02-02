@@ -1,7 +1,7 @@
 import React from "react";
 import { Accordion } from "react-bootstrap";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheck, faEdit, faTimes, faUserCheck, faUserPlus, faUserTie, faUserTimes } from "@fortawesome/free-solid-svg-icons";
+import { faCheck, faEdit, faTimes, faUserCheck, faUserPlus, faUserTimes } from "@fortawesome/free-solid-svg-icons";
 import Modal from "./AdminDatabaseModal";
 import { useState } from "react";
 

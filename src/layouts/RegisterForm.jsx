@@ -95,6 +95,7 @@ export default function RegisterForm(props) {
 
 
                                 <div>
+                                    {/*eslint-disable-next-line jsx-a11y/anchor-is-valid*/}
                                     <p className="mb-0">Van fiókod? <a className="text-white-50 fw-bold page-changer" onClick={RegisterOff}>Bejeletkezés</a></p>
                                 </div>
 

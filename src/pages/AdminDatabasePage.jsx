@@ -1,16 +1,14 @@
 import React, { useState } from "react";
 
-import Modal from "./AdminDatabaseModal";
-import Accord from "./AdminDatabaseAccordion";
-import Manager from "./AdminDatabaseManager";
-import ManagerMobile from "./AdminDatabaseManagerMobile";
-import ManagerSearchBar from "./AdminDatabaseManagerSearch";
+import Modal from "../components/AdminDatabaseModal";
+import Accord from "../components/AdminDatabaseAccordion";
+import Manager from "../layouts/AdminDatabaseManager";
+import ManagerMobile from "../layouts/AdminDatabaseManagerMobile";
+import ManagerSearchBar from "../components/AdminDatabaseManagerSearch";
 
 import { Accordion } from "react-bootstrap";
 
-
-
-export default function AdminDatabasePage() {
+export default function AdminDatabasePage(props) {
 
     let isMobile = false;
     if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
@@ -31,12 +29,6 @@ export default function AdminDatabasePage() {
         users.push(user);
     }
 
-
-
-
-
-
-
     function Download() {
 
         var csv = [];
@@ -56,7 +48,7 @@ export default function AdminDatabasePage() {
         }
 
         var csv_string = csv.join("\n");
-        var filename = "tanulok" + ".csv";
+        var filename = "tanulok.csv";
         var link = document.createElement("a");
         link.setAttribute(
             "href",
@@ -68,9 +60,6 @@ export default function AdminDatabasePage() {
         document.body.removeChild(link);
 
     }
-
-
-
 
     return (
         <div className="admin-db">

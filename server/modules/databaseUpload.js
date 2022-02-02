@@ -3,7 +3,7 @@ const sqlQueries = require("./sqlQueries");
 
 class databaseUpload {
     async insertDay(day, date) {
-        await sqlQueries.CreateConnection();        
+        if (await sqlQueries.isConnection() === false) await sqlQueries.CreateConnection();
         let idPrefix;
         idPrefix = functions.convertDate(date);        
         try {
@@ -15,8 +15,6 @@ class databaseUpload {
                 await sqlQueries.insert("days", "datum, hetkoznap", `"${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}", "${date.getDay()}"`);
                 const selectMealsIds = await sqlQueries.select("meal", "id", `FLOOR(id/10) = "${functions.convertDate(date)}"`);
                 const selectDaysId = await sqlQueries.select("days", "id", `datum = "${functions.convertDateWithDash(date)}"`);
-                console.log(selectDaysId);
-                console.log(selectMealsIds);
                 await sqlQueries.insert(
                     "menu",
                     "daysId, reggeliId, tizoraiId, ebedId, uzsonnaId, vacsoraId",

@@ -1,3 +1,5 @@
+import React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faLock,
   faPencilAlt,
@@ -5,18 +7,10 @@ import {
   faTimesCircle,
   faUnlock,
 } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React from "react";
-import Activities from "./AccountPageActivities";
+import AccountPageActivities from "../components/AccountPageActivities";
 import { useState } from "react";
 
-export default function DataPage(props) {
-  const [change, changing] = useState(true);
-
-  function PassChange() {
-    changing(!change);
-  }
-
+export default function DataPage(props) {  
   const [aChange, aChanging] = useState(false);
 
   function AccChange() {
@@ -162,47 +156,34 @@ export default function DataPage(props) {
                   </button>
                 </div>
                 <hr />
-                <Activities
+                <AccountPageActivities
                   activity="Befizetett ebéd"
                   date="2022.01.04"
                   type="pay"
-                ></Activities>
-                <Activities
+                ></AccountPageActivities>
+                <AccountPageActivities
                   activity="Lemondott nap(ok)"
                   date="2021.12.20"
                   type="cancel"
-                ></Activities>
-                <Activities
+                ></AccountPageActivities>
+                <AccountPageActivities
                   activity="?????"
                   date="2021.12.20"
-                ></Activities>
-                <Activities
+                ></AccountPageActivities>
+                <AccountPageActivities
                   activity="Adatmódosítás"
                   date="2022.01.24"
                   type="modify"
-                ></Activities>
+                ></AccountPageActivities>
               </div>
             </div>
 
             <div className="password-change">
               <div className="header">
                 <h1 className="mobile-h1">Jelszó módosítás</h1>
-                {/* {change ?
-                                    <button className="btn modify-btn text-danger border-danger" onClick={PassChange}>
-                                        {" "}
-                                        Mégsem <FontAwesomeIcon icon={faTimesCircle} />
-                                    </button> :
-                                    <button className="btn modify-btn" onClick={PassChange}>
-                                        {" "}
-                                        Módosítás <FontAwesomeIcon icon={faPencilAlt} />
-                                    </button>} */}
               </div>
-
-              {!change ? (
-                <></>
-              ) : (
-                <table className="personal-tables">
-                  <tbody>
+              <table className="personal-tables">
+                <tbody>
                   <tr>
                     <td className="key">Régi jelszó</td>
                   </tr>
@@ -244,9 +225,8 @@ export default function DataPage(props) {
                       <button className="btn passChange-btn">Módosítás</button>
                     </td>
                   </tr>
-                  </tbody>
-                </table>
-              )}
+                </tbody>
+              </table>
             </div>
           </div>
         </div>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import DateSelectorInput from "./DateSelectorInputs";
-import Chips from "./Chips";
+import DateSelectorInput from "../components/DateSelectorInputs";
+import Chips from "../components/Chips";
 
 export default function DateSelector(props) {
   const [justOneDay, setJustOneDay] = useState(false);

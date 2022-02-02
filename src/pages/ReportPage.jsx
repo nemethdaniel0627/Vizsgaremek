@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import ReportPageCard from "./ReportPageCard";
-import ReportPageModal from "./ReportPageModal";
+import ReportPageCard from "../components/ReportPageCard";
+import ReportPageModal from "../components/ReportPageModal";
 import foodE_icon from "../images/icon.png";
 
 

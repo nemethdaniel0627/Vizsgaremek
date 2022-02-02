@@ -42,7 +42,6 @@ class Test {
     }
 
     async generate(filename, amount) {
-        // felhasznaloNev;jelszo;nev;iskolaOM;osztaly;email
         await this.readFile('nevek.txt');
         const minIndex = 72300000000;
         const maxIndex = 72400000000;

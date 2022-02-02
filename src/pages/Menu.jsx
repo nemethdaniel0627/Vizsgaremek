@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import MenuDays from "./MenuDays";
+import MenuDays from "../components/MenuDays";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import axios from "axios";
 import { URL, allgergens } from "../utils/constants";
-import DaySelector from "./DaySelector";
-import modules from "../modules/modules";
+import DaySelector from "../components/DaySelector";
+import modules from "../helpers/modules";
 
 export default function Menu(props) {
     const [displayWeek, setDisplayWeek] = useState();
@@ -20,7 +20,6 @@ export default function Menu(props) {
     const root = document.querySelector(":root");
 
     function currentDayColorize() {
-
         const day = new Date().getDay();
         let currentDay;
         let currentDayInput;
@@ -30,13 +29,12 @@ export default function Menu(props) {
             currentDayInput = document.getElementById("day-selector_" + 1);
         }
         else {
-            currentDay = document.getElementById("day-" + day);
+            currentDay = document.getElementById(`day-${day}`);
             setSelectedDay(day);
             currentDayInput = document.getElementById("day-selector_" + day);
         }
-
         if (currentDay && currentDayInput) {
-            currentDay.classList.toggle("menu--day-selected");
+            currentDay.classList.add("menu--day-selected");
             currentDay.classList.add("today");
             currentDayInput.checked = true;
         }
@@ -104,16 +102,14 @@ export default function Menu(props) {
     }
 
     useEffect(() => {
-        if (menu.length === 0) {
+        if (sessionStorage.getItem("menu") === null) {
             axios.get(`${URL}/etlap`)
                 .then((response) => {
-                    console.log(response.data);
+                    sessionStorage.setItem("menu", JSON.stringify(response.data))
                     setMenu(response.data);
                     if (root) {
                         root.style.setProperty("--numberOfDays", response.data.length);
                     }
-                    currentDayColorize();
-                    setCurrentWeek(new Date());
                     setWeekLength(response.data.length - 1);
                 })
                 .catch((error) => {
@@ -121,8 +117,12 @@ export default function Menu(props) {
                 })
         }
         else {
-            currentDayColorize();
-            setCurrentWeek(new Date());
+            const tmpMenu = JSON.parse(sessionStorage.getItem("menu"))
+            setMenu(tmpMenu);
+            if (root) {
+                root.style.setProperty("--numberOfDays", tmpMenu.length);
+            }
+            setWeekLength(tmpMenu.length - 1);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
@@ -169,11 +169,22 @@ export default function Menu(props) {
 
     }, [firstDay])
 
-    useEffect(() => {
+    function getDates(tmpSelectedDates) {
         if (props.getDates) {
-            props.getDates(selectedDates);
+            props.getDates(tmpSelectedDates);
         }
+    }
+
+    useEffect(() => {
+        getDates(selectedDates);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [selectedDates])
+
+    useEffect(() => {
+        currentDayColorize();
+        setCurrentWeek(new Date());
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [menu])
 
     return (
         <div className="menu">

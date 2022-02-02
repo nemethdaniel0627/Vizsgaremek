@@ -16,7 +16,7 @@ class Auth {
             const created = await USER.add(`${user.userName};${hashedPassword};${user.name};${user.iskolaOM};${user.osztaly};${user.email}`);
             if (created) {
                 const createdUserId = await USER.getBy("id", `omAzon = "${user.userName}"`);
-                await sqlQueries.CreateConnection();
+                if (await sqlQueries.isConnection() === false) await sqlQueries.CreateConnection();
                 await sqlQueries.insert("user_role", "userId, roleId", `${createdUserId}, 2`);
                 const roles = await sqlQueries.select("user_role", "roleId", `userId = ${createdUserId}`);
                 await sqlQueries.EndConnection();
@@ -40,7 +40,7 @@ class Auth {
             if (isPasswordMatching) {
                 user.password = undefined;
                 const loginUserId = await USER.getBy("id", `omAzon = "${user.userName}"`);
-                await sqlQueries.CreateConnection();
+                if (await sqlQueries.isConnection() === false) await sqlQueries.CreateConnection();
                 const roles = await sqlQueries.select("user_role", "roleId", `userId = ${loginUserId}`);
                 await sqlQueries.EndConnection();
                 return {
@@ -68,7 +68,7 @@ class Auth {
     }
 
     #createToken(userId, options = null) {
-        const expiresIn = 60*60*24; // 1 day
+        const expiresIn = 60 * 60 * 24; // 1 day
         const secret = process.env.JWT_SECRET;
         const dataStoredInToken = userId.toString();
         return {

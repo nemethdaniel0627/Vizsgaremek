@@ -117,3 +117,8 @@ ALTER TABLE user_role
 ALTER TABLE user_role 
   ADD CONSTRAINT FK_user_role_roles_id FOREIGN KEY (roleId)
     REFERENCES roles(id) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+INSERT INTO roles (nev)
+VALUES ('admin'),
+       ('user'),
+       ('alkalmazott');
