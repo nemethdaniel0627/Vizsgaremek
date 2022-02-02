@@ -32,16 +32,25 @@
     height: max-content;
     margin-bottom: 5%;
 
+    
+
+    padding: 0.5em;
+
     h1{
       float: left;
       margin: 0;
-      font-size: 2em;
+      font-size: 1.6em;
+    }
+
+    .button{
+      float: right;
     }
     .modify-btn, .delete-btn{
-      float: right;
+      display: table-cell;
+      vertical-align: middle;
+      
       border-radius: 2em;
       border: 1px solid black;
-      margin-top: 1em;
       transition: 0.5s;
       margin-left: 1em;
     }
@@ -97,24 +106,28 @@
     
   }
 
-  .desktop{
-    margin-left: 5%;
-  }
+  // .desktop{
+  //   margin-left: 5%;
+  // }
 
 
   .header{
     height: max-content;
 
     h1{
-      float: left;
       margin: 0;
-      font-size: 2em;
+      float: left;
+      font-size: 1.4em;
+    }
+    .button{
+      float: right;
     }
     .refresh-btn{
-      float: right;
+      display: table-cell;
+      vertical-align: middle;
       border-radius: 2em;
       font-size: 1em;
-      margin-top: 0.4em;
+
       transition: 0.5s;
       margin-left: 1em;
     }
