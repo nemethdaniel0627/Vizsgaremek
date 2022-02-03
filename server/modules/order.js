@@ -118,7 +118,7 @@ class Order {
 
     async order(userId, meals, date) {
         if (meals.length !== 5) return 'Meals array error';
-        if (meals[0] === 0 && meals[1] === 0 && meals[2] === 0 && meals[3] === 0 && meals[4] === 0) return 'Idiot';
+        if (meals[0] === 0 && meals[1] === 0 && meals[2] === 0 && meals[3] === 0 && meals[4] === 0) return 'No orders';
         const orders = await this.getOrdersByUserId(userId);
         if (orders === -1) return `No user with ${userId} ID`;
         const menuId = await this.selectMenuIdByDate(date);
@@ -152,41 +152,33 @@ class Order {
         if (menuId === -1) return `No order for this date: ${date}`;
 
         if (await sqlQueries.isConnection() === false) await sqlQueries.CreateConnection();
-        let ordered = await sqlQueries.select(
+        let orderExists = await sqlQueries.select(
             'orders',
+            'id, ' +
             'reggeli, ' +
             'tizorai, ' +
             'ebed, ' +
             'uzsonna, ' +
-            'vacsora', 
+            'vacsora',
             `orders.menuId = ${menuId} AND orders.userId = ${userId} AND orders.lemondva IS NULL`);
-        if (ordered.length === 0) return `No order for ${date} with ID ${userId}`;
+        if (orderExists.length === 0) return `No order for ${date} with ID ${userId}`;
 
-        ordered = ordered[0]
-        let equals = true;
-        for (let i = 0; i < ordered.length; i++) {
-            if (ordered[i] !== meals[i]) equals = false;
-        }
-        if (equals) return 'Nothing cancelled';
-        
-        const underCancellation = await sqlQueries.select(
+        orderExists = orderExists[0];
+        const today = new Date().toISOString().slice(0, 10);
+        const cancelled = await sqlQueries.update(
             'orders',
-            'id',
-            `orders.menuId = ${menuId} AND orders.userId = ${userId} AND orders.lemondva IS NOT NULL`);     
-        if (underCancellation.length !== 0) return `Already canceled\nId: ${userId}\nDate: ${date}`;
+            `reggeli = ${orderExists[1]}, ` +
+            `tizorai = ${orderExists[2]}, ` +
+            `ebed = ${orderExists[3]}, ` +
+            `uzsonna = ${orderExists[4]}, ` +
+            `vacsora = ${orderExists[5]}, ` +
+            `ar = 800, ` +
+            `lemondva = '${today}'`,
+            `orders.id = ${orderExists[0]}`
+        );
+        console.log(cancelled.affectedRows);  
+        if (cancelled.length === 0) return `No order updated`;
 
-        await sqlQueries.insert(
-            'orders',
-            'menuId, ' +
-            'userId, ' +
-            'reggeli, ' +
-            'tizorai, ' +
-            'ebed, ' +
-            'uzsonna, ' +
-            'vacsora, ' +
-            'ar, ' +
-            'lemondva',
-            `${menuId}, ${userId}, ${meals[0]}, ${meals[1]}, ${meals[2]}, ${meals[3]}, ${meals[4]}, 1000, '${date}'`);
         await sqlQueries.EndConnection();
         return `Canceled\nId: ${userId}\nDate: ${date}`;
     }
