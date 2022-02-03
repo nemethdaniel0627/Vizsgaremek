@@ -155,6 +155,27 @@
     .div-page-number{
         font-size: 1.5em;
     }
+
+    .pageChanger{
+        display: table-cell;
+        vertical-align: middle;
+        font-size: 1em;
+
+    }
+
+    .space{
+        margin-top: 2rem;
+    }
+
+    .onePage{
+        display: table-cell;
+        vertical-align: middle;
+        .select{
+            width: 5rem;
+            margin-left: 0.5rem;
+            margin-top: 1%;
+        }
+    }
 }
 
 .admin-db-acc{
