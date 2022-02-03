@@ -17,6 +17,7 @@ export default function AdminDatabaseModal(props) {
       setDates(props.user.date.split('#'));
       setDatesBool(false);
     }
+    
   }
 
 
