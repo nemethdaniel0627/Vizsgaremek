@@ -21,6 +21,8 @@ export default function DataPage(props) {
     aChanging(!aChange);
   }
 
+  const user = user.user.user;
+
   const userName = {
     vNev: user.user.user.nev.split(' ')[0],
     kNev: user.user.user.nev.split(' ')[1]
