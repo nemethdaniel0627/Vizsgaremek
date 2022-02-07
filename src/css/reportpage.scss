@@ -1,111 +1,116 @@
-.list-group-item {
-  border: none !important;
-  margin-bottom: 15%!important;
-  background: none!important;
+.Report{
+  .header{
+    position: relative;
+    width: 100%;
+    text-align: center;
+    background-color: var(--dark-blue);
+    color: white;
+    padding: 3em;
+    
+    .icon{
+      margin-left: -40em;
+      width: 4em;
+    }
+
+    h1{
+      letter-spacing: 0.15em;
+      font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+      font-size: 3.5em;
+    }
+  }
+  .header--hr{
+    margin: 0px !important;
+    color: var(--darkModeFontColor);
+    height: 2px;
+  }
+
+  .report-body{
+    .--space{
+      margin-top: 5em;
+    }
+
+    .ReportCard{
+      background-color: var(--report-card-bg);
+      border-left: var(--light-blue) 10px solid;
+      width: 35rem;
+      height: 10rem;
+      text-align: center;
+      border-radius: 0.5rem;
+      
+      transition: 0.5s;
+  
+      display: table-cell;
+      vertical-align: middle;
+  
+      .smaller{
+        font-size: 1em;
+      }
+  
+      .small{
+        font-size: 2em;
+      }
+  
+      .default{
+        font-size: 3em;
+      }
+    }
+  
+    .--button:hover{
+      border-color: blue;
+      letter-spacing: 0.1rem;
+      color: blue;
+      cursor: pointer;
+    }
+  }
+
+  
 }
 
-textarea {
-  resize: none;
-  height: 15vh;
+.Report-Modal{
+  .modal-content{
+    border-radius: 2em;
+  }
+  .modal-header{
+    border-radius: 1.7em 1.7em 0 0 ;
+  }
+
+  .Report-Modal--body{
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  
+    textarea{
+      resize: none;
+      border-radius: 1em !important;
+    }
+  
+    input[type=text]{
+      border-radius: 1em !important;
+    }
+  
+    .btn-cancel, .btn-send{
+      border-radius: 1em;
+      padding: 0.2em 1em;
+      font-weight: 800;
+  
+      border: 1px solid #000000a0;
+      color:#000000a0;
+  
+      transition: 0.5s;
+    }
+  
+    .btn-send:hover{
+      border: 1px solid #0011ff;
+      color:#0011ff;
+    }
+  
+    .btn-cancel:hover{
+        border: 1px solid #ff2121;
+        color:#ff2121;
+    }
+  }
 }
 
-
-
-h1 {
-  font-family: "Times New Roman", Times, serif;
-  color:white;
-  margin: 0.6em;
-}
-
-#Report {
-  font-family: Georgia;
-}
-.contact-form {
-  background-color: var(--accountBackground);
-  margin-bottom: 5%;
-  border-radius: 1rem;
-  border: 1px solid black;
-  box-shadow: 1px 1px 10px 1px black;
-  height: 50%!important;
-}
-.box{
-  box-shadow: 1px 1px 10px 1px black;
-  background-color:  var(--accountBackground);
-  border-radius: 1em;
-  width: min-content!important;
-  padding: 0.5em;
-  border: 1px solid black;
-  height: fit-content;
-  height: 88%!important;
-}
-.box li{
-  width: 5%;
-  margin: 1em;
-  margin-bottom: 4em!important;
-}
-.contact-form .form-control {
-  border-radius: 1rem;
-}
-.contact-h1 {
-  text-align: center;
-}
-.ulHorizontal li{
-  margin: 2em 4em;
-}
-.ulHorizontal{
-  width: 100%!important;
-}
-
-.form-group { 
-  height: 500%;
-  margin-bottom: 5%;
-}
-
-#Report{
-  margin-top: 10em;
-}
-
-.contact-form form {
-  padding-left: 13%;
-  padding-right: 13%;
-  padding-top: 3%;
-  padding-bottom: 3%;
-  font-size: 1.5em;
-}
-.contact-form form .row {
-  margin-bottom: -7%;
-}
-.contact-form h3 {
-  margin-bottom: 8%;
-  margin-top: -10%;
-  text-align: center;
-  color: #0062cc;
-}
-.contact-form .btnContact {
-  width: min-content;
-  border-radius: 2em;
-  border: 1px solid white;
-  background: none;
-  color: white;
-  letter-spacing: 0.2em;
-  padding: 0.7em 3em;
-  transition: 0.5s;
-  cursor: pointer;
-}
-
-.contact-form .btnContact:hover {
-  border: 1px solid rgb(255, 136, 0);
-  color: rgb(255, 136, 0);
-  transition: 0.5s;
-}
-
-
-.btnContactSubmit {
-  width: 50%;
-  border-radius: 1rem;
-  padding: 1.5%;
-  color: #fff;
-  background-color: #0062cc;
-  border: none;
-  cursor: pointer;
+.ReportModal{
+  .checkbox{
+    margin-bottom: 2rem !important;
+  }
 }

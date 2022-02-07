@@ -1,11 +1,36 @@
 import axios from "axios";
 import jwt from "jsonwebtoken";
 class AuthUser {
-    _authorization = sessionStorage.getItem("auth");
+    _authorization() {
+        if (sessionStorage.getItem("token")) {
+            try {
+                const payload = jwt.verify(sessionStorage.getItem("token"), process.env.REACT_APP_JWT_SECRET);
+                const roles = this.roleConvert(payload.roles);
+                return roles;
+            } catch (error) {
+                return "";
+            }
+        }
 
-    isLoggedIn() {        
-        if (sessionStorage.getItem("auth")) return true;
+        return "";
+    }
+
+    isLoggedIn() {
+        if (sessionStorage.getItem("token")) return true;
         else return false;
+    }
+
+    roleConvert(roleId) {
+        switch (roleId) {
+            case 1:
+                return "admin";
+            case 2:
+                return "user";
+            case 3:
+                return "alkalmazott";
+            default:
+                break;
+        }
     }
 
     loginUser(userName, password) {
@@ -20,25 +45,11 @@ class AuthUser {
                 .then(response => {
                     console.log(response.headers);
                     let token = response.headers.authorization.split(" ")[1];
-                    token = token.split(";")[0];                    
+                    token = token.split(";")[0];
                     try {
                         const payload = jwt.verify(token, (process.env.REACT_APP_JWT_SECRET));
                         sessionStorage.setItem("token", token);
-                        sessionStorage.setItem("userId", payload._id)
-                        switch (payload.roles) {
-                            case 1:
-                                sessionStorage.setItem("auth", "admin");
-                                break;
-                            case 2:
-                                sessionStorage.setItem("auth", "user");
-                                break;
-                            case 3:
-                                sessionStorage.setItem("auth", "alkalmazott");
-                                break;
-
-                            default:
-                                break;
-                        }                        
+                        this.roleConvert(payload.role);
                         if (sessionStorage.getItem("oldPath")) {
                             window.location.pathname = sessionStorage.getItem("oldPath");
                             sessionStorage.removeItem("oldPath");
@@ -60,25 +71,6 @@ class AuthUser {
             return false;
         }
     }
-    async isTokenVerified() {
-        await axios.post("/token",
-            {
-                token: sessionStorage.getItem("token")
-            },
-            {
-                headers: {
-                    "Authorization": `Baerer ${sessionStorage.getItem("token")}`
-                }
-            })
-            .catch(error => {
-                console.error(error);
-                const oldPath = window.location.pathname;
-                sessionStorage.setItem("oldPath", oldPath);
-                this.logoutUser();
-            })
-        return this.isLoggedIn()
-
-    }
 
     registerUser(omAzon, password, name, osztaly, iskolaOM, email) {
         axios.post("/register",
@@ -99,9 +91,9 @@ class AuthUser {
     }
 
     logoutUser() {
-        sessionStorage.removeItem("userId");
+        sessionStorage.removeItem("user");
         sessionStorage.removeItem("token");
-        sessionStorage.removeItem("auth");
+        sessionStorage.removeItem("menu");
         window.location.pathname = "/login";
     }
 }

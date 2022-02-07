@@ -9,7 +9,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Activities from "../components/AccountPageActivities";
 
-export default function DataPage(user) {
+export default function DataPage(props) {
   const [change, changing] = useState(false);
   const [aChange, aChanging] = useState(false);
 
@@ -21,30 +21,36 @@ export default function DataPage(user) {
     aChanging(!aChange);
   }
 
-  console.log(user.user.user);
+  const userName = {
+    vNev: user.user.user.nev.split(' ')[0],
+    kNev: user.user.user.nev.split(' ')[1]
+  }
 
   return (
     <div className="h3 m-5">
       <div className="container datas">
         <div className="row">
-          <div className="col-9 personal-datas">
+          <div className="col-12 col-lg-9 personal-datas">
             <div className="important">
               <div className="header">
                 <h1>Személyes adatok</h1>
-                {aChange ? (
-                  <button
-                    className="btn modify-btn text-danger border-danger"
-                    onClick={AccChange}
-                  >
-                    {" "}
-                    Mégsem <FontAwesomeIcon icon={faTimesCircle} />
-                  </button>
-                ) : (
-                  <button className="btn modify-btn" onClick={AccChange}>
-                    {" "}
-                    Módosítás <FontAwesomeIcon icon={faPencilAlt} />
-                  </button>
-                )}
+                {/* <div className="button">
+                  {aChange ? (
+                    <button
+                      className="btn modify-btn text-danger border-danger"
+                      onClick={AccChange}
+                    >
+                      {" "}
+                      Mégsem <FontAwesomeIcon icon={faTimesCircle} />
+                    </button>
+                  ) : (
+                    <button className="btn modify-btn" onClick={AccChange}>
+                      {" "}
+                      Módosítás <FontAwesomeIcon icon={faPencilAlt} />
+                    </button>
+                  )}
+                </div> */}
+
               </div>
 
               <table className="personal-tables">
@@ -56,24 +62,24 @@ export default function DataPage(user) {
                       <td>
                         <input
                           className="form-input"
-                          value={user.user.user.vNev}
+                          value={userName.vNev}
                           disabled
                         />
                       </td>
                     ) : (
-                      <td className="value">{user.user.user.vNev}</td>
+                      <td className="value">{userName.vNev}</td>
                     )}
                     <td className="key">Osztály</td>
                     {aChange ? (
                       <td>
                         <input
                           className="form-input"
-                          value={user.user.user.osztaly}
+                          value={user.osztaly}
                           disabled
                         />
                       </td>
                     ) : (
-                      <td className="value">{user.user.user.osztaly}</td>
+                      <td className="value">{user.osztaly}</td>
                     )}
                   </tr>
                   <tr>
@@ -82,24 +88,24 @@ export default function DataPage(user) {
                       <td>
                         <input
                           className="form-input"
-                          value={user.user.user.kNev}
+                          value={userName.kNev}
                           disabled
                         />
                       </td>
                     ) : (
-                      <td className="value">{user.user.user.kNev}</td>
+                      <td className="value">{userName.kNev}</td>
                     )}
                     <td className="key">Iskola OM azonosító</td>
                     {aChange ? (
                       <td>
                         <input
                           className="form-input"
-                          value={user.user.user.iskolaOm}
+                          value={user.user.user.iskolaOM}
                           disabled
                         />
                       </td>
                     ) : (
-                      <td className="value">{user.user.user.iskolaOm}</td>
+                      <td className="value">{user.user.user.iskolaOM}</td>
                     )}
                   </tr>
                   <tr>
@@ -108,23 +114,23 @@ export default function DataPage(user) {
                       <td>
                         <input
                           className="form-input"
-                          value={user.user.user.om}
+                          value={user.user.user.omAzon}
                           disabled
                         />
                       </td>
                     ) : (
-                      <td className="value">{user.user.user.om}</td>
+                      <td className="value">{user.user.user.omAzon}</td>
                     )}
                     <td className="key">E-mail cím</td>
                     {aChange ? (
                       <td>
                         <input
                           className="form-input"
-                          value={user.user.user.email}
+                          value={user.email}
                         />
                       </td>
                     ) : (
-                      <td className="value">{user.user.user.email}</td>
+                      <td className="value">{user.email}</td>
                     )}
                   </tr>
                   {aChange ? (
@@ -141,51 +147,28 @@ export default function DataPage(user) {
                 </tbody>
               </table>
             </div>
-            {/* <div className="bank-account">
-                <div className="header">
-                  <h1>Banki adatok</h1>
-                  <button className="btn delete-btn">
-                    {" "}
-                    Törlés <FontAwesomeIcon icon={faTimesCircle} />
-                  </button>
-                  <button className="btn modify-btn">
-                    {" "}
-                    Módosítás <FontAwesomeIcon icon={faPencilAlt} />
-                  </button>
-                </div>
-  
-                <table className="personal-tables">
-                  <tr>
-                    <td className="key">Bankkártya szám</td>
-                    <td className="value"></td>
-                    <td className="key">Számlavezető bank</td>
-                    <td className="value"></td>
-                  </tr>
-                  <tr>
-                    <td className="key">Tulajdonos neve</td>
-                    <td className="value"></td>
-                    <td className="key">Lejárati dátum</td>
-                    <td className="value"></td>
-                  </tr>
-                </table>
-              </div> */}
+
             <div className="password-change">
               <div className="header">
                 <h1>Jelszó módosítás</h1>
-                {change ? (
-                  <button
-                    className="btn modify-btn text-danger border-danger"
-                    onClick={PassChange}
-                  >
-                    {" "}
-                    Mégsem <FontAwesomeIcon icon={faTimesCircle} />
-                  </button>
-                ) : (
-                  <button className="btn modify-btn" onClick={PassChange}>
-                    {" "}
-                    Módosítás <FontAwesomeIcon icon={faPencilAlt} />
-                  </button>
-                )}
+
+                <div className="button">
+                  {change ? (
+                    <button
+                      className="btn modify-btn text-danger border-danger"
+                      onClick={PassChange}
+                    >
+                      {" "}
+                      Mégsem <FontAwesomeIcon icon={faTimesCircle} />
+                    </button>
+                  ) : (
+                    <button className="btn modify-btn" onClick={PassChange}>
+                      {" "}
+                      Módosítás <FontAwesomeIcon icon={faPencilAlt} />
+                    </button>
+                  )}
+                </div>
+
               </div>
 
               {!change ? (
@@ -231,13 +214,16 @@ export default function DataPage(user) {
               )}
             </div>
           </div>
-          <div className="col-3 personal-activities">
+          <div className="col-12 col-lg-3 personal-activities">
             <div className="activities desktop">
               <div className="header">
                 <h1>Tevékenység</h1>
-                <button className="btn refresh-btn ">
-                  <FontAwesomeIcon icon={faSyncAlt} />
-                </button>
+                <div className="button">
+                  <button className="btn refresh-btn ">
+                    <FontAwesomeIcon icon={faSyncAlt} />
+                  </button>
+                </div>
+                
               </div>
               <hr />
               <Activities

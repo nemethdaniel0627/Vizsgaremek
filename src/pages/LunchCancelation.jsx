@@ -11,13 +11,23 @@ export default function LunchCancelation() {
         setIsMenuChecked(!isMenuChecked)
     }
 
-    function createDisabledDays() {
+
+
+    function cancelMeal() {
+        console.log(dates);
+    }
+
+    function getDates(selectedDates) {
+        setDates(selectedDates);
+    }
+
+    useEffect(() => {
         const date = new Date();
         const day = date.getDay();
         const time = Number(date.getHours().toString() + modules.toZeroForm(date.getMinutes()));
-        // setDisabledDays((prevDays) => {
-        //     return [...prevDays, day]
-        // });        
+        setDisabledDays((prevDays) => {
+            return [...prevDays, day]
+        });        
         if (day !== 0) {
             for (let i = 1; i <= day; i++) {
                 if (i === day && time >= 830) {
@@ -36,19 +46,7 @@ export default function LunchCancelation() {
             setDisabledDays((prevDays) => {
                 return [...prevDays, 1]
             });
-        }
-    }
-
-    function cancelMeal() {
-        console.log(dates);
-    }
-
-    function getDates(selectedDates) {
-        setDates(selectedDates);
-    }
-
-    useEffect(() => {
-        createDisabledDays();
+        }        
 
     }, [])
 

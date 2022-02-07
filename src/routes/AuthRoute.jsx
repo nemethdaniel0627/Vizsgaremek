@@ -4,7 +4,8 @@ import AuthUser from "../modules/AuthUser.js"
 import NotFoundPage from "../pages/NotFoundPage.jsx";
 
 export default function AuthRoute(props) {    
+
     return (
-        AuthUser.isLoggedIn() && AuthUser.isTokenVerified() ? (props.auth.includes(AuthUser._authorization) ? <Route {...props} /> : <NotFoundPage />) : <Redirect to="/login" />
+        AuthUser.isLoggedIn() ? (props.auth.includes(AuthUser._authorization()) ? <Route {...props} /> : <NotFoundPage />) : <Redirect to="/login" />
     );
 }

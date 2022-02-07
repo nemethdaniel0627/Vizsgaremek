@@ -74,7 +74,7 @@ app.post("/user", auth.tokenAutheticate, async (req, res) => {
   else res.notFound();
 })
 
-app.post("/token", auth.tokenAutheticate, (req, res) => {
+app.post("/token", auth.tokenAutheticate, (req, res) => {  
   res.json({ message: "Ok" });
 })
 
@@ -131,6 +131,7 @@ app.post("/test", async (req, res) => {
   // res.send(mealsCount);
   const testOrders = await test.orders('2022-02-04', 15);
   res.send(testOrders);
+
 })
 
 app.get("/", (req, res) => {
