@@ -65,7 +65,7 @@ export default function AdminDatabasePage(props) {
         <div className="admin-db">
 
             <div className="admin-mg">
-                {!isMobile ? <Manager Download={Download}></Manager> : <ManagerMobile Download={Download}></ManagerMobile>}
+                <Manager Download={Download} isMobile={isMobile}></Manager>
             </div>
 
 

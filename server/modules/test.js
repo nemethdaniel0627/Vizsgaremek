@@ -1,5 +1,6 @@
 const fs = require('fs').promises;
 const bcrypt = require("bcrypt");
+const order = require('./order')
 class Test {
     #names;
     #data;
@@ -89,6 +90,31 @@ class Test {
         }
         return;
     }
+
+    async orders(date, amount) {
+        let count = 0;
+        let cancelled = 0;
+        if (await order.selectMenuIdByDate(date) === -1) return 'No menu';
+        for (let i = 1; i < amount + 1; i++) {
+            const meals = [];
+            let fullZero = true;
+            while (fullZero) {
+                for (let i = 0; i < 5; i++) {
+                    meals[i] = await this.randomInt(0, 2);
+                    if (meals[i] === 1) fullZero = false; 
+                }
+            }
+            const testOrder = await order.order(i, [meals[0], meals[1], meals[2], meals[3], meals[4]], date);
+            if (testOrder.split('\n')[0].split(' ')[0] !== 'Already') count++;
+            const random = await this.randomInt(0, 3);
+            if (random === 1) 
+            {
+                const co = await order.cancelOrder(i, [meals[0], meals[1], meals[2], meals[3], meals[4]], date);
+                if (co.split(' ')[0] !== 'Already') cancelled++;
+            }
+        }
+        return `${count} order(s) added\n${cancelled} order(s) cancelled`;
+    }
 }
 
-module.exports = new Test()
+module.exports = new Test();
