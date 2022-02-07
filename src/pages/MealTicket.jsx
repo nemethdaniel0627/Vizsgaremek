@@ -12,13 +12,13 @@ export default function MealTicket(props) {
                             <img src={ticketImg} alt="Icon" className="mx-auto d-none d-lg-block align-center" id="Ticket_img" />
                             {props.user.befizetve !== false && props.user.befizetve !== null ?
                                 <div className="qrcode w-100 d-flex justify-content-center d-block d-lg-none p-3" id="qrcode">
-                                    <QRcode value={`{"nev": "${props.user.vNev} ${props.user.kNev}", "osztaly": "${props.user.osztaly}", "userOM": "${props.user.om}", "iskolaOM": "${props.user.iskolaOm}", "befizetve": ${props.user.befizetve}}`} bgColor="#ffffff00" width="20%" height='20%' size={100} />
+                                    <QRcode value={`{"nev": "${props.user.nev}", "osztaly": "${props.user.osztaly}", "userOM": "${props.user.omAzon}", "iskolaOM": "${props.user.iskolaOM}", "befizetve": ${props.user.befizetve}}`} bgColor="#ffffff00" width="20%" height='20%' size={100} />
                                 </div>
                                 :
                                 <i />}
                         </div>
                         <div className="col-lg-8 col-sm-12 border-start border-dark d-lg-block" id="Ticket_infos">
-                            <h2 id="Ticket_name" className="mb-1 ms-1 fs-1">{props.user.vNev} {props.user.kNev}</h2>
+                            <h2 id="Ticket_name" className="mb-1 ms-1 fs-1">{props.user.nev}</h2>
                             <h5 id="Ticket_class" className="ms-1">{props.user.osztaly}</h5>
                             <h1 id="Ticket_info" className="text-center mt-3 ms-1">
                                 <strong>{props.user.befizetve ? "Befizetve" : props.user.befizetve === null ? "Nincs befizetve" : "Lemondta mára"}</strong>

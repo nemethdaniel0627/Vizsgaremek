@@ -23,11 +23,11 @@ app.use(cors());
 app.use(exception.exception)
 
 app.get("/etlap", async (req, res) => {
-  const menu = await databaseDownload.getMenu(new Date());  
+  const menu = await databaseDownload.getMenu(new Date());
   res.json(menu);
 });
 
-app.post("/etlap", async (req, res) => {  
+app.post("/etlap", async (req, res) => {
   let excelRows = req.body.excelRows;
   const setDate = req.body.date;
 
@@ -36,7 +36,7 @@ app.post("/etlap", async (req, res) => {
   if (selectDaysId.length === 0) {
     await sqlQueries.EndConnection();
     const menu = await menuConvert.convert(excelRows);
-    
+
     let date = new Date(setDate);
 
     try {
@@ -49,7 +49,7 @@ app.post("/etlap", async (req, res) => {
     res.send("Kész");
   }
   else {
-    res.conflict();    
+    res.conflict();
   }
 });
 
@@ -67,14 +67,33 @@ app.post("/add", async (req, res) => {
   }
 })
 
+app.post("/userdetails", auth.tokenAutheticate, async (req, res) => {
+  const omAzon = req.body.omAzon;
+  const userWithDetails = await user.getBy("*", `user.omAzon = ${omAzon}`, false);
+  const userOrders = await order.selectOrdersWithDateByUserId(userWithDetails[0].id);
+  userWithDetails[0].orders = userOrders;
+  res.json(userWithDetails);
+})
+
 app.post("/user", auth.tokenAutheticate, async (req, res) => {
   const userId = req.body.userId;
   const userResult = await user.getBy("*", `id = "${userId}"`, false);
+  const orderResult = await order.doesUserHaveOrderForDate(userId, new Date())
+  console.log(orderResult);
+  if (!orderResult) userResult[0].befizetve = false;
+  else userResult[0].befizetve = true;
+  console.log(userResult);
   if (userResult) res.send(userResult);
   else res.notFound();
-})
+});
 
-app.post("/token", auth.tokenAutheticate, (req, res) => {  
+app.get("/alluser", auth.tokenAutheticate, async (req, res) => {
+  const allUser = await user.getAll(false);
+  if (allUser.length === 0) res.notFound();
+  res.json(allUser)
+});
+
+app.post("/token", auth.tokenAutheticate, (req, res) => {
   res.json({ message: "Ok" });
 })
 

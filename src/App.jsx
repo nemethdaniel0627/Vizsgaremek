@@ -19,6 +19,7 @@ import MenuUpload from "./pages/MenuUpload";
 import PaymentPage from "./pages/PaymentPage";
 import Loader from "./layouts/Loader";
 import jwt from "jsonwebtoken";
+import AdminUserDetails from "./pages/AdminUserDetails";
 
 
 export default function App() {
@@ -47,28 +48,32 @@ export default function App() {
 
     }
 
-    function getUser() {        
+    function getUser() {
         try {
-            const payload = jwt.verify(sessionStorage.getItem("token"), process.env.REACT_APP_JWT_SECRET);
-            const userId = payload._id;
-            axios.post("/user",
-                {
-                    userId: Number(userId)
-                },
-                {
-                    headers: {
-                        "Authorization": `Baerer ${sessionStorage.getItem("token")}`
-                    }
-                })
-                .then(response => {
-                    sessionStorage.setItem("user", JSON.stringify(response.data[0]));
-                    setUser(response.data[0]);
-                    setLoading(false);
-                })
-                .catch(error => {
-                    setLoading(false);
-                    console.error(error);
-                });
+            if (sessionStorage.getItem("user") == null) {
+                console.log("getUser");
+                const payload = jwt.verify(sessionStorage.getItem("token"), process.env.REACT_APP_JWT_SECRET);
+                const userId = payload._id;
+                axios.post("/user",
+                    {
+                        userId: Number(userId)
+                    },
+                    {
+                        headers: {
+                            "Authorization": `Baerer ${sessionStorage.getItem("token")}`
+                        }
+                    })
+                    .then(response => {
+                        sessionStorage.setItem("user", JSON.stringify(response.data[0]));
+                        setUser(response.data[0]);
+                        setLoading(false);
+                    })
+                    .catch(error => {
+                        setLoading(false);
+                        console.error(error);
+                    });
+            }
+            else setLoading(false);
         } catch (error) {
             setLoading(false);
             //TODO ERROR
@@ -76,7 +81,7 @@ export default function App() {
     }
 
     useEffect(() => {
-        if (path !== "/login") {            
+        if (path !== "/login") {
             axios.post("/token",
                 {
                     token: sessionStorage.getItem("token")
@@ -98,16 +103,24 @@ export default function App() {
                 })
         }
         else setLoading(false);
+        getUser();
     }, [path])
 
+    function startLoading() {
+        setLoading(true);
+    }
+
+    function endLoading() {
+        setLoading(false);
+    }
+
     return (
-        <div className="App">            
-            <Navbar userName={`${user == null ? "" : user.nev }`} />
+        <div className="App">
+            <Navbar userName={`${user == null ? "" : user.nev}`} />
             {loading ? <Loader />
                 :
                 <Switch>
                     <AuthRoute path="/" auth={AuthUser._authorization()} exact component={() => {
-                        getUser();
                         return AuthUser._authorization() === "user"
                             ?
                             <Redirect to="/etlap" />
@@ -147,7 +160,7 @@ export default function App() {
 
 
                     <AuthRoute path="/adatbazis" auth="admin" component={() =>
-                        <AdminDatabasePage />
+                        <AdminDatabasePage endLoading={endLoading} startLoading={startLoading} />
                     } />
 
                     <AuthRoute path="/fizetes" auth="user" component={() =>
@@ -160,6 +173,10 @@ export default function App() {
 
                     <AuthRoute path="/etlapfeltolt" auth="admin" component={() =>
                         <MenuUpload />
+                    } />
+
+                    <AuthRoute path="/reszletes/:omAzon" auth="admin" component={() =>
+                        <AdminUserDetails user={user} />
                     } />
 
                     <Route>

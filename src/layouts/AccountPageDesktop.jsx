@@ -20,14 +20,9 @@ export default function DataPage(props) {
   function AccChange() {
     aChanging(!aChange);
   }
-
-  const user = props.user.user;
-
-  const userName = {
-    vNev: props.user.user.nev.split(' ')[0],
-    kNev: props.user.user.nev.split(' ')[1]
-  }
-
+  
+  console.log(props.user);
+  
   return (
     <div className="h3 m-5">
       <div className="container datas">
@@ -64,24 +59,24 @@ export default function DataPage(props) {
                       <td>
                         <input
                           className="form-input"
-                          value={userName.vNev}
+                          value={props.user.nev.split(" ")[0]}
                           disabled
                         />
                       </td>
                     ) : (
-                      <td className="value">{userName.vNev}</td>
+                      <td className="value">{props.user.nev.split(" ")[0]}</td>
                     )}
                     <td className="key">Osztály</td>
                     {aChange ? (
                       <td>
                         <input
                           className="form-input"
-                          value={user.osztaly}
+                          value={props.user.osztaly}
                           disabled
                         />
                       </td>
                     ) : (
-                      <td className="value">{user.osztaly}</td>
+                      <td className="value">{props.user.osztaly}</td>
                     )}
                   </tr>
                   <tr>
@@ -90,24 +85,24 @@ export default function DataPage(props) {
                       <td>
                         <input
                           className="form-input"
-                          value={userName.kNev}
+                          value={props.user.nev.split(" ")[1]}
                           disabled
                         />
                       </td>
                     ) : (
-                      <td className="value">{userName.kNev}</td>
+                      <td className="value">{props.user.nev.split(" ")[1]}</td>
                     )}
                     <td className="key">Iskola OM azonosító</td>
                     {aChange ? (
                       <td>
                         <input
                           className="form-input"
-                          value={user.user.user.iskolaOM}
+                          value={props.user.iskolaOM}
                           disabled
                         />
                       </td>
                     ) : (
-                      <td className="value">{user.user.user.iskolaOM}</td>
+                      <td className="value">{props.user.iskolaOM}</td>
                     )}
                   </tr>
                   <tr>
@@ -116,23 +111,23 @@ export default function DataPage(props) {
                       <td>
                         <input
                           className="form-input"
-                          value={user.user.user.omAzon}
+                          value={props.user.omAzon}
                           disabled
                         />
                       </td>
                     ) : (
-                      <td className="value">{user.user.user.omAzon}</td>
+                      <td className="value">{props.user.omAzon}</td>
                     )}
                     <td className="key">E-mail cím</td>
                     {aChange ? (
                       <td>
                         <input
                           className="form-input"
-                          value={user.email}
+                          value={props.user.email}
                         />
                       </td>
                     ) : (
-                      <td className="value">{user.email}</td>
+                      <td className="value">{props.user.email}</td>
                     )}
                   </tr>
                   {aChange ? (

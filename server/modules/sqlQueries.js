@@ -30,9 +30,9 @@ class sqlQueries {
         }
     }
 
-    async select(tableName, field, conditions) {
+    async select(tableName, field, conditions, array) {
         try {
-            if (await this.isConnection() === false) await this.CreateConnection();
+            if (await this.isConnection() === false) await this.CreateConnection(array);
             let [results, resultInfo] = await this._connection.query(`SELECT ${field} FROM ${tableName} WHERE ${conditions}`);
             return results;
         } catch (error) {
@@ -40,19 +40,19 @@ class sqlQueries {
         }
     }
 
-    async selectAll(tableName) {
+    async selectAll(tableName, fields = "*") {
         try {
             if (await this.isConnection() === false) await this.CreateConnection();
-            let [results, resultInfo] = await this._connection.query(`SELECT * FROM ${tableName}`);
+            let [results, resultInfo] = await this._connection.query(`SELECT ${fields} FROM ${tableName}`);
             return results;
         } catch (error) {
             throw error;
         }
     }
 
-    async innerSelect(tableName, fields, innerJoins, conditions) {
+    async innerSelect(tableName, fields, innerJoins, conditions, array) {
         try {
-            if (await this.isConnection() === false) await this.CreateConnection();
+            if (await this.isConnection() === false) await this.CreateConnection(array);
             let [results, resultInfo] = await this._connection.query(`SELECT ${fields} FROM ${tableName} ${innerJoins} WHERE ${conditions}`);
             return results
         } catch (error) {

@@ -15,6 +15,13 @@ class AuthUser {
         return "";
     }
 
+    authHeader() {
+        return {
+            headers: {
+            "Authorization": `Baerer ${sessionStorage.getItem("token")}`
+        }}
+    }
+
     isLoggedIn() {
         if (sessionStorage.getItem("token")) return true;
         else return false;
