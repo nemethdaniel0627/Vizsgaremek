@@ -2,9 +2,45 @@
     float: left;
     height: 100vh;
     background-color: var(--dark-blue);
-    width: 15%;
-    position: sticky;
     top:0em;
+    position: fixed;
+    z-index: 100;
+    margin-top: 6rem;
+
+    .active{
+        width: 24rem;
+        transition: 0.2s;
+    }
+
+    .vert-text{
+        writing-mode: vertical-rl;
+        text-orientation: upright;
+        text-align: center;
+        color:#ffffffa0;
+        font-size: 2rem;
+        margin: 1rem;
+    }
+
+    .deactive{
+        width: 5rem;
+        transition: 0.5s;
+    }
+
+    .header{
+        .btn-activate{
+            color: white !important;
+            border-radius: 1rem;
+            margin: auto;
+            padding: 1rem !important;
+            font-size: 3em;
+
+            :focus,:active{
+                outline: 0;
+            }
+        }
+
+
+    }
 
     .btn-new{
         text-align: left!important;
@@ -14,22 +50,22 @@
 
     .btn-new:hover{
         color:white;
+        background-color: #00000030;
     }
 
     .btn-mg{
         padding: 1em;
     }
 
-    .modify-mg{
-        padding:1em;
-
-        .btn-m{
-            margin: 0.5em 0;
-        }
+    .btn-active{
+        color:#ffffff;
     }
 
-    .active{
-        color:#ffffff;
+    .modify-mg-dropdown{
+        .btn-div .btn{
+            padding: 1.5rem;
+            padding-left: 2rem;
+        }
     }
 
 
@@ -98,10 +134,6 @@
     }
 }
 
-.admin-db-mg{
-    margin-top: 15%;
-}
-
 .manager{
     background-color:  var(--accountBackground);
     padding: 1em;
@@ -154,6 +186,27 @@
 
     .div-page-number{
         font-size: 1.5em;
+    }
+
+    .pageChanger{
+        display: table-cell;
+        vertical-align: middle;
+        font-size: 1em;
+
+    }
+
+    .space{
+        margin-top: 2rem;
+    }
+
+    .onePage{
+        display: table-cell;
+        vertical-align: middle;
+        .select{
+            width: 5rem;
+            margin-left: 0.5rem;
+            margin-top: 1%;
+        }
     }
 }
 

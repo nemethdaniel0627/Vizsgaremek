@@ -7,6 +7,35 @@ export default function AdminDatabaseManagerSearch(props) {
         <div className="acc-head manager">
             <div className="container">
                 <div className="row">
+                    <div className="col-12 col-lg-3">
+                        <div className="input-group search-group">
+                            <input type="text" className="form-control btn btn-new i-search" placeholder="Keresés" />
+                            <button className="input-group-text btn-search" ><FontAwesomeIcon icon={faSearch} /></button>
+                        </div>
+                    </div>
+                    <div className="col-12 col-lg-1 space"></div>
+                    <div className="col-12 col-lg-4 justify-content-center d-flex">
+                        <div className="onePage">
+                            <label htmlFor="" className="fs-4 p-1">Egy oldalon: </label>
+                            <select name="" id="" className="form-select select float-end">
+                                <option value="10">10</option>
+                                <option value="25">25</option>
+                                <option value="50">50</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div className="col-12 col-lg-1 space"></div>
+                    <div className="col-12 col-lg-3 justify-content-center d-flex">
+                        <div className="pageChanger">
+                            <label htmlFor=""><span className="page-number">1</span> oldal / <span className="page-number">10</span> oldal</label>
+                            <button className="btn btn-page ms-2"><FontAwesomeIcon icon={faAngleLeft} /></button>
+                            <button className="btn btn-page"><FontAwesomeIcon icon={faAngleRight} /></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {/* <div className="container">
+                <div className="row">
                     <div className="div-search col-12 col-lg-3">
                         <div className="input-group search-group">
                             <input type="text" className="form-control btn btn-new i-search" placeholder="Keresés" />
@@ -38,7 +67,7 @@ export default function AdminDatabaseManagerSearch(props) {
                         <button className="btn btn-page"><FontAwesomeIcon icon={faAngleRight} /></button>
                     </div>
                 </div>
-            </div>
+            </div> */}
 
 
 
