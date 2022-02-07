@@ -105,18 +105,14 @@ class Test {
                 }
             }
             const testOrder = await order.order(i, [meals[0], meals[1], meals[2], meals[3], meals[4]], date);
-            console.log(testOrder);
             if (testOrder.split('\n')[0].split(' ')[0] !== 'Already') count++;
-            const a = await this.randomInt(0, 3);
-            console.log(a);
-            if (a === 1) 
+            const random = await this.randomInt(0, 3);
+            if (random === 1) 
             {
                 const co = await order.cancelOrder(i, [meals[0], meals[1], meals[2], meals[3], meals[4]], date);
                 if (co.split(' ')[0] !== 'Already') cancelled++;
             }
         }
-        console.log();
-        console.log(cancelled);
         return `${count} order(s) added\n${cancelled} order(s) cancelled`;
     }
 }
