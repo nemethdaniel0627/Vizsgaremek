@@ -55,7 +55,7 @@ export default function AdminDatabaseModal(props) {
 
 
   function remove(e) {
-    const date = dates.filter((item) => item != dates[e]);
+    const date = dates.filter((item) => item !== dates[e]);
     console.log(date);
     return date;
   }

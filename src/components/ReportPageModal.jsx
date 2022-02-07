@@ -2,7 +2,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheckCircle, faExclamationTriangle, faPaperPlane, faTimesCircle } from "@fortawesome/free-solid-svg-icons";
 import React, { useState } from "react";
 import Modal from "react-bootstrap/Modal";
-import emailjs, { send } from 'emailjs-com';
+import emailjs from 'emailjs-com';
 
 export default function ReportPageModal(props) {
 
@@ -73,7 +73,7 @@ export default function ReportPageModal(props) {
                 </div>
                 <div className="input-group mb-5">
                     <label htmlFor="error" className="mb-2">Hiba rövid leírása:</label>
-                    <textarea className="w-100 form-control" name="" id="message_what" cols="30" rows="10" name="message_what"></textarea>
+                    <textarea className="w-100 form-control" id="message_what" cols="30" rows="10" name="message_what"></textarea>
                 </div>
                 <div className="form-check checkbox">
                     <input className="form-check-input" type="checkbox" id="hozza" onChange={CheckboxChange}/>

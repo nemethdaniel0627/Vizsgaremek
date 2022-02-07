@@ -26,15 +26,7 @@ export default function AdminDatabaseAccodrion(props) {
 
     // function SelectionChange(e) {
     //     e.target.selectedIndex = 0;
-    // }
-
-    function EmailLongCheck(email){
-        const newEmail = email.split('@');
-
-        return newEmail[0] + "@\r\n" + newEmail[1];
-    }
-
-    const dates = props.user.date ? props.user.date.split('#') : [];
+    // }    
 
     return (
         <Accordion.Item eventKey={props.eventkey} className="acc">
@@ -54,7 +46,7 @@ export default function AdminDatabaseAccodrion(props) {
                         <div className="col-sm-12 col-lg-6 fs-4 mb-3">
                             <span className="key">E-mail:</span>
                             {props.isMobile ? <br/> : <></>}
-                            <span className={"me-5 float-end " + (props.isMobile?"mobile-email" : "")}>{EmailLongCheck(props.user.email)}</span>
+                            <span className={"me-5 float-end " + (props.isMobile?"mobile-email" : "")}>{props.user.email}</span>
                         </div>
                         <hr />
                         {!props.new ? <><div className="col-sm-12 col-lg-6 fs-4 mb-3">

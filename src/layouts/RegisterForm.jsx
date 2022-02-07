@@ -1,8 +1,7 @@
 import { faUserPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
-import login_icon from "../images/icon.png";
-import emailjs, { send } from 'emailjs-com';
+import emailjs from 'emailjs-com';
 
 export default function RegisterForm(props) {
 

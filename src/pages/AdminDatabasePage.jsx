@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
-
 import AdminDatabaseModal from "../components/AdminDatabaseModal";
 import AdminDatabaseAccordion from "../components/AdminDatabaseAccordion";
 import AdminDatabaseManager from "../layouts/AdminDatabaseManager";
-import AdminDatabaseManagerMobile from "../layouts/AdminDatabaseManagerMobile";
 import AdminDatabaseManagerSearch from "../components/AdminDatabaseManagerSearch";
 
 import { Accordion } from "react-bootstrap";
@@ -95,7 +93,7 @@ export default function AdminDatabasePage(props) {
         <div className="admin-db">
             {loading ? <Loader /> : <></>}
             <div className="admin-mg">
-                <Manager Download={Download} isMobile={isMobile}></Manager>
+                <AdminDatabaseManager Download={Download} isMobile={isMobile}></AdminDatabaseManager>
             </div>
 
 
