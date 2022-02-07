@@ -127,8 +127,11 @@ app.post("/cancel", async (req, res) => {
 app.post("/test", async (req, res) => {
   // const create = await test.generate('users2.txt', 82);
   // res.send(create);
-  const mealsCount = await order.ordersCountByDate('2022-01-31');
-  res.send(mealsCount);
+  // const mealsCount = await order.ordersCountByDate('2022-01-31');
+  // res.send(mealsCount);
+  const testOrders = await test.orders('2022-02-04', 15);
+  res.send(testOrders);
+
 })
 
 app.get("/", (req, res) => {
