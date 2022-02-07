@@ -6,7 +6,7 @@
         align-items: center;
         justify-content: center;
         position: relative;
-    }    
+    }
 
     &-area {
         width: 100%;
@@ -28,7 +28,6 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-
         }
 
         @media only screen and (max-width: 1600px) {
@@ -233,7 +232,7 @@
     opacity: 1;
     // display: block;
 
-    & .css-1snvurg-MuiPickerStaticWrapper-root {
+    & .week-selector .css-1snvurg-MuiPickerStaticWrapper-root {
         width: initial;
         height: initial;
     }
@@ -291,7 +290,6 @@
     justify-content: space-between;
 }
 
-
 .uploaded-file__info::after {
     content: "";
     position: absolute;
@@ -303,7 +301,6 @@
     visibility: hidden;
 }
 
-
 .uploaded-file__info::after {
     width: 0%;
     background-color: var(--clr-blue);
@@ -314,23 +311,23 @@
     animation: progressMove 1500ms ease-in-out forwards;
     animation-delay: 300ms;
     visibility: visible;
-    transition: all .1s .3s;
+    transition: all 0.1s 0.3s;
 }
 
 .uploaded-file {
     &__info--active &__counter {
         visibility: visible;
-        transition: all .1s;
+        transition: all 0.1s;
     }
-} 
+}
 
 @keyframes progressMove {
     from {
-        width: 0%;        
+        width: 0%;
     }
 
     to {
-        width: 100%;        
+        width: 100%;
     }
 }
 
@@ -351,7 +348,7 @@
     visibility: hidden;
 }
 
-.css {
+.week-selector .css {
     &-i4bv87-MuiSvgIcon-root {
         font-size: 2.5rem !important;
     }

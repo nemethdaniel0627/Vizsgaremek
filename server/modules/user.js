@@ -1,5 +1,6 @@
 const sqlQueries = require("./sqlQueries");
 const fs = require("fs").promises;
+const functions = require("./functions");
 
 class User {
     #data;
@@ -8,13 +9,13 @@ class User {
         try {
             this.#data = [];
             (await fs.readFile(filename, 'utf-8'))
-            .toString()
-            .trim()
-            .split('\n')
-            .forEach(r => {
-                const row = r.trim();
-                this.#data.push(row);
-            });
+                .toString()
+                .trim()
+                .split('\n')
+                .forEach(r => {
+                    const row = r.trim();
+                    this.#data.push(row);
+                });
             return this.#data;
         } catch (error) {
             throw error;
@@ -28,21 +29,20 @@ class User {
         if (unique) return false;
         return true;
     }
-  
+
     async add(data = '') {
         let added = false;
         if (await sqlQueries.isConnection() === false) await sqlQueries.CreateConnection();
 
-        if ((await this.isUnique('omAzon', data.split(';')[0])) && (await this.isUnique('email', data.split(';')[5])))
-        {
-            await sqlQueries.insert("user", 
-            "omAzon," +
-            "jelszo, " +
-            "nev, " +
-            "iskolaOM, " +
-            "osztaly, " +
-            "email",
-            `"${data.split(";")[0]}", "${data.split(";")[1]}", "${data.split(";")[2]}", "${data.split(";")[3]}", "${data.split(";")[4]}", "${data.split(";")[5]}"`);
+        if ((await this.isUnique('omAzon', data.split(';')[0])) && (await this.isUnique('email', data.split(';')[5]))) {
+            await sqlQueries.insert("user",
+                "omAzon," +
+                "jelszo, " +
+                "nev, " +
+                "iskolaOM, " +
+                "osztaly, " +
+                "email",
+                `"${data.split(";")[0]}", "${data.split(";")[1]}", "${data.split(";")[2]}", "${data.split(";")[3]}", "${data.split(";")[4]}", "${data.split(";")[5]}"`);
             const userId = await sqlQueries.select("user", "id", `omAzon = ${data.split(';')[0]}`);
             await sqlQueries.insert("user_role", "roleId, userId", `2, ${userId}`);
             added = true;
@@ -53,7 +53,20 @@ class User {
 
     async getAll(isJson) {
         if (await sqlQueries.isConnection() === false) await sqlQueries.CreateConnection(isJson);
-        const all = await sqlQueries.selectAll('user');
+        const all = await sqlQueries.selectAll(
+            "user ORDER BY user.osztaly, user.nev",
+            "*, "+
+            "(" +
+            "SELECT " +
+            "orders.id " +
+            "FROM menu " +
+            "INNER JOIN days " +
+            "ON menu.daysId = days.id " +
+            "INNER JOIN orders " +
+            "ON orders.menuId = menu.id " +
+            `WHERE datum = '${functions.convertDateWithDash(new Date())}' AND userId = user.id` +
+            ") AS 'befizetve'"
+        );
         await sqlQueries.EndConnection();
         return all;
     }

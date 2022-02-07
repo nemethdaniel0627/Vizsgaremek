@@ -4,7 +4,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import XLSX from 'xlsx';
-import { URL } from '../utils/constants.js';
 import { styled } from '@mui/material/styles';
 import { Alert, AlertTitle, TextField, Collapse, IconButton } from "@mui/material";
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
@@ -275,7 +274,7 @@ export default function MenuUpload() {
     function sendExcelRows() {
         const startDay = modules.getFirstDayOfWeek(week);
         console.log(startDay);
-        axios.post(`${URL}/etlap`, {
+        axios.post(`/etlap`, {
             excelRows: excelRows,
             date: modules.convertDateWithDash(startDay)
         })

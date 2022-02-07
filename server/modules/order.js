@@ -98,6 +98,26 @@ class Order {
         return menuId;
     }
 
+    async selectOrdersWithDateByUserId(userId) {
+        if (await sqlQueries.isConnection() === false) await sqlQueries.CreateConnection(false);
+        const ordersWithDate = await sqlQueries.innerSelect(
+            'menu',
+            'days.datum, ' +
+            'orders.reggeli, ' +
+            'orders.tizorai, ' +
+            'orders.ebed, ' +
+            'orders.uzsonna, ' +
+            'orders.vacsora, ' +
+            'orders.ar, ' +
+            'orders.lemondva ',
+            'INNER JOIN days ON menu.daysId = days.id ' +
+            'INNER JOIN orders ON orders.menuId = menu.id ',
+            `userid = '${userId}' ORDER BY days.datum`,
+            false);
+        await sqlQueries.EndConnection();
+        return ordersWithDate;
+    }
+
     async userOrdersByMenuId(userId, date) {
         const orders = await this.isOrderOrUserExists(userId);
         if (orders === -1) return `No user with ${userId} ID`;

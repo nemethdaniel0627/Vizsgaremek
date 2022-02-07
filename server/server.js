@@ -67,10 +67,19 @@ app.post("/add", async (req, res) => {
   }
 })
 
+app.post("/userdetails", auth.tokenAutheticate, async (req, res) => {
+  const omAzon = req.body.omAzon;
+  const userWithDetails = await user.getBy("*", `user.omAzon = ${omAzon}`, false);
+  const userOrders = await order.selectOrdersWithDateByUserId(userWithDetails[0].id);
+  userWithDetails[0].orders = userOrders;
+  res.json(userWithDetails);
+})
+
 app.post("/user", auth.tokenAutheticate, async (req, res) => {
   const userId = req.body.userId;
   const userResult = await user.getBy("*", `id = "${userId}"`, false);
   const orderResult = await order.doesUserHaveOrderForDate(userId, new Date())
+  console.log(orderResult);
   if (!orderResult) userResult[0].befizetve = false;
   else userResult[0].befizetve = true;
   console.log(userResult);

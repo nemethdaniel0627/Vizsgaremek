@@ -19,6 +19,7 @@ import MenuUpload from "./pages/MenuUpload";
 import PaymentPage from "./pages/PaymentPage";
 import Loader from "./layouts/Loader";
 import jwt from "jsonwebtoken";
+import AdminUserDetails from "./pages/AdminUserDetails";
 
 
 export default function App() {
@@ -105,6 +106,14 @@ export default function App() {
         getUser();
     }, [path])
 
+    function startLoading() {
+        setLoading(true);
+    }
+
+    function endLoading() {
+        setLoading(false);
+    }
+
     return (
         <div className="App">
             <Navbar userName={`${user == null ? "" : user.nev}`} />
@@ -151,7 +160,7 @@ export default function App() {
 
 
                     <AuthRoute path="/adatbazis" auth="admin" component={() =>
-                        <AdminDatabasePage />
+                        <AdminDatabasePage endLoading={endLoading} startLoading={startLoading} />
                     } />
 
                     <AuthRoute path="/fizetes" auth="user" component={() =>
@@ -164,6 +173,10 @@ export default function App() {
 
                     <AuthRoute path="/etlapfeltolt" auth="admin" component={() =>
                         <MenuUpload />
+                    } />
+
+                    <AuthRoute path="/reszletes/:omAzon" auth="admin" component={() =>
+                        <AdminUserDetails user={user} />
                     } />
 
                     <Route>

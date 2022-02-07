@@ -3,7 +3,7 @@ import MenuDays from "../components/MenuDays";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import axios from "axios";
-import { URL, allgergens } from "../utils/constants";
+import { allgergens } from "../utils/constants";
 import DaySelector from "../components/DaySelector";
 import modules from "../helpers/modules";
 
@@ -103,7 +103,7 @@ export default function Menu(props) {
 
     useEffect(() => {
         if (sessionStorage.getItem("menu") === null) {
-            axios.get(`${URL}/etlap`)
+            axios.get(`/etlap`)
                 .then((response) => {
                     sessionStorage.setItem("menu", JSON.stringify(response.data))
                     setMenu(response.data);

@@ -8,10 +8,14 @@ import AdminDatabaseManagerSearch from "../components/AdminDatabaseManagerSearch
 
 import { Accordion } from "react-bootstrap";
 import axios from "axios";
+import Loader from "../layouts/Loader";
 
 export default function AdminDatabasePage(props) {
 
+    const { endLoading, startLoading } = props;
+
     const [users, setUsers] = useState([])
+    const [loading, setLoading] = useState(false);
 
     let isMobile = false;
     if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
@@ -32,21 +36,28 @@ export default function AdminDatabasePage(props) {
     //     users.push(user);
     // }
 
+
+
     useEffect(() => {
-        axios.get("/alluser",
-            {
-                headers: {
-                    "Authorization": `Baerer ${sessionStorage.getItem("token")}`
-                }
-            })
-            .then(response => {
-                setUsers(response.data);
-                console.log(response.data);
-            })
-            .catch(error => {
-                console.error(error);
-            })
-    }, [])
+        if (users.length === 0) {
+            setLoading(true);
+            axios.get("/alluser",
+                {
+                    headers: {
+                        "Authorization": `Baerer ${sessionStorage.getItem("token")}`
+                    }
+                })
+                .then(response => {
+                    setUsers(response.data);
+                    console.log(response.data);
+                    setLoading(false);
+                })
+                .catch(error => {
+                    console.error(error);
+                    setLoading(false);
+                })
+        }
+    }, [endLoading, startLoading, users])
 
     function Download() {
 
@@ -82,7 +93,7 @@ export default function AdminDatabasePage(props) {
 
     return (
         <div className="admin-db">
-
+            {loading ? <Loader /> : <></>}
             <div className="admin-mg">
                 {!isMobile ? <AdminDatabaseManager Download={Download}></AdminDatabaseManager> : <AdminDatabaseManagerMobile Download={Download}></AdminDatabaseManagerMobile>}
             </div>
@@ -101,9 +112,9 @@ export default function AdminDatabasePage(props) {
 
                             <AdminDatabaseAccordion eventkey='1' user={users} isMobile={isMobile} new="true"></AdminDatabaseAccordion>
 
-                            {users.map((user, index) => (
-                                <AdminDatabaseAccordion key={index} eventkey={index} user={user} isMobile={isMobile}></AdminDatabaseAccordion>
-                            ))}
+                            {users.map((user, index) => {
+                                return <AdminDatabaseAccordion key={index} eventkey={index} user={user} isMobile={isMobile}></AdminDatabaseAccordion>
+                            })}
                         </Accordion>
 
                     </div>
