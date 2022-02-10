@@ -74,6 +74,23 @@ CREATE TABLE foode.user_role (
   roleId INT(11) NOT NULL
 );
 
+CREATE TABLE user_pending (
+  id INT(11) NOT NULL AUTO_INCREMENT,
+  omAzon VARCHAR(255) NOT NULL,
+  jelszo VARCHAR(255) NOT NULL,
+  nev VARCHAR(255) NOT NULL,
+  iskolaOM VARCHAR(255) NOT NULL,
+  osztaly VARCHAR(255) DEFAULT NULL,
+  email VARCHAR(100) NOT NULL,
+  PRIMARY KEY (id)
+)
+
+ALTER TABLE user_pending 
+  ADD UNIQUE INDEX email(email);
+
+ALTER TABLE user_pending 
+  ADD UNIQUE INDEX omAzon(omAzon);
+
 ALTER TABLE orders 
   ADD CONSTRAINT FK_orders_user_id FOREIGN KEY (userId)
     REFERENCES user(id) ON DELETE NO ACTION ON UPDATE NO ACTION;

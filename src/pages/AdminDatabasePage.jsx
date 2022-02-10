@@ -7,12 +7,14 @@ import AdminDatabaseManagerSearch from "../components/AdminDatabaseManagerSearch
 import { Accordion } from "react-bootstrap";
 import axios from "axios";
 import Loader from "../layouts/Loader";
+import AuthUser from "../modules/AuthUser";
 
 export default function AdminDatabasePage(props) {
 
     const { endLoading, startLoading } = props;
 
     const [users, setUsers] = useState([])
+    const [pending, setPending] = useState([]);
     const [loading, setLoading] = useState(false);
 
     let isMobile = false;
@@ -39,12 +41,14 @@ export default function AdminDatabasePage(props) {
     useEffect(() => {
         if (users.length === 0) {
             setLoading(true);
-            axios.get("/alluser",
-                {
-                    headers: {
-                        "Authorization": `Baerer ${sessionStorage.getItem("token")}`
-                    }
+            axios.get("/pending", AuthUser.authHeader())
+                .then(response => {
+                    setPending(response.data);
                 })
+                .catch(error => {
+                    console.error(error)
+                });
+            axios.get("/alluser", AuthUser.authHeader())
                 .then(response => {
                     setUsers(response.data);
                     console.log(response.data);
@@ -53,7 +57,7 @@ export default function AdminDatabasePage(props) {
                 .catch(error => {
                     console.error(error);
                     setLoading(false);
-                })
+                });
         }
     }, [endLoading, startLoading, users])
 
@@ -108,7 +112,9 @@ export default function AdminDatabasePage(props) {
 
                         <Accordion>
 
-                            <AdminDatabaseAccordion eventkey='1' user={users} isMobile={isMobile} new="true"></AdminDatabaseAccordion>
+                            {pending.map((pending, index) => {
+                                return <AdminDatabaseAccordion key={`pending_${index}`} eventkey='1' user={pending} isMobile={isMobile} new="true"></AdminDatabaseAccordion>
+                            })}
 
                             {users.map((user, index) => {
                                 return <AdminDatabaseAccordion key={index} eventkey={index} user={user} isMobile={isMobile}></AdminDatabaseAccordion>

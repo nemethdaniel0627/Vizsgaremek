@@ -6,7 +6,7 @@ module.exports.exception = function (req, res, next) {
 
     res.created = function () {
         return res.status(201).json({message: "Sikeresen létrehozva"});
-    }
+    }    
 
     res.badRequest = function () {
         return res.status(401).json({message: "Nincs ilyen művelet"});

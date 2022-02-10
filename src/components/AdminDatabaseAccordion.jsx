@@ -3,14 +3,21 @@ import { Accordion } from "react-bootstrap";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck, faEdit, faTimes, faUserCheck, faUserPlus, faUserTimes } from "@fortawesome/free-solid-svg-icons";
 import Modal from "./AdminDatabaseModal";
+import ResponseMessage from './ResponseMessage';
 import { useState } from "react";
 import ReadMoreIcon from '@mui/icons-material/ReadMore';
 import { Link } from "react-router-dom";
+import axios from "axios";
+import AuthUser from "../modules/AuthUser";
+import { useEffect } from "react";
 
 export default function AdminDatabaseAccodrion(props) {
 
     const [modifyModalAppear, setModifyModal] = useState(false);
     const [deleteModalAppear, setDeleteModal] = useState(false);
+    const [alertOpen, setAlertOpen] = useState(false);
+    const [alertType, setAlertType] = useState(undefined);
+
     function ModifyModal(event) {
         setModifyModal(!modifyModalAppear);
     }
@@ -27,6 +34,42 @@ export default function AdminDatabaseAccodrion(props) {
     // function SelectionChange(e) {
     //     e.target.selectedIndex = 0;
     // }    
+
+    function acceptPending() {
+        axios.post("/acceptpending",
+            {
+                omAzon: props.user.omAzon
+            },
+            AuthUser.authHeader())
+            .then(response => {            
+                setAlertType(false);
+                console.log(response);
+            })
+            .catch(error => {
+                setAlertOpen(true);
+                console.error(error);
+            });
+    }
+
+    function rejectPending() {
+        axios.post("/rejectpending",
+            {
+                omAzon: props.user.omAzon
+            },
+            AuthUser.authHeader())
+            .then(response => {
+                setAlertOpen(false);
+                console.log(response);
+            })
+            .catch(error => {
+                setAlertOpen(true);
+                console.error(error);
+            });
+    }
+
+    useEffect(() => {
+        if (alertType !== undefined) setAlertOpen(true);
+    }, [alertType])
 
     return (
         <Accordion.Item eventKey={props.eventkey} className="acc">
@@ -45,8 +88,8 @@ export default function AdminDatabaseAccodrion(props) {
                         <hr className="col-12 col-lg-0 d-flex d-lg-none" />
                         <div className="col-sm-12 col-lg-6 fs-4 mb-3">
                             <span className="key">E-mail:</span>
-                            {props.isMobile ? <br/> : <></>}
-                            <span className={"me-5 float-end " + (props.isMobile?"mobile-email" : "")}>{props.user.email}</span>
+                            {props.isMobile ? <br /> : <></>}
+                            <span className={"me-5 float-end " + (props.isMobile ? "mobile-email" : "")}>{props.user.email}</span>
                         </div>
                         <hr />
                         {!props.new ? <><div className="col-sm-12 col-lg-6 fs-4 mb-3">
@@ -59,19 +102,30 @@ export default function AdminDatabaseAccodrion(props) {
                                 <span className={"me-5 float-end"}>{props.user.value ? props.user.value : "Nincs befizetve!"}</span>
                             </div>
 
-                            <hr /><div className={"accordion_buttons" + (props.isMobile ? " text-center" : "")}>
+                            <div className={"accordion_buttons" + (props.isMobile ? " text-center" : "")}>
                                 <button className="btn btn-modify fs-3" id={"btn_" + props.user.name + "-" + props.user.class} onClick={ModifyModal} ><FontAwesomeIcon id={"icon_" + props.user.name + "-" + props.user.class} icon={faEdit} /> Módosítás</button>
                                 <button className="btn btn-delete fs-3" id={"btn2_" + props.user.name + "-" + props.user.class} onClick={DeleteModal}><FontAwesomeIcon id={"icon2_" + props.user.name + "-" + props.user.class} icon={faUserTimes} /> Törlés</button>
                                 <Link to={`/reszletes/${props.user.omAzon}`}><button className="btn btn-infos fs-3" id={"btn3_" + props.user.name + "-" + props.user.class} onClick={DeleteModal}><ReadMoreIcon className="fs-1" fontSize="inherit" color="#000" /> Részletes adatok</button></Link>
-                            </div></> : <><div className={"col-12" + (props.isMobile ? " text-center" : "")}>
-                                <button className="btn btn-modify fs-3 me-lg-5 mb-2 mb-lg-0" id={"btn_" + props.user.name + "-" + props.user.class}  ><FontAwesomeIcon id={"icon_" + props.user.name + "-" + props.user.class} icon={faUserCheck} /> Elfogadás</button>
-                                <button className="btn btn-delete fs-3" id={"btn2_" + props.user.name + "-" + props.user.class}><FontAwesomeIcon id={"icon2_" + props.user.name + "-" + props.user.class} icon={faUserTimes} /> Elutasítás</button>
+                            </div></> : <><div className={"accordion_buttons" + (props.isMobile ? " text-center" : "")}>
+                                <button className="btn btn-infos fs-3 me-lg-5 mb-2 mb-lg-0" id={"btn_" + props.user.name + "-" + props.user.class} onClick={acceptPending} ><FontAwesomeIcon id={"icon_" + props.user.name + "-" + props.user.class} icon={faUserCheck} /> Elfogadás</button>
+                                <button className="btn btn-delete fs-3" id={"btn2_" + props.user.name + "-" + props.user.class} onClick={rejectPending}><FontAwesomeIcon id={"icon2_" + props.user.name + "-" + props.user.class} icon={faUserTimes} /> Elutasítás</button>
                             </div></>}
 
                         {modifyModalAppear ? <Modal ModalClose={ModifyModal} title="Személy módosítása" message="" button="Módosítás" show={modifyModalAppear} type="Modify" user={props.user}></Modal> : <></>}
                         {deleteModalAppear ? <Modal ModalClose={DeleteModal} title="Személy törlése" message={"Biztosan törölni akarok ezt a személyt? (" + props.user.name + ")"} user={props.user} button="Törlés" show={deleteModalAppear} type="Delete" ></Modal> : <></>}
                     </div>
                 </div>
+                {alertType ?
+                    <ResponseMessage
+                        setAlertOpen={setAlertOpen}
+                        alertOpen={alertOpen}
+                        text={"Hiba történt a regisztrációkor elküldésekor!\nIlyen OM azonosító vagy email cím már létezik!"}
+                        type="error" />
+                    : <ResponseMessage
+                        setAlertOpen={setAlertOpen}
+                        alertOpen={alertOpen}
+                        text={"Sikeres regisztráció!\nTovábbi információkat emailben küldtünk"}
+                        type="success" />}
             </Accordion.Body>
         </Accordion.Item>
 

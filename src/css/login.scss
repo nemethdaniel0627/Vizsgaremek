@@ -5,6 +5,10 @@
     .--input{
         background-color: #00000050;
         color: white;
+
+        &:-internal-autofill-selected + svg {
+            color: #000;
+        }
     }
 
     .--header{
@@ -14,6 +18,16 @@
     .--img{
         width: 40%;
         float: right;
+    }
+
+    .password--icon {
+        position: absolute;
+        top: 50%;
+        right: 1rem;
+        transform: translateY(-50%);
+        color: #fff;
+        font-size: 1.5rem;
+        cursor: pointer;
     }
 
     .card{

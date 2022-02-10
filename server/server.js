@@ -105,9 +105,29 @@ app.post("/register", async (req, res) => {
     res.send("Felhasználó már létezik");
   }
   else {
-    res.setHeader("Authorization", [auth.createCookie(authResult.tokenData)]);
-    res.send(authResult.user);
+    res.created();
   }
+});
+
+app.get("/pending", auth.tokenAutheticate, async (req, res) => {
+  const pending = await sqlQueries.selectAll("user_pending", "*", false);
+  res.json(pending);
+});
+
+app.post("/acceptpending", auth.tokenAutheticate, async (req, res) => {
+  const omAzon = req.body.omAzon;
+  const tmpUser = await user.getBy("*", `omAzon = '${omAzon}'`, false, true);
+  await user.delete(`omAzon = ${omAzon}`, true);
+  const newUser = await user.add(`${tmpUser[0].omAzon};${tmpUser[0].jelszo};${tmpUser[0].nev};${tmpUser[0].iskolaOM};${tmpUser[0].osztaly};${tmpUser[0].email}`, false);
+  if (newUser.length === 0) res.conflict();
+  res.created();
+});
+
+app.post("/rejectpending", auth.tokenAutheticate, async (req, res) => {
+  const omAzon = req.body.omAzon;
+  const result = await user.delete(`omAzon = ${omAzon}`, true);
+  res.send("Ok");
+
 });
 
 app.post("/login", async (req, res) => {
