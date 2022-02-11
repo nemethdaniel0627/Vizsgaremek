@@ -1,10 +1,8 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faLock,
-  faPencilAlt,
-  faSyncAlt,
-  faTimesCircle,
+  faLock,  
+  faSyncAlt,  
   faUnlock,
 } from "@fortawesome/free-solid-svg-icons";
 import AccountPageActivities from "../components/AccountPageActivities";
@@ -13,6 +11,7 @@ import { useState } from "react";
 export default function DataPage(props) {
   const [aChange, aChanging] = useState(false);
 
+  // eslint-disable-next-line no-unused-vars
   function AccChange() {
     aChanging(!aChange);
   }

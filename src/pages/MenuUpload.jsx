@@ -1,11 +1,11 @@
 import React from "react";
-import { faFileExcel, faTimesCircle } from "@fortawesome/free-solid-svg-icons";
+import { faFileExcel } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import XLSX from 'xlsx';
 import { styled } from '@mui/material/styles';
-import { Alert, AlertTitle, TextField, Collapse, IconButton } from "@mui/material";
+import { TextField } from "@mui/material";
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import StaticDatePicker from '@mui/lab/StaticDatePicker';
@@ -16,6 +16,7 @@ import isWithinInterval from 'date-fns/isWithinInterval';
 import startOfWeek from 'date-fns/startOfWeek';
 import locale from 'date-fns/locale/hu'
 import modules from "../helpers/modules.js";
+import ResponseMessage from "../components/ResponseMessage.jsx";
 
 const CustomPickersDay = styled(PickersDay, {
     shouldForwardProp: (prop) =>
@@ -283,13 +284,13 @@ export default function MenuUpload() {
                 progressMove();
             })
             .catch((error) => {
-                setErrorOpen(true);
+                setAlertOpen(true);
                 console.error(error);
             });
     }
 
     const [week, setWeek] = useState(new Date());
-    const [errorOpen, setErrorOpen] = useState(false);
+    const [alertOpen, setAlertOpen] = useState(false);
 
     const renderWeekPickerDay = (date, selectedDates, pickersDayProps) => {
         if (!week) {
@@ -387,30 +388,11 @@ export default function MenuUpload() {
                 {/* <!-- End File Details --> */}
             </div>
             {/* <!-- End Upload Area --></div> */}
-            <div className="upload-area--error-message">
-                <Collapse in={errorOpen}>
-                    <Alert
-                        severity="error"
-                        action={
-                            <IconButton
-                                aria-label="close"
-                                color="inherit"
-                                size="large"
-                                onClick={() => {
-                                    setErrorOpen(false);
-                                }}
-                            >
-                                <FontAwesomeIcon icon={faTimesCircle} />
-                            </IconButton>
-                        }
-                        sx={{ mb: 2, fontSize: '1.2rem' }}
-                    >
-                        <AlertTitle sx={{ fontSize: '1.8rem' }}>Hiba</AlertTitle>
-                        Hiba történt az étlap elküldésekor!<br />
-                        Kérjük ellnőrizze a <strong>formátumot!</strong>
-                    </Alert>
-                </Collapse>
-            </div>
+            <ResponseMessage
+                setAlertOpen={setAlertOpen}
+                alertOpen={alertOpen}
+                text={"Hiba történt az étlap elküldésekor!\nKérjük ellnőrizze a formátumot!"}
+                type="error" />
         </div>
     )
 }

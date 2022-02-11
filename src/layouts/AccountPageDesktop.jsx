@@ -17,6 +17,7 @@ export default function DataPage(props) {
     changing(!change);
   }
 
+  // eslint-disable-next-line no-unused-vars
   function AccChange() {
     aChanging(!aChange);
   }

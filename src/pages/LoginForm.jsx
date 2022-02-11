@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import AuthUser from "../modules/AuthUser";
 import RegisterForm from "../layouts/RegisterForm"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSignInAlt } from "@fortawesome/free-solid-svg-icons";
+import { faEye, faEyeSlash, faSignInAlt } from "@fortawesome/free-solid-svg-icons";
 
 export default function LoginForm(props) {
     const [user, setUser] = useState({
@@ -10,7 +10,8 @@ export default function LoginForm(props) {
         password: ""
     });
 
-    const [register, setRegister] = useState(false);
+    const [seePwd, setSeePwd] = useState(false);
+    const [register, setRegister] = useState(false);    
 
     function Register() {
         setRegister(!register);
@@ -30,6 +31,10 @@ export default function LoginForm(props) {
 
     function loginUser() {
         AuthUser.loginUser(user.name, user.password);
+    }
+
+    function changePasswordType() {
+        setSeePwd(!seePwd);
     }
 
     function formSend(event) {
@@ -59,8 +64,9 @@ export default function LoginForm(props) {
 
                                                 </div>
 
-                                                <div className="form-outline form-white mb-4">
-                                                    <input type="password" onChange={inputChange} required value={user.password} name="password" className="form-control form-control-lg fs-4 --input" placeholder="Jelszó" />
+                                                <div className="form-outline form-white mb-4 position-relative">
+                                                    <input type={seePwd ? "text" : "password"} onChange={inputChange} required value={user.password} name="password" className="form-control form-control-lg fs-4 --input" placeholder="Jelszó" />
+                                                    {seePwd ? <FontAwesomeIcon onClick={changePasswordType} className="password--icon" icon={faEyeSlash} /> : user.password ? <FontAwesomeIcon onClick={changePasswordType} className="password--icon" icon={faEye} /> : <></>}
                                                 </div>
                                                 {/* <p class="text-white-50 mb-5 alert">Felhasználónév vagy jelszó nem megfelelő!</p> */}
 
@@ -83,8 +89,7 @@ export default function LoginForm(props) {
                     </div>
                 </section> :
                     <RegisterForm title="Regisztráció" RegisterOff={Register}></RegisterForm>
-            }
-
+            }            
         </div>
 
 

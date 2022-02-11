@@ -7,24 +7,25 @@ require('dotenv').config();
 
 class Auth {
     async register(user) {
-        const userResult = await USER.getBy("omAzon", `omAzon = "${user.userName}"`);
+        const userResult = await USER.getBy("omAzon", `omAzon = "${user.omAzon}"`);
         if (userResult.length !== 0) {
             return undefined;
         }
         else {
             const hashedPassword = bcrypt.hashSync(user.password, 10);
-            const created = await USER.add(`${user.userName};${hashedPassword};${user.name};${user.iskolaOM};${user.osztaly};${user.email}`);
+            const created = await USER.add(`${user.omAzon};${hashedPassword};${user.name};${user.iskolaOM};${user.osztaly};${user.email}`, true);
             if (created) {
-                const createdUserId = await USER.getBy("id", `omAzon = "${user.userName}"`);
-                if (await sqlQueries.isConnection() === false) await sqlQueries.CreateConnection();
-                await sqlQueries.insert("user_role", "userId, roleId", `${createdUserId}, 2`);
-                const roles = await sqlQueries.select("user_role", "roleId", `userId = ${createdUserId}`);
-                await sqlQueries.EndConnection();
-                user.password = undefined;
-                return {
-                    tokenData: this.#createToken(createdUserId, { roles: roles[0] }),
-                    user: user
-                }
+                // const createdUserId = await USER.getBy("id", `omAzon = "${user.userName}"`);
+                // if (await sqlQueries.isConnection() === false) await sqlQueries.CreateConnection();
+                // await sqlQueries.insert("user_role", "userId, roleId", `${createdUserId}, 2`);
+                // const roles = await sqlQueries.select("user_role", "roleId", `userId = ${createdUserId}`);
+                // await sqlQueries.EndConnection();
+                // user.password = undefined;
+                // return {
+                //     tokenData: this.#createToken(createdUserId, { roles: roles[0] }),
+                //     user: user
+                // }
+                return true;
             }
             return undefined;
         }
