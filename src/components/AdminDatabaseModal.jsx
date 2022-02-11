@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faFileUpload, faPlus, faTimesCircle, faUserPlus, faUserTimes } from "@fortawesome/free-solid-svg-icons";
 import Modal from "react-bootstrap/Modal";
 import Chips from './Chips';
+import axios from 'axios'
 
 export default function AdminDatabaseModal(props) {
   const [search, setSearch] = useState(props.show);
@@ -23,11 +24,11 @@ export default function AdminDatabaseModal(props) {
 
 
   function newUserClick() {
-    props.user.name = document.getElementById('new_name').value;
-    props.user.class = document.getElementById('new_class').value;
+    props.user.nev = document.getElementById('new_name').value;
+    props.user.osztaly = document.getElementById('new_class').value;
     props.user.email = document.getElementById('new_email').value;
-    props.user.user = document.getElementById('new_username').value;
-    props.user.isPaid = document.getElementById('new_isPaid').checked;
+    props.user.omAZon = document.getElementById('new_username').value;
+    props.user.befizetve = document.getElementById('new_isPaid').checked;
     props.user.value = document.getElementById('new_amount').value ? document.getElementById('new_amount').value + " Ft" : "Nincs befizetve!";
     let tmpIsPaid = props.user.isPaid;
     !document.getElementById('new_amount').value ? props.user.isPaid = false : props.user.isPaid = tmpIsPaid;
@@ -37,7 +38,7 @@ export default function AdminDatabaseModal(props) {
   }
 
   function deleteUser() {
-    props.user.isDeleted = true;
+    axios.post("/userdelete");
     ModalClose();
   }
 
@@ -105,22 +106,22 @@ export default function AdminDatabaseModal(props) {
       <div className="fs-4 admin-modal">
         <div className="input-group mb-3">
           <label htmlFor="new_name " className="mb-2">Név:</label>
-          <input type="text" id="new_name" className="w-100 form-control" defaultValue={user.name} />
+          <input type="text" id="new_name" className="w-100 form-control" defaultValue={user.nev} />
         </div>
         <div className="input-group mb-3">
           <label htmlFor="new_class" className="mb-2">Osztály:</label>
-          <input type="text" id="new_class" className="w-100 form-control" defaultValue={user.class} />
+          <input type="text" id="new_class" className="w-100 form-control" defaultValue={user.osztaly} />
         </div>
         <div className="input-group mb-3">
           <label htmlFor="new_email" className="mb-2">E-mail cím:</label>
           <input type="email" id="new_email" className="w-100 form-control" defaultValue={user.email} />
         </div>
         <div className="input-group mb-3">
-          <label htmlFor="new_username" className="mb-2">Felhasználónév:</label>
-          <input type="text" id="new_username" className="w-100 form-control" defaultValue={user.user} />
+          <label htmlFor="new_username" className="mb-2">OM azonosító:</label>
+          <input type="text" id="new_username" className="w-100 form-control" defaultValue={user.omAzon} />
         </div>
         <div className="form-check mb-3">
-          <input className="form-check-input" type="checkbox" id="new_isPaid" defaultChecked={user.isPaid ? true : false} />
+          <input className="form-check-input" type="checkbox" id="new_isPaid" defaultChecked={user.befizetve ? true : false} />
           <label className="form-check-label" htmlFor="new_isPaid">
             Befizetve
           </label>
