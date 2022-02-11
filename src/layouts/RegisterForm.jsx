@@ -19,10 +19,12 @@ export default function RegisterForm(props) {
     function Regist(e) {
         e.preventDefault();
 
-        emailjs.send('gmail', 'registration', {
+        emailjs.send('gmail', 'beforeRegAcc', {
+            //Ezek között nem írtam át
             name: "Teszt Elek",
-            subject: "Sikeres regisztráció",
+            subject: "Regisztráció",
             email: ""
+            //Ez
         }, 'user_o4UcHcGE4vZKf1FT7oMAO').then((result) => {
         }, (error) => {
             console.log(error.text);

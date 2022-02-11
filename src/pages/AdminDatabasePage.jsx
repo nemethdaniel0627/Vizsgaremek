@@ -95,7 +95,7 @@ export default function AdminDatabasePage(props) {
         <div className="admin-db">
             {loading ? <Loader /> : <></>}
             <div className="admin-mg">
-                <Manager Download={Download} isMobile={isMobile}></Manager>
+                <AdminDatabaseManager Download={Download} isMobile={isMobile}></AdminDatabaseManager>
             </div>
 
 

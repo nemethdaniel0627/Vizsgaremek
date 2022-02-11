@@ -22,17 +22,15 @@ export default function ReportPageModal(props) {
     function Send() {
         changeSended(!sended);
         changeSending(false);
-        setCheck(true);
     }
 
     function Sending() {
         changeSending(!sending);
-        setCheck(false);
     }
 
     function Checking() {
         setError(false);
-        return document.getElementById('message_where').value !== "" && document.getElementById('message_what').value !== "" ? true : false;
+        return document.getElementById('message_where').value !== "" && document.getElementById('message_what').value !== "" && check ? true : false;
     }
 
     function sendEmail(e) {
@@ -40,15 +38,15 @@ export default function ReportPageModal(props) {
             Sending();
             e.preventDefault();
 
-            emailjs.send('gmail', 'thxForReport', {
+            emailjs.send('gmail', 'reportEmail', {
                 message_where: document.getElementById('message_where').value,
                 message_what: document.getElementById('message_what').value,
                 from: props.user.nev,
                 class: props.user.osztaly,
-                email: props.user.email
-            }, 'user_o4UcHcGE4vZKf1FT7oMAO').then((result) => {
+                from_email: props.user.email,
+            }, 'user_5h9Z571SwF8zjXlvj40ty').then((result) => {
                 Send();
-            }, (error) => {
+            }, (error) => { 
                 console.log(error.text);
             });
 
@@ -58,10 +56,11 @@ export default function ReportPageModal(props) {
 
     }
 
-    const [check, setCheck] = useState(false);
+    // const [check, setCheck] = useState(false);
+    let check = false;
 
     function CheckboxChange(e){
-        setCheck(e.target.checked);
+        check = e.target.value;
     }
 
     function ErrorModal() {
@@ -132,7 +131,7 @@ export default function ReportPageModal(props) {
                     {sending ? <EmailSending /> : sended ? <EmailSendedBody /> : props.type === "error" ? <ErrorModal /> : props.type === "email" ? <EmailModal /> : <></>}
                 </Modal.Body>
                 <Modal.Footer className="Report-Modal--body">
-                    {sended ? <></> : props.type === "error" ? <button type="submit" className="btn btn-send fs-4" onClick={sendEmail} disabled={!check}>
+                    {sended ? <></> : props.type === "error" ? <button type="submit" className="btn btn-send fs-4" onClick={sendEmail} disabled={sending} >
                         <FontAwesomeIcon icon={faExclamationTriangle} /> <span> Jelentés</span>
                     </button> : props.type === "email" ? <button type="submit" className="btn btn-send fs-4" disabled={sending}>
                         <FontAwesomeIcon icon={faPaperPlane} /> <span> Küldés</span>
