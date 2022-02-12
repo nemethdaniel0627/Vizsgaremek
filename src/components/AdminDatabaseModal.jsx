@@ -4,6 +4,8 @@ import { faEdit, faFileUpload, faPlus, faTimesCircle, faUserPlus, faUserTimes } 
 import Modal from "react-bootstrap/Modal";
 import Chips from './Chips';
 import axios from 'axios'
+import AuthUser from "../modules/AuthUser";
+import { useLocation } from "react-router-dom";
 
 export default function AdminDatabaseModal(props) {
   const [search, setSearch] = useState(props.show);
@@ -38,8 +40,18 @@ export default function AdminDatabaseModal(props) {
   }
 
   function deleteUser() {
-    axios.post("/userdelete");
+    axios.post("/userdelete",
+    {
+      omAzon: props.user.omAzon
+    },
+    AuthUser.authHeader())
+    .then(response => {      
+    })
+    .catch(error => {
+      console.error(error);
+    })
     ModalClose();
+    window.location.reload();
   }
 
   function ModalClose() {
@@ -162,7 +174,7 @@ export default function AdminDatabaseModal(props) {
           <Modal.Title><span className="fw-bold">{props.title}</span></Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          {props.type === "File" ? <FileUploadModal /> : props.type === "New" ? <NewUserModal /> : props.type === "Modify" ? <NewUserModal name={props.name} class={props.class} email={props.email} user={props.user} isPaid={props.isPaid} value={props.value} dates={props.dates} /> : <></>}
+          {props.type === "File" ? <FileUploadModal /> : props.type === "New" ? <NewUserModal /> : props.type === "Modify" ? <NewUserModal name={props.nev} class={props.osztaly} email={props.email} user={props.user} isPaid={props.isPaid} value={props.value} dates={props.dates} /> : <></>}
           <span className="fs-3">{props.message}</span>
         </Modal.Body>
         <Modal.Footer>

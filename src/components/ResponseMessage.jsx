@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Alert, AlertTitle, Collapse, IconButton } from "@mui/material";
+import { Alert, AlertTitle, Button, Collapse, IconButton } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimesCircle } from "@fortawesome/free-solid-svg-icons";
 
@@ -50,6 +50,16 @@ export default function ErrorMessage(props) {
                             </span>
                         )
                     })}
+                    {props.buttons ?
+                        <div className="d-flex align-items-center justify-content-around mt-2">
+                            <Button variant="contained" color="success">
+                                Igen
+                            </Button>
+                            <Button variant="outlined" color="error">
+                                Nem
+                            </Button>
+                        </div>
+                        : <></>}
                 </Alert>
             </Collapse>
         </div>

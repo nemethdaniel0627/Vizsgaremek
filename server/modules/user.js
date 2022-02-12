@@ -38,12 +38,14 @@ class User {
                 "omAzon," +
                 "jelszo, " +
                 "nev, " +
-                "iskolaOM, " +
+                "schoolsId, " +
                 "osztaly, " +
                 "email",
-                `"${data.split(";")[0]}", "${data.split(";")[1]}", "${data.split(";")[2]}", "${data.split(";")[3]}", "${data.split(";")[4]}", "${data.split(";")[5]}"`);
-            // const userId = await sqlQueries.select("user", "id", `omAzon = ${data.split(';')[0]}`);
-            // await sqlQueries.insert("user_role", "roleId, userId", `2, ${userId}`);
+                `"${data.split(";")[0]}", "${data.split(";")[1]}", "${data.split(";")[2]}", ${data.split(";")[3]}, "${data.split(";")[4]}", "${data.split(";")[5]}"`);
+            if (pending === false) {
+                const userId = await sqlQueries.select("user", "id", `omAzon = ${data.split(';')[0]}`);
+                await sqlQueries.insert("user_role", "roleId, userId", `2, ${userId}`);
+            }
             added = true;
         }
         await sqlQueries.EndConnection();

@@ -22,7 +22,6 @@ export default function DataPage(props) {
     aChanging(!aChange);
   }
   
-  console.log(props.user);
   
   return (
     <div className="h3 m-5">
