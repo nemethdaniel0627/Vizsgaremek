@@ -38,7 +38,7 @@ class User {
                 "omAzon," +
                 "jelszo, " +
                 "nev, " +
-                "iskolaOM, " +
+                "schoolsId, " +
                 "osztaly, " +
                 "email",
                 `"${data.split(";")[0]}", "${data.split(";")[1]}", "${data.split(";")[2]}", "${data.split(";")[3]}", "${data.split(";")[4]}", "${data.split(";")[5]}"`);
