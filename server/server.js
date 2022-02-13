@@ -166,17 +166,14 @@ app.post("/cancel", async (req, res) => {
 app.post("/test", async (req, res) => {
   // const create = await test.generate('users2.txt', 82);
   // res.send(create);
-  // const mealsCount = await order.ordersCountByDate('2022-01-31');
-  // res.send(mealsCount);
   const testOrders = await test.orders('2022-02-04', 15);
   res.send(testOrders);
-
 })
 
 app.post("/userdelete", auth.tokenAutheticate, async (req, res) => {
   const omAzon = req.body.omAzon;
   await user.delete(`omAzon = ${omAzon}`, false);
-  res.send('Kész');
+  res.ok();
 })
 
 app.post("/useradd", auth.tokenAutheticate, async (req, res) => {
@@ -188,14 +185,26 @@ app.post("/useradd", auth.tokenAutheticate, async (req, res) => {
   else res.conflict();
 })
 
-app.post("/usermodify", async (req, res) => {
+app.post("/usermodify", auth.tokenAutheticate, async (req, res) => {
   const omAzon = req.body.omAzon;
-  const currentUser = await user.getBy('*', `omAzon = ${omAzon}`, false, false);
   const updatedUser = req.body.user;
-  // unique omAzon, email
-  const update = await user.modify(`omAzon = ${updatedUser.userName}, nev = '${updatedUser.name}', schoolsId = '${updatedUser.schoolsId}', osztaly = '${updatedUser.osztaly}', email = '${updatedUser.email}'`, `omAzon = ${omAzon}`);
-  console.log(update);
-  res.send('Kész');
+  const users = await user.getAll(false);
+  let unique = true;
+  const currentUser = await user.getBy('*', `omAzon = ${omAzon}`, false, false);
+  
+  if (currentUser.length === 0) res.notFound();
+  else {
+    users.forEach(user => {
+      if (updatedUser.omAzon === user.omAzon || updatedUser.email === user.email) unique = false;
+    });
+
+    if (!unique) res.conflict();
+    else {
+      await user.modify(`omAzon = ${updatedUser.userName}, nev = '${updatedUser.name}', schoolsId = '${updatedUser.schoolsId}',
+                         osztaly = '${updatedUser.osztaly}', email = '${updatedUser.email}'`, `omAzon = ${omAzon}`);
+      res.ok();
+    }
+  }
 })
 
 app.get("/", (req, res) => {
