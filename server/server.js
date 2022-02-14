@@ -175,7 +175,7 @@ app.post("/beolvas", auth.tokenAutheticate, async (req, res) => {
   const users = await user.getAll(false);
   let userData;
   users.forEach(user => {
-    if (Number(user.omAzon) === omAzon) userData = user;
+    if (Number(user.omAzon) === Number(omAzon)) userData = user;
   });
   res.send(userData.befizetve);
 })
