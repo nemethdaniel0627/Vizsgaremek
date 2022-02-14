@@ -64,6 +64,7 @@ app.post("/add", async (req, res) => {
     }
     res.send(`${count} record(s) added`);
   } catch (error) {
+    console.log(error);
     res.send("No such file");
   }
 })
