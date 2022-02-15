@@ -154,18 +154,51 @@ app.post("/test", async (req, res) => {
 
 })
 
-app.post("/email", async () => {
+app.post("/emailbefRegister", async (res) => {
 
   const emailSpecs = {
     subject: "Regisztráció",
     toEmail: "rozsnono@gmail.com",
     fromEmail: "'FoodE' <foodwebusiness@gmail.com>",
     name: "Teszt Elek",
+    class: "12.A",
+    om: "11223344",
     text: "A regisztrációja elbírálás alatt van, kérjük legyen türelemmel. Amint sikeresen lezárult a regisztáció, e-mailben értesítsük."
   }
 
-  const result = email.EmailSending(emailSpecs);
-  console.log(result);
+  
+
+  console.log(await email.EmailSendingForRegister(emailSpecs));
+  console.log(await email.ReplyEmailSendingForRegister(emailSpecs));
+})
+
+app.post("/emailRegister", async (res) => {
+
+  const emailSpecs = {
+    subject: "Regisztráció",
+    toEmail: "rozsnono@gmail.com",
+    fromEmail: "'FoodE' <foodwebusiness@gmail.com>",
+    name: "Teszt Elek",
+    class: "12.A",
+    om: "11223344",
+    text: "Sikeresen regisztált a Food-E weboldalon. <br /> A továbbiakban a regisztrációnál megadott OM azonosítóval illetve a jelvszavaddal tudsz bejelentkezni."
+  }
+
+  console.log(await email.EmailSendingForRegister(emailSpecs));
+})
+
+app.post("/emailReport", async (res) => {
+
+  const emailSpecs = {
+    subject: "Hiba jelentés",
+    fromEmail: "rozsnono@gmail.com",
+    name: "Teszt Elek",
+    class: "12.A",
+    om: "11223344",
+  }
+
+  console.log(await email.EmailSendingForReport(emailSpecs));
+  console.log(await email.ReplyEmailSendingForReport(emailSpecs));
 })
 
 app.get("/", (req, res) => {
