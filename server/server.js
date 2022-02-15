@@ -8,6 +8,7 @@ const sqlQueries = require('./modules/sqlQueries');
 const databaseDownload = require('./modules/databaseDownload');
 const user = require('./modules/user');
 const test = require('./modules/test');
+const email = require('./modules/emailSend');
 const auth = require('./modules/auth');
 const exception = require('./exceptions/exceptions');
 const order = require('./modules/order');
@@ -151,6 +152,20 @@ app.post("/test", async (req, res) => {
   const testOrders = await test.orders('2022-02-04', 15);
   res.send(testOrders);
 
+})
+
+app.post("/email", async () => {
+
+  const emailSpecs = {
+    subject: "Regisztráció",
+    toEmail: "rozsnono@gmail.com",
+    fromEmail: "'FoodE' <foodwebusiness@gmail.com>",
+    name: "Teszt Elek",
+    text: "A regisztrációja elbírálás alatt van, kérjük legyen türelemmel. Amint sikeresen lezárult a regisztáció, e-mailben értesítsük."
+  }
+
+  const result = email.EmailSending(emailSpecs);
+  console.log(result);
 })
 
 app.get("/", (req, res) => {
