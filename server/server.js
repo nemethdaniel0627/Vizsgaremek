@@ -212,6 +212,25 @@ app.post("/usermodify", auth.tokenAutheticate, async (req, res) => {
   }
 })
 
+app.post("/passwordmodify", auth.tokenAutheticate, async (req, res) => {
+  const omAzon = req.body.omAzon;
+  const oldPassword = req.body.oldPassword;
+  const newPassword = req.body.newPassword;
+  const userData = await user.getBy('omAzon, jelszo', `omAzon = ${omAzon}`, false, false);
+  if (userData.length === 0) res.notFound();
+  else {
+    const match = bcrypt.compareSync(oldPassword, userData[0].jelszo);
+    if (match) {
+      const newPasswordHash = bcrypt.hashSync(newPassword, 10);
+      await user.modify(`jelszo = '${newPasswordHash}'`, `omAzon = ${omAzon}`);
+      res.ok();
+    }
+    else {
+      res.conflict();
+    }
+  }
+})
+
 app.get("/", (req, res) => {
   res.send("<div>Hello world</div>")
 })
