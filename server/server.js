@@ -168,8 +168,8 @@ app.post("/emailbefRegister", async (res) => {
 
   
 
-  console.log(await email.EmailSendingForRegister(emailSpecs));
-  console.log(await email.ReplyEmailSendingForRegister(emailSpecs));
+  console.log(await email.EmailSendingForRegisterBefore(emailSpecs));
+  console.log(await email.EmailSendingForRegisterAccepted(emailSpecs));
 })
 
 app.post("/emailRegister", async (res) => {
