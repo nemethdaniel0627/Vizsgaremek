@@ -154,22 +154,23 @@ app.post("/test", async (req, res) => {
 
 })
 
-app.post("/emailbefRegister", async (res) => {
+app.post("/email", async (req, res) => {
 
-  const emailSpecs = {
-    subject: "Regisztráció",
-    toEmail: "rozsnono@gmail.com",
-    fromEmail: "'FoodE' <foodwebusiness@gmail.com>",
-    name: "Teszt Elek",
-    class: "12.A",
-    om: "11223344",
-    text: "A regisztrációja elbírálás alatt van, kérjük legyen türelemmel. Amint sikeresen lezárult a regisztáció, e-mailben értesítsük."
+  const emailSpecs = req.body;
+  switch (emailSpecs.type) {
+    case 'report':
+      console.log(emailSpecs);
+      const o = await email.EmailSendingForReport(emailSpecs)
+      const o2 = await email.ReplyEmailSendingForReport(emailSpecs)
+      res.send(o);
+      break;
+    case 'register':
+      break;
+    case 'registerAccepted':
+      break;
   }
 
-  
 
-  console.log(await email.EmailSendingForRegisterBefore(emailSpecs));
-  console.log(await email.EmailSendingForRegisterAccepted(emailSpecs));
 })
 
 app.post("/emailRegister", async (res) => {

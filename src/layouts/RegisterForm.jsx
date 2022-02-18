@@ -1,8 +1,8 @@
 import { faUserPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
+import axios from "axios";
 import login_icon from "../images/icon.png";
-import emailjs, { send } from 'emailjs-com';
 
 export default function RegisterForm(props) {
 
@@ -17,16 +17,39 @@ export default function RegisterForm(props) {
     }
 
     function Regist(e) {
-        e.preventDefault();
+        // e.preventDefault();
 
-        emailjs.send('gmail', 'registration', {
-            name: "Teszt Elek",
-            subject: "Sikeres regisztráció",
-            email: ""
-        }, 'user_o4UcHcGE4vZKf1FT7oMAO').then((result) => {
-        }, (error) => {
-            console.log(error.text);
-        });
+        // emailjs.send('gmail', 'registration', {
+        //     name: "Teszt Elek",
+        //     subject: "Sikeres regisztráció",
+        //     email: ""
+        // }, 'user_o4UcHcGE4vZKf1FT7oMAO').then((result) => {
+        // }, (error) => {
+        //     console.log(error.text);
+        // });
+
+        axios.post("/email",
+            {
+                toEmail: "",
+                fromEmail: "rozsnono@gmail.com",
+                // name: user.nev,
+                // class: user.osztaly,
+                // om: user.omAzon,
+                where: document.getElementById('message_where').value,
+                what: document.getElementById('message_what').value,
+                type: "report"
+            },
+            {
+                headers: {
+                    "Authorization": `Baerer ${sessionStorage.getItem("token")}`
+                }
+            })
+            .then(response => {
+                console.log(response);
+            })
+            .catch(error => {
+                console.error(error);
+            });
     }
 
     return (

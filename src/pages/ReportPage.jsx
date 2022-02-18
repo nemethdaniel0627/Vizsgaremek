@@ -54,7 +54,7 @@ export default function ReportPage(props) {
 
           </div>
         </div>
-        <ReportPageModal user={props.user} show={error || email} type={error ? "error" : email ? "email" : ""} ModalClose={error ? ErrorSendRequest : email ? EmailModal : <></>} />
+        <ReportPageModal user={props} show={error || email} type={error ? "error" : email ? "email" : ""} ModalClose={error ? ErrorSendRequest : email ? EmailModal : <></>} />
 
       </div>
     </div>

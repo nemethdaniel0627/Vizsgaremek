@@ -155,7 +155,7 @@ export default function App() {
                     } />
 
                     <AuthRoute path="/kapcsolat" auth="user" component={() =>
-                        <ReportPage />
+                        <ReportPage props = {user}/>
                     } />
 
 

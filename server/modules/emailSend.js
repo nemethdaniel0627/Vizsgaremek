@@ -1,13 +1,21 @@
-const { from } = require('nodemailer/lib/mime-node/last-newline');
-
 class emailSend {
+    nodemailer = require('nodemailer');
     account = {
         user: "foodwebusiness@gmail.com",
         pass: "dowqcumjoxgirnlz"
     }
+    transporter = this.nodemailer.createTransport({
+        host: "smtp.gmail.com",
+        port: 587,
+        secure: false,
+        auth: {
+            user: this.account.user,
+            pass: this.account.pass,
+        },
+    });
 
     async EmailSendingForRegisterBefore(email) {
-        var nodemailer = require('nodemailer');
+        
 
         let html =
             '<div style="width: 80%; border-radius: 2rem; border: 1px solid black; margin: auto;  margin-top: 1rem; font-family: Georgia, `Times New Roman`, Times, serif">'
@@ -31,17 +39,9 @@ class emailSend {
             + ' </div>'
             + ' </div>';
 
-        let transporter = nodemailer.createTransport({
-            host: "smtp.gmail.com",
-            port: 587,
-            secure: false,
-            auth: {
-                user: this.account.user,
-                pass: this.account.pass,
-            },
-        });
+        
 
-        let info = await transporter.sendMail({
+        let info = await this.transporter.sendMail({
             from: email.fromEmail,
             to: email.toEmail,
             subject: email.subject,
@@ -52,7 +52,6 @@ class emailSend {
     }
 
     async EmailSendingForRegisterAccepted(email) {
-        var nodemailer = require('nodemailer');
 
         let html =
             '<div style="width: 80%; border-radius: 2rem; border: 1px solid black; margin: auto; margin-top: 1rem; font-family: Georgia, `Times New Roman`, Times, serif">'
@@ -79,17 +78,8 @@ class emailSend {
             + ' </div>'
             + '</div>';
 
-        let transporter = nodemailer.createTransport({
-            host: "smtp.gmail.com",
-            port: 587,
-            secure: false,
-            auth: {
-                user: this.account.user,
-                pass: this.account.pass,
-            },
-        });
 
-        let info = await transporter.sendMail({
+        let info = await  this.transporter.sendMail({
             from: email.fromEmail,
             to: email.toEmail,
             subject: email.subject,
@@ -102,7 +92,6 @@ class emailSend {
 
 
     async ReplyEmailSendingForRegister(email) {
-        var nodemailer = require('nodemailer');
 
         let html = '    <div style="width: 80%; border-radius: 2rem; border: 1px solid black; margin: auto; margin-top: 1rem; font-family: Georgia, `Times New Roman`, Times, serif">'
             + ' <div class="header" style="background-color: #001e6c; border-radius: 2rem 2rem 0 0;">'
@@ -146,17 +135,8 @@ class emailSend {
             + '</div>'
             + '</div>';
 
-        let transporter = nodemailer.createTransport({
-            host: "smtp.gmail.com",
-            port: 587,
-            secure: false,
-            auth: {
-                user: this.account.user,
-                pass: this.account.pass,
-            },
-        });
 
-        let info = await transporter.sendMail({
+        let info = await this.transporter.sendMail({
             from: `${email.name} <${email.fromEmail}>`,
             to: email.fromEmail,
             subject: 'Regisztráció -- ' + email.name + '/' + email.class,
@@ -168,7 +148,6 @@ class emailSend {
 
 
     async EmailSendingForReport(email) {
-        var nodemailer = require('nodemailer');
 
         let html = '<div style="width: 80%; border-radius: 2rem; border: 1px solid black; margin: auto; margin-top: 1rem; font-family: Georgia, `Times New Roman`, Times, serif">'
             + ' <div class="header" style="background-color: #001e6c; border-radius: 2rem 2rem 0 0;">'
@@ -211,13 +190,9 @@ class emailSend {
             + '         <td style="font-weight: bold">' + email.om + '</td>'
             + '         <td></td>'
             + '        <td style="color: #000000c0;">E-mail</td>'
-            + '         <td style="font-weight: bold">' + email.email + '</td>'
+            + '         <td style="font-weight: bold">' + email.fromEmail + '</td>'
             + '     </tr>'
             + '    <tr style="height: 0.5rem;"></tr>'
-            + '    <tr>'
-            + '         <td colspan="1" style="color: #000000c0;">Iskola</td>'
-            + '          <td colspan="4" style="font-weight: bold">' + email.school + '</td>'
-            + '      </tr>'
             + '   </tbody>'
             + ' </table>'
 
@@ -230,17 +205,8 @@ class emailSend {
             + '  </div>'
             + ' </div>';
 
-        let transporter = nodemailer.createTransport({
-            host: "smtp.gmail.com",
-            port: 587,
-            secure: false,
-            auth: {
-                user: this.account.user,
-                pass: this.account.pass,
-            },
-        });
 
-        let info = await transporter.sendMail({
+        let info = await this.transporter.sendMail({
             from: `${email.name} <${email.fromEmail}>`,
             to: 'foodwebusiness@gmail.com',
             subject: 'Hiba jelentés',
@@ -251,7 +217,6 @@ class emailSend {
     }
 
     async ReplyEmailSendingForReport(email) {
-        var nodemailer = require('nodemailer');
 
         let html = '<div style="width: 80%; border-radius: 2rem; border: 1px solid black; margin: auto; margin-top: 1rem; font-family: Georgia, `Times New Roman`, Times, serif">'
             + ' <div class="header" style="background-color: #001e6c; border-radius: 2rem 2rem 0 0;">'
@@ -271,17 +236,7 @@ class emailSend {
             + ' </div>'
             + '</div>';
 
-        let transporter = nodemailer.createTransport({
-            host: "smtp.gmail.com",
-            port: 587,
-            secure: false,
-            auth: {
-                user: this.account.user,
-                pass: this.account.pass,
-            },
-        });
-
-        let info = await transporter.sendMail({
+        let info = await this.transporter.sendMail({
             from: "'FoodE' <foodwebusiness@gmail.com>",
             to: email.fromEmail,
             subject: 'noreply',
