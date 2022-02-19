@@ -37,7 +37,7 @@ export default function RegisterForm(props) {
                 // om: user.omAzon,
                 where: document.getElementById('message_where').value,
                 what: document.getElementById('message_what').value,
-                type: "report"
+                type: "register"
             },
             {
                 headers: {

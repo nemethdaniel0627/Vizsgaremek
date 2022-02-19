@@ -1,8 +1,8 @@
 class emailSend {
     nodemailer = require('nodemailer');
     account = {
-        user: "foodwebusiness@gmail.com",
-        pass: "dowqcumjoxgirnlz"
+        user: "information.foodE@gmail.com",
+        pass: "pargnwgektylvouq"
     }
     transporter = this.nodemailer.createTransport({
         host: "smtp.gmail.com",
@@ -208,7 +208,7 @@ class emailSend {
 
         let info = await this.transporter.sendMail({
             from: `${email.name} <${email.fromEmail}>`,
-            to: 'foodwebusiness@gmail.com',
+            to: 'report.foodE@gmail.com',
             subject: 'Hiba jelentés',
             text: "",
             html: html
@@ -237,7 +237,7 @@ class emailSend {
             + '</div>';
 
         let info = await this.transporter.sendMail({
-            from: "'FoodE' <foodwebusiness@gmail.com>",
+            from: "'FoodE' <report.foodE@gmail.com>",
             to: email.fromEmail,
             subject: 'noreply',
             text: "",
