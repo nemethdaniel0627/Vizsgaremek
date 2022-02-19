@@ -44,7 +44,7 @@ class emailSend {
         let info = await this.transporter.sendMail({
             from: email.fromEmail,
             to: email.toEmail,
-            subject: email.subject,
+            subject: "Regisztráció",
             text: "",
             html: html
         });
@@ -82,7 +82,7 @@ class emailSend {
         let info = await  this.transporter.sendMail({
             from: email.fromEmail,
             to: email.toEmail,
-            subject: email.subject,
+            subject: "Sikeres regisztráció",
             text: "",
             html: html
         });

@@ -159,14 +159,18 @@ app.post("/email", async (req, res) => {
   const emailSpecs = req.body;
   switch (emailSpecs.type) {
     case 'report':
-      console.log(emailSpecs);
       const o = await email.EmailSendingForReport(emailSpecs)
       const o2 = await email.ReplyEmailSendingForReport(emailSpecs)
       res.send(o);
       break;
     case 'register':
+      const o = await email.EmailSendingForRegisterBefore(emailSpecs)
+      const o2 = await email.ReplyEmailSendingForRegister(emailSpecs)
+      res.send(o);
       break;
     case 'registerAccepted':
+      const o = await email.EmailSendingForRegisterAccepted(emailSpecs)
+      res.send(o);
       break;
   }
 
