@@ -1,10 +1,9 @@
 import { faEye, faEyeSlash, faUserPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useState } from "react";
-import emailjs from 'emailjs-com';
+import React, { useState, useEffect } from "react";
 import axios from "axios";
+import login_icon from "../images/icon.png";
 import ResponseMessage from "../components/ResponseMessage";
-import { useEffect } from "react";
 
 export default function RegisterForm(props) {
 
@@ -56,6 +55,29 @@ export default function RegisterForm(props) {
     }
 
     function Regist(e) {
+        axios.post("/email",
+            {
+                toEmail: "",
+                fromEmail: "rozsnono@gmail.com",
+                // name: user.nev,
+                // class: user.osztaly,
+                // om: user.omAzon,
+                where: document.getElementById('message_where').value,
+                what: document.getElementById('message_what').value,
+                type: "register"
+            },
+            {
+                headers: {
+                    "Authorization": `Baerer ${sessionStorage.getItem("token")}`
+                }
+            })
+            .then(response => {
+                console.log(response);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+      
         e.preventDefault();
 
         axios.post("/register",
