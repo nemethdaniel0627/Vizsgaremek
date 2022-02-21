@@ -38,12 +38,14 @@ class User {
                 "omAzon," +
                 "jelszo, " +
                 "nev, " +
-                "iskolaOM, " +
+                "schoolsId, " +
                 "osztaly, " +
                 "email",
-                `"${data.split(";")[0]}", "${data.split(";")[1]}", "${data.split(";")[2]}", "${data.split(";")[3]}", "${data.split(";")[4]}", "${data.split(";")[5]}"`);
-            // const userId = await sqlQueries.select("user", "id", `omAzon = ${data.split(';')[0]}`);
-            // await sqlQueries.insert("user_role", "roleId, userId", `2, ${userId}`);
+                `"${data.split(";")[0]}", "${data.split(";")[1]}", "${data.split(";")[2]}", ${data.split(";")[3]}, "${data.split(";")[4]}", "${data.split(";")[5]}"`);
+            if (pending === false) {
+                const userId = await sqlQueries.select("user", "id", `omAzon = ${data.split(';')[0]}`);
+                await sqlQueries.insert("user_role", "roleId, userId", `2, ${userId}`);
+            }
             added = true;
         }
         await sqlQueries.EndConnection();
@@ -53,8 +55,15 @@ class User {
     async getAll(isJson) {
         if (await sqlQueries.isConnection() === false) await sqlQueries.CreateConnection(isJson);
         const all = await sqlQueries.selectAll(
-            "user ORDER BY user.osztaly, user.nev",
-            "*, " +
+            "user " +
+            "INNER JOIN schools " +
+            "ON user.schoolsId = schools.id " +
+            "ORDER BY CONVERT(REGEXP_REPLACE(user.osztaly,'[a-zA-Z]+', ''), SIGNED), user.osztaly, user.nev",
+            "user.omAzon, " +
+            "user.nev, " +
+            "user.osztaly, " +
+            "user.email, " +
+            "schools.iskolaOM, " +
             "(" +
             "SELECT " +
             "orders.id " +

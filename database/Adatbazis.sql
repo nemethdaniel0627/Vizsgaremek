@@ -9,7 +9,7 @@ CREATE TABLE foode.user (
   omAzon VARCHAR(255) NOT NULL UNIQUE,
   jelszo VARCHAR(255) NOT NULL,
   nev VARCHAR(255) NOT NULL,
-  schoolsId INT(11) NOT NULL UNIQUE,
+  schoolsId INT(11) NOT NULL,
   osztaly VARCHAR(255) DEFAULT NULL,
   email VARCHAR(100) NOT NULL UNIQUE
 );
@@ -79,7 +79,7 @@ CREATE TABLE user_pending (
   omAzon VARCHAR(255) NOT NULL,
   jelszo VARCHAR(255) NOT NULL,
   nev VARCHAR(255) NOT NULL,
-  schoolsId INT(11) NOT NULL UNIQUE,
+  schoolsId INT(11) NOT NULL,
   osztaly VARCHAR(255) DEFAULT NULL,
   email VARCHAR(100) NOT NULL,
   PRIMARY KEY (id)
@@ -93,13 +93,13 @@ CREATE TABLE foode.schools (
 );
 
 
-ALTER TABLE user_pending 
-  ADD CONSTRAINT FK_user_pending_schools_id FOREIGN KEY (schoolsId)
-    REFERENCES schools(id) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
 ALTER TABLE user 
   ADD CONSTRAINT FK_user_schools_id FOREIGN KEY (schoolsId)
     REFERENCES schools(id) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+ALTER TABLE foode.user_pending 
+  ADD CONSTRAINT FK_user_pending_schools_id FOREIGN KEY (schoolsId)
+    REFERENCES foode.schools(id) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 ALTER TABLE user_pending 
   ADD UNIQUE INDEX email(email);

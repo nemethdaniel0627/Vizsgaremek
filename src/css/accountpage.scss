@@ -1,6 +1,7 @@
-.personal-datas{
-
-  .bank-account, .important, .password-change{
+.personal-datas {
+  .bank-account,
+  .important,
+  .password-change {
     border-radius: 1em;
     border: 1px solid black;
     box-shadow: 1px 1px 5px 1px black;
@@ -8,7 +9,7 @@
     margin-bottom: 5%;
   }
 
-  .passChange-btn{
+  .passChange-btn {
     border-radius: 2em;
     border: 1px solid black;
     margin-top: 1em;
@@ -17,104 +18,120 @@
     transition: 0.5s;
     margin-left: 1em;
   }
-  .passChange-btn:hover{
+  .passChange-btn:hover {
     border: 1px solid white;
-    color:white;
+    color: white;
   }
 
-  .header{
+  .header {
     height: max-content;
     margin-bottom: 5%;
     color: #fff;
     padding: 0.5em;
 
-    h1{
+    h1 {
       float: left;
       margin: 0;
       font-size: 1.6em;
     }
 
-    .button{
+    .button {
       float: right;
     }
-    .modify-btn, .delete-btn{
+    .modify-btn,
+    .delete-btn {
       display: table-cell;
       vertical-align: middle;
-      
+
       border-radius: 2em;
       border: 1px solid black;
       transition: 0.5s;
       margin-left: 1em;
     }
 
-    .modify-btn-mobile{
-      margin-top: 0.5em!important;
+    .modify-btn-mobile {
+      margin-top: 0.5em !important;
     }
-    .modify-btn:hover,.delete-btn:hover{
+    .modify-btn:hover,
+    .delete-btn:hover {
       border: 1px solid white;
-      color:white;
+      color: white;
     }
   }
 
-  .personal-tables{
+  .personal-tables {
     margin-top: 4em;
     width: 100%;
-    tr{
+    tr {
       border-bottom: 1px solid #00000030;
     }
-    tr:last-child{
+    tr:last-child {
       border: none;
     }
-    td{
+    td {
       padding: 0.6em;
     }
 
-    .key{
-      color: #ffffff50
+    .password-input {
+      &:-internal-autofill-selected + svg {
+        color: #fff;
+      }
+
+      &~svg.password--icon {
+        position: absolute;
+        top: 50%;
+        right: 1rem;
+        transform: translateY(-50%);
+        color: #000;
+        font-size: 1.5rem;
+        cursor: pointer;
+        z-index: 9;
+      }
     }
 
-    .value{
-      color:white;
+    .key {
+      color: #ffffff50;
+    }
+
+    .value {
+      color: white;
     }
   }
 }
-.mobile-h1{
-  font-size: 1.7em!important;
-  margin-left: 0.2em!important;
+.mobile-h1 {
+  font-size: 1.7em !important;
+  margin-left: 0.2em !important;
 }
 
-.mobile-btn
-{
-  margin-top: 0em!important;
+.mobile-btn {
+  margin-top: 0em !important;
 }
-.personal-activities{
-  .activities{
+.personal-activities {
+  .activities {
     border-radius: 1em;
     border: 1px solid black;
     box-shadow: 1px 1px 5px 1px black;
     padding: 4%;
     margin-bottom: 5%;
     height: 100%;
-    
   }
 
   // .desktop{
   //   margin-left: 5%;
   // }
 
-
-  .header{
+  .header {
     height: max-content;
 
-    h1{
+    h1 {
       margin: 0;
       float: left;
       font-size: 1.4em;
     }
-    .button{
+    .button {
       float: right;
     }
-    .refresh-btn{
+    .refresh-btn {
       display: table-cell;
       vertical-align: middle;
       border-radius: 2em;
@@ -123,41 +140,42 @@
       transition: 0.5s;
       margin-left: 1em;
     }
-    .refresh-btn:hover{
-      color:white;
+    .refresh-btn:hover {
+      color: white;
     }
-
   }
 
-  hr{
+  hr {
     margin: 3em 0;
     width: 100%;
   }
 
-  .act{
+  .act {
     margin-bottom: 1em;
 
-    .act-name{
-      color:white;
+    .act-name {
+      color: white;
     }
-    .act-date{
-      color:#ffffff50
+    .act-date {
+      color: #ffffff50;
     }
-    .pay{
-      color:rgb(173, 255, 47);
+    .pay {
+      color: rgb(173, 255, 47);
     }
-    .cancel{
-      color:rgb(255, 66, 66);
+    .cancel {
+      color: rgb(255, 66, 66);
     }
-    .undefined{
-      color:rgb(255, 198, 41);
+    .undefined {
+      color: rgb(255, 198, 41);
     }
-    .modify{
-      color: rgb(95, 151, 255)
+    .modify {
+      color: rgb(95, 151, 255);
     }
   }
 }
 
-.important, .password-change, .activities{
+.important,
+.password-change,
+.activities {
   background-color: var(--accountBackground);
 }

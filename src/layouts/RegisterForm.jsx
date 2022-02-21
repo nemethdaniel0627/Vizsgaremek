@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import login_icon from "../images/icon.png";
 import ResponseMessage from "../components/ResponseMessage";
+import AuthUser from "../modules/AuthUser";
 
 export default function RegisterForm(props) {
 
@@ -11,6 +12,7 @@ export default function RegisterForm(props) {
     const [seePwd, setSeePwd] = useState(false);
     const [alertOpen, setAlertOpen] = useState(false);
     const [alertType, setAlertType] = useState(undefined);
+    const [schools, setSchools] = useState([]);
     // function closeError() {
     //     setErrorOpen(false);
     // }
@@ -108,6 +110,17 @@ export default function RegisterForm(props) {
         if (alertType !== undefined) setAlertOpen(true);
     }, [alertType])
 
+    useEffect(() => {
+        axios.get("/schoollist")
+        .then(response => {
+            console.log(response.data);
+            setSchools(response.data)
+        })
+        .catch(error => {
+
+        })
+    }, [])
+
     function changePasswordType() {
         setSeePwd(!seePwd);
     }
@@ -151,9 +164,9 @@ export default function RegisterForm(props) {
                                         <div className="form-outline form-white mb-4">
                                             <select name="iskolaOM" className="form-select fs-4 --input" onChange={SelectionChange}>
                                                 <option value="0" className="">--Válassz iskolát--</option>
-                                                <option value="203037">Jedlik Ányos</option>
-                                                <option value="030695">Révia Miklós</option>
-                                                <option value="123456">Lorem Ipsum</option>
+                                                {schools.map((school, index) => {
+                                                    return <option key={`school_${index}`} value={school.iskolaOM}>{school.nev}</option>
+                                                })}
                                                 <option value="4">--Iskola hozzáadása--</option>
                                             </select>
                                         </div>

@@ -31,22 +31,34 @@ app.get("/etlap", async (req, res) => {
 app.post("/etlap", async (req, res) => {
   let excelRows = req.body.excelRows;
   const setDate = req.body.date;
+  const override = req.body.override;  
 
-  if (await sqlQueries.isConnection() === false) await sqlQueries.CreateConnection();
+  if (await sqlQueries.isConnection() === false) await sqlQueries.CreateConnection(true);
   const selectDaysId = await sqlQueries.select("days", "id", `datum = "${setDate}"`);
-  if (selectDaysId.length === 0) {
-    await sqlQueries.EndConnection();
+  if (selectDaysId.length === 0 || override) {
+    await sqlQueries.EndConnection();    
     const menu = await menuConvert.convert(excelRows);
-
     let date = new Date(setDate);
 
-    try {
-      for await (const day of menu) {
-        date = await databaseUpload.insertDay(day, date);
+    if (override === false) {
+      try {
+        for await (const day of menu) {
+          date = await databaseUpload.insertDay(day, date);
+        }
+      } catch (error) {
+        res.notFound();
       }
-    } catch (error) {
-      res.notFound();
     }
+    else {      
+      try {
+        for await (const day of menu) {
+          date = await databaseUpload.updateDay(day, date);
+        }
+      } catch (error) {
+        res.notFound();
+      }
+    }
+
     res.send("Kész");
   }
   else {
@@ -59,11 +71,12 @@ app.post("/add", async (req, res) => {
     const data = await user.readFile('users.txt');
     let count = 0;
     for (let i = 0; i < data.length; i++) {
-      let added = await user.add(data[i]);
+      let added = await user.add(data[i], false);
       if (added) count++;
     }
     res.send(`${count} record(s) added`);
   } catch (error) {
+    console.log(error);
     res.send("No such file");
   }
 })
@@ -71,25 +84,34 @@ app.post("/add", async (req, res) => {
 app.post("/userdetails", auth.tokenAutheticate, async (req, res) => {
   const omAzon = req.body.omAzon;
   const userWithDetails = await user.getBy("*", `user.omAzon = ${omAzon}`, false);
+  const iskolaOM = await sqlQueries.select("schools", "iskolaOM", `id = ${userWithDetails[0].schoolsId}`, false);
   const userOrders = await order.selectOrdersWithDateByUserId(userWithDetails[0].id);
+  userWithDetails[0].iskolaOM = iskolaOM[0].iskolaOM;
   userWithDetails[0].orders = userOrders;
   res.json(userWithDetails);
+})
+
+app.get("/schoollist", async (req, res) => {
+  const schools = await sqlQueries.selectAll("schools", "*", false);
+  res.json(schools);
 })
 
 app.post("/user", auth.tokenAutheticate, async (req, res) => {
   const userId = req.body.userId;
   const userResult = await user.getBy("*", `id = "${userId}"`, false);
+  const iskolaOM = await sqlQueries.select("schools", "iskolaOM", `id = ${userResult[0].schoolsId}`, false);
+  await sqlQueries.EndConnection();
   const orderResult = await order.doesUserHaveOrderForDate(userId, new Date())
-  console.log(orderResult);
+  userResult[0].iskolaOM = iskolaOM[0].iskolaOM;
   if (!orderResult) userResult[0].befizetve = false;
   else userResult[0].befizetve = true;
-  console.log(userResult);
   if (userResult) res.send(userResult);
   else res.notFound();
 });
 
 app.get("/alluser", auth.tokenAutheticate, async (req, res) => {
   const allUser = await user.getAll(false);
+  // console.log(allUser);
   if (allUser.length === 0) res.notFound();
   res.json(allUser)
 });
@@ -119,7 +141,7 @@ app.post("/acceptpending", auth.tokenAutheticate, async (req, res) => {
   const omAzon = req.body.omAzon;
   const tmpUser = await user.getBy("*", `omAzon = '${omAzon}'`, false, true);
   await user.delete(`omAzon = ${omAzon}`, true);
-  const newUser = await user.add(`${tmpUser[0].omAzon};${tmpUser[0].jelszo};${tmpUser[0].nev};${tmpUser[0].iskolaOM};${tmpUser[0].osztaly};${tmpUser[0].email}`, false);
+  const newUser = await user.add(`${tmpUser[0].omAzon};${tmpUser[0].jelszo};${tmpUser[0].nev};${tmpUser[0].schoolsId};${tmpUser[0].osztaly};${tmpUser[0].email}`, false);
   if (newUser.length === 0) res.conflict();
   res.created();
 });

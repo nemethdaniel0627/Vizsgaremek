@@ -202,7 +202,7 @@ export default function AdminUserDetails(props) {
                             />
                             : <div className="value">{user.email}</div>}
                     </div>
-                    <div className="key admin_user-details_table_orders">
+                    {user.orders.length !== 0 ? <div className="key admin_user-details_table_orders">
                         <hr className="admin_user-details_table_line" />
                         <div id="order_helper" className="admin_user-details_table_orders--row">
                             <div>Nap dátuma</div>
@@ -255,7 +255,7 @@ export default function AdminUserDetails(props) {
                             </div>
                         </div>
                         <hr className="admin_user-details_table_line" />
-                    </div>
+                    </div> : <></>}
                     {aChange ? (
                         <div colSpan={4} className="text-center">
                             <button className="btn passChange-btn">
