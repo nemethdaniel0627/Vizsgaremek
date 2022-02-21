@@ -4,13 +4,14 @@ import PermissionPopup from "../components/PermissionPopup";
 
 export default function QrCodeReader() {
     const [isCamera, setIsCamera] = useState(false);
-    const [qrResult, setQrResult] = useState({ nev: "Teszt Elek", osztaly: "12.a", iskola: "Jedlik Ányos Technikum És Kollégium", befizetve: false });
+    const [qrResult, setQrResult] = useState({ nev: "Teszt Elek", omAzon: 1231231231, osztaly: "12.a", iskola: "Jedlik Ányos Technikum És Kollégium", befizetve: false });
     // const [qrResult, setQrResult] = useState({ nev: "", osztaly: "", befizetve: null });
 
     let handleScan = data => {
         if (data) {
             console.log(data);
             const tmpJson = JSON.parse(data);
+            
             setQrResult({
                 nev: tmpJson.nev,
                 osztaly: tmpJson.osztaly,

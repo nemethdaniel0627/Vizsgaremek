@@ -3,8 +3,7 @@ import AccountPageDesktop from "../layouts/AccountPageDesktop";
 import AccountPageMobile from "../layouts/AccountPageMobile";
 import { useState } from "react";
 
-export default function Page(props)
-{
+export default function Page(props) {
   const [isLittleScreen, setScreen] = useState(false);
 
 
@@ -24,8 +23,8 @@ export default function Page(props)
 
   return (
     <div>
-      {isMobile ? <AccountPageMobile user={props.user} /> : 
-        !isLittleScreen ? <AccountPageDesktop user = {props.user}/> : <AccountPageMobile user={props.user}/>
+      {isMobile ? <AccountPageMobile user={props.user} /> :
+        !isLittleScreen ? <AccountPageDesktop user={props.user} /> : <AccountPageMobile user={props.user} />
       }
     </div>
   );

@@ -9,7 +9,7 @@ CREATE TABLE foode.user (
   omAzon VARCHAR(255) NOT NULL UNIQUE,
   jelszo VARCHAR(255) NOT NULL,
   nev VARCHAR(255) NOT NULL,
-  schoolsId INT(11) NOT NULL UNIQUE,
+  schoolsId INT(11) NOT NULL,
   osztaly VARCHAR(255) DEFAULT NULL,
   email VARCHAR(100) NOT NULL UNIQUE
 );
@@ -75,37 +75,28 @@ CREATE TABLE foode.user_role (
 );
 
 CREATE TABLE user_pending (
-  id INT(11) NOT NULL AUTO_INCREMENT,
-  omAzon VARCHAR(255) NOT NULL,
+  id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  omAzon VARCHAR(255) NOT NULL UNIQUE,
   jelszo VARCHAR(255) NOT NULL,
   nev VARCHAR(255) NOT NULL,
-  schoolsId INT(11) NOT NULL UNIQUE,
+  schoolsId INT(11) NOT NULL,
   osztaly VARCHAR(255) DEFAULT NULL,
-  email VARCHAR(100) NOT NULL,
-  PRIMARY KEY (id)
+  email VARCHAR(100) NOT NULL UNIQUE
 );
 
 CREATE TABLE foode.schools (
-  id INT(11) NOT NULL AUTO_INCREMENT,
+  id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
   nev VARCHAR(255) NOT NULL UNIQUE,
-  iskolaOM VARCHAR(255) NOT NULL UNIQUE,
-  PRIMARY KEY (id)
+  iskolaOM VARCHAR(255) NOT NULL UNIQUE
 );
-
-
-ALTER TABLE user_pending 
-  ADD CONSTRAINT FK_user_pending_schools_id FOREIGN KEY (schoolsId)
-    REFERENCES schools(id) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 ALTER TABLE user 
   ADD CONSTRAINT FK_user_schools_id FOREIGN KEY (schoolsId)
     REFERENCES schools(id) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
-ALTER TABLE user_pending 
-  ADD UNIQUE INDEX email(email);
-
-ALTER TABLE user_pending 
-  ADD UNIQUE INDEX omAzon(omAzon);
+ALTER TABLE foode.user_pending 
+  ADD CONSTRAINT FK_user_pending_schools_id FOREIGN KEY (schoolsId)
+    REFERENCES foode.schools(id) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 ALTER TABLE orders 
   ADD CONSTRAINT FK_orders_user_id FOREIGN KEY (userId)
@@ -155,3 +146,6 @@ INSERT INTO roles (nev)
 VALUES ('admin'),
        ('user'),
        ('alkalmazott');
+
+INSERT INTO schools (nev, iskolaOM)
+VALUES ('Jedlik', 203037);

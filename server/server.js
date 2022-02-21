@@ -8,9 +8,11 @@ const sqlQueries = require('./modules/sqlQueries');
 const databaseDownload = require('./modules/databaseDownload');
 const user = require('./modules/user');
 const test = require('./modules/test');
+const email = require('./modules/emailSend');
 const auth = require('./modules/auth');
 const exception = require('./exceptions/exceptions');
 const order = require('./modules/order');
+const bcrypt = require('bcrypt')
 
 const app = express();
 
@@ -30,22 +32,34 @@ app.get("/etlap", async (req, res) => {
 app.post("/etlap", async (req, res) => {
   let excelRows = req.body.excelRows;
   const setDate = req.body.date;
+  const override = req.body.override;  
 
-  if (await sqlQueries.isConnection() === false) await sqlQueries.CreateConnection();
+  if (await sqlQueries.isConnection() === false) await sqlQueries.CreateConnection(true);
   const selectDaysId = await sqlQueries.select("days", "id", `datum = "${setDate}"`);
-  if (selectDaysId.length === 0) {
-    await sqlQueries.EndConnection();
+  if (selectDaysId.length === 0 || override) {
+    await sqlQueries.EndConnection();    
     const menu = await menuConvert.convert(excelRows);
-
     let date = new Date(setDate);
 
-    try {
-      for await (const day of menu) {
-        date = await databaseUpload.insertDay(day, date);
+    if (override === false) {
+      try {
+        for await (const day of menu) {
+          date = await databaseUpload.insertDay(day, date);
+        }
+      } catch (error) {
+        res.notFound();
       }
-    } catch (error) {
-      res.notFound();
     }
+    else {      
+      try {
+        for await (const day of menu) {
+          date = await databaseUpload.updateDay(day, date);
+        }
+      } catch (error) {
+        res.notFound();
+      }
+    }
+
     res.send("Kész");
   }
   else {
@@ -58,11 +72,12 @@ app.post("/add", async (req, res) => {
     const data = await user.readFile('users.txt');
     let count = 0;
     for (let i = 0; i < data.length; i++) {
-      let added = await user.add(data[i]);
+      let added = await user.add(data[i], false);
       if (added) count++;
     }
     res.send(`${count} record(s) added`);
   } catch (error) {
+    console.log(error);
     res.send("No such file");
   }
 })
@@ -70,25 +85,34 @@ app.post("/add", async (req, res) => {
 app.post("/userdetails", auth.tokenAutheticate, async (req, res) => {
   const omAzon = req.body.omAzon;
   const userWithDetails = await user.getBy("*", `user.omAzon = ${omAzon}`, false);
+  const iskolaOM = await sqlQueries.select("schools", "iskolaOM", `id = ${userWithDetails[0].schoolsId}`, false);
   const userOrders = await order.selectOrdersWithDateByUserId(userWithDetails[0].id);
+  userWithDetails[0].iskolaOM = iskolaOM[0].iskolaOM;
   userWithDetails[0].orders = userOrders;
   res.json(userWithDetails);
+})
+
+app.get("/schoollist", async (req, res) => {
+  const schools = await sqlQueries.selectAll("schools", "*", false);
+  res.json(schools);
 })
 
 app.post("/user", auth.tokenAutheticate, async (req, res) => {
   const userId = req.body.userId;
   const userResult = await user.getBy("*", `id = "${userId}"`, false);
+  const iskolaOM = await sqlQueries.select("schools", "iskolaOM", `id = ${userResult[0].schoolsId}`, false);
+  await sqlQueries.EndConnection();
   const orderResult = await order.doesUserHaveOrderForDate(userId, new Date())
-  console.log(orderResult);
+  userResult[0].iskolaOM = iskolaOM[0].iskolaOM;
   if (!orderResult) userResult[0].befizetve = false;
   else userResult[0].befizetve = true;
-  console.log(userResult);
   if (userResult) res.send(userResult);
   else res.notFound();
 });
 
 app.get("/alluser", auth.tokenAutheticate, async (req, res) => {
   const allUser = await user.getAll(false);
+  // console.log(allUser);
   if (allUser.length === 0) res.notFound();
   res.json(allUser)
 });
@@ -118,7 +142,7 @@ app.post("/acceptpending", auth.tokenAutheticate, async (req, res) => {
   const omAzon = req.body.omAzon;
   const tmpUser = await user.getBy("*", `omAzon = '${omAzon}'`, false, true);
   await user.delete(`omAzon = ${omAzon}`, true);
-  const newUser = await user.add(`${tmpUser[0].omAzon};${tmpUser[0].jelszo};${tmpUser[0].nev};${tmpUser[0].iskolaOM};${tmpUser[0].osztaly};${tmpUser[0].email}`, false);
+  const newUser = await user.add(`${tmpUser[0].omAzon};${tmpUser[0].jelszo};${tmpUser[0].nev};${tmpUser[0].schoolsId};${tmpUser[0].osztaly};${tmpUser[0].email}`, false);
   if (newUser.length === 0) res.conflict();
   res.created();
 });
@@ -127,7 +151,6 @@ app.post("/rejectpending", auth.tokenAutheticate, async (req, res) => {
   const omAzon = req.body.omAzon;
   const result = await user.delete(`omAzon = ${omAzon}`, true);
   res.send("Ok");
-
 });
 
 app.post("/login", async (req, res) => {
@@ -170,7 +193,7 @@ app.post("/test", async (req, res) => {
   res.send(testOrders);
 })
 
-app.post("/beolvas", auth.tokenAutheticate, async (req, res) => {
+app.post("/scan", auth.tokenAutheticate, async (req, res) => {
   const omAzon = req.body.omAzon;
   const users = await user.getAll(false);
   let userData;
@@ -178,6 +201,117 @@ app.post("/beolvas", auth.tokenAutheticate, async (req, res) => {
     if (Number(user.omAzon) === Number(omAzon)) userData = user;
   });
   res.send(userData.befizetve);
+
+app.post("/userdelete", auth.tokenAutheticate, async (req, res) => {
+  const omAzon = req.body.omAzon;
+  const currentUser = await user.getBy('*', `omAzon = ${omAzon}`, false, false);
+  if (currentUser.length === 0) res.notFound();
+  else {
+    await user.delete(`omAzon = ${omAzon}`, false);
+    res.ok();
+  }
+})
+
+app.post("/useradd", auth.tokenAutheticate, async (req, res) => {
+  const newUser = req.body.user;
+  newUser.password = bcrypt.hashSync(newUser.password, 10);
+  const data = Object.values(newUser).join(';');
+  const added = await user.add(data, false);
+  if (added) res.created();
+  else res.conflict();
+})
+
+app.post("/usermodify", auth.tokenAutheticate, async (req, res) => {
+  const omAzon = req.body.omAzon;
+  const updatedUser = req.body.user;
+  const users = await user.getAll(false);
+  let unique = true;
+  const currentUser = await user.getBy('*', `omAzon = ${omAzon}`, false, false);
+
+  if (currentUser.length === 0) res.notFound();
+  else {
+    users.forEach(user => {
+      if (updatedUser.omAzon === user.omAzon || updatedUser.email === user.email) unique = false;
+    });
+
+    if (!unique) res.conflict();
+    else {
+      await user.modify(`omAzon = ${updatedUser.omAzon}, nev = '${updatedUser.name}', schoolsId = '${updatedUser.schoolsId}', 
+                         osztaly = '${updatedUser.osztaly}', email = '${updatedUser.email}'`, `omAzon = ${omAzon}`);
+      res.ok();
+    }
+  }
+})
+
+app.post("/passwordmodify", auth.tokenAutheticate, async (req, res) => {
+  const omAzon = req.body.omAzon;
+  const oldPassword = req.body.oldPassword;
+  const newPassword = req.body.newPassword;
+  const userData = await user.getBy('omAzon, jelszo', `omAzon = ${omAzon}`, false, false);
+  if (userData.length === 0) res.notFound();
+  else {
+    const match = bcrypt.compareSync(oldPassword, userData[0].jelszo);
+    if (match) {
+      const newPasswordHash = bcrypt.hashSync(newPassword, 10);
+      await user.modify(`jelszo = '${newPasswordHash}'`, `omAzon = ${omAzon}`);
+      res.ok();
+    }
+    else {
+      res.conflict();
+    }
+  }
+})
+
+app.post("/email", async (req, res) => {
+
+  const emailSpecs = req.body;
+  switch (emailSpecs.type) {
+    case 'report':
+      const o = await email.EmailSendingForReport(emailSpecs);
+      const o2 = await email.ReplyEmailSendingForReport(emailSpecs);
+      res.send(o);
+      break;
+    case 'register':
+      o = await email.EmailSendingForRegisterBefore(emailSpecs);
+      o2 = await email.ReplyEmailSendingForRegister(emailSpecs);
+      res.send(o);
+      break;
+    case 'registerAccepted':
+      o = await email.EmailSendingForRegisterAccepted(emailSpecs);
+      res.send(o);
+      break;
+  }
+
+
+})
+
+app.post("/emailRegister", async (res) => {
+
+  const emailSpecs = {
+    subject: "Regisztráció",
+    toEmail: "rozsnono@gmail.com",
+    fromEmail: "'FoodE' <foodwebusiness@gmail.com>",
+    name: "Teszt Elek",
+    class: "12.A",
+    om: "11223344",
+    text: "Sikeresen regisztált a Food-E weboldalon. <br /> A továbbiakban a regisztrációnál megadott OM azonosítóval illetve a jelvszavaddal tudsz bejelentkezni."
+  }
+
+  console.log(await email.EmailSendingForRegister(emailSpecs));
+})
+
+app.post("/emailReport", async (res) => {
+
+  const emailSpecs = {
+    subject: "Hiba jelentés",
+    fromEmail: "rozsnono@gmail.com",
+    name: "Teszt Elek",
+    class: "12.A",
+    om: "11223344",
+  }
+
+  console.log(await email.EmailSendingForReport(emailSpecs));
+  console.log(await email.ReplyEmailSendingForReport(emailSpecs));
 })
 
 app.get("/", (req, res) => {
