@@ -52,10 +52,10 @@ export default function ErrorMessage(props) {
                     })}
                     {props.buttons ?
                         <div className="d-flex align-items-center justify-content-around mt-2">
-                            <Button variant="contained" color="success">
+                            <Button id="responseYes" onClick={() => {props.buttonClick(); setAlertOpen(false); }} variant="contained" color="success">
                                 Igen
                             </Button>
-                            <Button variant="outlined" color="error">
+                            <Button onClick={() => { setAlertOpen(false); }} id="responseNo" variant="outlined" color="error">
                                 Nem
                             </Button>
                         </div>

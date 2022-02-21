@@ -55,8 +55,15 @@ class User {
     async getAll(isJson) {
         if (await sqlQueries.isConnection() === false) await sqlQueries.CreateConnection(isJson);
         const all = await sqlQueries.selectAll(
-            "user ORDER BY user.osztaly, user.nev",
-            "*, " +
+            "user " +
+            "INNER JOIN schools " +
+            "ON user.schoolsId = schools.id " +
+            "ORDER BY CONVERT(REGEXP_REPLACE(user.osztaly,'[a-zA-Z]+', ''), SIGNED), user.osztaly, user.nev",
+            "user.omAzon, " +
+            "user.nev, " +
+            "user.osztaly, " +
+            "user.email, " +
+            "schools.iskolaOM, " +
             "(" +
             "SELECT " +
             "orders.id " +

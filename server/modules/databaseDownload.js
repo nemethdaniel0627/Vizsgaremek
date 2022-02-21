@@ -5,6 +5,7 @@ const user = require('./user');
 class databaseDownload {
     async getMenu(date) {
         if (date.getDay() === 0) date.setDate(date.getDate() + 1);
+        else if(date.getDay() === 6) date.setDate(date.getDate() + 2);
         else if (date.getDay() !== 1) date.setDate(date.getDate() - (date.getDay() - 1))
         const startDate = functions.convertDateWithDash(date);
         date.setDate(date.getDate() + 6);

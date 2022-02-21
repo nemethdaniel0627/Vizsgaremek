@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import {
+  faEye,
+  faEyeSlash,
   faLock,
   faPencilAlt,
   faSyncAlt,
@@ -8,10 +10,17 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Activities from "../components/AccountPageActivities";
+import AuthUser from "../modules/AuthUser";
+import axios from "axios";
 
 export default function DataPage(props) {
   const [change, changing] = useState(false);
   const [aChange, aChanging] = useState(false);
+  const [oldPassword, setOldPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [seeOldPwd, setSeeOldPwd] = useState(false);
+  const [seeNewPwd, setSeeNewPwd] = useState(false);
+
 
   function PassChange() {
     changing(!change);
@@ -21,8 +30,51 @@ export default function DataPage(props) {
   function AccChange() {
     aChanging(!aChange);
   }
-  
-  
+
+  function changePassword() {
+    if (oldPassword && newPassword) {      
+      axios.post("/newpassword",
+      {
+        oldPaswword: oldPassword,
+        newPassword: newPassword,
+        omAzon: props.user.omAzon
+      },AuthUser.authHeader())
+      .then(response => {
+
+      })
+      .catch(error => {
+        
+      })
+    }
+  }
+
+  function inputChange(event) {
+    const { name, value } = event.target;
+
+    switch (name) {
+      case "oldPass":
+        setOldPassword(value);
+        break;
+
+      case "newPass":
+        setNewPassword(value);
+        break;
+
+      default:
+        break;
+    }
+  }
+
+
+  function changePasswordType() {
+    setSeeOldPwd(!seeOldPwd);
+  }
+
+
+  function changeNewPasswordType() {
+    setSeeNewPwd(!seeNewPwd);
+  }
+
   return (
     <div className="h3 m-5">
       <div className="container datas">
@@ -180,31 +232,37 @@ export default function DataPage(props) {
                           <FontAwesomeIcon icon={faUnlock} />
                         </span>
                         <input
-                          type="password"
-                          className="form-control w-75 fs-3"
+                          type={seeOldPwd ? "text" : "password"}
+                          className="form-control w-75 fs-3 password-input"
                           required
-                          id="oldPass"
+                          name="oldPass"
+                          value={oldPassword}
+                          onChange={inputChange}
                         />
+                        {seeOldPwd ? <FontAwesomeIcon onClick={changePasswordType} className="password--icon" icon={faEyeSlash} /> : oldPassword ? <FontAwesomeIcon onClick={changePasswordType} className="password--icon" icon={faEye} /> : <></>}
                       </div>
                     </td>
                     <td className="key">Új jelszó</td>
                     <td className="value">
-                      <div className="input-group h-100">
-                        <span className="input-group-text fs-4">
+                      <div className="input-group h-100 position-relative">
+                        <span className="input-group-text fs-4 password-input">
                           <FontAwesomeIcon icon={faLock} />
                         </span>
                         <input
-                          type="password"
+                          type={seeNewPwd ? "text" : "password"}
                           className="form-control w-50 fs-3"
                           required
-                          id="newPass"
+                          name="newPass"
+                          value={newPassword}
+                          onChange={inputChange}
                         />
+                        {seeNewPwd ? <FontAwesomeIcon onClick={changeNewPasswordType} className="password--icon" icon={faEyeSlash} /> : newPassword ? <FontAwesomeIcon onClick={changeNewPasswordType} className="password--icon" icon={faEye} /> : <></>}
                       </div>
                     </td>
                   </tr>
                   <tr>
                     <td colSpan={4} className="text-center">
-                      <button className="btn passChange-btn">Módosítás</button>
+                      <button onClick={changePassword} className="btn passChange-btn">Módosítás</button>
                     </td>
                   </tr>
                 </table>
@@ -220,7 +278,7 @@ export default function DataPage(props) {
                     <FontAwesomeIcon icon={faSyncAlt} />
                   </button>
                 </div>
-                
+
               </div>
               <hr />
               <Activities

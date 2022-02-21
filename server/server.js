@@ -30,22 +30,34 @@ app.get("/etlap", async (req, res) => {
 app.post("/etlap", async (req, res) => {
   let excelRows = req.body.excelRows;
   const setDate = req.body.date;
+  const override = req.body.override;  
 
   if (await sqlQueries.isConnection() === false) await sqlQueries.CreateConnection(true);
   const selectDaysId = await sqlQueries.select("days", "id", `datum = "${setDate}"`);
-  if (selectDaysId.length === 0) {
-    await sqlQueries.EndConnection();
+  if (selectDaysId.length === 0 || override) {
+    await sqlQueries.EndConnection();    
     const menu = await menuConvert.convert(excelRows);
-
     let date = new Date(setDate);
 
-    try {
-      for await (const day of menu) {
-        date = await databaseUpload.insertDay(day, date);
+    if (override === false) {
+      try {
+        for await (const day of menu) {
+          date = await databaseUpload.insertDay(day, date);
+        }
+      } catch (error) {
+        res.notFound();
       }
-    } catch (error) {
-      res.notFound();
     }
+    else {      
+      try {
+        for await (const day of menu) {
+          date = await databaseUpload.updateDay(day, date);
+        }
+      } catch (error) {
+        res.notFound();
+      }
+    }
+
     res.send("Kész");
   }
   else {
@@ -71,7 +83,9 @@ app.post("/add", async (req, res) => {
 app.post("/userdetails", auth.tokenAutheticate, async (req, res) => {
   const omAzon = req.body.omAzon;
   const userWithDetails = await user.getBy("*", `user.omAzon = ${omAzon}`, false);
+  const iskolaOM = await sqlQueries.select("schools", "iskolaOM", `id = ${userWithDetails[0].schoolsId}`, false);
   const userOrders = await order.selectOrdersWithDateByUserId(userWithDetails[0].id);
+  userWithDetails[0].iskolaOM = iskolaOM[0].iskolaOM;
   userWithDetails[0].orders = userOrders;
   res.json(userWithDetails);
 })
@@ -96,6 +110,7 @@ app.post("/user", auth.tokenAutheticate, async (req, res) => {
 
 app.get("/alluser", auth.tokenAutheticate, async (req, res) => {
   const allUser = await user.getAll(false);
+  // console.log(allUser);
   if (allUser.length === 0) res.notFound();
   res.json(allUser)
 });

@@ -240,6 +240,8 @@ export default function MenuUpload() {
             else {
                 setAlertText("Hiba történt az étlap elküldésekor!\nKérjük ellnőrizze a formátumot!");
                 setAlertOpen(true);
+                setAlertButtons(false);
+
                 throw new Error("Bad format");
             }
             console.log(excelRows);
@@ -298,12 +300,17 @@ export default function MenuUpload() {
         }
     };
 
-    function sendExcelRows() {
+    function responseClick() {
+        sendExcelRows(true);
+    }
+
+    function sendExcelRows(isOverride = false) {
         const startDay = modules.getFirstDayOfWeek(week);
-        console.log(startDay);
+        const override = isOverride;
         axios.post(`/etlap`, {
             excelRows: excelRows,
-            date: modules.convertDateWithDash(startDay)
+            date: modules.convertDateWithDash(startDay),
+            override: override
         })
             .then((response) => {
                 console.log(response);
@@ -317,7 +324,7 @@ export default function MenuUpload() {
             });
     }
 
-    
+
 
     const renderWeekPickerDay = (date, selectedDates, pickersDayProps) => {
         if (!week) {
@@ -420,7 +427,8 @@ export default function MenuUpload() {
                 alertOpen={alertOpen}
                 text={alertText}
                 type="error"
-                buttons={alertButtons} />
+                buttons={alertButtons}
+                buttonClick={responseClick} />
         </div>
     )
 }
