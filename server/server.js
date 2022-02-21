@@ -193,6 +193,15 @@ app.post("/test", async (req, res) => {
   res.send(testOrders);
 })
 
+app.post("/scan", auth.tokenAutheticate, async (req, res) => {
+  const omAzon = req.body.omAzon;
+  const users = await user.getAll(false);
+  let userData;
+  users.forEach(user => {
+    if (Number(user.omAzon) === Number(omAzon)) userData = user;
+  });
+  res.send(userData.befizetve);
+
 app.post("/userdelete", auth.tokenAutheticate, async (req, res) => {
   const omAzon = req.body.omAzon;
   const currentUser = await user.getBy('*', `omAzon = ${omAzon}`, false, false);
