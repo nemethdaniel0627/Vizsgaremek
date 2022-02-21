@@ -12,6 +12,7 @@ const email = require('./modules/emailSend');
 const auth = require('./modules/auth');
 const exception = require('./exceptions/exceptions');
 const order = require('./modules/order');
+const bcrypt = require('bcrypt')
 
 const app = express();
 
@@ -150,7 +151,6 @@ app.post("/rejectpending", auth.tokenAutheticate, async (req, res) => {
   const omAzon = req.body.omAzon;
   const result = await user.delete(`omAzon = ${omAzon}`, true);
   res.send("Ok");
-
 });
 
 app.post("/login", async (req, res) => {
@@ -189,11 +189,68 @@ app.post("/cancel", async (req, res) => {
 app.post("/test", async (req, res) => {
   // const create = await test.generate('users2.txt', 82);
   // res.send(create);
-  // const mealsCount = await order.ordersCountByDate('2022-01-31');
-  // res.send(mealsCount);
   const testOrders = await test.orders('2022-02-04', 15);
   res.send(testOrders);
+})
 
+app.post("/userdelete", auth.tokenAutheticate, async (req, res) => {
+  const omAzon = req.body.omAzon;
+  const currentUser = await user.getBy('*', `omAzon = ${omAzon}`, false, false);
+  if (currentUser.length === 0) res.notFound();
+  else {
+    await user.delete(`omAzon = ${omAzon}`, false);
+    res.ok();
+  }
+})
+
+app.post("/useradd", auth.tokenAutheticate, async (req, res) => {
+  const newUser = req.body.user;
+  newUser.password = bcrypt.hashSync(newUser.password, 10);
+  const data = Object.values(newUser).join(';');
+  const added = await user.add(data, false);
+  if (added) res.created();
+  else res.conflict();
+})
+
+app.post("/usermodify", auth.tokenAutheticate, async (req, res) => {
+  const omAzon = req.body.omAzon;
+  const updatedUser = req.body.user;
+  const users = await user.getAll(false);
+  let unique = true;
+  const currentUser = await user.getBy('*', `omAzon = ${omAzon}`, false, false);
+
+  if (currentUser.length === 0) res.notFound();
+  else {
+    users.forEach(user => {
+      if (updatedUser.omAzon === user.omAzon || updatedUser.email === user.email) unique = false;
+    });
+
+    if (!unique) res.conflict();
+    else {
+      await user.modify(`omAzon = ${updatedUser.omAzon}, nev = '${updatedUser.name}', schoolsId = '${updatedUser.schoolsId}', 
+                         osztaly = '${updatedUser.osztaly}', email = '${updatedUser.email}'`, `omAzon = ${omAzon}`);
+      res.ok();
+    }
+  }
+})
+
+app.post("/passwordmodify", auth.tokenAutheticate, async (req, res) => {
+  const omAzon = req.body.omAzon;
+  const oldPassword = req.body.oldPassword;
+  const newPassword = req.body.newPassword;
+  const userData = await user.getBy('omAzon, jelszo', `omAzon = ${omAzon}`, false, false);
+  if (userData.length === 0) res.notFound();
+  else {
+    const match = bcrypt.compareSync(oldPassword, userData[0].jelszo);
+    if (match) {
+      const newPasswordHash = bcrypt.hashSync(newPassword, 10);
+      await user.modify(`jelszo = '${newPasswordHash}'`, `omAzon = ${omAzon}`);
+      res.ok();
+    }
+    else {
+      res.conflict();
+    }
+  }
 })
 
 app.post("/email", async (req, res) => {
