@@ -40,9 +40,9 @@ class sqlQueries {
         }
     }
 
-    async selectAll(tableName, fields = "*") {
+    async selectAll(tableName, fields = "*", array = true) {
         try {
-            if (await this.isConnection() === false) await this.CreateConnection();
+            if (await this.isConnection() === false) await this.CreateConnection(array);
             let [results, resultInfo] = await this._connection.query(`SELECT ${fields} FROM ${tableName}`);
             return results;
         } catch (error) {

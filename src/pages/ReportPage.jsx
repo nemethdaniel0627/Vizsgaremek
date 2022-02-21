@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import ReportPageCard from "../components/ReportPageCard";
 import ReportPageModal from "../components/ReportPageModal";
-import foodE_icon from "../images/icon.png";
-
 
 export default function ReportPage(props) {
 

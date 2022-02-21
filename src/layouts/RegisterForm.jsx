@@ -1,33 +1,60 @@
-import { faUserPlus } from "@fortawesome/free-solid-svg-icons";
+import { faEye, faEyeSlash, faUserPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import login_icon from "../images/icon.png";
+import ResponseMessage from "../components/ResponseMessage";
 
 export default function RegisterForm(props) {
 
-    const [selected, setSelect] = useState(-1);
+    const [selected, setSelected] = useState(false);
+    const [seePwd, setSeePwd] = useState(false);
+    const [alertOpen, setAlertOpen] = useState(false);
+    const [alertType, setAlertType] = useState(undefined);
+    // function closeError() {
+    //     setErrorOpen(false);
+    // }
+    const [user, setUser] = useState({
+        name: "",
+        password: "",
+        email: "",
+        iskolaOM: null,
+        osztaly: "",
+        omAzon: ""
+    });
 
-    function SelectionChange(e) {
-        setSelect(e.target.value);
+    function SelectionChange(event) {
+        const { value, name } = event.target;
+
+        if (value === '4') setSelected(true);
+        else setSelected(false);
+
+        console.log(value);
+
+        setUser(prevUser => {
+            return {
+                ...prevUser,
+                [name]: Number(value)
+            }
+        })
     }
 
     function RegisterOff() {
         props.RegisterOff();
     }
 
+    function inputChange(event) {
+        const { value, name } = event.target;
+
+        setUser(prevUser => {
+            return {
+                ...prevUser,
+                [name]: value
+            }
+        })
+    }
+
     function Regist(e) {
-        // e.preventDefault();
-
-        // emailjs.send('gmail', 'registration', {
-        //     name: "Teszt Elek",
-        //     subject: "Sikeres regisztráció",
-        //     email: ""
-        // }, 'user_o4UcHcGE4vZKf1FT7oMAO').then((result) => {
-        // }, (error) => {
-        //     console.log(error.text);
-        // });
-
         axios.post("/email",
             {
                 toEmail: "",
@@ -50,6 +77,39 @@ export default function RegisterForm(props) {
             .catch(error => {
                 console.error(error);
             });
+      
+        e.preventDefault();
+
+        axios.post("/register",
+            {
+                user: user
+            })
+            .then(response => {
+                setAlertType(false)
+                console.log(response);
+            })
+            .catch(error => {
+                setAlertType(true);
+                console.error(error)
+            });
+
+        // emailjs.send('gmail', 'registration', {
+        //     name: user.name,
+        //     subject: "Sikeres regisztráció kérelem",
+        //     email: user.email,
+        //     text: "A regisztrációja elbírálás alatt van, kérjük legyen türelemmel. \n Amint sikeresen lezárult a regisztáció, e-mailben értesítsük."
+        // }, 'user_o4UcHcGE4vZKf1FT7oMAO').then((result) => {
+        // }, (error) => {
+        //     console.log(error.text);
+        // });
+    }
+
+    useEffect(() => {
+        if (alertType !== undefined) setAlertOpen(true);
+    }, [alertType])
+
+    function changePasswordType() {
+        setSeePwd(!seePwd);
     }
 
     return (
@@ -67,38 +127,39 @@ export default function RegisterForm(props) {
 
                                         <hr className="mb-3" />
                                         <div className="form-outline form-white mb-4">
-                                            <input type="text" className="form-control form-control-lg fs-4 --input" placeholder="Név" autoFocus required name="name" />
+                                            <input type="text" className="form-control form-control-lg fs-4 --input" onChange={inputChange} value={user.name} placeholder="Név" autoFocus required name="name" />
                                         </div>
 
                                         <div className="form-outline form-white mb-4">
-                                            <input type="text" className="form-control form-control-lg fs-4 --input" placeholder="Osztály" required name="name" />
+                                            <input type="text" className="form-control form-control-lg fs-4 --input" onChange={inputChange} value={user.osztaly} placeholder="Osztály" required name="osztaly" />
                                         </div>
 
                                         <div className="form-outline form-white mb-4">
-                                            <input type="number" className="form-control form-control-lg fs-4 --input" placeholder="OM azonosító" required name="name" />
+                                            <input type="number" className="form-control form-control-lg fs-4 --input" onChange={inputChange} value={user.omAzon} placeholder="OM azonosító" required name="omAzon" />
                                         </div>
 
                                         <div className="form-outline form-white mb-4">
-                                            <input type="email" required name="email" className="form-control form-control-lg fs-4 --input" placeholder="E-mail" />
+                                            <input type="email" required className="form-control form-control-lg fs-4 --input" onChange={inputChange} value={user.email} placeholder="E-mail" name="email" />
                                         </div>
 
-                                        <div className="form-outline form-white mb-4">
-                                            <input type="password" required name="password" className="form-control form-control-lg fs-4 --input" placeholder="Jelszó" />
+                                        <div className="form-outline form-white mb-4 position-relative">
+                                            <input autoComplete="new-password" type={seePwd ? "text" : "password"} onChange={inputChange} required value={user.password} name="password" className="form-control form-control-lg fs-4 --input" placeholder="Jelszó" />
+                                            {seePwd ? <FontAwesomeIcon onClick={changePasswordType} className="password--icon" icon={faEyeSlash} /> : user.password !== "" ? <FontAwesomeIcon onClick={changePasswordType} className="password--icon" icon={faEye} /> : <></>}
                                         </div>
 
 
                                         <div className="form-outline form-white mb-4">
-                                            <select name="schools" className="form-select fs-4 --input" onChange={SelectionChange}>
+                                            <select name="iskolaOM" className="form-select fs-4 --input" onChange={SelectionChange}>
                                                 <option value="0" className="">--Válassz iskolát--</option>
-                                                <option value="1">Jedlik Ányos</option>
-                                                <option value="2">Révia Miklós</option>
-                                                <option value="3">Lorem Ipsum</option>
+                                                <option value="203037">Jedlik Ányos</option>
+                                                <option value="030695">Révia Miklós</option>
+                                                <option value="123456">Lorem Ipsum</option>
                                                 <option value="4">--Iskola hozzáadása--</option>
                                             </select>
                                         </div>
 
-                                        {selected === '4' ? <div className="form-outline form-white mb-4">
-                                            <input type="text" className="form-control form-control-lg fs-4 --input" placeholder="Iskola neve" autoFocus required name="school" />
+                                        {selected ? <div className="form-outline form-white mb-4">
+                                            <input type="number" className="form-control form-control-lg fs-4 --input" onChange={inputChange} value={user.iskola} placeholder="Iskola OM azonosítója" autoFocus required name="iskolaOM" />
                                         </div> : <></>}
 
                                         <div className="form-outline form-white mb-4">
@@ -127,6 +188,17 @@ export default function RegisterForm(props) {
                     </div>
                 </div>
             </div>
+            {alertType ?
+                <ResponseMessage
+                    setAlertOpen={setAlertOpen}
+                    alertOpen={alertOpen}
+                    text={"Hiba történt a regisztrációkor elküldésekor!\nIlyen OM azonosító vagy email cím már létezik!"}
+                    type="error" />
+                : <ResponseMessage
+                    setAlertOpen={setAlertOpen}
+                    alertOpen={alertOpen}
+                    text={"Sikeres regisztráció!\nTovábbi információkat emailben küldtünk"}
+                    type="success" />}
         </section>
 
     );

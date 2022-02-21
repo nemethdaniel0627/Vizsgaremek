@@ -22,20 +22,19 @@ class User {
         }
     }
 
-    async isUnique(field, con) {
+    async isUnique(field, con, table = "user") {
         if (await sqlQueries.isConnection() === false) await sqlQueries.CreateConnection();
-        const array = await sqlQueries.select('user', `${field}`, `${field} = '${con}'`);
+        const array = await sqlQueries.select(table, `${field}`, `${field} = '${con}'`);
         const unique = await array.find(element => element = con);
         if (unique) return false;
         return true;
     }
 
-    async add(data = '') {
+    async add(data = '', pending) {
         let added = false;
         if (await sqlQueries.isConnection() === false) await sqlQueries.CreateConnection();
-
-        if ((await this.isUnique('omAzon', data.split(';')[0])) && (await this.isUnique('email', data.split(';')[5]))) {
-            await sqlQueries.insert("user",
+        if ((await this.isUnique('omAzon', data.split(';')[0])) && (await this.isUnique('email', data.split(';')[5])) && (await this.isUnique('email', data.split(';')[5], "user_pending")) && (await this.isUnique('omAzon', data.split(';')[0], "user_pending"))) {
+            await sqlQueries.insert(pending ? "user_pending" : "user",
                 "omAzon," +
                 "jelszo, " +
                 "nev, " +
@@ -43,8 +42,8 @@ class User {
                 "osztaly, " +
                 "email",
                 `"${data.split(";")[0]}", "${data.split(";")[1]}", "${data.split(";")[2]}", "${data.split(";")[3]}", "${data.split(";")[4]}", "${data.split(";")[5]}"`);
-            const userId = await sqlQueries.select("user", "id", `omAzon = ${data.split(';')[0]}`);
-            await sqlQueries.insert("user_role", "roleId, userId", `2, ${userId}`);
+            // const userId = await sqlQueries.select("user", "id", `omAzon = ${data.split(';')[0]}`);
+            // await sqlQueries.insert("user_role", "roleId, userId", `2, ${userId}`);
             added = true;
         }
         await sqlQueries.EndConnection();
@@ -55,7 +54,7 @@ class User {
         if (await sqlQueries.isConnection() === false) await sqlQueries.CreateConnection(isJson);
         const all = await sqlQueries.selectAll(
             "user ORDER BY user.osztaly, user.nev",
-            "*, "+
+            "*, " +
             "(" +
             "SELECT " +
             "orders.id " +
@@ -71,16 +70,16 @@ class User {
         return all;
     }
 
-    async getBy(fields, conditions, array = true) {
+    async getBy(fields, conditions, array = true, pending = false) {
         if (await sqlQueries.isConnection() === false) await sqlQueries.CreateConnection(array);
-        const result = await sqlQueries.select('user', `${fields}`, `${conditions}`);
+        const result = await sqlQueries.select(pending ? 'user_pending' : 'user', `${fields}`, `${conditions}`);
         await sqlQueries.EndConnection();
         return result;
     }
 
-    async delete(condition) {
+    async delete(condition, pending = false) {
         if (await sqlQueries.isConnection() === false) await sqlQueries.CreateConnection();
-        const deleted = await sqlQueries.delete('user', `${condition}`);
+        const deleted = await sqlQueries.delete(pending ? 'user_pending' : 'user', `${condition}`);
         await sqlQueries.EndConnection();
         return deleted.affectedRows;
     }

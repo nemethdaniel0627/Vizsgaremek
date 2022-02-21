@@ -3,9 +3,8 @@
     height: 100vh;
     background-color: var(--dark-blue);
     top:0em;
-    position: fixed;
-    z-index: 100;
-    margin-top: 6rem;
+    position: sticky;
+    z-index: 100;    
 
     .active{
         width: 24rem;
@@ -228,6 +227,7 @@
         background-color: var(--adminDb);
         color:var(--darkModeFontColor);
         margin: 0.2em 0;
+        position: relative;
         
         .key{
             color:var(--adminDbFontKey)!important;
@@ -285,8 +285,8 @@
 }
 
 .btn-infos:hover{
-    border: 1px solid #076933;
-    color:#076933;
+    border: 1px solid #2de17e;
+    color:#2de17e;
 }
 
 .acc-body{

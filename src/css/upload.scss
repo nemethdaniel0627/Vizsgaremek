@@ -23,13 +23,6 @@
         font-family: "Poppins", sans-serif;
         font-size: 1.8rem;
 
-        &--error-message {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-
         @media only screen and (max-width: 1600px) {
             font-size: 1.6rem;
         }
@@ -202,10 +195,6 @@
 .drop-zoon--over .drop-zoon__icon,
 .drop-zoon--over .drop-zoon__paragraph {
     opacity: 0.7;
-}
-
-/* (drop-zoon--over) Modifier Class */
-.drop-zoon--Uploaded {
 }
 
 .drop-zoon--Uploaded .drop-zoon__icon,
