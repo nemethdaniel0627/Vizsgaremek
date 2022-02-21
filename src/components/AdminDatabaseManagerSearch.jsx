@@ -1,6 +1,6 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAngleLeft, faAngleRight, faSearch } from "@fortawesome/free-solid-svg-icons";
+import { faAngleLeft, faAngleRight, faChevronDown, faSearch } from "@fortawesome/free-solid-svg-icons";
 
 export default function AdminDatabaseManagerSearch(props) {
     return (
@@ -17,10 +17,10 @@ export default function AdminDatabaseManagerSearch(props) {
                     <div className="col-12 col-lg-4 justify-content-center d-flex">
                         <div className="onePage">
                             <label htmlFor="" className="fs-4 p-1">Egy oldalon: </label>
-                            <select name="" id="" className="form-select select float-end">
+                            <select name="" id="" className="form-select select float-end page--select">
                                 <option value="10">10</option>
                                 <option value="25">25</option>
-                                <option value="50">50</option>
+                                <option value="50">50</option>                                
                             </select>
                         </div>
                     </div>
@@ -28,8 +28,10 @@ export default function AdminDatabaseManagerSearch(props) {
                     <div className="col-12 col-lg-3 justify-content-center d-flex">
                         <div className="pageChanger">
                             <label htmlFor=""><span className="page-number">1</span> oldal / <span className="page-number">10</span> oldal</label>
-                            <button className="btn btn-page ms-2"><FontAwesomeIcon icon={faAngleLeft} /></button>
-                            <button className="btn btn-page"><FontAwesomeIcon icon={faAngleRight} /></button>
+                            <div>
+                                <button className="btn btn-page ms-2"><FontAwesomeIcon icon={faAngleLeft} /></button>
+                                <button className="btn btn-page"><FontAwesomeIcon icon={faAngleRight} /></button>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -4,12 +4,12 @@ const user = require('./user');
 
 class databaseDownload {
     async getMenu(date) {
-        if (date.getDay() === 0) date.setDate(date.getDate() + 1);        
+        if (date.getDay() === 0) date.setDate(date.getDate() + 1);
+        else if(date.getDay() === 6) date.setDate(date.getDate() + 2);
         else if (date.getDay() !== 1) date.setDate(date.getDate() - (date.getDay() - 1))
-
-        const startDate = functions.convertDateWithDash(date);        
+        const startDate = functions.convertDateWithDash(date);
         date.setDate(date.getDate() + 6);
-        const endDate = functions.convertDateWithDash(date);        
+        const endDate = functions.convertDateWithDash(date);
         if (await sqlQueries.isConnection() === false) await sqlQueries.CreateConnection(true);
         const menu = await sqlQueries.innerSelect(
             "menu",

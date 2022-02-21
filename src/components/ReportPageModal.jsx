@@ -2,10 +2,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheckCircle, faExclamationTriangle, faPaperPlane, faTimesCircle } from "@fortawesome/free-solid-svg-icons";
 import React, { useState } from "react";
 import Modal from "react-bootstrap/Modal";
-import emailjs from 'emailjs-com';
+import axios from "axios";
 
 export default function ReportPageModal(props) {
-
+    const user = props.user.props;
 
     const [sended, changeSended] = useState(false);
     
@@ -38,20 +38,30 @@ export default function ReportPageModal(props) {
     function sendEmail(e) {
         if (Checking()) {
             Sending();
-            e.preventDefault();
 
-            emailjs.send('gmail', 'thxForReport', {
-                message_where: document.getElementById('message_where').value,
-                message_what: document.getElementById('message_what').value,
-                from: props.user.nev,
-                class: props.user.osztaly,
-                email: props.user.email
-            }, 'user_o4UcHcGE4vZKf1FT7oMAO').then((result) => {
-                Send();
-            }, (error) => {
-                console.log(error.text);
-            });
-
+            axios.post("/email",
+                    {
+                        toEmail: "",
+                        fromEmail: user.email,
+                        name: user.nev,
+                        class: user.osztaly,
+                        om: user.omAzon,
+                        where: document.getElementById('message_where').value,
+                        what: document.getElementById('message_what').value,
+                        type: "report"
+                    },
+                    {
+                        headers: {
+                            "Authorization": `Baerer ${sessionStorage.getItem("token")}`
+                        }
+                    })
+                    .then(response => {
+                        console.log(response);
+                        Send();
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    });
         } else {
             setError(true);
         }

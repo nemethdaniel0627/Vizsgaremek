@@ -90,14 +90,14 @@ CREATE TABLE foode.schools (
   iskolaOM VARCHAR(255) NOT NULL UNIQUE
 );
 
-ALTER TABLE user_pending 
-  ADD CONSTRAINT FK_user_pending_schools_id FOREIGN KEY (schoolsId)
-    REFERENCES schools(id) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
 ALTER TABLE user 
   ADD CONSTRAINT FK_user_schools_id FOREIGN KEY (schoolsId)
     REFERENCES schools(id) ON DELETE NO ACTION ON UPDATE NO ACTION;
-    
+
+ALTER TABLE foode.user_pending 
+  ADD CONSTRAINT FK_user_pending_schools_id FOREIGN KEY (schoolsId)
+    REFERENCES foode.schools(id) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
 ALTER TABLE orders 
   ADD CONSTRAINT FK_orders_user_id FOREIGN KEY (userId)
     REFERENCES user(id) ON DELETE NO ACTION ON UPDATE NO ACTION;

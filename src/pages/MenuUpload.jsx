@@ -48,6 +48,11 @@ const CustomPickersDay = styled(PickersDay, {
 export default function MenuUpload() {
 
     const [excelRows, setExcelRows] = useState();
+    const [week, setWeek] = useState(new Date());
+    const [alertOpen, setAlertOpen] = useState(false);
+    const [alertText, setAlertText] = useState("");
+    const [alertButtons, setAlertButtons] = useState(false);
+
 
     // Design By
     // - https://dribbble.com/shots/13992184-File-Uploader-Drag-Drop    
@@ -184,27 +189,37 @@ export default function MenuUpload() {
             const reader = new FileReader();
             if (reader.readAsBinaryString) {
                 reader.onload = (e) => {
-                    processExcel(reader.result);
-                    setTimeout(function () {
-                        // Add className (upload-area--open) On (uploadArea)
-                        uploadArea.classList.add('upload-area--open');
+                    try {
+                        processExcel(reader.result);
+                        setTimeout(function () {
+                            // Add className (upload-area--open) On (uploadArea)
+                            uploadArea.classList.add('upload-area--open');
 
-                        // Hide Loading-text (please-wait) Element
+                            // Hide Loading-text (please-wait) Element
+                            loadingText.style.display = "none";
+                            // Show Preview Image
+                            previewImage.style.display = 'block';
+
+                            // Add className (file-details--open) On (fileDetails)
+                            fileDetails.classList.add('file-details--open');
+                            // Add className (uploaded-file--open) On (uploadedFile)
+                            uploadedFile.classList.add('uploaded-file--open');
+                            // Add className (uploaded-file__info--active) On (uploadedFileInfo)                        
+
+                            // Add File Name Inside Uploaded File Name
+                            uploadedFileName.innerHTML = file.name;
+
+                            // Call Function progressMove();                        
+                        }, 500); // 0.5s
+                    } catch (error) {
+                        console.log(error);
+                        uploadArea.classList.remove('upload-area--open');
+                        fileDetails.classList.remove('file-details--open');
+                        uploadedFile.classList.remove('uploaded-file--open');
                         loadingText.style.display = "none";
-                        // Show Preview Image
-                        previewImage.style.display = 'block';
-
-                        // Add className (file-details--open) On (fileDetails)
-                        fileDetails.classList.add('file-details--open');
-                        // Add className (uploaded-file--open) On (uploadedFile)
-                        uploadedFile.classList.add('uploaded-file--open');
-                        // Add className (uploaded-file__info--active) On (uploadedFileInfo)                        
-
-                        // Add File Name Inside Uploaded File Name
-                        uploadedFileName.innerHTML = file.name;
-
-                        // Call Function progressMove();                        
-                    }, 500); // 0.5s
+                        previewImage.style.display = 'none';
+                        dropZoon.classList.remove('drop-zoon--Uploaded');
+                    }
                 };
                 reader.readAsBinaryString(file);
             }
@@ -215,7 +230,20 @@ export default function MenuUpload() {
             const firstSheet = workbook.SheetNames[0];
             console.log(workbook.Sheets[firstSheet]);
             const excelRows = XLSX.utils.sheet_to_json(workbook.Sheets[firstSheet]);
-            setExcelRows(excelRows);
+            let index = 0;
+            excelRows.forEach(row => {
+                if (row.__EMPTY !== undefined) index++;
+            })
+            if (index === 5) {
+                setExcelRows(excelRows);
+            }
+            else {
+                setAlertText("Hiba történt az étlap elküldésekor!\nKérjük ellnőrizze a formátumot!");
+                setAlertOpen(true);
+                setAlertButtons(false);
+
+                throw new Error("Bad format");
+            }
             console.log(excelRows);
         }
 
@@ -272,25 +300,31 @@ export default function MenuUpload() {
         }
     };
 
-    function sendExcelRows() {
+    function responseClick() {
+        sendExcelRows(true);
+    }
+
+    function sendExcelRows(isOverride = false) {
         const startDay = modules.getFirstDayOfWeek(week);
-        console.log(startDay);
+        const override = isOverride;
         axios.post(`/etlap`, {
             excelRows: excelRows,
-            date: modules.convertDateWithDash(startDay)
+            date: modules.convertDateWithDash(startDay),
+            override: override
         })
             .then((response) => {
                 console.log(response);
                 progressMove();
             })
             .catch((error) => {
+                setAlertText("Hiba történt az étlap elküldésekor!\nErre a hétre már van étlap feltöltve.\n\nKivánja cserélni?");
                 setAlertOpen(true);
+                setAlertButtons(true);
                 console.error(error);
             });
     }
 
-    const [week, setWeek] = useState(new Date());
-    const [alertOpen, setAlertOpen] = useState(false);
+
 
     const renderWeekPickerDay = (date, selectedDates, pickersDayProps) => {
         if (!week) {
@@ -391,8 +425,10 @@ export default function MenuUpload() {
             <ResponseMessage
                 setAlertOpen={setAlertOpen}
                 alertOpen={alertOpen}
-                text={"Hiba történt az étlap elküldésekor!\nKérjük ellnőrizze a formátumot!"}
-                type="error" />
+                text={alertText}
+                type="error"
+                buttons={alertButtons}
+                buttonClick={responseClick} />
         </div>
     )
 }

@@ -2,7 +2,7 @@ import React from "react";
 import { Accordion } from "react-bootstrap";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck, faEdit, faTimes, faUserCheck, faUserPlus, faUserTimes } from "@fortawesome/free-solid-svg-icons";
-import Modal from "./AdminDatabaseModal";
+import AdminDatabaseModal from "./AdminDatabaseModal";
 import ResponseMessage from './ResponseMessage';
 import { useState } from "react";
 import ReadMoreIcon from '@mui/icons-material/ReadMore';
@@ -111,8 +111,8 @@ export default function AdminDatabaseAccodrion(props) {
                                 <button className="btn btn-delete fs-3" id={"btn2_" + props.user.name + "-" + props.user.class} onClick={rejectPending}><FontAwesomeIcon id={"icon2_" + props.user.name + "-" + props.user.class} icon={faUserTimes} /> Elutasítás</button>
                             </div></>}
 
-                        {modifyModalAppear ? <Modal ModalClose={ModifyModal} title="Személy módosítása" message="" button="Módosítás" show={modifyModalAppear} type="Modify" user={props.user}></Modal> : <></>}
-                        {deleteModalAppear ? <Modal ModalClose={DeleteModal} title="Személy törlése" message={"Biztosan törölni akarok ezt a személyt? (" + props.user.name + ")"} user={props.user} button="Törlés" show={deleteModalAppear} type="Delete" ></Modal> : <></>}
+                        {modifyModalAppear ? <AdminDatabaseModal ModalClose={ModifyModal} title="Személy módosítása" message="" button="Módosítás" show={modifyModalAppear} type="Modify" user={props.user}></AdminDatabaseModal> : <></>}
+                        {deleteModalAppear ? <AdminDatabaseModal ModalClose={DeleteModal} title="Személy törlése" message={"Biztosan törölni akarok ezt a személyt? (" + props.user.name + ")"} user={props.user} button="Törlés" show={deleteModalAppear} type="Delete" ></AdminDatabaseModal> : <></>}
                     </div>
                 </div>
                 {alertType ?
