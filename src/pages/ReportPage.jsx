@@ -45,14 +45,14 @@ export default function ReportPage(props) {
             <div className="col-12 col-lg-4"><ReportPageCard title="+36 40 123 7555" fontSize="small" type="text" header="Telefon:" /></div>
 
             <span className="--space"></span>
-            <div className="col-12 col-lg-4"><ReportPageCard title="foodwebusiness@gmail.com" fontSize="small" type="text" header="E-mail:" /></div>
+            <div className="col-12 col-lg-4"><ReportPageCard title="information.foode@gmail.com" fontSize="small" type="text" header="E-mail:" /></div>
             <div className="col-12 col-lg-2"></div>
             <span className="--space d-flex d-lg-none"></span>
             <div className="col-12 col-lg-4"><ReportPageCard title="5231 Fegyvernek, Fő út 8" fontSize="small" type="text" header="Cím:" /></div>
 
           </div>
         </div>
-        <ReportPageModal user={props.user} show={error || email} type={error ? "error" : email ? "email" : ""} ModalClose={error ? ErrorSendRequest : email ? EmailModal : <></>} />
+        <ReportPageModal user={props} show={error || email} type={error ? "error" : email ? "email" : ""} ModalClose={error ? ErrorSendRequest : email ? EmailModal : <></>} />
 
       </div>
     </div>
