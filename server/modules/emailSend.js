@@ -2,7 +2,7 @@ class emailSend {
     nodemailer = require('nodemailer');
     account = {
         user: "information.foodE@gmail.com",
-        pass: "pargnwgektylvouq"
+        pass: process.env.EMAIL_PASS
     }
     transporter = this.nodemailer.createTransport({
         host: "smtp.gmail.com",
