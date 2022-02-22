@@ -71,10 +71,18 @@ app.post("/add", async (req, res) => {
     const data = await user.readFile('users.txt');
     let count = 0;
     for (let i = 0; i < data.length; i++) {
-      let added = await user.add(data[i], false);
-      if (added) count++;
+      const newUser = {
+        omAzon: data[i].split(';')[0],
+        jelszo: data[i].split(';')[1],
+        nev: data[i].split(';')[2],
+        schoolsId: data[i].split(';')[3],
+        osztaly: data[i].split(';')[4],
+        email: data[i].split(';')[5]
+      }
+    let added = await user.add(newUser, false);
+    if (added) count++;
     }
-    res.send(`${count} record(s) added`);
+      res.send(`${count} record(s) added`);
   } catch (error) {
     console.log(error);
     res.send("No such file");
@@ -214,9 +222,8 @@ app.post("/userdelete", auth.tokenAutheticate, async (req, res) => {
 
 app.post("/useradd", auth.tokenAutheticate, async (req, res) => {
   const newUser = req.body.user;
-  newUser.password = bcrypt.hashSync(newUser.password, 10);
-  const data = Object.values(newUser).join(';');
-  const added = await user.add(data, false);
+  newUser.jelszo = bcrypt.hashSync(newUser.password, 10);
+  const added = await user.add(newUser, false);
   if (added) res.created();
   else res.conflict();
 })
