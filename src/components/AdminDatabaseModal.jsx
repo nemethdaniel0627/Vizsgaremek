@@ -88,9 +88,11 @@ export default function AdminDatabaseModal(props) {
     })
 
     if (tmpUser.nev.trim() !== "" && tmpUser.omAzon.trim() !== "" && tmpUser.osztaly.trim() !== "" && tmpUser.email.trim() !== "" && tmpUser.iskolaOM.trim() !== "") {
+      let valami = tmpUser;
+      valami.password = "alma";
       axios.post("/useradd",
         {
-          user: tmpUser
+          user: valami
         },
         AuthUser.authHeader())
         .then(response => {

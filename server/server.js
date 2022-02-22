@@ -222,8 +222,17 @@ app.post("/userdelete", auth.tokenAutheticate, async (req, res) => {
 
 app.post("/useradd", auth.tokenAutheticate, async (req, res) => {
   const newUser = req.body.user;
-  newUser.jelszo = bcrypt.hashSync(newUser.password, 10);
-  const added = await user.add(newUser, false);
+  const schoolsId = await sqlQueries.select("schools", "id", `iskolaOM = ${newUser.iskolaOM}`, false);
+  const tmpUser = {
+    omAzon: newUser.omAzon,
+    jelszo: newUser.password,
+    nev: newUser.nev,
+    schoolsId: schoolsId[0].id,
+    osztaly: newUser.osztaly,
+    email: newUser.email
+  }
+  tmpUser.password = bcrypt.hashSync(newUser.password, 10);
+  const added = await user.add(tmpUser, false);
   if (added) res.created();
   else res.conflict();
 })
