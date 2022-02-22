@@ -1,5 +1,4 @@
 const path = require('path');
-const axios = require('axios');
 const cors = require('cors');
 const express = require('express');
 const menuConvert = require('./modules/menuConvert');
@@ -201,6 +200,7 @@ app.post("/scan", auth.tokenAutheticate, async (req, res) => {
     if (Number(user.omAzon) === Number(omAzon)) userData = user;
   });
   res.send(userData.befizetve);
+})
 
 app.post("/userdelete", auth.tokenAutheticate, async (req, res) => {
   const omAzon = req.body.omAzon;
@@ -265,10 +265,12 @@ app.post("/passwordmodify", auth.tokenAutheticate, async (req, res) => {
 app.post("/email", async (req, res) => {
 
   const emailSpecs = req.body;
+  let o;
+  let o2;
   switch (emailSpecs.type) {
     case 'report':
-      const o = await email.EmailSendingForReport(emailSpecs);
-      const o2 = await email.ReplyEmailSendingForReport(emailSpecs);
+      o = await email.EmailSendingForReport(emailSpecs);
+      o2 = await email.ReplyEmailSendingForReport(emailSpecs);
       res.send(o);
       break;
     case 'register':
@@ -280,9 +282,10 @@ app.post("/email", async (req, res) => {
       o = await email.EmailSendingForRegisterAccepted(emailSpecs);
       res.send(o);
       break;
+    default:
+
+      break;
   }
-
-
 })
 
 app.post("/emailRegister", async (res) => {
