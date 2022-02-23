@@ -32,10 +32,10 @@ export default function DataPage(props) {
   }
 
   function changePassword() {
-    if (oldPassword && newPassword) {      
-      axios.post("/newpassword",
+    if (oldPassword && newPassword) {
+      axios.post("/passwordmodify",
       {
-        oldPaswword: oldPassword,
+        oldPassword: oldPassword,
         newPassword: newPassword,
         omAzon: props.user.omAzon
       },AuthUser.authHeader())

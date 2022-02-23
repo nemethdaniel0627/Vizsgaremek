@@ -238,21 +238,23 @@ app.post("/useradd", auth.tokenAutheticate, async (req, res) => {
 })
 
 app.post("/usermodify", auth.tokenAutheticate, async (req, res) => {
-  const omAzon = req.body.omAzon;
+  const omAzon = req.body.user.omAzon;
   const updatedUser = req.body.user;
+  const schoolsId = await sqlQueries.select("schools", "id", `iskolaOM = ${updatedUser.iskolaOM}`, false);
   const users = await user.getAll(false);
   let unique = true;
+  console.log(req.body);
   const currentUser = await user.getBy('*', `omAzon = ${omAzon}`, false, false);
 
   if (currentUser.length === 0) res.notFound();
   else {
     users.forEach(user => {
-      if (updatedUser.omAzon === user.omAzon || updatedUser.email === user.email) unique = false;
+      if (updatedUser.omAzon === user.omAzon || updatedUser.email === user.email) unique = true;
     });
 
     if (!unique) res.conflict();
     else {
-      await user.modify(`omAzon = ${updatedUser.omAzon}, nev = '${updatedUser.name}', schoolsId = '${updatedUser.schoolsId}', 
+      await user.modify(`omAzon = ${updatedUser.omAzon}, nev = '${updatedUser.nev}', schoolsId = '${schoolsId[0].id}', 
                          osztaly = '${updatedUser.osztaly}', email = '${updatedUser.email}'`, `omAzon = ${omAzon}`);
       res.ok();
     }
