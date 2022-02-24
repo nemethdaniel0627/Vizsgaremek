@@ -30,21 +30,21 @@ class User {
         return true;
     }
 
-    async add(data = '', pending) {
+    async add(user, pending) {
         let added = false;
         if (await sqlQueries.isConnection() === false) await sqlQueries.CreateConnection();
-        if ((await this.isUnique('omAzon', data.split(';')[0])) && (await this.isUnique('email', data.split(';')[5])) && (await this.isUnique('email', data.split(';')[5], "user_pending")) && (await this.isUnique('omAzon', data.split(';')[0], "user_pending"))) {
+        if ((await this.isUnique('omAzon', `${user.omAzon}`)) && (await this.isUnique('email', `${user.email}`)) && (await this.isUnique('email', `${user.email}`, "user_pending")) && (await this.isUnique('omAzon', `${user.omAzon}`, "user_pending"))) {
             await sqlQueries.insert(pending ? "user_pending" : "user",
-                "omAzon," +
+                "omAzon, " +
                 "jelszo, " +
                 "nev, " +
-                "schoolsId, " +
-                "osztaly, " +
-                "email",
-                `"${data.split(";")[0]}", "${data.split(";")[1]}", "${data.split(";")[2]}", ${data.split(";")[3]}, "${data.split(";")[4]}", "${data.split(";")[5]}"`);
+                "schoolsId, "  +
+                "osztaly, "  +
+                "email ",
+                `"${user.omAzon}", "${user.jelszo}", "${user.nev}", ${user.schoolsId}, "${user.osztaly}", "${user.email}"`);
             if (pending === false) {
-                const userId = await sqlQueries.select("user", "id", `omAzon = ${data.split(';')[0]}`);
-                await sqlQueries.insert("user_role", "roleId, userId", `2, ${userId}`);
+                const userId = await sqlQueries.select("user", "id", `omAzon = ${user.omAzon}`, false);
+                await sqlQueries.insert("user_role", "roleId, userId", `2, ${userId[0].id}`);
             }
             added = true;
         }

@@ -1,5 +1,4 @@
 const path = require('path');
-const axios = require('axios');
 const cors = require('cors');
 const express = require('express');
 const menuConvert = require('./modules/menuConvert');
@@ -72,13 +71,21 @@ app.post("/add", async (req, res) => {
     const data = await user.readFile('users.txt');
     let count = 0;
     for (let i = 0; i < data.length; i++) {
-      let added = await user.add(data[i], false);
-      if (added) count++;
+      const newUser = {
+        omAzon: data[i].split(';')[0],
+        jelszo: data[i].split(';')[1],
+        nev: data[i].split(';')[2],
+        schoolsId: data[i].split(';')[3],
+        osztaly: data[i].split(';')[4],
+        email: data[i].split(';')[5]
+      }
+    let added = await user.add(newUser, false);
+    if (added) count++;
     }
-    res.send(`${count} record(s) added`);
+      res.send(`${count} record(s) added`);
   } catch (error) {
     console.log(error);
-    res.send("No such file");
+    res.send("Error");
   }
 })
 
@@ -215,9 +222,17 @@ app.post("/userdelete", auth.tokenAutheticate, async (req, res) => {
 
 app.post("/useradd", auth.tokenAutheticate, async (req, res) => {
   const newUser = req.body.user;
-  newUser.password = bcrypt.hashSync(newUser.password, 10);
-  const data = Object.values(newUser).join(';');
-  const added = await user.add(data, false);
+  const schoolsId = await sqlQueries.select("schools", "id", `iskolaOM = ${newUser.iskolaOM}`, false);
+  const tmpUser = {
+    omAzon: newUser.omAzon,
+    jelszo: newUser.password,
+    nev: newUser.nev,
+    schoolsId: schoolsId[0].id,
+    osztaly: newUser.osztaly,
+    email: newUser.email
+  }
+  tmpUser.jelszo = bcrypt.hashSync(newUser.password, 10);
+  const added = await user.add(tmpUser, false);
   if (added) res.created();
   else res.conflict();
 })
@@ -225,19 +240,18 @@ app.post("/useradd", auth.tokenAutheticate, async (req, res) => {
 app.post("/usermodify", auth.tokenAutheticate, async (req, res) => {
   const omAzon = req.body.omAzon;
   const updatedUser = req.body.user;
+  const schoolsId = await sqlQueries.select("schools", "id", `iskolaOM = ${updatedUser.iskolaOM}`, false);
   const users = await user.getAll(false);
   let unique = true;
   const currentUser = await user.getBy('*', `omAzon = ${omAzon}`, false, false);
-
   if (currentUser.length === 0) res.notFound();
   else {
     users.forEach(user => {
       if (updatedUser.omAzon === user.omAzon || updatedUser.email === user.email) unique = false;
     });
-
     if (!unique) res.conflict();
     else {
-      await user.modify(`omAzon = ${updatedUser.omAzon}, nev = '${updatedUser.name}', schoolsId = '${updatedUser.schoolsId}', 
+      await user.modify(`omAzon = ${updatedUser.omAzon}, nev = '${updatedUser.nev}', schoolsId = '${schoolsId[0].id}', 
                          osztaly = '${updatedUser.osztaly}', email = '${updatedUser.email}'`, `omAzon = ${omAzon}`);
       res.ok();
     }
@@ -266,10 +280,12 @@ app.post("/passwordmodify", auth.tokenAutheticate, async (req, res) => {
 app.post("/email", async (req, res) => {
 
   const emailSpecs = req.body;
+  let o;
+  let o2;
   switch (emailSpecs.type) {
     case 'report':
-      const o = await email.EmailSendingForReport(emailSpecs);
-      const o2 = await email.ReplyEmailSendingForReport(emailSpecs);
+      o = await email.EmailSendingForReport(emailSpecs);
+      o2 = await email.ReplyEmailSendingForReport(emailSpecs);
       res.send(o);
       break;
     case 'register':
@@ -281,9 +297,10 @@ app.post("/email", async (req, res) => {
       o = await email.EmailSendingForRegisterAccepted(emailSpecs);
       res.send(o);
       break;
+    default:
+
+      break;
   }
-
-
 })
 
 app.get("/", (req, res) => {
