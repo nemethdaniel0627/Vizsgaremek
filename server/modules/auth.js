@@ -7,27 +7,17 @@ require('dotenv').config();
 
 class Auth {
     async register(user) {
-        const userResult = await USER.getBy("omAzon", `omAzon = "${user.omAzon}"`);
-        const schoolId = await sqlQueries.select("schools", "id", `iskolaOM = ${user.iskolaOM}`);
+        const userResult = await USER.getBy("omAzon", `omAzon = "${user.omAzon}"`, false, false);
+        const schoolId = await sqlQueries.select("schools", "id", `iskolaOM = ${user.iskolaOM}`, false);
         if (userResult.length !== 0) {
             return undefined;
         }
         else {
             const hashedPassword = bcrypt.hashSync(user.password, 10);
-            const created = await USER.add(`${user.omAzon};${hashedPassword};${user.name};${schoolId};${user.osztaly};${user.email}`, true);
-            if (created) {
-                // const createdUserId = await USER.getBy("id", `omAzon = "${user.userName}"`);
-                // if (await sqlQueries.isConnection() === false) await sqlQueries.CreateConnection();
-                // await sqlQueries.insert("user_role", "userId, roleId", `${createdUserId}, 2`);
-                // const roles = await sqlQueries.select("user_role", "roleId", `userId = ${createdUserId}`);
-                // await sqlQueries.EndConnection();
-                // user.password = undefined;
-                // return {
-                //     tokenData: this.#createToken(createdUserId, { roles: roles[0] }),
-                //     user: user
-                // }
-                return true;
-            }
+            user.schoolId = schoolId[0].id;
+            user.password = hashedPassword;
+            const created = await USER.add(user, true);
+            if (created) return true;
             return undefined;
         }
     }
