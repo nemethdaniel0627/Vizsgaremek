@@ -231,7 +231,7 @@ app.post("/useradd", auth.tokenAutheticate, async (req, res) => {
     osztaly: newUser.osztaly,
     email: newUser.email
   }
-  tmpUser.password = bcrypt.hashSync(newUser.password, 10);
+  tmpUser.jelszo = bcrypt.hashSync(newUser.password, 10);
   const added = await user.add(tmpUser, false);
   if (added) res.created();
   else res.conflict();
