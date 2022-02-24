@@ -201,6 +201,7 @@ app.post("/scan", auth.tokenAutheticate, async (req, res) => {
     if (Number(user.omAzon) === Number(omAzon)) userData = user;
   });
   res.send(userData.befizetve);
+})
 
 app.post("/userdelete", auth.tokenAutheticate, async (req, res) => {
   const omAzon = req.body.omAzon;
@@ -283,35 +284,6 @@ app.post("/email", async (req, res) => {
   }
 
 
-})
-
-app.post("/emailRegister", async (res) => {
-
-  const emailSpecs = {
-    subject: "Regisztráció",
-    toEmail: "rozsnono@gmail.com",
-    fromEmail: "'FoodE' <foodwebusiness@gmail.com>",
-    name: "Teszt Elek",
-    class: "12.A",
-    om: "11223344",
-    text: "Sikeresen regisztált a Food-E weboldalon. <br /> A továbbiakban a regisztrációnál megadott OM azonosítóval illetve a jelvszavaddal tudsz bejelentkezni."
-  }
-
-  console.log(await email.EmailSendingForRegister(emailSpecs));
-})
-
-app.post("/emailReport", async (res) => {
-
-  const emailSpecs = {
-    subject: "Hiba jelentés",
-    fromEmail: "rozsnono@gmail.com",
-    name: "Teszt Elek",
-    class: "12.A",
-    om: "11223344",
-  }
-
-  console.log(await email.EmailSendingForReport(emailSpecs));
-  console.log(await email.ReplyEmailSendingForReport(emailSpecs));
 })
 
 app.get("/", (req, res) => {
