@@ -303,6 +303,23 @@ app.post("/email", async (req, res) => {
   }
 })
 
+app.post("/limit", async (req, res) => {
+  const limit = req.body.limit;
+  const offset = req.body.offset;
+  const userCount = (await sqlQueries.selectAll('user', 'id', false)).length;
+  const users = await user.getAll(false, limit, offset);
+
+  console.log(userCount);
+  res.send(users);
+})
+
+app.post("/offset", async (req, res) => {
+  const limit = req.body.limit;
+  const offset = req.body.offset;
+  const users = await user.getAll(false, limit, offset);
+  res.send(users);
+})
+
 app.get("/", (req, res) => {
   res.send("<div>Hello world</div>")
 })
