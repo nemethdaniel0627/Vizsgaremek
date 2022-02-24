@@ -130,6 +130,7 @@ app.post("/token", auth.tokenAutheticate, (req, res) => {
 
 app.post("/register", async (req, res) => {
   const user = req.body.user;
+  console.log(user);
   const authResult = await auth.register(user);
   if (!authResult) {
     res.status(409);
@@ -280,6 +281,7 @@ app.post("/passwordmodify", auth.tokenAutheticate, async (req, res) => {
 app.post("/email", async (req, res) => {
 
   const emailSpecs = req.body;
+  console.log(emailSpecs);
   let o;
   let o2;
   switch (emailSpecs.type) {
@@ -289,7 +291,9 @@ app.post("/email", async (req, res) => {
       res.send(o);
       break;
     case 'register':
+      console.log("asd");
       o = await email.EmailSendingForRegisterBefore(emailSpecs);
+      console.log("asd2");
       o2 = await email.ReplyEmailSendingForRegister(emailSpecs);
       res.send(o);
       break;
@@ -297,6 +301,11 @@ app.post("/email", async (req, res) => {
       o = await email.EmailSendingForRegisterAccepted(emailSpecs);
       res.send(o);
       break;
+    case 'registerFromDB':
+      o = await email.EmailSendingForRegisterAcceptedFromDataBase(emailSpecs);
+      res.send(o);
+      break;
+      
     default:
 
       break;

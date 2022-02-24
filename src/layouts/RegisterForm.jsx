@@ -59,51 +59,35 @@ export default function RegisterForm(props) {
     function Regist(e) {
         axios.post("/email",
             {
-                toEmail: "",
-                fromEmail: "rozsnono@gmail.com",
-                // name: user.nev,
-                // class: user.osztaly,
-                // om: user.omAzon,
-                where: document.getElementById('message_where').value,
-                what: document.getElementById('message_what').value,
-                type: "register"
+                email: user.email,
+                name: user.name,
+                class: user.osztaly,
+                omAzon: user.omAzon,
+                school: user.schoolOM,
+                pass: "alma",
+                type: "registerFromDB"
             },
-            {
-                headers: {
-                    "Authorization": `Baerer ${sessionStorage.getItem("token")}`
-                }
-            })
+            AuthUser.authHeader())
             .then(response => {
                 console.log(response);
             })
             .catch(error => {
                 console.error(error);
             });
-      
-        e.preventDefault();
 
-        axios.post("/register",
-            {
-                user: user
-            })
-            .then(response => {
-                setAlertType(false)
-                console.log(response);
-            })
-            .catch(error => {
-                setAlertType(true);
-                console.error(error)
-            });
 
-        // emailjs.send('gmail', 'registration', {
-        //     name: user.name,
-        //     subject: "Sikeres regisztráció kérelem",
-        //     email: user.email,
-        //     text: "A regisztrációja elbírálás alatt van, kérjük legyen türelemmel. \n Amint sikeresen lezárult a regisztáció, e-mailben értesítsük."
-        // }, 'user_o4UcHcGE4vZKf1FT7oMAO').then((result) => {
-        // }, (error) => {
-        //     console.log(error.text);
-        // });
+        // axios.post("/register",
+        //     {
+        //         user: user
+        //     })
+        //     .then(response => {
+        //         setAlertType(false)
+        //         console.log(response);
+        //     })
+        //     .catch(error => {
+        //         setAlertType(true);
+        //         console.error(error)
+        //     });
     }
 
     useEffect(() => {

@@ -41,11 +41,10 @@ export default function ReportPageModal(props) {
 
             axios.post("/email",
                     {
-                        toEmail: "",
-                        fromEmail: user.email,
+                        email: user.email,
                         name: user.nev,
                         class: user.osztaly,
-                        om: user.omAzon,
+                        omAzon: user.omAzon,
                         where: document.getElementById('message_where').value,
                         what: document.getElementById('message_what').value,
                         type: "report"
