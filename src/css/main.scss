@@ -39,10 +39,7 @@ body {
   box-sizing: border-box;
   background-color: var(--bodyBackground);
   font-family: Verdana, sans-serif;
-
-  @media only screen and (max-width: 600px) {
-    padding-top: 6rem;
-  }
+  padding-top: 6rem;
 }
 
 .hidden {
@@ -56,7 +53,7 @@ input::-webkit-inner-spin-button {
 }
 
 /* Firefox */
-input[type=number] {
+input[type="number"] {
   -moz-appearance: textfield;
 }
 

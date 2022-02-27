@@ -92,11 +92,14 @@ app.post("/add", async (req, res) => {
 app.post("/userdetails", auth.tokenAutheticate, async (req, res) => {
   const omAzon = req.body.omAzon;
   const userWithDetails = await user.getBy("*", `user.omAzon = ${omAzon}`, false);
-  const iskolaOM = await sqlQueries.select("schools", "iskolaOM", `id = ${userWithDetails[0].schoolsId}`, false);
-  const userOrders = await order.selectOrdersWithDateByUserId(userWithDetails[0].id);
-  userWithDetails[0].iskolaOM = iskolaOM[0].iskolaOM;
-  userWithDetails[0].orders = userOrders;
-  res.json(userWithDetails);
+  if (userWithDetails.length > 0) {
+    const iskolaOM = await sqlQueries.select("schools", "iskolaOM", `id = ${userWithDetails[0].schoolsId}`, false);
+    const userOrders = await order.selectOrdersWithDateByUserId(userWithDetails[0].id);
+    userWithDetails[0].iskolaOM = iskolaOM[0].iskolaOM;
+    userWithDetails[0].orders = userOrders;
+    res.json(userWithDetails);
+  }
+  else res.notFound();
 })
 
 app.get("/schoollist", async (req, res) => {
@@ -247,6 +250,11 @@ app.post("/usermodify", auth.tokenAutheticate, async (req, res) => {
   let unique = true;
   const currentUser = await user.getBy('*', `omAzon = ${omAzon}`, false, false);
   if (currentUser.length === 0) res.notFound();
+  else if (currentUser[0].omAzon === updatedUser.omAzon || updatedUser.email === currentUser[0].email) {
+    await user.modify(`omAzon = ${updatedUser.omAzon}, nev = '${updatedUser.nev}', schoolsId = '${schoolsId[0].id}', 
+                         osztaly = '${updatedUser.osztaly}', email = '${updatedUser.email}'`, `omAzon = ${omAzon}`);
+    res.json({ email: updatedUser.email, omAzon: updatedUser.omAzon });
+  }
   else {
     users.forEach(user => {
       if (updatedUser.omAzon === user.omAzon || updatedUser.email === user.email) unique = false;
