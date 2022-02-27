@@ -2,9 +2,9 @@
     float: left;
     height: 100vh;
     background-color: var(--dark-blue);
-    top: 0em;
-    position: sticky;
     z-index: 9;
+    position: fixed;
+    top: var(--navBarHeight);
 
     .active {
         width: 24rem;
@@ -194,11 +194,11 @@
         text-align: center;
     }
 
-    .select {        
+    .select {
         background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/></svg>");
         background-color: var(--blue);
         font-weight: bold;
-        position: relative;        
+        position: relative;
         color: #fff;
     }
 

@@ -45,8 +45,8 @@ class AuthUser {
             axios.post("/login",
                 {
                     user: {
-                        userName: userName,
-                        password: password
+                        omAzon: userName,
+                        jelszo: password
                     }
                 })
                 .then(response => {
@@ -83,8 +83,8 @@ class AuthUser {
         axios.post("/register",
             {
                 omAzon: omAzon,
-                password: password,
-                name: name,
+                jelszo: password,
+                nev: name,
                 osztaly: osztaly,
                 iskolaOM: iskolaOM,
                 email: email

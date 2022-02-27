@@ -103,16 +103,16 @@ export default function AdminDatabaseAccodrion(props) {
                             </div>
 
                             <div className={"accordion_buttons" + (props.isMobile ? " text-center" : "")}>
-                                <button className="btn btn-modify fs-3" id={"btn_" + props.user.name + "-" + props.user.class} onClick={ModifyModal} ><FontAwesomeIcon id={"icon_" + props.user.name + "-" + props.user.class} icon={faEdit} /> Módosítás</button>
-                                <button className="btn btn-delete fs-3" id={"btn2_" + props.user.name + "-" + props.user.class} onClick={DeleteModal}><FontAwesomeIcon id={"icon2_" + props.user.name + "-" + props.user.class} icon={faUserTimes} /> Törlés</button>
-                                <Link to={`/reszletes/${props.user.omAzon}`}><button className="btn btn-infos fs-3" id={"btn3_" + props.user.name + "-" + props.user.class} onClick={DeleteModal}><ReadMoreIcon className="fs-1" fontSize="inherit" color="#000" /> Részletes adatok</button></Link>
+                                <button className="btn btn-modify fs-3" id={"btn_" + props.user.nev + "-" + props.user.class} onClick={ModifyModal} ><FontAwesomeIcon id={"icon_" + props.user.nev + "-" + props.user.class} icon={faEdit} /> Módosítás</button>
+                                <button className="btn btn-delete fs-3" id={"btn2_" + props.user.nev + "-" + props.user.class} onClick={DeleteModal}><FontAwesomeIcon id={"icon2_" + props.user.nev + "-" + props.user.class} icon={faUserTimes} /> Törlés</button>
+                                <Link to={`/reszletes/${props.user.omAzon}`}><button className="btn btn-infos fs-3" id={"btn3_" + props.user.nev + "-" + props.user.class} onClick={DeleteModal}><ReadMoreIcon className="fs-1" fontSize="inherit" color="#000" /> Részletes adatok</button></Link>
                             </div></> : <><div className={"accordion_buttons" + (props.isMobile ? " text-center" : "")}>
-                                <button className="btn btn-infos fs-3 me-lg-5 mb-2 mb-lg-0" id={"btn_" + props.user.name + "-" + props.user.class} onClick={acceptPending} ><FontAwesomeIcon id={"icon_" + props.user.name + "-" + props.user.class} icon={faUserCheck} /> Elfogadás</button>
-                                <button className="btn btn-delete fs-3" id={"btn2_" + props.user.name + "-" + props.user.class} onClick={rejectPending}><FontAwesomeIcon id={"icon2_" + props.user.name + "-" + props.user.class} icon={faUserTimes} /> Elutasítás</button>
+                                <button className="btn btn-infos fs-3 me-lg-5 mb-2 mb-lg-0" id={"btn_" + props.user.nev + "-" + props.user.class} onClick={acceptPending} ><FontAwesomeIcon id={"icon_" + props.user.nev + "-" + props.user.class} icon={faUserCheck} /> Elfogadás</button>
+                                <button className="btn btn-delete fs-3" id={"btn2_" + props.user.nev + "-" + props.user.class} onClick={rejectPending}><FontAwesomeIcon id={"icon2_" + props.user.nev + "-" + props.user.class} icon={faUserTimes} /> Elutasítás</button>
                             </div></>}
 
                         {modifyModalAppear ? <AdminDatabaseModal ModalClose={ModifyModal} title="Személy módosítása" message="" button="Módosítás" show={modifyModalAppear} type="Modify" user={props.user}></AdminDatabaseModal> : <></>}
-                        {deleteModalAppear ? <AdminDatabaseModal ModalClose={DeleteModal} title="Személy törlése" message={"Biztosan törölni akarok ezt a személyt? (" + props.user.name + ")"} user={props.user} button="Törlés" show={deleteModalAppear} type="Delete" ></AdminDatabaseModal> : <></>}
+                        {deleteModalAppear ? <AdminDatabaseModal ModalClose={DeleteModal} title="Személy törlése" message={"Biztosan törölni akarok ezt a személyt? (" + props.user.nev + ")"} user={props.user} button="Törlés" show={deleteModalAppear} type="Delete" ></AdminDatabaseModal> : <></>}
                     </div>
                 </div>
                 {alertType ?

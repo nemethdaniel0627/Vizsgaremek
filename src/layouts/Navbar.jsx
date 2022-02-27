@@ -128,7 +128,7 @@ export default function Navbar(props) {
                 </div>
                 {AuthUser._authorization() === "user" ?
                     <div className="dropdown">
-                        <button className="Login_button dropbtn"> <FontAwesomeIcon icon={faUser} /> {props.userName} <FontAwesomeIcon icon={faCaretDown} />
+                        <button className="Login_button dropbtn"> <FontAwesomeIcon icon={faUser} /> {props.nev} <FontAwesomeIcon icon={faCaretDown} />
                             <div className="dropdown--content" id="dropdown">
                                 <Link to="/adatlap" className="dropdown--item"><FontAwesomeIcon icon={faIdCard} /> Adatlap</Link>
                                 <Link to="/fizetes" className="dropdown--item"><FontAwesomeIcon icon={faCreditCard} /> Fizetés</Link>
@@ -203,7 +203,7 @@ export default function Navbar(props) {
             }
             {
                 AuthUser._authorization() === "user" ?
-                    <Link to="/adatlap" className="account--item"><FontAwesomeIcon icon={faUserCircle} /> {props.userName}</Link>
+                    <Link to="/adatlap" className="account--item"><FontAwesomeIcon icon={faUserCircle} /> {props.nev}</Link>
                     : <label htmlFor="navbar--btn" id="navbar--photo" className="navbar--photo__admin">
                         <img alt="ICON" src={foodE_logo} />
                     </label>

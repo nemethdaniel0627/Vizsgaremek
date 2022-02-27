@@ -31,12 +31,12 @@ app.get("/etlap", async (req, res) => {
 app.post("/etlap", async (req, res) => {
   let excelRows = req.body.excelRows;
   const setDate = req.body.date;
-  const override = req.body.override;  
+  const override = req.body.override;
 
   if (await sqlQueries.isConnection() === false) await sqlQueries.CreateConnection(true);
   const selectDaysId = await sqlQueries.select("days", "id", `datum = "${setDate}"`);
   if (selectDaysId.length === 0 || override) {
-    await sqlQueries.EndConnection();    
+    await sqlQueries.EndConnection();
     const menu = await menuConvert.convert(excelRows);
     let date = new Date(setDate);
 
@@ -49,7 +49,7 @@ app.post("/etlap", async (req, res) => {
         res.notFound();
       }
     }
-    else {      
+    else {
       try {
         for await (const day of menu) {
           date = await databaseUpload.updateDay(day, date);
@@ -79,10 +79,10 @@ app.post("/add", async (req, res) => {
         osztaly: data[i].split(';')[4],
         email: data[i].split(';')[5]
       }
-    let added = await user.add(newUser, false);
-    if (added) count++;
+      let added = await user.add(newUser, false);
+      if (added) count++;
     }
-      res.send(`${count} record(s) added`);
+    res.send(`${count} record(s) added`);
   } catch (error) {
     console.log(error);
     res.send("Error");
@@ -92,11 +92,14 @@ app.post("/add", async (req, res) => {
 app.post("/userdetails", auth.tokenAutheticate, async (req, res) => {
   const omAzon = req.body.omAzon;
   const userWithDetails = await user.getBy("*", `user.omAzon = ${omAzon}`, false);
-  const iskolaOM = await sqlQueries.select("schools", "iskolaOM", `id = ${userWithDetails[0].schoolsId}`, false);
-  const userOrders = await order.selectOrdersWithDateByUserId(userWithDetails[0].id);
-  userWithDetails[0].iskolaOM = iskolaOM[0].iskolaOM;
-  userWithDetails[0].orders = userOrders;
-  res.json(userWithDetails);
+  if (userWithDetails.length > 0) {
+    const iskolaOM = await sqlQueries.select("schools", "iskolaOM", `id = ${userWithDetails[0].schoolsId}`, false);
+    const userOrders = await order.selectOrdersWithDateByUserId(userWithDetails[0].id);
+    userWithDetails[0].iskolaOM = iskolaOM[0].iskolaOM;
+    userWithDetails[0].orders = userOrders;
+    res.json(userWithDetails);
+  }
+  else res.notFound();
 })
 
 app.get("/schoollist", async (req, res) => {
@@ -245,6 +248,11 @@ app.post("/usermodify", auth.tokenAutheticate, async (req, res) => {
   let unique = true;
   const currentUser = await user.getBy('*', `omAzon = ${omAzon}`, false, false);
   if (currentUser.length === 0) res.notFound();
+  else if (currentUser[0].omAzon === updatedUser.omAzon || updatedUser.email === currentUser[0].email) {
+    await user.modify(`omAzon = ${updatedUser.omAzon}, nev = '${updatedUser.nev}', schoolsId = '${schoolsId[0].id}', 
+                         osztaly = '${updatedUser.osztaly}', email = '${updatedUser.email}'`, `omAzon = ${omAzon}`);
+    res.json({ email: updatedUser.email, omAzon: updatedUser.omAzon });
+  }
   else {
     users.forEach(user => {
       if (updatedUser.omAzon === user.omAzon || updatedUser.email === user.email) unique = false;

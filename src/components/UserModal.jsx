@@ -6,7 +6,7 @@ export default function UserModal(props) {
     const [canceledDate, setCanceledDate] = useState("");
     const [tmpUser, setTmpUser] = useState({
         nev: props.user ? props.user.nev : "",
-        omAzon: props.user ? props.user.omAzon : undefined,
+        omAzon: props.user ? props.user.omAzon : "",
         osztaly: props.user ? props.user.osztaly : "",
         email: props.user ? props.user.email : "",
         iskolaOM: props.user ? props.user.iskolaOM : "",
@@ -30,7 +30,7 @@ export default function UserModal(props) {
 
     function inputChange(event) {
         let { name, value } = event.target;
-        if (name === "befizetve")  value = event.target.checked
+        if (name === "befizetve") value = event.target.checked
 
         setTmpUser(prevDatas => {
             return {
@@ -43,7 +43,7 @@ export default function UserModal(props) {
     function DateRewrite(date) {
         const temporaryDate = date.split('-');
         return temporaryDate[0] + ". " + temporaryDate[1] + ". " + temporaryDate[2];
-    }    
+    }
 
     function DateCancelDelete(index) {
         const dates = tmpUser.lemondva.filter((item) => item !== tmpUser.lemondva[index]);
@@ -81,7 +81,7 @@ export default function UserModal(props) {
                 <input type="text" name="omAzon" onChange={inputChange} value={tmpUser.omAzon} className="w-100 form-control" />
             </div>
             <div className="form-check mb-3">
-                <input className="form-check-input" name="befizetve" onChange={inputChange} checked={tmpUser.befizetve ? true : false}  type="checkbox" />
+                <input className="form-check-input" name="befizetve" onChange={inputChange} checked={tmpUser.befizetve ? true : false} type="checkbox" />
                 <label className="form-check-label" htmlFor="new_isPaid">
                     Befizetve
                 </label>

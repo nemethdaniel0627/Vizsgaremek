@@ -43,7 +43,7 @@ export default function ReportPageModal(props) {
                     {
                         toEmail: "",
                         fromEmail: user.email,
-                        name: user.nev,
+                        nev: user.nev,
                         class: user.osztaly,
                         om: user.omAzon,
                         where: document.getElementById('message_where').value,

@@ -17,8 +17,8 @@ export default function RegisterForm(props) {
     //     setErrorOpen(false);
     // }
     const [user, setUser] = useState({
-        name: "",
-        password: "",
+        nev: "",
+        jelszo: "",
         email: "",
         iskolaOM: null,
         osztaly: "",
@@ -57,6 +57,8 @@ export default function RegisterForm(props) {
     }
 
     function Regist(e) {
+        e.preventDefault();
+
         axios.post("/email",
             {
                 toEmail: "",
@@ -79,8 +81,6 @@ export default function RegisterForm(props) {
             .catch(error => {
                 console.error(error);
             });
-      
-        e.preventDefault();
 
         axios.post("/register",
             {
@@ -112,13 +112,13 @@ export default function RegisterForm(props) {
 
     useEffect(() => {
         axios.get("/schoollist")
-        .then(response => {
-            console.log(response.data);
-            setSchools(response.data)
-        })
-        .catch(error => {
+            .then(response => {
+                console.log(response.data);
+                setSchools(response.data)
+            })
+            .catch(error => {
 
-        })
+            })
     }, [])
 
     function changePasswordType() {
@@ -140,7 +140,7 @@ export default function RegisterForm(props) {
 
                                         <hr className="mb-3" />
                                         <div className="form-outline form-white mb-4">
-                                            <input type="text" className="form-control form-control-lg fs-4 --input" onChange={inputChange} value={user.name} placeholder="Név" autoFocus required name="name" />
+                                            <input type="text" className="form-control form-control-lg fs-4 --input" onChange={inputChange} value={user.nev} placeholder="Név" autoFocus required name="name" />
                                         </div>
 
                                         <div className="form-outline form-white mb-4">
