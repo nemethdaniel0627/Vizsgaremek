@@ -41,10 +41,10 @@ class User {
                 "schoolsId, "  +
                 "osztaly, "  +
                 "email ",
-                `"${user.omAzon}", "${user.password}", "${user.name}", ${user.schoolId}, "${user.osztaly}", "${user.email}"`);
+                `"${user.omAzon}", "${user.jelszo}", "${user.nev}", ${user.schoolsId}, "${user.osztaly}", "${user.email}"`);
             if (pending === false) {
                 const userId = await sqlQueries.select("user", "id", `omAzon = ${user.omAzon}`, false);
-                await sqlQueries.insert("user_role", "roleId, userId", `2, ${userId}`);
+                await sqlQueries.insert("user_role", "roleId, userId", `2, ${userId[0].id}`);
             }
             added = true;
         }
@@ -52,10 +52,10 @@ class User {
         return added;
     }
 
-    async getAll(isJson, limit = 10, offset = 0) {
+    async getAll(isJson, limit = 10, offset = 0, pending = false) {
         if (await sqlQueries.isConnection() === false) await sqlQueries.CreateConnection(isJson);
         const all = await sqlQueries.selectAll(
-            "user " +
+            pending ? "user_pending " : "user " +
             "INNER JOIN schools " +
             "ON user.schoolsId = schools.id " +
             "ORDER BY CONVERT(REGEXP_REPLACE(user.osztaly,'[a-zA-Z]+', ''), SIGNED), user.osztaly, user.nev " + 

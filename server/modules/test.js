@@ -26,7 +26,7 @@ class Test {
         return Math.floor(Math.random() * ((max) - min) + min)
     }
 
-    async randomString(length, chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ') {
+    async randomString(length, chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz') {
         let result = '';
         let characters = chars;
         let charactersLength = characters.length;

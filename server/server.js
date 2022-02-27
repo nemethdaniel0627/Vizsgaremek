@@ -73,9 +73,9 @@ app.post("/add", async (req, res) => {
     for (let i = 0; i < data.length; i++) {
       const newUser = {
         omAzon: data[i].split(';')[0],
-        password: data[i].split(';')[1],
-        name: data[i].split(';')[2],
-        schoolId: data[i].split(';')[3],
+        jelszo: data[i].split(';')[1],
+        nev: data[i].split(';')[2],
+        schoolsId: data[i].split(';')[3],
         osztaly: data[i].split(';')[4],
         email: data[i].split(';')[5]
       }
@@ -220,18 +220,20 @@ app.post("/userdelete", auth.tokenAutheticate, async (req, res) => {
   }
 })
 
-app.post("/useradd", auth.tokenAutheticate, async (req, res) => {
+app.post("/useradd",  async (req, res) => {
   const newUser = req.body.user;
   const schoolsId = await sqlQueries.select("schools", "id", `iskolaOM = ${newUser.iskolaOM}`, false);
+  const jelszo = await test.randomString(10);
   const tmpUser = {
     omAzon: newUser.omAzon,
-    jelszo: newUser.password,
+    jelszo: jelszo,
     nev: newUser.nev,
     schoolsId: schoolsId[0].id,
     osztaly: newUser.osztaly,
     email: newUser.email
   }
-  tmpUser.jelszo = bcrypt.hashSync(newUser.password, 10);
+  tmpUser.jelszo = bcrypt.hashSync(tmpUser.jelszo, 10);
+  console.log(tmpUser);
   const added = await user.add(tmpUser, false);
   if (added) res.created();
   else res.conflict();
@@ -260,15 +262,15 @@ app.post("/usermodify", auth.tokenAutheticate, async (req, res) => {
 
 app.post("/passwordmodify", auth.tokenAutheticate, async (req, res) => {
   const omAzon = req.body.omAzon;
-  const oldPassword = req.body.oldPassword;
-  const newPassword = req.body.newPassword;
+  const regiJelszo = req.body.regiJelszo;
+  const ujJelszo = req.body.ujJelszo;
   const userData = await user.getBy('omAzon, jelszo', `omAzon = ${omAzon}`, false, false);
   if (userData.length === 0) res.notFound();
   else {
-    const match = bcrypt.compareSync(oldPassword, userData[0].jelszo);
+    const match = bcrypt.compareSync(regiJelszo, userData[0].jelszo);
     if (match) {
-      const newPasswordHash = bcrypt.hashSync(newPassword, 10);
-      await user.modify(`jelszo = '${newPasswordHash}'`, `omAzon = ${omAzon}`);
+      const ujJelszoHash = bcrypt.hashSync(ujJelszo, 10);
+      await user.modify(`jelszo = '${ujJelszoHash}'`, `omAzon = ${omAzon}`);
       res.ok();
     }
     else {
@@ -304,11 +306,13 @@ app.post("/email", async (req, res) => {
 })
 
 app.post("/pagination", async (req, res) => {
-  const limit = req.body.limit;
-  const offset = req.body.offset;
-  const userCount = (await sqlQueries.selectAll('user', 'id', false)).length;
-  const users = await user.getAll(false, limit, offset);
+  const limit = req.body.limit || 10;
+  const offset = req.body.offset || 0;
+  const pending = req.body.pending || false;
+  const userCount = (await sqlQueries.selectAll(pending ? 'user_pending' : 'user', 'id', false)).length;
+  const users = await user.getAll(false, limit, offset, pending ? "user_pending" : "user");
   res.send({
+    pending: pending,
     pages: Math.ceil(userCount / limit),
     users: users
   });

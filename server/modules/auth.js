@@ -13,9 +13,9 @@ class Auth {
             return undefined;
         }
         else {
-            const hashedPassword = bcrypt.hashSync(user.password, 10);
+            const hashedPassword = bcrypt.hashSync(user.jelszo, 10);
             user.schoolId = schoolId[0].id;
-            user.password = hashedPassword;
+            user.jelszo = hashedPassword;
             const created = await USER.add(user, true);
             if (created) return true;
             return undefined;
@@ -23,15 +23,15 @@ class Auth {
     }
 
     async login(user) {
-        const userResult = await USER.getBy("jelszo", `omAzon = "${user.userName}"`);
+        const userResult = await USER.getBy("jelszo", `omAzon = "${user.omAzon}"`);
         if (userResult.length === 0) {
             return undefined;
         }
         else {
-            const isPasswordMatching = bcrypt.compareSync(user.password, userResult[0][0]);
+            const isPasswordMatching = bcrypt.compareSync(user.jelszo, userResult[0][0]);
             if (isPasswordMatching) {
-                user.password = undefined;
-                const loginUserId = await USER.getBy("id", `omAzon = "${user.userName}"`);
+                user.jelszo = undefined;
+                const loginUserId = await USER.getBy("id", `omAzon = "${user.omAzon}"`);
                 if (await sqlQueries.isConnection() === false) await sqlQueries.CreateConnection();
                 const roles = await sqlQueries.select("user_role", "roleId", `userId = ${loginUserId}`);
                 await sqlQueries.EndConnection();
