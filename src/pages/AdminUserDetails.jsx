@@ -7,12 +7,18 @@ import { useParams } from "react-router-dom";
 import modules from "../helpers/modules";
 import Loader from "../layouts/Loader";
 import AuthUser from "../modules/AuthUser";
+import ResponseMessage from "../components/ResponseMessage";
+import NotFoundPage from "./NotFoundPage";
 
 export default function AdminUserDetails(props) {
     const { omAzon } = useParams();
     const [aChange, aChanging] = useState(false);
     const [selectedOrder, setSelectedOrder] = useState(0);
     const [loading, setLoading] = useState(true);
+    const [alertOpen, setAlertOpen] = useState(false);
+    const [alertType, setAlertType] = useState(undefined);
+    const [alertMessage, setAlertMessage] = useState("");
+    const [notFound, setNotFound] = useState(false);
     const [user, setUser] = useState({
         id: null,
         omAzon: "",
@@ -29,7 +35,31 @@ export default function AdminUserDetails(props) {
         aChanging(!aChange);
     }
 
+    function modifyUser() {
+        if (user.nev.trim() !== "" && user.omAzon.trim() !== "" && user.osztaly.trim() !== "" && user.email.trim() !== "" && user.iskolaOM.trim() !== "") {
+            axios.post("/usermodify",
+                {
+                    omAzon: omAzon,
+                    user: user
+                }, AuthUser.authHeader())
+                .then(response => {
+                    console.log(response);
+                    props.user.email = response.data.email;
+                    props.user.omAzon = response.data.omAzon;
+                    setAlertType(false);
+                    setAlertMessage("Sikeres felhasználó módosítás!");
+                    // ModalClose();
+                })
+                .catch(error => {
+                    setAlertType(true);
+                    setAlertMessage("Hiba történt a felhasználó módosítása közben!");
+                    //ERROR
+                })
+        }
+    }
+
     useEffect(() => {
+        console.log("asd");
         setLoading(true);
         axios.post("/userdetails",
             {
@@ -43,7 +73,10 @@ export default function AdminUserDetails(props) {
                 setLoading(false);
             })
             .catch(error => {
-                console.error(error);
+                console.error(error.response.status);
+                if (error.response.status === 404) {
+                    setNotFound(true);
+                }
                 setLoading(false);
             });
     }, [omAzon])
@@ -121,120 +154,146 @@ export default function AdminUserDetails(props) {
         }
     }
 
+    function inputChange(event) {
+        const { name, value } = event.target;
+
+        setUser(prevData => {
+            return {
+                ...prevData,
+                [name]: value
+            }
+        })
+    }
+
+    function nevChange(event) {
+        let { name, value } = event.target;
+        name = Number(name.split("_")[1]);
+        console.log(user.nev.split(" ")[name]);
+        let tmpNev;
+        if (name === 0) {
+            tmpNev = user.nev.split(" ")[name] + " " + value;
+        }
+        else {
+            tmpNev = value + " " + user.nev.split(" ")[name];
+        }
+        setUser(prevData => {
+            return {
+                ...prevData,
+                nev: tmpNev
+            }
+        })
+    }
+
     useEffect(() => {
         console.log(selectedOrder);
     }, [selectedOrder])
 
     return (
-        <div className="personal-datas admin_user-details">
-            {loading ? <Loader /> : <></>}
-            <div className="important">
-                <div className="header">
-                    <h1>{user.nev} adatai</h1>
-                    {aChange ? (
-                        <button
-                            className="btn modify-btn text-danger border-danger"
-                            onClick={AccChange}
-                        >
-                            {" "}
-                            Mégsem <FontAwesomeIcon icon={faTimesCircle} />
-                        </button>
-                    ) : (
-                        <button className="btn modify-btn" onClick={AccChange}>
-                            {" "}
-                            Módosítás <FontAwesomeIcon icon={faPencilAlt} />
-                        </button>
-                    )}
-                </div>
+        !notFound ?
+            <div className="personal-datas admin_user-details">
+                {loading ? <Loader /> : <></>}
+                <div className="important">
+                    <div className="header">
+                        <h1>{user.nev} adatai</h1>
+                        {aChange ? (
+                            <button
+                                className="btn modify-btn text-danger border-danger"
+                                onClick={AccChange}
+                            >
+                                {" "}
+                                Mégsem <FontAwesomeIcon icon={faTimesCircle} />
+                            </button>
+                        ) : (
+                            <button className="btn modify-btn" onClick={AccChange}>
+                                {" "}
+                                Módosítás <FontAwesomeIcon icon={faPencilAlt} />
+                            </button>
+                        )}
+                    </div>
 
-                <div className="personal-tables admin_user-details_table">
-                    <div className="key">
-                        Vezetéknév
-                        {aChange ?
-                            <input
-                                className="form-input"
-                                value={user.nev.split(" ")[0]}
-                            />
-                            : <div className="value">{user.nev.split(" ")[0]}</div>}
-                    </div>
-                    <div className="key">
-                        Keresztnév
-                        {aChange ?
-                            <input
-                                className="form-input"
-                                value={user.nev.split(" ")[1]}
-                            />
-                            : <div className="value">{user.nev.split(" ")[1]}</div>}
-                    </div>
-                    <div className="key">
-                        Osztály
-                        {aChange ?
-                            <input
-                                className="form-input"
-                                value={user.osztaly}
-                            />
-                            : <div className="value">{user.osztaly}</div>}
-                    </div>
-                    <div className="key">
-                        Iskola OM azonosító
-                        {aChange ?
-                            <input
-                                className="form-input"
-                                value={user.iskolaOM}
-                            />
-                            : <div className="value">{user.iskolaOM}</div>}
-                    </div>
-                    <div className="key">
-                        OM azonosító
-                        {aChange ?
-                            <input
-                                className="form-input"
-                                value={user.omAzon}
-                            />
-                            : <div className="value">{user.omAzon}</div>}
-                    </div>
-                    <div className="key">
-                        E-mail cím
-                        {aChange ?
-                            <input
-                                className="form-input"
-                                value={user.email}
-                            />
-                            : <div className="value">{user.email}</div>}
-                    </div>
-                    {user.orders.length !== 0 ? <div className="key admin_user-details_table_orders">
-                        <hr className="admin_user-details_table_line" />
-                        <div id="order_helper" className="admin_user-details_table_orders--row">
-                            <div>Nap dátuma</div>
-                            <div>Reggeli?</div>
-                            <div>Tízórai?</div>
-                            <div>Ebéd?</div>
-                            <div>Uzsonna?</div>
-                            <div>Vacsora?</div>
-                            <div>Ár</div>
-                            <div>Lemondta?</div>
+                    <div className="personal-tables admin_user-details_table">
+                        <div className="key">
+                            Vezetéknév
+                            {aChange ?
+                                <input
+                                    onChange={nevChange}
+                                    name="nev_1"
+                                    className="form-input"
+                                    value={user.nev.split(" ")[0]}
+                                />
+                                : <div className="value">{user.nev.split(" ")[0]}</div>}
                         </div>
-                        <hr className="admin_user-details_table_line" />
-                        {user.orders.map((field, index) => {
-                            return (
-                                <div key={`order_${index}`} className="admin_user-details_table_orders--row with_data">
-
-                                    <div>{modules.convertDateWithDash(new Date(field.datum))}</div>
-                                    <div>{field.reggeli === 1 ? "Kér" : "Nem kér"}</div>
-                                    <div>{field.tizorai === 1 ? "Kér" : "Nem kér"}</div>
-                                    <div>{field.ebed === 1 ? "Kér" : "Nem kér"}</div>
-                                    <div>{field.uzsonna === 1 ? "Kér" : "Nem kér"}</div>
-                                    <div>{field.vacsora === 1 ? "Kér" : "Nem kér"}</div>
-                                    <div>{field.ar} Ft</div>
-                                    <div>{!field.lemondva ? "Nincs lemondva" : "Lemondva"}</div>
-
-                                </div>
-                            )
-                        })}
-                        <div id="orderPlaceholder" className="admin_user-details_table_orders--row data_placeholder">
+                        <div className="key">
+                            Keresztnév
+                            {aChange ?
+                                <input
+                                    onChange={nevChange}
+                                    name="nev_0"
+                                    className="form-input"
+                                    value={user.nev.split(" ")[1]}
+                                />
+                                : <div className="value">{user.nev.split(" ")[1]}</div>}
+                        </div>
+                        <div className="key">
+                            Osztály
+                            {aChange ?
+                                <input
+                                    onChange={inputChange}
+                                    name="osztaly"
+                                    className="form-input"
+                                    value={user.osztaly}
+                                />
+                                : <div className="value">{user.osztaly}</div>}
+                        </div>
+                        <div className="key">
+                            Iskola OM azonosító
+                            {aChange ?
+                                <input
+                                    onChange={inputChange}
+                                    name="iskolaOM"
+                                    className="form-input"
+                                    value={user.iskolaOM}
+                                />
+                                : <div className="value">{user.iskolaOM}</div>}
+                        </div>
+                        <div className="key">
+                            OM azonosító
+                            {aChange ?
+                                <input
+                                    onChange={inputChange}
+                                    name="omAzon"
+                                    className="form-input"
+                                    value={user.omAzon}
+                                />
+                                : <div className="value">{user.omAzon}</div>}
+                        </div>
+                        <div className="key">
+                            E-mail cím
+                            {aChange ?
+                                <input
+                                    onChange={inputChange}
+                                    name="email"
+                                    className="form-input"
+                                    value={user.email}
+                                />
+                                : <div className="value">{user.email}</div>}
+                        </div>
+                        {user.orders.length !== 0 ? <div className="key admin_user-details_table_orders">
+                            <hr className="admin_user-details_table_line" />
+                            <div id="order_helper" className="admin_user-details_table_orders--row">
+                                <div>Nap dátuma</div>
+                                <div>Reggeli?</div>
+                                <div>Tízórai?</div>
+                                <div>Ebéd?</div>
+                                <div>Uzsonna?</div>
+                                <div>Vacsora?</div>
+                                <div>Ár</div>
+                                <div>Lemondta?</div>
+                            </div>
+                            <hr className="admin_user-details_table_line" />
                             {user.orders.map((field, index) => {
                                 return (
-                                    <div key={`order_pag_${index}`} id={`order_${index}`} className={`admin_user-details_table_orders--row pagination ${index === 0 ? "startPosition" : ""}`}>
+                                    <div key={`order_${index}`} className="admin_user-details_table_orders--row with_data">
 
                                         <div>{modules.convertDateWithDash(new Date(field.datum))}</div>
                                         <div>{field.reggeli === 1 ? "Kér" : "Nem kér"}</div>
@@ -248,26 +307,55 @@ export default function AdminUserDetails(props) {
                                     </div>
                                 )
                             })}
-                            <div className="arrow_placeholder">
-                                <FontAwesomeIcon onClick={switchOrder} id="orderArrowLeft" className="admin_user-details_table_orders_arrows hidden" icon={faChevronLeft} />
-                                &nbsp;
-                                <FontAwesomeIcon onClick={switchOrder} id="orderArrowRight" className="admin_user-details_table_orders_arrows" icon={faChevronRight} />
-                            </div>
-                        </div>
-                        <hr className="admin_user-details_table_line" />
-                    </div> : <></>}
-                    {aChange ? (
-                        <div colSpan={4} className="text-center">
-                            <button className="btn passChange-btn">
-                                Módosítás
-                            </button>
-                        </div>
+                            <div id="orderPlaceholder" className="admin_user-details_table_orders--row data_placeholder">
+                                {user.orders.map((field, index) => {
+                                    return (
+                                        <div key={`order_pag_${index}`} id={`order_${index}`} className={`admin_user-details_table_orders--row pagination ${index === 0 ? "startPosition" : ""}`}>
 
-                    ) : (
-                        <></>
-                    )}
+                                            <div>{modules.convertDateWithDash(new Date(field.datum))}</div>
+                                            <div>{field.reggeli === 1 ? "Kér" : "Nem kér"}</div>
+                                            <div>{field.tizorai === 1 ? "Kér" : "Nem kér"}</div>
+                                            <div>{field.ebed === 1 ? "Kér" : "Nem kér"}</div>
+                                            <div>{field.uzsonna === 1 ? "Kér" : "Nem kér"}</div>
+                                            <div>{field.vacsora === 1 ? "Kér" : "Nem kér"}</div>
+                                            <div>{field.ar} Ft</div>
+                                            <div>{!field.lemondva ? "Nincs lemondva" : "Lemondva"}</div>
+
+                                        </div>
+                                    )
+                                })}
+                                <div className="arrow_placeholder">
+                                    <FontAwesomeIcon onClick={switchOrder} id="orderArrowLeft" className="admin_user-details_table_orders_arrows hidden" icon={faChevronLeft} />
+                                    &nbsp;
+                                    <FontAwesomeIcon onClick={switchOrder} id="orderArrowRight" className="admin_user-details_table_orders_arrows" icon={faChevronRight} />
+                                </div>
+                            </div>
+                            <hr className="admin_user-details_table_line" />
+                        </div> : <></>}
+                        {aChange ? (
+                            <div colSpan={4} className="text-center">
+                                <button onClick={modifyUser} className="btn passChange-btn">
+                                    Módosítás
+                                </button>
+                            </div>
+
+                        ) : (
+                            <></>
+                        )}
+                    </div>
                 </div>
+                {alertType ?
+                    <ResponseMessage
+                        setAlertOpen={setAlertOpen}
+                        alertOpen={alertOpen}
+                        text={alertMessage}
+                        type="error" />
+                    : <ResponseMessage
+                        setAlertOpen={setAlertOpen}
+                        alertOpen={alertOpen}
+                        text={alertMessage}
+                        type="success" />}
             </div>
-        </div>
+            : <NotFoundPage />
     )
 }

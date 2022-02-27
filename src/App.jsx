@@ -116,7 +116,7 @@ export default function App() {
 
     return (
         <div className="App">
-            <Navbar userName={`${user == null ? "" : user.nev}`} />
+            <Navbar nev={`${user == null ? "" : user.nev}`} />
             {loading ? <Loader />
                 :
                 <Switch>

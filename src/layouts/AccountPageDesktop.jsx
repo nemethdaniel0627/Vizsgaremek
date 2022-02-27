@@ -16,8 +16,8 @@ import axios from "axios";
 export default function DataPage(props) {
   const [change, changing] = useState(false);
   const [aChange, aChanging] = useState(false);
-  const [oldPassword, setOldPassword] = useState("");
-  const [newPassword, setNewPassword] = useState("");
+  const [regiJelszo, setRegiJelszo] = useState("");
+  const [ujJelszo, setUjJelszo] = useState("");
   const [seeOldPwd, setSeeOldPwd] = useState(false);
   const [seeNewPwd, setSeeNewPwd] = useState(false);
 
@@ -32,19 +32,19 @@ export default function DataPage(props) {
   }
 
   function changePassword() {
-    if (oldPassword && newPassword) {
+    if (regiJelszo && ujJelszo) {
       axios.post("/passwordmodify",
-      {
-        oldPassword: oldPassword,
-        newPassword: newPassword,
-        omAzon: props.user.omAzon
-      },AuthUser.authHeader())
-      .then(response => {
+        {
+          regiJelszo: regiJelszo,
+          ujJelszo: ujJelszo,
+          omAzon: props.user.omAzon
+        }, AuthUser.authHeader())
+        .then(response => {
 
-      })
-      .catch(error => {
-        
-      })
+        })
+        .catch(error => {
+
+        })
     }
   }
 
@@ -52,12 +52,12 @@ export default function DataPage(props) {
     const { name, value } = event.target;
 
     switch (name) {
-      case "oldPass":
-        setOldPassword(value);
+      case "regiJelszo":
+        setRegiJelszo(value);
         break;
 
-      case "newPass":
-        setNewPassword(value);
+      case "ujJelszo":
+        setUjJelszo(value);
         break;
 
       default:
@@ -83,23 +83,6 @@ export default function DataPage(props) {
             <div className="important">
               <div className="header">
                 <h1>Személyes adatok</h1>
-                {/* <div className="button">
-                  {aChange ? (
-                    <button
-                      className="btn modify-btn text-danger border-danger"
-                      onClick={AccChange}
-                    >
-                      {" "}
-                      Mégsem <FontAwesomeIcon icon={faTimesCircle} />
-                    </button>
-                  ) : (
-                    <button className="btn modify-btn" onClick={AccChange}>
-                      {" "}
-                      Módosítás <FontAwesomeIcon icon={faPencilAlt} />
-                    </button>
-                  )}
-                </div> */}
-
               </div>
 
               <table className="personal-tables">
@@ -235,11 +218,11 @@ export default function DataPage(props) {
                           type={seeOldPwd ? "text" : "password"}
                           className="form-control w-75 fs-3 password-input"
                           required
-                          name="oldPass"
-                          value={oldPassword}
+                          name="regiJelszo"
+                          value={regiJelszo}
                           onChange={inputChange}
                         />
-                        {seeOldPwd ? <FontAwesomeIcon onClick={changePasswordType} className="password--icon" icon={faEyeSlash} /> : oldPassword ? <FontAwesomeIcon onClick={changePasswordType} className="password--icon" icon={faEye} /> : <></>}
+                        {seeOldPwd ? <FontAwesomeIcon onClick={changePasswordType} className="password--icon" icon={faEyeSlash} /> : regiJelszo ? <FontAwesomeIcon onClick={changePasswordType} className="password--icon" icon={faEye} /> : <></>}
                       </div>
                     </td>
                     <td className="key">Új jelszó</td>
@@ -252,11 +235,11 @@ export default function DataPage(props) {
                           type={seeNewPwd ? "text" : "password"}
                           className="form-control w-50 fs-3"
                           required
-                          name="newPass"
-                          value={newPassword}
+                          name="ujJelszo"
+                          value={ujJelszo}
                           onChange={inputChange}
                         />
-                        {seeNewPwd ? <FontAwesomeIcon onClick={changeNewPasswordType} className="password--icon" icon={faEyeSlash} /> : newPassword ? <FontAwesomeIcon onClick={changeNewPasswordType} className="password--icon" icon={faEye} /> : <></>}
+                        {seeNewPwd ? <FontAwesomeIcon onClick={changeNewPasswordType} className="password--icon" icon={faEyeSlash} /> : ujJelszo ? <FontAwesomeIcon onClick={changeNewPasswordType} className="password--icon" icon={faEye} /> : <></>}
                       </div>
                     </td>
                   </tr>

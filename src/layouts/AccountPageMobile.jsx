@@ -17,7 +17,7 @@ export default function DataPage(props) {
   }
 
   const user = props.user;
-  const userName = props.user.nev.split(" ");
+  const nev = props.user.nev.split(" ");
 
   return (
     <div className="h3 mt-5">
@@ -53,12 +53,12 @@ export default function DataPage(props) {
                       <td>
                         <input
                           className="form-input"
-                          value={userName[0]}
+                          value={nev[0]}
                           disabled
                         />
                       </td>
                     ) : (
-                      <td className="value">{userName[0]}</td>
+                      <td className="value">{nev[0]}</td>
                     )}
                   </tr>
 
@@ -68,12 +68,12 @@ export default function DataPage(props) {
                       <td>
                         <input
                           className="form-input"
-                          value={userName[1]}
+                          value={nev[1]}
                           disabled
                         />
                       </td>
                     ) : (
-                      <td className="value">{userName[1]}</td>
+                      <td className="value">{nev[1]}</td>
                     )}
                   </tr>
 

@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEdit, faFileUpload, faPlus, faTimesCircle, faUserPlus, faUserTimes } from "@fortawesome/free-solid-svg-icons";
+import { faEdit, faFileUpload, faTimesCircle, faUserPlus, faUserTimes } from "@fortawesome/free-solid-svg-icons";
 import Modal from "react-bootstrap/Modal";
-import Chips from './Chips';
 import axios from 'axios'
 import AuthUser from "../modules/AuthUser";
 import UserModal from "./UserModal";
@@ -19,7 +18,7 @@ export default function AdminDatabaseModal(props) {
   const [alertMessage, setAlertMessage] = useState("");
   const [tmpUser, setTmpUser] = useState({
     nev: "",
-    omAzon: undefined,
+    omAzon: "",
     osztaly: "",
     email: "",
     iskolaOM: "",
@@ -42,10 +41,13 @@ export default function AdminDatabaseModal(props) {
     if (tmpUser.nev.trim() !== "" && tmpUser.omAzon.trim() !== "" && tmpUser.osztaly.trim() !== "" && tmpUser.email.trim() !== "" && tmpUser.iskolaOM.trim() !== "") {
       axios.post("/usermodify",
         {
+          omAzon: props.user.omAzon,
           user: tmpUser
         }, AuthUser.authHeader())
         .then(response => {
           console.log(response);
+          props.user.email = response.data.email;
+          props.user.omAzon = response.data.omAzon;
           setAlertType(false);
           setAlertMessage("Sikeres felhasználó módosítás!");
           // ModalClose();
@@ -88,11 +90,10 @@ export default function AdminDatabaseModal(props) {
     })
 
     if (tmpUser.nev.trim() !== "" && tmpUser.omAzon.trim() !== "" && tmpUser.osztaly.trim() !== "" && tmpUser.email.trim() !== "" && tmpUser.iskolaOM.trim() !== "") {
-      let valami = tmpUser;
-      valami.password = "alma";
+      let addedUser = tmpUser;      
       axios.post("/useradd",
         {
-          user: valami
+          user: addedUser
         },
         AuthUser.authHeader())
         .then(response => {
@@ -127,8 +128,6 @@ export default function AdminDatabaseModal(props) {
     setFileURL(TextAbstract(e.target.value, 40));
   }
 
-
-
   function getUserInfo(user) {
     setTmpUser(user);
   }
@@ -154,64 +153,6 @@ export default function AdminDatabaseModal(props) {
       </div>
     );
   }
-
-  function dateChange(event) {
-    const value = event.target.value;
-    console.log(value);
-    setDates(prevDates => {
-      return [...prevDates, value];
-    })
-    setCanceledDate("");
-  }
-
-  // function NewUserModal(props) {
-
-
-  //   console.log("asd");
-  //   return (
-  //     <div className="fs-4 admin-modal">
-  //       <div className="input-group mb-3">
-  //         <label htmlFor="new_name " className="mb-2">Név:</label>
-  //         <input type="text" name="nev" onChange={inputChange} value={tmpUser.nev} className="w-100 form-control" />
-  //       </div>
-  //       <div className="input-group mb-3">
-  //         <label htmlFor="new_class" className="mb-2">Osztály:</label>
-  //         <input type="text" name="osztaly" onChange={inputChange} value={tmpUser.osztaly} className="w-100 form-control" defaultValue={user.osztaly} />
-  //       </div>
-  //       <div className="input-group mb-3">
-  //         <label htmlFor="new_email" className="mb-2">E-mail cím:</label>
-  //         <input type="email" name="email" onChange={inputChange} value={tmpUser.email} className="w-100 form-control" defaultValue={user.email} />
-  //       </div>
-  //       <div className="input-group mb-3">
-  //         <label htmlFor="new_username" className="mb-2">OM azonosító:</label>
-  //         <input type="text" name="omAzon" onChange={inputChange} value={tmpUser.omAzon} className="w-100 form-control" defaultValue={user.omAzon} />
-  //       </div>
-  //       <div className="form-check mb-3">
-  //         <input className="form-check-input" name="befizetve" onChange={inputChange} value={tmpUser.befizetve} type="checkbox" defaultChecked={user.befizetve ? true : false} />
-  //         <label className="form-check-label" htmlFor="new_isPaid">
-  //           Befizetve
-  //         </label>
-  //       </div>
-  //       <div className="mb-4">
-  //         <label htmlFor="new_date" className="mb-2">Lemondott nap(ok) hozzáadása</label>
-  //         <div className="input-group">
-  //           <input onChange={dateChange} value={canceledDate} type="date" id="new_date" className="form-control date-selector--input" />
-  //         </div>
-  //       </div>
-  //       {dates.lenght !== 0 ?
-  //         dates.map((date, index) => (
-  //           <Chips key={"c_" + index} removeIndex={index} date={DateRewrite(date)} closeDate={DateCancelDelete} />
-  //         )) : <></>}
-
-  //     </div>
-  //   );
-  // }
-
-  function DateRewrite(date) {
-    const temporaryDate = date.split('-');
-    return temporaryDate[0] + ". " + temporaryDate[1] + ". " + temporaryDate[2];
-  }
-
 
   return (
     <div>

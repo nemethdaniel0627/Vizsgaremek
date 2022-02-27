@@ -31,12 +31,12 @@ app.get("/etlap", async (req, res) => {
 app.post("/etlap", async (req, res) => {
   let excelRows = req.body.excelRows;
   const setDate = req.body.date;
-  const override = req.body.override;  
+  const override = req.body.override;
 
   if (await sqlQueries.isConnection() === false) await sqlQueries.CreateConnection(true);
   const selectDaysId = await sqlQueries.select("days", "id", `datum = "${setDate}"`);
   if (selectDaysId.length === 0 || override) {
-    await sqlQueries.EndConnection();    
+    await sqlQueries.EndConnection();
     const menu = await menuConvert.convert(excelRows);
     let date = new Date(setDate);
 
@@ -49,7 +49,7 @@ app.post("/etlap", async (req, res) => {
         res.notFound();
       }
     }
-    else {      
+    else {
       try {
         for await (const day of menu) {
           date = await databaseUpload.updateDay(day, date);
@@ -79,10 +79,10 @@ app.post("/add", async (req, res) => {
         osztaly: data[i].split(';')[4],
         email: data[i].split(';')[5]
       }
-    let added = await user.add(newUser, false);
-    if (added) count++;
+      let added = await user.add(newUser, false);
+      if (added) count++;
     }
-      res.send(`${count} record(s) added`);
+    res.send(`${count} record(s) added`);
   } catch (error) {
     console.log(error);
     res.send("Error");
@@ -92,11 +92,14 @@ app.post("/add", async (req, res) => {
 app.post("/userdetails", auth.tokenAutheticate, async (req, res) => {
   const omAzon = req.body.omAzon;
   const userWithDetails = await user.getBy("*", `user.omAzon = ${omAzon}`, false);
-  const iskolaOM = await sqlQueries.select("schools", "iskolaOM", `id = ${userWithDetails[0].schoolsId}`, false);
-  const userOrders = await order.selectOrdersWithDateByUserId(userWithDetails[0].id);
-  userWithDetails[0].iskolaOM = iskolaOM[0].iskolaOM;
-  userWithDetails[0].orders = userOrders;
-  res.json(userWithDetails);
+  if (userWithDetails.length > 0) {
+    const iskolaOM = await sqlQueries.select("schools", "iskolaOM", `id = ${userWithDetails[0].schoolsId}`, false);
+    const userOrders = await order.selectOrdersWithDateByUserId(userWithDetails[0].id);
+    userWithDetails[0].iskolaOM = iskolaOM[0].iskolaOM;
+    userWithDetails[0].orders = userOrders;
+    res.json(userWithDetails);
+  }
+  else res.notFound();
 })
 
 app.get("/schoollist", async (req, res) => {
@@ -148,9 +151,9 @@ app.get("/pending", auth.tokenAutheticate, async (req, res) => {
 
 app.post("/acceptpending", auth.tokenAutheticate, async (req, res) => {
   const omAzon = req.body.omAzon;
-  const tmpUser = await user.getBy("*", `omAzon = '${omAzon}'`, false, true);
+  const tmpUser = (await user.getBy("*", `omAzon = '${omAzon}'`, false, true))[0];
   await user.delete(`omAzon = ${omAzon}`, true);
-  const newUser = await user.add(`${tmpUser[0].omAzon};${tmpUser[0].jelszo};${tmpUser[0].nev};${tmpUser[0].schoolsId};${tmpUser[0].osztaly};${tmpUser[0].email}`, false);
+  const newUser = await user.add(tmpUser, false);
   if (newUser.length === 0) res.conflict();
   res.created();
 });
@@ -221,18 +224,20 @@ app.post("/userdelete", auth.tokenAutheticate, async (req, res) => {
   }
 })
 
-app.post("/useradd", auth.tokenAutheticate, async (req, res) => {
+app.post("/useradd",  async (req, res) => {
   const newUser = req.body.user;
   const schoolsId = await sqlQueries.select("schools", "id", `iskolaOM = ${newUser.iskolaOM}`, false);
+  const jelszo = await test.randomString(10);
   const tmpUser = {
     omAzon: newUser.omAzon,
-    jelszo: newUser.password,
+    jelszo: jelszo,
     nev: newUser.nev,
     schoolsId: schoolsId[0].id,
     osztaly: newUser.osztaly,
     email: newUser.email
   }
-  tmpUser.jelszo = bcrypt.hashSync(newUser.password, 10);
+  tmpUser.jelszo = bcrypt.hashSync(tmpUser.jelszo, 10);
+  console.log(tmpUser);
   const added = await user.add(tmpUser, false);
   if (added) res.created();
   else res.conflict();
@@ -246,6 +251,11 @@ app.post("/usermodify", auth.tokenAutheticate, async (req, res) => {
   let unique = true;
   const currentUser = await user.getBy('*', `omAzon = ${omAzon}`, false, false);
   if (currentUser.length === 0) res.notFound();
+  else if (currentUser[0].omAzon === updatedUser.omAzon || updatedUser.email === currentUser[0].email) {
+    await user.modify(`omAzon = ${updatedUser.omAzon}, nev = '${updatedUser.nev}', schoolsId = '${schoolsId[0].id}', 
+                         osztaly = '${updatedUser.osztaly}', email = '${updatedUser.email}'`, `omAzon = ${omAzon}`);
+    res.json({ email: updatedUser.email, omAzon: updatedUser.omAzon });
+  }
   else {
     users.forEach(user => {
       if (updatedUser.omAzon === user.omAzon || updatedUser.email === user.email) unique = false;
@@ -261,15 +271,15 @@ app.post("/usermodify", auth.tokenAutheticate, async (req, res) => {
 
 app.post("/passwordmodify", auth.tokenAutheticate, async (req, res) => {
   const omAzon = req.body.omAzon;
-  const oldPassword = req.body.oldPassword;
-  const newPassword = req.body.newPassword;
+  const regiJelszo = req.body.regiJelszo;
+  const ujJelszo = req.body.ujJelszo;
   const userData = await user.getBy('omAzon, jelszo', `omAzon = ${omAzon}`, false, false);
   if (userData.length === 0) res.notFound();
   else {
-    const match = bcrypt.compareSync(oldPassword, userData[0].jelszo);
+    const match = bcrypt.compareSync(regiJelszo, userData[0].jelszo);
     if (match) {
-      const newPasswordHash = bcrypt.hashSync(newPassword, 10);
-      await user.modify(`jelszo = '${newPasswordHash}'`, `omAzon = ${omAzon}`);
+      const ujJelszoHash = bcrypt.hashSync(ujJelszo, 10);
+      await user.modify(`jelszo = '${ujJelszoHash}'`, `omAzon = ${omAzon}`);
       res.ok();
     }
     else {
@@ -310,6 +320,19 @@ app.post("/email", async (req, res) => {
 
       break;
   }
+})
+
+app.post("/pagination", async (req, res) => {
+  const limit = req.body.limit || 10;
+  const offset = req.body.offset || 0;
+  const pending = req.body.pending || false;
+  const userCount = (await sqlQueries.selectAll(pending ? 'user_pending' : 'user', 'id', false)).length;
+  const users = await user.getAll(false, limit, offset, pending ? "user_pending" : "user");
+  res.send({
+    pending: pending,
+    pages: Math.ceil(userCount / limit),
+    users: users
+  });
 })
 
 app.get("/", (req, res) => {

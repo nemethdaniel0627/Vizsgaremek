@@ -7,41 +7,31 @@ require('dotenv').config();
 
 class Auth {
     async register(user) {
-        const userResult = await USER.getBy("omAzon", `omAzon = "${user.omAzon}"`);
-        const schoolId = await sqlQueries.select("schools", "id", `iskolaOM = ${user.iskolaOM}`);
+        const userResult = await USER.getBy("omAzon", `omAzon = "${user.omAzon}"`, false, false);
+        const schoolId = await sqlQueries.select("schools", "id", `iskolaOM = ${user.iskolaOM}`, false);
         if (userResult.length !== 0) {
             return undefined;
         }
         else {
-            const hashedPassword = bcrypt.hashSync(user.password, 10);
-            const created = await USER.add(`${user.omAzon};${hashedPassword};${user.name};${schoolId};${user.osztaly};${user.email}`, true);
-            if (created) {
-                // const createdUserId = await USER.getBy("id", `omAzon = "${user.userName}"`);
-                // if (await sqlQueries.isConnection() === false) await sqlQueries.CreateConnection();
-                // await sqlQueries.insert("user_role", "userId, roleId", `${createdUserId}, 2`);
-                // const roles = await sqlQueries.select("user_role", "roleId", `userId = ${createdUserId}`);
-                // await sqlQueries.EndConnection();
-                // user.password = undefined;
-                // return {
-                //     tokenData: this.#createToken(createdUserId, { roles: roles[0] }),
-                //     user: user
-                // }
-                return true;
-            }
+            const hashedPassword = bcrypt.hashSync(user.jelszo, 10);
+            user.schoolId = schoolId[0].id;
+            user.jelszo = hashedPassword;
+            const created = await USER.add(user, true);
+            if (created) return true;
             return undefined;
         }
     }
 
     async login(user) {
-        const userResult = await USER.getBy("jelszo", `omAzon = "${user.userName}"`);
+        const userResult = await USER.getBy("jelszo", `omAzon = "${user.omAzon}"`);
         if (userResult.length === 0) {
             return undefined;
         }
         else {
-            const isPasswordMatching = bcrypt.compareSync(user.password, userResult[0][0]);
+            const isPasswordMatching = bcrypt.compareSync(user.jelszo, userResult[0][0]);
             if (isPasswordMatching) {
-                user.password = undefined;
-                const loginUserId = await USER.getBy("id", `omAzon = "${user.userName}"`);
+                user.jelszo = undefined;
+                const loginUserId = await USER.getBy("id", `omAzon = "${user.omAzon}"`);
                 if (await sqlQueries.isConnection() === false) await sqlQueries.CreateConnection();
                 const roles = await sqlQueries.select("user_role", "roleId", `userId = ${loginUserId}`);
                 await sqlQueries.EndConnection();

@@ -6,8 +6,8 @@ import { faEye, faEyeSlash, faSignInAlt } from "@fortawesome/free-solid-svg-icon
 
 export default function LoginForm(props) {
     const [user, setUser] = useState({
-        name: "",
-        password: ""
+        nev: "",
+        jelszo: ""
     });
 
     const [seePwd, setSeePwd] = useState(false);
@@ -30,7 +30,7 @@ export default function LoginForm(props) {
     }
 
     function loginUser() {
-        AuthUser.loginUser(user.name, user.password);
+        AuthUser.loginUser(user.nev, user.jelszo);
     }
 
     function changePasswordType() {
@@ -60,7 +60,7 @@ export default function LoginForm(props) {
 
                                                 <hr className="mb-5" />
                                                 <div className="form-outline form-white mb-4">
-                                                    <input type="text" className="form-control form-control-lg fs-4 --input" placeholder="OM azonosító" autoFocus required name="name" onChange={inputChange} value={user.name} />
+                                                    <input type="text" className="form-control form-control-lg fs-4 --input" placeholder="OM azonosító" autoFocus required name="name" onChange={inputChange} value={user.nev} />
 
                                                 </div>
 

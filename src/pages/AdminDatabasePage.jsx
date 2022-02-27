@@ -16,6 +16,8 @@ export default function AdminDatabasePage(props) {
     const [users, setUsers] = useState([])
     const [pending, setPending] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [showPending, setShowPending] = useState(false);
+    const [numberOfPages, setNumberOfPages] = useState();
 
     let isMobile = false;
     if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
@@ -28,29 +30,22 @@ export default function AdminDatabasePage(props) {
     function ModalClose() {
         setModal(!modalAppear);
     }
-    // let users = [];
-    // // const user = { id: 0, name: "Teszt Elek", class: "12.A", email: "teszt.elek@students.jedlik.eu", user: "Teszt.Elek", isPaid: true, value: "15000 Ft", date: "2022-05-16#2022-05-18#2022-05-20" };
 
-    // for (let index = 0; index < 10; index++) {
-    //     user.id = index;
-    //     users.push(user);
-    // }
-
-
+    function switchUserList(state) {
+        setShowPending(state);
+    }
 
     useEffect(() => {
         if (users.length === 0) {
             setLoading(true);
-            axios.get("/pending", AuthUser.authHeader())
+            axios.post("/pagination",
+                {
+                    pending: showPending
+                }
+                , AuthUser.authHeader())
                 .then(response => {
-                    setPending(response.data);
-                })
-                .catch(error => {
-                    console.error(error)
-                });
-            axios.get("/alluser", AuthUser.authHeader())
-                .then(response => {
-                    setUsers(response.data);
+                    showPending ? setPending(response.data.users) : setUsers(response.data.users);
+                    setNumberOfPages(response.data.pages);
                     console.log(response.data);
                     setLoading(false);
                 })
@@ -59,6 +54,7 @@ export default function AdminDatabasePage(props) {
                     setLoading(false);
                 });
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [endLoading, startLoading, users])
 
     function Download() {
@@ -93,11 +89,30 @@ export default function AdminDatabasePage(props) {
 
     }
 
+    function pagination(limit, offset) {
+        setLoading(true);
+        axios.post("/pagination",
+            {
+                pending: showPending,
+                limit: limit,
+                offset: offset
+            }, AuthUser.authHeader())
+            .then(response => {
+                showPending ? setPending(response.data.users) : setUsers(response.data.users);
+                setNumberOfPages(response.data.pages);
+                setLoading(false);
+            })
+            .catch(error => {
+                console.log(error);
+                setLoading(false);
+            })
+    }
+
     return (
         <div className="admin-db">
             {loading ? <Loader /> : <></>}
             <div className="admin-mg">
-                <AdminDatabaseManager Download={Download} isMobile={isMobile}></AdminDatabaseManager>
+                <AdminDatabaseManager numberOfPages={numberOfPages} setShowPending={switchUserList} Download={Download} isMobile={isMobile}></AdminDatabaseManager>
             </div>
 
 
@@ -107,18 +122,21 @@ export default function AdminDatabasePage(props) {
                     <div className="col-2 col-lg-2"></div>
                     <div className="col-10 col-lg-10 admin-db-acc mb-5 mb-lg-0 mt-5">
 
-                        <AdminDatabaseManagerSearch />
+                        <AdminDatabaseManagerSearch pagination={pagination} />
 
 
                         <Accordion>
 
-                            {pending.map((pending, index) => {
-                                return <AdminDatabaseAccordion key={`pending_${index}`} eventkey='1' user={pending} isMobile={isMobile} new="true"></AdminDatabaseAccordion>
-                            })}
-
-                            {users.map((user, index) => {
-                                return <AdminDatabaseAccordion key={index} eventkey={index} user={user} isMobile={isMobile}></AdminDatabaseAccordion>
-                            })}
+                            {
+                                showPending ?
+                                    pending.map((pending, index) => {
+                                        return <AdminDatabaseAccordion key={`pending_${index}`} eventkey='1' user={pending} isMobile={isMobile} new="true"></AdminDatabaseAccordion>
+                                    })
+                                    :
+                                    users.map((user, index) => {
+                                        return <AdminDatabaseAccordion key={index} eventkey={index} user={user} isMobile={isMobile}></AdminDatabaseAccordion>
+                                    })
+                            }
                         </Accordion>
 
                     </div>
