@@ -44,7 +44,7 @@ class User {
                 `"${user.omAzon}", "${user.jelszo}", "${user.nev}", ${user.schoolsId}, "${user.osztaly}", "${user.email}"`);
             if (pending === false) {
                 const userId = await sqlQueries.select("user", "id", `omAzon = ${user.omAzon}`, false);
-                await sqlQueries.insert("user_role", "roleId, userId", `2, ${userId[0].id}`);
+                await sqlQueries.insert("user_role", "roleId, userId", `2, ${userId}`);
             }
             added = true;
         }
@@ -99,6 +99,11 @@ class User {
         const user = await sqlQueries.update('user', `${fieldValues}`, `${conditions}`);
         await sqlQueries.EndConnection();
         return user.affectedRows;
+    }
+
+    async convert(iskolaOM) {
+        const schoolId = await sqlQueries.select('schools', 'id', `iskolaOM = ${iskolaOM}`);
+        return schoolId[0];
     }
 }
 
