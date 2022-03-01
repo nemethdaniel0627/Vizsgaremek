@@ -11,7 +11,8 @@ const email = require('./modules/emailSend');
 const auth = require('./modules/auth');
 const exception = require('./exceptions/exceptions');
 const order = require('./modules/order');
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcrypt');
+const fs = require('fs').promises;
 
 const app = express();
 
@@ -338,6 +339,7 @@ app.post("/pagination", async (req, res) => {
 app.post("/userupload", async (req, res) => {
   const userRows = req.body.userRows;
   let notAddedUsers = [];
+  let userCount = 0;
   for (let i = 0; i < userRows.length; i++) {
     const schoolsId = await user.convert(userRows[i].split(';')[3]);
     const newUser = {
@@ -351,10 +353,19 @@ app.post("/userupload", async (req, res) => {
     if (newUser.schoolsId === -1) notAddedUsers.push(`${newUser.omAzon} - ${newUser.nev}`);
     else {
       const added = await user.add(newUser, false);
-      if (!added) notAddedUsers.push(`${newUser.omAzon} - ${newUser.nev}`);
+      if (added) userCount++;
+      else notAddedUsers.push(`${newUser.omAzon} - ${newUser.nev}`);
     }
   }
-  res.send(notAddedUsers);
+  if (notAddedUsers.length === 0) res.send(`${userCount} added.`);
+  else res.send(`${userCount} added.\nExcept: ${notAddedUsers}`);
+})
+
+app.post("/userdownload", async (req, res) => {
+  const filename = "asd.txt";
+  const title = "omAzon;jelszo;nev;iskolaOM;osztaly;email";
+  fs.writeFile(filename, title);
+  res.send();
 })
 
 app.get("/", (req, res) => {
