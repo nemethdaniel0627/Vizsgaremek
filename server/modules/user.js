@@ -102,8 +102,11 @@ class User {
     }
 
     async convert(iskolaOM) {
-        const schoolId = await sqlQueries.select('schools', 'id', `iskolaOM = ${iskolaOM}`);
-        return schoolId[0];
+        if (await sqlQueries.isConnection() === false) await sqlQueries.CreateConnection();
+        const schoolsId = await sqlQueries.select('schools', 'id', `iskolaOM = ${iskolaOM}`);
+        await sqlQueries.EndConnection();
+        if (schoolsId.length === 0) return -1;
+        return schoolsId[0][0];
     }
 }
 

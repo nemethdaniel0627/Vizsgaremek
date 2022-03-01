@@ -335,6 +335,29 @@ app.post("/pagination", async (req, res) => {
   });
 })
 
+app.post("/userupload", async (req, res) => {
+  const userRows = req.body.userRows;
+  let notAddedUsers = [];
+  for (let i = 0; i < userRows.length; i++) {
+    const schoolsId = await user.convert(userRows[i].split(';')[3]);
+    const newUser = {
+      omAzon: userRows[i].split(';')[0],
+      jelszo: userRows[i].split(';')[1],
+      nev: userRows[i].split(';')[2],
+      schoolsId: schoolsId,
+      osztaly: userRows[i].split(';')[4],
+      email: userRows[i].split(';')[5]
+    }
+    if (newUser.schoolsId === -1) notAddedUsers.push(JSON.stringify(newUser));
+    else {
+      const added = await user.add(newUser, false);
+      if (!added) notAddedUsers.push(JSON.stringify(newUser));
+    }
+  }
+  console.log(`Not added: ${notAddedUsers}`);
+  res.send(notAddedUsers);
+})
+
 app.get("/", (req, res) => {
   res.send("<div>Hello world</div>")
 })
