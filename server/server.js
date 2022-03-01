@@ -348,13 +348,12 @@ app.post("/userupload", async (req, res) => {
       osztaly: userRows[i].split(';')[4],
       email: userRows[i].split(';')[5]
     }
-    if (newUser.schoolsId === -1) notAddedUsers.push(JSON.stringify(newUser));
+    if (newUser.schoolsId === -1) notAddedUsers.push(`${newUser.omAzon} - ${newUser.nev}`);
     else {
       const added = await user.add(newUser, false);
-      if (!added) notAddedUsers.push(JSON.stringify(newUser));
+      if (!added) notAddedUsers.push(`${newUser.omAzon} - ${newUser.nev}`);
     }
   }
-  console.log(`Not added: ${notAddedUsers}`);
   res.send(notAddedUsers);
 })
 
