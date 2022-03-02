@@ -18,7 +18,7 @@ export default function ErrorMessage(props) {
     }, [alertOpen])
 
     return (
-        <div className="error-message">
+        <div className={`error-message ${props.fixed ? "position-fixed" : ""}`}>
             <Collapse in={alertOpen}>
                 <Alert
                     severity={props.type}

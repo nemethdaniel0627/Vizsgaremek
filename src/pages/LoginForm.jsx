@@ -60,13 +60,12 @@ export default function LoginForm(props) {
 
                                                 <hr className="mb-5" />
                                                 <div className="form-outline form-white mb-4">
-                                                    <input type="text" className="form-control form-control-lg fs-4 --input" placeholder="OM azonosító" autoFocus required name="name" onChange={inputChange} value={user.nev} />
-
+                                                    <input type="text" className="form-control form-control-lg fs-4 --input" placeholder="OM azonosító" autoFocus required name="nev" onChange={inputChange} value={user.nev} />
                                                 </div>
 
                                                 <div className="form-outline form-white mb-4 position-relative">
-                                                    <input type={seePwd ? "text" : "password"} onChange={inputChange} required value={user.password} name="password" className="form-control form-control-lg fs-4 --input" placeholder="Jelszó" />
-                                                    {seePwd ? <FontAwesomeIcon onClick={changePasswordType} className="password--icon" icon={faEyeSlash} /> : user.password ? <FontAwesomeIcon onClick={changePasswordType} className="password--icon" icon={faEye} /> : <></>}
+                                                    <input type={seePwd ? "text" : "password"} onChange={inputChange} required value={user.jelszo} name="jelszo" className="form-control form-control-lg fs-4 --input" placeholder="Jelszó" />
+                                                    {seePwd ? <FontAwesomeIcon onClick={changePasswordType} className="password--icon" icon={faEyeSlash} /> : user.jelszo ? <FontAwesomeIcon onClick={changePasswordType} className="password--icon" icon={faEye} /> : <></>}
                                                 </div>
                                                 {/* <p class="text-white-50 mb-5 alert">Felhasználónév vagy jelszó nem megfelelő!</p> */}
 

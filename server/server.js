@@ -28,11 +28,10 @@ app.get("/etlap", async (req, res) => {
   res.json(menu);
 });
 
-app.post("/etlap", async (req, res) => {
+app.post("/etlap", auth.tokenAutheticate, async (req, res) => {
   let excelRows = req.body.excelRows;
   const setDate = req.body.date;
   const override = req.body.override;
-
   if (await sqlQueries.isConnection() === false) await sqlQueries.CreateConnection(true);
   const selectDaysId = await sqlQueries.select("days", "id", `datum = "${setDate}"`);
   if (selectDaysId.length === 0 || override) {
@@ -110,10 +109,11 @@ app.get("/schoollist", async (req, res) => {
 app.post("/user", auth.tokenAutheticate, async (req, res) => {
   const userId = req.body.userId;
   const userResult = await user.getBy("*", `id = "${userId}"`, false);
-  const iskolaOM = await sqlQueries.select("schools", "iskolaOM", `id = ${userResult[0].schoolsId}`, false);
+  const iskola = await sqlQueries.select("schools", "iskolaOM, nev", `id = ${userResult[0].schoolsId}`, false);
   await sqlQueries.EndConnection();
   const orderResult = await order.doesUserHaveOrderForDate(userId, new Date())
-  userResult[0].iskolaOM = iskolaOM[0].iskolaOM;
+  userResult[0].iskolaOM = iskola[0].iskolaOM;
+  userResult[0].iskolaNev = iskola[0].nev;
   if (!orderResult) userResult[0].befizetve = false;
   else userResult[0].befizetve = true;
   if (userResult) res.send(userResult);
@@ -193,8 +193,8 @@ app.post("/order", async (req, res) => {
 })
 
 app.post("/cancel", async (req, res) => {
-  const o = await order.cancelOrder(6, [1, 0, 0, 0, 1], '2022-01-31');
-  res.send(o);
+  // const o = await order.cancelOrder(6, [1, 0, 0, 0, 1], '2022-01-31');
+  res.notFound();
 })
 
 app.post("/test", async (req, res) => {
@@ -204,14 +204,14 @@ app.post("/test", async (req, res) => {
   res.send(testOrders);
 })
 
-app.post("/scan", auth.tokenAutheticate, async (req, res) => {
+app.post("/scan", async (req, res) => {
   const omAzon = req.body.omAzon;
-  const users = await user.getAll(false);
-  let userData;
-  users.forEach(user => {
-    if (Number(user.omAzon) === Number(omAzon)) userData = user;
-  });
-  res.send(userData.befizetve);
+  const userId = await user.getBy("id", `omAzon = ${omAzon}`, false, false);  
+  if (userId.length === 0) res.notFound();
+  else {
+    const befizetve = await order.doesUserHaveOrderForDate(userId[0].id, new Date());
+    res.json({befizetve: befizetve === false ? false : true});
+  }
 })
 
 app.post("/userdelete", auth.tokenAutheticate, async (req, res) => {
@@ -224,7 +224,7 @@ app.post("/userdelete", auth.tokenAutheticate, async (req, res) => {
   }
 })
 
-app.post("/useradd",  async (req, res) => {
+app.post("/useradd", auth.tokenAutheticate, async (req, res) => {
   const newUser = req.body.user;
   const schoolsId = await sqlQueries.select("schools", "id", `iskolaOM = ${newUser.iskolaOM}`, false);
   const jelszo = await test.randomString(10);
@@ -315,7 +315,7 @@ app.post("/email", async (req, res) => {
       o = await email.EmailSendingForRegisterAcceptedFromDataBase(emailSpecs);
       res.send(o);
       break;
-      
+
     default:
 
       break;

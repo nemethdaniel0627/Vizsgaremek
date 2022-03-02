@@ -225,7 +225,6 @@
         .page-number {
             font-weight: 800;
             font-family: "Courier New", Courier, monospace;
-            color: #c5f6ff;
         }
     }
 
@@ -272,6 +271,13 @@
     color: #000000a0;
 
     transition: 0.5s;
+    @media only screen and (max-width: 800px) {
+        font-size: 1.4rem !important;
+    }
+
+    @media only screen and (max-width: 600px) {
+        width: 100%;
+    }
 }
 
 .btn-darkMode {
@@ -304,6 +310,15 @@
 .accordion_buttons {
     display: flex;
     justify-content: space-around;
+    @media only screen and (max-width: 800px) {
+        gap: 1rem
+    }
+
+    @media only screen and (max-width: 600px) {
+        flex-direction: column;
+        margin-top: 1rem;
+        gap: 1.5rem;
+    }
 }
 
 .admin-db {
@@ -317,5 +332,14 @@
 
     .cancel-select {
         width: fit-content;
+    }
+
+    button.css-krffi8-MuiButtonBase-root-MuiFab-root {
+        background-color: var(--dark-blue);
+
+        svg.css-i4bv87-MuiSvgIcon-root {
+            font-size: 2.5rem;
+            color: #fff;
+        }
     }
 }

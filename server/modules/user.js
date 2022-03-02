@@ -52,18 +52,18 @@ class User {
         return added;
     }
 
-    async getAll(isJson, limit = 10, offset = 0, pending = false) {
+    async getAll(isJson, limit = 10, offset = 0, tableName = "user") {
         if (await sqlQueries.isConnection() === false) await sqlQueries.CreateConnection(isJson);
         const all = await sqlQueries.selectAll(
-            pending ? "user_pending " : "user " +
+            `${tableName} ` +
             "INNER JOIN schools " +
-            "ON user.schoolsId = schools.id " +
-            "ORDER BY CONVERT(REGEXP_REPLACE(user.osztaly,'[a-zA-Z]+', ''), SIGNED), user.osztaly, user.nev " + 
+            `ON ${tableName}.schoolsId = schools.id ` +
+            `ORDER BY CONVERT(REGEXP_REPLACE(${tableName}.osztaly,'[a-zA-Z]+', ''), SIGNED), ${tableName}.osztaly, ${tableName}.nev ` + 
             `LIMIT ${limit} OFFSET ${offset}`,
-            "user.omAzon, " +
-            "user.nev, " +
-            "user.osztaly, " +
-            "user.email, " +
+            `${tableName}.omAzon, ` +
+            `${tableName}.nev, ` +
+            `${tableName}.osztaly, ` +
+            `${tableName}.email, ` +
             "schools.iskolaOM, " +
             "(" +
             "SELECT " +
@@ -73,7 +73,7 @@ class User {
             "ON menu.daysId = days.id " +
             "INNER JOIN orders " +
             "ON orders.menuId = menu.id " +
-            `WHERE datum = '${functions.convertDateWithDash(new Date())}' AND userId = user.id` +
+            `WHERE datum = '${functions.convertDateWithDash(new Date())}' AND userId = ${tableName}.id` +
             ") AS 'befizetve'"
         );
         await sqlQueries.EndConnection();
