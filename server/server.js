@@ -328,7 +328,7 @@ app.post("/pagination", async (req, res) => {
   const offset = req.body.offset || 0;
   const pending = req.body.pending || false;
   const userCount = (await sqlQueries.selectAll(pending ? 'user_pending' : 'user', 'id', false)).length;
-  const users = await user.getAll(false, limit, offset, pending ? "user_pending" : "user");
+  const users = await user.getAll(false, limit, offset, pending);
   res.send({
     pending: pending,
     pages: Math.ceil(userCount / limit),
@@ -362,10 +362,17 @@ app.post("/userupload", async (req, res) => {
 })
 
 app.post("/userdownload", async (req, res) => {
-  const filename = "asd.txt";
-  const title = "omAzon;jelszo;nev;iskolaOM;osztaly;email";
-  fs.writeFile(filename, title);
-  res.send();
+  const title = "omAzon;nev;iskolaOM;osztaly;email";
+  const data = await user.getUsers();
+  let users = [];
+  data.forEach(user => {
+    users.push(user.join(';'));
+  });
+  console.log(users);
+  res.send({
+    title: title,
+    users: users
+  });
 })
 
 app.get("/", (req, res) => {
