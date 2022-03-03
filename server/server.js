@@ -289,7 +289,7 @@ app.post("/passwordmodify", auth.tokenAutheticate, async (req, res) => {
   }
 })
 
-app.post("/email", async (req, res) => {
+app.post("/email", auth.tokenAutheticate, async (req, res) => {
 
   const emailSpecs = req.body;
   console.log(emailSpecs);
@@ -323,7 +323,7 @@ app.post("/email", async (req, res) => {
   }
 })
 
-app.post("/pagination", async (req, res) => {
+app.post("/pagination", auth.tokenAutheticate, async (req, res) => {
   const limit = req.body.limit || 10;
   const offset = req.body.offset || 0;
   const pending = req.body.pending || false;
@@ -336,7 +336,7 @@ app.post("/pagination", async (req, res) => {
   });
 })
 
-app.post("/userupload", async (req, res) => {
+app.post("/userupload", auth.tokenAutheticate, async (req, res) => {
   const userRows = req.body.userRows;
   let notAddedUsers = [];
   let userCount = 0;
@@ -362,7 +362,7 @@ app.post("/userupload", async (req, res) => {
   else res.send(`${userCount} added.\nExcept: ${notAddedUsers}`);
 })
 
-app.post("/userdownload", async (req, res) => {
+app.post("/userdownload", auth.tokenAutheticate, async (req, res) => {
   const title = "omAzon;nev;iskolaOM;osztaly;email";
   const data = await user.getUsers();
   let users = [];
