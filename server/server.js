@@ -352,6 +352,7 @@ app.post("/userupload", async (req, res) => {
     }
     if (newUser.schoolsId === -1) notAddedUsers.push(`${newUser.omAzon} - ${newUser.nev}`);
     else {
+      newUser.jelszo = bcrypt.hashSync(newUser.jelszo, 10);
       const added = await user.add(newUser, false);
       if (added) userCount++;
       else notAddedUsers.push(`${newUser.omAzon} - ${newUser.nev}`);
@@ -368,7 +369,6 @@ app.post("/userdownload", async (req, res) => {
   data.forEach(user => {
     users.push(user.join(';'));
   });
-  console.log(users);
   res.send({
     title: title,
     users: users
