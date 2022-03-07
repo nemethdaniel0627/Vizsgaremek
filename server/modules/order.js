@@ -118,8 +118,8 @@ class Order {
         if (orders === -1) return `No user with ${userId} ID`;
         const menuId = await this.selectMenuIdByDate(functions.convertDateWithDash(new Date(date)));
         if (menuId === -1) return `No menu for this date: ${date}`;
-        const exists = await this.selectMenuIdByUserIdAndDate(userId, functions.convertDateWithDash(date))
-        if (exists) return `Already has order\nId: ${userId}\nDate: ${date}`;
+        const exists = await this.selectMenuIdByUserIdAndDate(userId, new Date(date));
+        if (exists) return 'Already has order';
 
         if (await sqlQueries.isConnection() === false) await sqlQueries.CreateConnection();
         await sqlQueries.insert(
@@ -135,7 +135,7 @@ class Order {
             'lemondva',
             `${menuId}, ${userId}, ${meals[0]}, ${meals[1]}, ${meals[2]}, ${meals[3]}, ${meals[4]}, 1000, null`);
         await sqlQueries.EndConnection();
-        return `Ordered\nId: ${userId}\nDate: ${date}`;
+        return 'Ordered';
     }
 
     async cancelOrder(userId, date) {
@@ -144,14 +144,13 @@ class Order {
         if (orders === 0) return `No order with this ID: ${userId}`
         const menuId = await this.selectMenuIdByDate(functions.convertDateWithDash(new Date(date)));
         if (menuId === -1) return `No menu for this date: ${date}`;
-        // console.log(menuId);
         if (await sqlQueries.isConnection() === false) await sqlQueries.CreateConnection();
         let order = await sqlQueries.select(
             'orders',
             'id',
             `orders.menuId = ${menuId} AND orders.userId = ${userId} AND orders.lemondva IS NULL`);
-        // console.log(order);
-        if (order.length === 0) return `Already cancelled for this date: ${date} with ID ${userId}`;
+        
+        if (order.length === 0) return 'Already cancelled';
         
         order = order[0];
         const today = functions.convertDateWithDash(new Date());
@@ -167,7 +166,7 @@ class Order {
             `orders.id = ${order[0]}`);
         
         await sqlQueries.EndConnection();
-        return 'Cancelled'
+        return 'Cancelled';
     }
 }
 

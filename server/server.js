@@ -187,22 +187,23 @@ app.delete("/delete", async (req, res) => {
   res.send(`${count} record(s) deleted`);
 })
 
-app.post("/order", async (req, res) => {
+app.post("/order", auth.tokenAutheticate, async (req, res) => {
   const userId = req.body.userId;
   const meals = req.body.meals;
   const dates = req.body.dates;
   for (let i = 0; i < dates.length; i++) {
-    const o = await order.order(userId, meals, dates[i]);
-    console.log(o);
+    const ordered = await order.order(userId, meals, dates[i]);
+    console.log(ordered);
   }
   res.ok();
 })
 
-app.post("/cancel", async (req, res) => {
+app.post("/cancel", auth.tokenAutheticate, async (req, res) => {
   const userId = req.body.userId;
   const dates = req.body.dates;
   for (let i = 0; i < dates.length; i++) {
-    await order.cancelOrder(userId, dates[i]);
+    const cancelled = await order.cancelOrder(userId, dates[i]);
+    console.log(cancelled);
   }
   res.ok();
 })
