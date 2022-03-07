@@ -188,13 +188,23 @@ app.delete("/delete", async (req, res) => {
 })
 
 app.post("/order", async (req, res) => {
-  const o = await order.order(6, [true, false, true, false, true], '2022-01-31');
-  res.send(o);
+  const userId = req.body.userId;
+  const meals = req.body.meals;
+  const dates = req.body.dates;
+  for (let i = 0; i < dates.length; i++) {
+    const o = await order.order(userId, meals, dates[i]);
+    console.log(o);
+  }
+  res.ok();
 })
 
 app.post("/cancel", async (req, res) => {
-  const o = await order.cancelOrder(6, [1, 0, 0, 0, 1], '2022-01-31');
-  res.send(o);
+  const userId = req.body.userId;
+  const dates = req.body.dates;
+  for (let i = 0; i < dates.length; i++) {
+    await order.cancelOrder(userId, dates[i]);
+  }
+  res.ok();
 })
 
 app.post("/test", async (req, res) => {
