@@ -100,6 +100,25 @@ class User {
         await sqlQueries.EndConnection();
         return user.affectedRows;
     }
+
+    async convert(iskolaOM) {
+        if (await sqlQueries.isConnection() === false) await sqlQueries.CreateConnection();
+        const schoolsId = await sqlQueries.select('schools', 'id', `iskolaOM = ${iskolaOM}`);
+        await sqlQueries.EndConnection();
+        if (schoolsId.length === 0) return -1;
+        return schoolsId[0][0];
+    }
+
+    async getUsers() {
+        if (await sqlQueries.isConnection() === false) await sqlQueries.CreateConnection();
+        const users = await sqlQueries.innerSelect(
+            'user', 
+            'user.omAzon, user.nev, schools.iskolaOM, user.osztaly, user.email',
+            'INNER JOIN schools ON user.schoolsId = schools.id',
+            'user.schoolsId = schools.id', false);
+          await sqlQueries.EndConnection();
+        return users;
+    }
 }
 
 module.exports = new User();
