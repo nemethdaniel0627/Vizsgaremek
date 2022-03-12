@@ -38,13 +38,13 @@ class User {
                 "omAzon, " +
                 "jelszo, " +
                 "nev, " +
-                "schoolsId, "  +
-                "osztaly, "  +
+                "schoolsId, " +
+                "osztaly, " +
                 "email ",
                 `"${user.omAzon}", "${user.jelszo}", "${user.nev}", ${user.schoolsId}, "${user.osztaly}", "${user.email}"`);
             if (pending === false) {
                 const userId = await sqlQueries.select("user", "id", `omAzon = ${user.omAzon}`, false);
-                await sqlQueries.insert("user_role", "roleId, userId", `2, ${userId[0].id}`);
+                await sqlQueries.insert("user_role", "roleId, userId", `2, ${userId}`);
             }
             added = true;
         }
@@ -58,7 +58,7 @@ class User {
             `${tableName} ` +
             "INNER JOIN schools " +
             `ON ${tableName}.schoolsId = schools.id ` +
-            `ORDER BY CONVERT(REGEXP_REPLACE(${tableName}.osztaly,'[a-zA-Z]+', ''), SIGNED), ${tableName}.osztaly, ${tableName}.nev ` + 
+            `ORDER BY CONVERT(REGEXP_REPLACE(${tableName}.osztaly,'[a-zA-Z]+', ''), SIGNED), ${tableName}.osztaly, ${tableName}.nev ` +
             `LIMIT ${limit} OFFSET ${offset}`,
             `${tableName}.omAzon, ` +
             `${tableName}.nev, ` +

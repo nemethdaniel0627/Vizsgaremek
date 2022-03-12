@@ -11,7 +11,8 @@ export default function LoginForm(props) {
     });
 
     const [seePwd, setSeePwd] = useState(false);
-    const [register, setRegister] = useState(false);    
+    const [register, setRegister] = useState(false);
+    const [wrongLogin, setWrongLogin] = useState(false);
 
     function Register() {
         setRegister(!register);
@@ -30,7 +31,7 @@ export default function LoginForm(props) {
     }
 
     function loginUser() {
-        AuthUser.loginUser(user.nev, user.jelszo);
+        setWrongLogin(!AuthUser.loginUser(user.nev, user.jelszo));
     }
 
     function changePasswordType() {
@@ -67,7 +68,11 @@ export default function LoginForm(props) {
                                                     <input type={seePwd ? "text" : "password"} onChange={inputChange} required value={user.jelszo} name="jelszo" className="form-control form-control-lg fs-4 --input" placeholder="Jelszó" />
                                                     {seePwd ? <FontAwesomeIcon onClick={changePasswordType} className="password--icon" icon={faEyeSlash} /> : user.jelszo ? <FontAwesomeIcon onClick={changePasswordType} className="password--icon" icon={faEye} /> : <></>}
                                                 </div>
-                                                {/* <p class="text-white-50 mb-5 alert">Felhasználónév vagy jelszó nem megfelelő!</p> */}
+                                                {
+                                                    wrongLogin ?
+                                                        <p className="alert-danger fs-5 mb-1 alert">Felhasználónév vagy jelszó nem megfelelő!</p>
+                                                        : <></>
+                                                }
 
                                                 <button className="btn btn-outline-light btn-lg px-5" onClick={loginUser}>Bejelentkezés</button>
 
@@ -88,7 +93,7 @@ export default function LoginForm(props) {
                     </div>
                 </section> :
                     <RegisterForm title="Regisztráció" RegisterOff={Register}></RegisterForm>
-            }            
+            }
         </div>
 
 

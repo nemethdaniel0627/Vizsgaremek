@@ -18,8 +18,9 @@ class AuthUser {
     authHeader() {
         return {
             headers: {
-            "Authorization": `Baerer ${sessionStorage.getItem("token")}`
-        }}
+                "Authorization": `Baerer ${sessionStorage.getItem("token")}`
+            }
+        }
     }
 
     isLoggedIn() {
@@ -70,9 +71,8 @@ class AuthUser {
                 })
                 .catch(error => {
                     console.error(error);
+                    return false;
                 });
-
-            return false;
         }
         else {
             return false;

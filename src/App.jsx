@@ -28,7 +28,7 @@ export default function App() {
     const [user, setUser] = useState(JSON.parse(sessionStorage.getItem("user")));
 
     useEffect(() => {
-        setSearchBarHeight();
+        setSearchBarHeight();       
     }, [])
 
     useEffect(() => {
@@ -135,7 +135,7 @@ export default function App() {
                     } />
 
                     <Route path="/login" component={() =>
-                        <LoginForm title="Bejelentkezés" />
+                        AuthUser.isLoggedIn() ? <Redirect to="/" /> : <LoginForm title="Bejelentkezés" />
                     } />
 
                     <AuthRoute path="/etlap" auth="user" component={() =>
@@ -155,7 +155,7 @@ export default function App() {
                     } />
 
                     <AuthRoute path="/kapcsolat" auth="user" component={() =>
-                        <ReportPage props = {user}/>
+                        <ReportPage props={user} />
                     } />
 
 
@@ -164,7 +164,7 @@ export default function App() {
                     } />
 
                     <AuthRoute path="/fizetes" auth="user" component={() =>
-                        <PaymentPage />
+                        <PaymentPage user={user} />
                     } />
 
                     <AuthRoute path="/beolvas" auth="admin alkalmazott" component={() =>

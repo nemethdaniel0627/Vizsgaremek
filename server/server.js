@@ -11,7 +11,8 @@ const email = require('./modules/emailSend');
 const auth = require('./modules/auth');
 const exception = require('./exceptions/exceptions');
 const order = require('./modules/order');
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcrypt');
+const functions = require('./modules/functions');
 
 const app = express();
 
@@ -25,7 +26,10 @@ app.use(exception.exception)
 
 app.get("/etlap", async (req, res) => {
   const menu = await databaseDownload.getMenu(new Date());
-  res.json(menu);
+  const nextWeekDate = new Date();
+  nextWeekDate.setDate(nextWeekDate.getDate() + 7);
+  const nextWeek = await databaseDownload.getMenu(nextWeekDate);
+  res.json({ menu: menu, nextWeek: nextWeek.length !== 0 ? true : false });
 });
 
 app.post("/etlap", auth.tokenAutheticate, async (req, res) => {
@@ -86,6 +90,15 @@ app.post("/add", async (req, res) => {
     console.log(error);
     res.send("Error");
   }
+})
+
+app.post("/menupagination", auth.tokenAutheticate, async (req, res) => {
+  const date = new Date(req.body.date);
+  const nextWeekDate = new Date(functions.convertDateWithDash(date));
+  nextWeekDate.setDate(nextWeekDate.getDate() + 7);
+  const menu = await databaseDownload.getMenu(date);
+  const nextWeek = await databaseDownload.getMenu(nextWeekDate);
+  res.json({ menu: menu, nextWeek: nextWeek.length !== 0 ? true : false });
 })
 
 app.post("/userdetails", auth.tokenAutheticate, async (req, res) => {
@@ -206,11 +219,11 @@ app.post("/test", async (req, res) => {
 
 app.post("/scan", async (req, res) => {
   const omAzon = req.body.omAzon;
-  const userId = await user.getBy("id", `omAzon = ${omAzon}`, false, false);  
+  const userId = await user.getBy("id", `omAzon = ${omAzon}`, false, false);
   if (userId.length === 0) res.notFound();
   else {
     const befizetve = await order.doesUserHaveOrderForDate(userId[0].id, new Date());
-    res.json({befizetve: befizetve === false ? false : true});
+    res.json({ befizetve: befizetve === false ? false : true });
   }
 })
 

@@ -8,7 +8,7 @@ import Loader from "../layouts/Loader";
 import ResponseMessage from "../components/ResponseMessage";
 
 export default function LunchCancelation() {
-    const [isMenuChecked, setIsMenuChecked] = useState(true);
+    const [isMenuChecked, setIsMenuChecked] = useState(false);
     const [disabledDays, setDisabledDays] = useState([]);
     const [loading, setLoading] = useState(false);
     const [alertOpen, setAlertOpen] = useState(false);
@@ -29,10 +29,10 @@ export default function LunchCancelation() {
                 console.log("hosszu");
                 let startDate = new Date(date.split("-")[0].trim());
                 let endDate = new Date(date.split("-")[1].trim());
-                while (startDate === endDate) {
-                    sendingDates.push(modules.convertDateWithDash(startDate));
+                sendingDates.push(modules.convertDateWithDash(startDate));
+                while (modules.convertDateWithDash(startDate) !== modules.convertDateWithDash(endDate)) {
                     startDate.setDate(startDate.getDate() + 1);
-                    console.log(startDate);
+                    sendingDates.push(modules.convertDateWithDash(startDate));
                 }
             }
             else sendingDates.push(date);
