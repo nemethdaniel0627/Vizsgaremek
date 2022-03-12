@@ -188,14 +188,17 @@ app.delete("/delete", async (req, res) => {
 })
 
 app.post("/order", auth.tokenAutheticate, async (req, res) => {
-  const userId = req.body.userId;
+  const omAzon = req.body.omAzon;
+  const userId = (await user.getBy('id', `omAzon = ${omAzon}`, false, false))[0].id;
   const meals = req.body.meals;
   const dates = req.body.dates;
+  const errorDates = [];
   for (let i = 0; i < dates.length; i++) {
     const ordered = await order.order(userId, meals, dates[i]);
-    console.log(ordered);
+    if (!ordered) errorDates.push(dates[i]);
   }
-  res.ok();
+  if (errorDates.length === 0) res.ok();
+  else res.send(`Not cancelled dates: ${errorDates}`); //statuscode
 })
 
 app.post("/cancel", auth.tokenAutheticate, async (req, res) => {
