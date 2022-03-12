@@ -126,7 +126,7 @@ export default function RegisterForm(props) {
 
                                         <hr className="mb-3" />
                                         <div className="form-outline form-white mb-4">
-                                            <input type="text" className="form-control form-control-lg fs-4 --input" onChange={inputChange} value={user.nev} placeholder="Név" autoFocus required name="name" />
+                                            <input type="text" className="form-control form-control-lg fs-4 --input" onChange={inputChange} value={user.nev} placeholder="Név" autoFocus required name="nev" />
                                         </div>
 
                                         <div className="form-outline form-white mb-4">
@@ -142,8 +142,8 @@ export default function RegisterForm(props) {
                                         </div>
 
                                         <div className="form-outline form-white mb-4 position-relative">
-                                            <input autoComplete="new-password" type={seePwd ? "text" : "password"} onChange={inputChange} required value={user.password} name="password" className="form-control form-control-lg fs-4 --input" placeholder="Jelszó" />
-                                            {seePwd ? <FontAwesomeIcon onClick={changePasswordType} className="password--icon" icon={faEyeSlash} /> : user.password !== "" ? <FontAwesomeIcon onClick={changePasswordType} className="password--icon" icon={faEye} /> : <></>}
+                                            <input autoComplete="new-password" type={seePwd ? "text" : "password"} onChange={inputChange} required value={user.jelszo} name="jelszo" className="form-control form-control-lg fs-4 --input" placeholder="Jelszó" />
+                                            {seePwd ? <FontAwesomeIcon onClick={changePasswordType} className="password--icon" icon={faEyeSlash} /> : user.jelszo !== "" ? <FontAwesomeIcon onClick={changePasswordType} className="password--icon" icon={faEye} /> : <></>}
                                         </div>
 
 
