@@ -6,16 +6,17 @@ var date = new Date();
 export default function DateLoader(props) {
 
   const [select, changeSelect] = useState(false);
-  props.date.cancel = props.indexKey === 6 ? null : props.date.cancel;
+  props.date.cancellation = (props.indexKey === 6 ? null : props.date.cancellation);
 
   function SelectedDate() {
     if (props.date.month === "-1" || props.indexKey === 6) {
       changeSelect(false);
     } else {
       changeSelect(!select);
-      console.log(props.date.cancel);
-      props.date.cancel = !props.date.cancel;
-      console.log(props.date.cancel);
+      
+      console.log(props.date.cancellation);
+      props.date.cancellation = !props.date.cancellation;
+      console.log(props.date.cancellation);
       console.log(props.date);
     }
   }
@@ -39,7 +40,7 @@ export default function DateLoader(props) {
       >
         <thead>
           <tr>
-            <th className={"cal-date" + (props.date.cancel ? " select" : "") + (props.date.cancel !== null ? " chosable" : "")} onClick={SelectedDate}>{props.date.day}</th>
+            <th className={"cal-date" + (props.date.cancellation ? " select" : "") + (props.date.cancellation !== null ? " chosable" : "")} onClick={SelectedDate}>{props.date.day}</th>
           </tr>
         </thead>
         <tbody className={"meal_" + props.row + " cal-meals-display"}>

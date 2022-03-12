@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import PaymentDateTable from "../layouts/PaymentDateTable";
-import PaymentDateTableMobile from "../layouts/PaymentDateTableMobile";
+// import PaymentDateTableMobile from "../layouts/PaymentDateTableMobile";
 import PaymentOptionCard from "../components/PaymentOptionCard";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
@@ -18,7 +18,8 @@ export default function PaymentPage(props) {
     const [modify, cheking] = useState(false);
     const [payable, changePayable] = useState(true);
     const [type, typing] = useState('');
-    const dates = PaymentTableDateArray();
+    let dates = PaymentTableDateArray(); 
+    const [sendDate, addSendDate] = useState([]);    
 
     function cardBtnClick(event) {
         cheking(!modify);
@@ -26,54 +27,54 @@ export default function PaymentPage(props) {
     }
 
     function Pay() {
-        changePayable(false);
+        console.log(dates);
         let sendDate = []
         for (const date of dates) {
-            if (date.cancel !== null && date.cancel !== true) {
+            if (date.cancellation !== null && date.cancellation !== true) {
                 let tmpDate = `${date.year}-${date.month}-${date.day}`;
                 sendDate.push(tmpDate);
+                console.log("teszt");
             }
         }
+        if(sendDate.length < 1) {changePayable(false);} //BUGOS
         let sendMeals = [];
-        switch (type) {
-            case "Teljes":
-                sendMeals = [1, 1, 1, 1, 1];
-                break;
-            case "Kollégium+":
-                sendMeals = [1, 0, 1, 0, 1];
-                break;
-            case "Kollégium":
-                sendMeals = [1, 0, 0, 0, 1];
-                break;
-            case "Ebéd":
-                sendMeals = [0, 0, 1, 0, 0];
-                break;
-
-            default:
-                break;
-        }
-        axios.post("/order",
-            {
-                omAzon: props.user.omAzon,
-                dates: sendDate,
-                meals: sendMeals
-            }, AuthUser.authHeader())
-            .then(response => {
-                console.log(response);
-            })
-            .catch(error => {
-                console.error(error);
-            })
-
-        console.log(payable);
-
-        for (const date of dates) {
-            if (date.cancel === null) {
-            } else {
-                date.cancel = false;
+        if(payable){
+            switch (type) {
+                case "Teljes":
+                    sendMeals = [1, 1, 1, 1, 1];
+                    break;
+                case "Kollégium+":
+                    sendMeals = [1, 0, 1, 0, 1];
+                    break;
+                case "Kollégium":
+                    sendMeals = [1, 0, 0, 0, 1];
+                    break;
+                case "Ebéd":
+                    sendMeals = [0, 0, 1, 0, 0];
+                    break;
+    
+                default:
+                    break;
             }
+            axios.post("/order",
+                {
+                    omAzon: props.user.omAzon,
+                    dates: sendDate,
+                    meals: sendMeals
+                }, AuthUser.authHeader())
+                .then(response => {
+                    console.log(response);
+                })
+                .catch(error => {
+                    console.error(error);
+                })
+    
+            console.log(payable);
         }
+        
+
     }
+
 
     useEffect(() => {
         console.log(type);
@@ -104,7 +105,7 @@ export default function PaymentPage(props) {
                     <div className="container">
                         <div className="row justify-content-around">
                             <div className="w-75 col-12 col-lg-10">
-                                {!isMobile ? <PaymentDateTable type={type} dates={dates}></PaymentDateTable> : <PaymentDateTableMobile type={type} dates={dates}></PaymentDateTableMobile>}
+                                {!isMobile ? <PaymentDateTable type={type} dates={dates} sendDate={sendDate}></PaymentDateTable> : <></>}
                             </div>
 
                             <div className="col-12 col-lg-2 mt-5 mt-lg-0">

@@ -66,8 +66,7 @@ export default function RegisterForm(props) {
                 class: user.osztaly,
                 omAzon: user.omAzon,
                 school: user.schoolOM,
-                pass: "alma",
-                type: "registerFromDB"
+                type: "register"
             },
             AuthUser.authHeader())
             .then(response => {

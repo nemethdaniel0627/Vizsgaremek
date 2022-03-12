@@ -1,6 +1,7 @@
 var date = new Date();
 
 export default function PaymentTableDateArray() {
+    console.log("asd");
     var dates = [];
     var d = new Date(date.getMonth() + 2 + " 01," + date.getFullYear());
     var month = date.getMonth() + 1;
@@ -8,7 +9,8 @@ export default function PaymentTableDateArray() {
         var day = {
             day: lastDayInTheMonth(month) - (d.getDay() - 1 - (index + 1)),
             month: "-1",
-            cancel: null,
+            year: "-1",
+            cancellation: null,
         };
         dates.push(day);
     }
@@ -22,9 +24,9 @@ export default function PaymentTableDateArray() {
                     ? x + y * 7 - lastDayInTheMonth((month + 1 > 12 ? 1 : month + 1))
                     : x + y * 7;
             if (x + y * 7 > lastDayInTheMonth((month + 1 > 12 ? 1 : month + 1))) {
-                day = { day: dayDate, month: "-1", cancel: null };
+                day = { day: dayDate, month: "-1", year: "-1", cancellation: null };
             } else {
-                day = { day: dayDate, month: (month + 1 > 12 ? 1 : month + 1), cancel: false };
+                day = { day: dayDate, month: (month + 1 > 12 ? 1 : month + 1), year: d.getFullYear(), cancellation: false };
             }
             dates.push(day);
         }
