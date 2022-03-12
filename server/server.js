@@ -200,14 +200,28 @@ app.delete("/delete", async (req, res) => {
   res.send(`${count} record(s) deleted`);
 })
 
-app.post("/order", async (req, res) => {
-  const o = await order.order(6, [true, false, true, false, true], '2022-01-31');
-  res.send(o);
+app.post("/order", auth.tokenAutheticate, async (req, res) => {
+  const omAzon = req.body.omAzon;
+  const userId = (await user.getBy('id', `omAzon = ${omAzon}`, false, false))[0].id;
+  const meals = req.body.meals;
+  const dates = req.body.dates;
+  const errorDates = [];
+  for (let i = 0; i < dates.length; i++) {
+    const ordered = await order.order(userId, meals, dates[i]);
+    if (!ordered) errorDates.push(dates[i]);
+  }
+  if (errorDates.length === 0) res.ok();
+  else res.send(`Not cancelled dates: ${errorDates}`); //statuscode
 })
 
-app.post("/cancel", async (req, res) => {
-  // const o = await order.cancelOrder(6, [1, 0, 0, 0, 1], '2022-01-31');
-  res.notFound();
+app.post("/cancel", auth.tokenAutheticate, async (req, res) => {
+  const userId = req.body.userId;
+  const dates = req.body.dates;
+  for (let i = 0; i < dates.length; i++) {
+    const cancelled = await order.cancelOrder(userId, dates[i]);
+    console.log(cancelled);
+  }
+  res.ok();
 })
 
 app.post("/test", async (req, res) => {
