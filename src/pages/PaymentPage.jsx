@@ -1,12 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PaymentDateTable from "../layouts/PaymentDateTable";
 import PaymentDateTableMobile from "../layouts/PaymentDateTableMobile";
 import PaymentOptionCard from "../components/PaymentOptionCard";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import PaymentTableDateArray from "../helpers/PaymentTableDatesArray";
+import AuthUser from "../modules/AuthUser";
+import axios from "axios";
 
-export default function PaymentPage() {
+export default function PaymentPage(props) {
 
     let isMobile = false;
     if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
@@ -25,15 +27,43 @@ export default function PaymentPage() {
 
     function Pay() {
         changePayable(false);
+        let sendDate = []
         for (const date of dates) {
-            if (!date.cancel && date.cancel !== null) {
-                changePayable(true);
-                console.log(dates);
-                //TODO FIZETES
-
-                break;
+            if (date.cancel !== null && date.cancel !== true) {
+                let tmpDate = `${date.year}-${date.month}-${date.day}`;
+                sendDate.push(tmpDate);
             }
         }
+        let sendMeals = [];
+        switch (type) {
+            case "Teljes":
+                sendMeals = [1, 1, 1, 1, 1];
+                break;
+            case "Kollégium+":
+                sendMeals = [1, 0, 1, 0, 1];
+                break;
+            case "Kollégium":
+                sendMeals = [1, 0, 0, 0, 1];
+                break;
+            case "Ebéd":
+                sendMeals = [0, 0, 1, 0, 0];
+                break;
+
+            default:
+                break;
+        }
+        axios.post("/order",
+            {
+                omAzon: props.user.omAzon,
+                dates: sendDate,
+                meals: sendMeals
+            }, AuthUser.authHeader())
+            .then(response => {
+                console.log(response);
+            })
+            .catch(error => {
+                console.error(error);
+            })
 
         console.log(payable);
 
@@ -45,22 +75,26 @@ export default function PaymentPage() {
         }
     }
 
+    useEffect(() => {
+        console.log(type);
+    }, [type])
+
     return (
         <div className="mx-auto payment-page">
 
             {!modify ?
                 <div className="container mt-0 mt-lg-4">
                     <div className="row">
-                        <div className={"col-6 col-lg-3 mt-4 mt-lg-0 "}>
+                        <div className={"col-lg-3 col-md-6 col-sm-12 mt-4 mt-lg-0 "}>
                             <PaymentOptionCard btnClick={cardBtnClick} name="Teljes" price="10 000" breakfast="van" snackBefore="van" lunch="van" snackAfter="van" dinner="van" mobile={isMobile}></PaymentOptionCard>
                         </div>
-                        <div className={"col-6 col-lg-3 mt-4 mt-lg-0 "}>
+                        <div className={"col-lg-3 col-md-6 col-sm-12 mt-4 mt-lg-0 "}>
                             <PaymentOptionCard btnClick={cardBtnClick} name="Kollégium+" price="9 000" breakfast="van" lunch="van" dinner="van" mobile={isMobile}></PaymentOptionCard>
                         </div>
-                        <div className={"col-6 col-lg-3 mt-4 mt-lg-0"}>
+                        <div className={"col-lg-3 col-md-6 col-sm-12 mt-4 mt-lg-0"}>
                             <PaymentOptionCard btnClick={cardBtnClick} name="Kollégium" price="8 000" breakfast="van" dinner="van" mobile={isMobile}></PaymentOptionCard>
                         </div>
-                        <div className={"col-6 col-lg-3 mt-4 mt-lg-0 "}>
+                        <div className={"col-lg-3 col-md-6 col-sm-12 mt-4 mt-lg-0 "}>
                             <PaymentOptionCard btnClick={cardBtnClick} name="Ebéd" price="5 000" lunch="van" mobile={isMobile}></PaymentOptionCard>
                         </div>
                     </div>
@@ -68,8 +102,8 @@ export default function PaymentPage() {
                 :
                 <div className={"mt-3 div " + (!isMobile ? "desktop" : "mobile")}>
                     <div className="container">
-                        <div className="row">
-                            <div className="col-12 col-lg-10">
+                        <div className="row justify-content-around">
+                            <div className="w-75 col-12 col-lg-10">
                                 {!isMobile ? <PaymentDateTable type={type} dates={dates}></PaymentDateTable> : <PaymentDateTableMobile type={type} dates={dates}></PaymentDateTableMobile>}
                             </div>
 
@@ -85,7 +119,7 @@ export default function PaymentPage() {
                         </div>
                     </div>
 
-                    <div className="mx-auto w-75 btn-div mt-5">
+                    <div className="mx-auto w-75 btn-div mt-5 text-center">
                         <button className="btn fs-3">Étlap megnyitása/letöltése</button>
                     </div>
 

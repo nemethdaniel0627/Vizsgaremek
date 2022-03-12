@@ -11,7 +11,8 @@ const email = require('./modules/emailSend');
 const auth = require('./modules/auth');
 const exception = require('./exceptions/exceptions');
 const order = require('./modules/order');
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcrypt');
+const functions = require('./modules/functions');
 
 const app = express();
 
@@ -25,14 +26,16 @@ app.use(exception.exception)
 
 app.get("/etlap", async (req, res) => {
   const menu = await databaseDownload.getMenu(new Date());
-  res.json(menu);
+  const nextWeekDate = new Date();
+  nextWeekDate.setDate(nextWeekDate.getDate() + 7);
+  const nextWeek = await databaseDownload.getMenu(nextWeekDate);
+  res.json({ menu: menu, nextWeek: nextWeek.length !== 0 ? true : false });
 });
 
-app.post("/etlap", async (req, res) => {
+app.post("/etlap", auth.tokenAutheticate, async (req, res) => {
   let excelRows = req.body.excelRows;
   const setDate = req.body.date;
   const override = req.body.override;
-
   if (await sqlQueries.isConnection() === false) await sqlQueries.CreateConnection(true);
   const selectDaysId = await sqlQueries.select("days", "id", `datum = "${setDate}"`);
   if (selectDaysId.length === 0 || override) {
@@ -85,8 +88,17 @@ app.post("/add", async (req, res) => {
     res.send(`${count} record(s) added`);
   } catch (error) {
     console.log(error);
-    res.send("Error");
+    res.send(error.message);
   }
+})
+
+app.post("/menupagination", auth.tokenAutheticate, async (req, res) => {
+  const date = new Date(req.body.date);
+  const nextWeekDate = new Date(functions.convertDateWithDash(date));
+  nextWeekDate.setDate(nextWeekDate.getDate() + 7);
+  const menu = await databaseDownload.getMenu(date);
+  const nextWeek = await databaseDownload.getMenu(nextWeekDate);
+  res.json({ menu: menu, nextWeek: nextWeek.length !== 0 ? true : false });
 })
 
 app.post("/userdetails", auth.tokenAutheticate, async (req, res) => {
@@ -110,10 +122,11 @@ app.get("/schoollist", async (req, res) => {
 app.post("/user", auth.tokenAutheticate, async (req, res) => {
   const userId = req.body.userId;
   const userResult = await user.getBy("*", `id = "${userId}"`, false);
-  const iskolaOM = await sqlQueries.select("schools", "iskolaOM", `id = ${userResult[0].schoolsId}`, false);
+  const iskola = await sqlQueries.select("schools", "iskolaOM, nev", `id = ${userResult[0].schoolsId}`, false);
   await sqlQueries.EndConnection();
   const orderResult = await order.doesUserHaveOrderForDate(userId, new Date())
-  userResult[0].iskolaOM = iskolaOM[0].iskolaOM;
+  userResult[0].iskolaOM = iskola[0].iskolaOM;
+  userResult[0].iskolaNev = iskola[0].nev;
   if (!orderResult) userResult[0].befizetve = false;
   else userResult[0].befizetve = true;
   if (userResult) res.send(userResult);
@@ -218,14 +231,14 @@ app.post("/test", async (req, res) => {
   res.send(testOrders);
 })
 
-app.post("/scan", auth.tokenAutheticate, async (req, res) => {
+app.post("/scan", async (req, res) => {
   const omAzon = req.body.omAzon;
-  const users = await user.getAll(false);
-  let userData;
-  users.forEach(user => {
-    if (Number(user.omAzon) === Number(omAzon)) userData = user;
-  });
-  res.send(userData.befizetve);
+  const userId = await user.getBy("id", `omAzon = ${omAzon}`, false, false);
+  if (userId.length === 0) res.notFound();
+  else {
+    const befizetve = await order.doesUserHaveOrderForDate(userId[0].id, new Date());
+    res.json({ befizetve: befizetve === false ? false : true });
+  }
 })
 
 app.post("/userdelete", auth.tokenAutheticate, async (req, res) => {
@@ -238,7 +251,7 @@ app.post("/userdelete", auth.tokenAutheticate, async (req, res) => {
   }
 })
 
-app.post("/useradd",  async (req, res) => {
+app.post("/useradd", auth.tokenAutheticate, async (req, res) => {
   const newUser = req.body.user;
   const schoolsId = await sqlQueries.select("schools", "id", `iskolaOM = ${newUser.iskolaOM}`, false);
   const jelszo = await test.randomString(10);
@@ -302,7 +315,7 @@ app.post("/passwordmodify", auth.tokenAutheticate, async (req, res) => {
   }
 })
 
-app.post("/email", async (req, res) => {
+app.post("/email", auth.tokenAutheticate, async (req, res) => {
 
   const emailSpecs = req.body;
   console.log(emailSpecs);
@@ -329,22 +342,61 @@ app.post("/email", async (req, res) => {
       o = await email.EmailSendingForRegisterAcceptedFromDataBase(emailSpecs);
       res.send(o);
       break;
-      
+
     default:
 
       break;
   }
 })
 
-app.post("/pagination", async (req, res) => {
+app.post("/pagination", auth.tokenAutheticate, async (req, res) => {
   const limit = req.body.limit || 10;
   const offset = req.body.offset || 0;
   const pending = req.body.pending || false;
   const userCount = (await sqlQueries.selectAll(pending ? 'user_pending' : 'user', 'id', false)).length;
-  const users = await user.getAll(false, limit, offset, pending ? "user_pending" : "user");
+  const users = await user.getAll(false, limit, offset, pending);
   res.send({
     pending: pending,
     pages: Math.ceil(userCount / limit),
+    users: users
+  });
+})
+
+app.post("/userupload", auth.tokenAutheticate, async (req, res) => {
+  const userRows = req.body.userRows;
+  let notAddedUsers = [];
+  let userCount = 0;
+  for (let i = 0; i < userRows.length; i++) {
+    const schoolsId = await user.convert(userRows[i].split(';')[3]);
+    const newUser = {
+      omAzon: userRows[i].split(';')[0],
+      jelszo: userRows[i].split(';')[1],
+      nev: userRows[i].split(';')[2],
+      schoolsId: schoolsId,
+      osztaly: userRows[i].split(';')[4],
+      email: userRows[i].split(';')[5]
+    }
+    if (newUser.schoolsId === -1) notAddedUsers.push(`${newUser.omAzon} - ${newUser.nev}`);
+    else {
+      newUser.jelszo = bcrypt.hashSync(newUser.jelszo, 10);
+      const added = await user.add(newUser, false);
+      if (added) userCount++;
+      else notAddedUsers.push(`${newUser.omAzon} - ${newUser.nev}`);
+    }
+  }
+  if (notAddedUsers.length === 0) res.send(`${userCount} added.`);
+  else res.send(`${userCount} added.\nExcept: ${notAddedUsers}`);
+})
+
+app.post("/userdownload", auth.tokenAutheticate, async (req, res) => {
+  const title = "omAzon;nev;iskolaOM;osztaly;email";
+  const data = await user.getUsers();
+  let users = [];
+  data.forEach(user => {
+    users.push(user.join(';'));
+  });
+  res.send({
+    title: title,
     users: users
   });
 })

@@ -1,23 +1,41 @@
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import QrReader from "react-qr-reader";
 import PermissionPopup from "../components/PermissionPopup";
+import Loader from "../layouts/Loader";
+import AuthUser from "../modules/AuthUser";
 
 export default function QrCodeReader() {
     const [isCamera, setIsCamera] = useState(false);
-    const [qrResult, setQrResult] = useState({ nev: "Teszt Elek", omAzon: 1231231231, osztaly: "12.a", iskola: "Jedlik Ányos Technikum És Kollégium", befizetve: false });
-    // const [qrResult, setQrResult] = useState({ nev: "", osztaly: "", befizetve: null });
+    // const [qrResult, setQrResult] = useState({ nev: "Teszt Elek", omAzon: 1231231231, osztaly: "12.a", iskolaNev: "Jedlik Ányos Technikum És Kollégium", befizetve: false });
+    const [qrResult, setQrResult] = useState({ nev: "", osztaly: "", befizetve: null });
+    const [loading, setLoading] = useState(false);
 
     let handleScan = data => {
         if (data) {
             console.log(data);
             const tmpJson = JSON.parse(data);
+
+            setLoading(true);
+            axios.post("/scan",
+            {
+                omAzon: tmpJson.omAzon
+            }, AuthUser.authHeader())
+            .then(response => {
+                console.log(response);
+                setQrResult({
+                    nev: tmpJson.nev,
+                    osztaly: tmpJson.osztaly,
+                    befizetve: response.data.befizetve,
+                    iskolaNev: tmpJson.iskolaNev
+                });
+                setLoading(false);
+            })
+            .catch(error => {
+                console.error(error);
+                setLoading(false);
+            })
             
-            setQrResult({
-                nev: tmpJson.nev,
-                osztaly: tmpJson.osztaly,
-                befizetve: tmpJson.befizetve,
-                iskola: tmpJson.iskola
-            });
             console.log(isCamera);
         }
     }
@@ -48,7 +66,7 @@ export default function QrCodeReader() {
                 })
         }
 
-    }, [isCamera])    
+    }, [isCamera])
 
     function askPermission(denied) {
         var now = Date.now();
@@ -68,6 +86,7 @@ export default function QrCodeReader() {
 
     return (
         <div className="qr-result--wrapper">
+            {loading ? <Loader /> : <></>}
             <div id="control-height"></div>
             {isCamera && isCamera !== "false" && qrResult.befizetve === null ?
                 <QrReader
@@ -84,12 +103,13 @@ export default function QrCodeReader() {
                         <div className="qr-result--item qr-result--name">{qrResult.nev}</div>
                         <div className="qr-result--item">Osztály:  {qrResult.osztaly}</div>
                         <div className="qr-result--item">Ebédelhet? {qrResult.befizetve ? "Igen" : "Nincs befizetve"}</div>
-                        <div className="qr-result--item">Iskola:  <div className="qr-result--item--school">{qrResult.iskola}</div></div>
+                        <div className="qr-result--item">Iskola:  <div className="qr-result--item--school">{qrResult.iskolaNev}</div></div>
                         <button className="qr-result--button" onClick={newRead}>
                             <div>Új beolvas</div>
                         </button>
                     </div>
             }
+
         </div>
     )
 }

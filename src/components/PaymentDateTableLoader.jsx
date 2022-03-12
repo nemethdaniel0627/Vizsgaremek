@@ -6,14 +6,17 @@ var date = new Date();
 export default function DateLoader(props) {
 
   const [select, changeSelect] = useState(false);
-  props.date.cancel = props.indexKey === 6 ? null : props.date.cancel;  
+  props.date.cancel = props.indexKey === 6 ? null : props.date.cancel;
 
-  function SelectedDate(){
-    if(props.date.month === "-1" || props.indexKey === 6){
+  function SelectedDate() {
+    if (props.date.month === "-1" || props.indexKey === 6) {
       changeSelect(false);
-    }else{
+    } else {
       changeSelect(!select);
+      console.log(props.date.cancel);
       props.date.cancel = !props.date.cancel;
+      console.log(props.date.cancel);
+      console.log(props.date);
     }
   }
 
@@ -47,17 +50,17 @@ export default function DateLoader(props) {
           </tr>
           <tr className={"cal-meals mb-2 d-" + (props.beforeLunch ? "block" : "none")}>
             <td>{props.beforeLunch}
-            <hr className={"d-" + (props.lunch ? "block" : "none")} />
+              <hr className={"d-" + (props.lunch ? "block" : "none")} />
             </td>
           </tr>
           <tr className={"cal-meals mb-2 d-" + (props.lunch ? "block" : "none")}>
             <td>{props.lunch}
-            <hr className={"d-" + (props.snack || props.dinner ? "block" : "none")} />
+              <hr className={"d-" + (props.snack || props.dinner ? "block" : "none")} />
             </td>
           </tr>
           <tr className={"cal-meals mb-2 d-" + (props.snack ? "block" : "none")}>
             <td>{props.snack}
-            <hr className={"d-" + (props.dinner ? "block" : "none")} />
+              <hr className={"d-" + (props.dinner ? "block" : "none")} />
             </td>
           </tr>
           <tr className={"cal-meals d-" + (props.dinner ? "block" : "none")}>

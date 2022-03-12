@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleLeft, faAngleRight, faSearch } from "@fortawesome/free-solid-svg-icons";
 
@@ -6,11 +6,14 @@ export default function AdminDatabaseManagerSearch(props) {
     const [pageNumber, setPageNumber] = useState(1);
     const [forwardDisabled, setForwardDisabled] = useState(false);
     const [backwardDisabled, setBackwardDisabled] = useState(true);
-    const [numberOfPeople, setNumberOfPeople] = useState();
+    const [numberOfPeople, setNumberOfPeople] = useState(10);
 
     function numberOfPeopleChange(event) {
         setNumberOfPeople(Number(event.target.value));
-        props.paginaton(Number(event.target.value), Number(event.target.value) * ((pageNumber + 1) - 1));
+        props.pagination(Number(event.target.value), 0);
+        setPageNumber(1);
+        setBackwardDisabled(true);
+        setForwardDisabled(false);
     }
 
     function pageChange(event) {
@@ -19,14 +22,16 @@ export default function AdminDatabaseManagerSearch(props) {
                 if (pageNumber + 1 === props.numberOfPages) setForwardDisabled(true);
                 setBackwardDisabled(false);
                 setPageNumber(pageNumber + 1);
-                props.paginaton(numberOfPeople, numberOfPeople * ((pageNumber + 1) - 1));
+                console.log(numberOfPeople);
+                console.log(numberOfPeople * ((pageNumber + 1) - 1));
+                props.pagination(numberOfPeople, numberOfPeople * ((pageNumber + 1) - 1));
                 break;
 
             case "backward":
                 if (pageNumber - 1 === 1) setBackwardDisabled(true);
                 setForwardDisabled(false);
                 setPageNumber(pageNumber - 1);
-                props.paginaton(numberOfPeople, numberOfPeople * ((pageNumber + 1) - 1));
+                props.pagination(numberOfPeople, numberOfPeople * ((pageNumber - 1) - 1));
                 break;
             default:
                 break;
@@ -34,7 +39,7 @@ export default function AdminDatabaseManagerSearch(props) {
     }
 
     return (
-        <div className="acc-head manager">
+        <div className="acc-head manager" id="back-to-top-anchor">
             <div className="container">
                 <div className="row">
                     <div className="col-12 col-lg-3">

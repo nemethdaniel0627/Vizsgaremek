@@ -4,6 +4,13 @@ import AdminDatabaseAccordion from "../components/AdminDatabaseAccordion";
 import AdminDatabaseManager from "../layouts/AdminDatabaseManager";
 import AdminDatabaseManagerSearch from "../components/AdminDatabaseManagerSearch";
 
+import PropTypes from "prop-types";
+import { makeStyles } from "@mui/styles";
+import useScrollTrigger from "@mui/material/useScrollTrigger";
+import Fab from "@mui/material/Fab";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import Zoom from "@mui/material/Zoom";
+
 import { Accordion } from "react-bootstrap";
 import axios from "axios";
 import Loader from "../layouts/Loader";
@@ -19,6 +26,51 @@ export default function AdminDatabasePage(props) {
     const [showPending, setShowPending] = useState(false);
     const [numberOfPages, setNumberOfPages] = useState();
 
+    const useStyles = makeStyles(theme => ({
+        root: {
+            position: "fixed",
+            bottom: "2rem",
+            right: "2rem"        
+        }
+    }));
+
+    // const useStylesFab = makeStyles(theme => ({
+    //     root: {
+    //         backgroundColor: "#f00"          
+    //     }
+    // }));
+
+    function ScrollTop(props) {
+        const { children } = props;
+        const classes = useStyles();
+        const trigger = useScrollTrigger({
+            disableHysteresis: true,
+            threshold: 100
+        });
+
+        const handleClick = event => {
+            const anchor = (event.target.ownerDocument || document).querySelector(
+                "#back-to-top-anchor"
+            );
+
+            if (anchor) {
+                anchor.scrollIntoView({ behavior: "smooth", block: "center" });
+            }
+        };
+
+        return (
+            <Zoom in={trigger}>
+                <div onClick={handleClick} role="presentation" className={classes.root}>
+                    {children}
+                </div>
+            </Zoom>
+        );
+    }
+
+    ScrollTop.propTypes = {
+        children: PropTypes.element.isRequired
+    };
+
     let isMobile = false;
     if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
         isMobile = true;
@@ -33,6 +85,21 @@ export default function AdminDatabasePage(props) {
 
     function switchUserList(state) {
         setShowPending(state);
+        axios.post("/pagination",
+            {
+                pending: state
+            }
+            , AuthUser.authHeader())
+            .then(response => {
+                state ? setPending(response.data.users) : setUsers(response.data.users);
+                setNumberOfPages(response.data.pages);
+                console.log(response.data);
+                setLoading(false);
+            })
+            .catch(error => {
+                console.error(error);
+                setLoading(false);
+            });
     }
 
     useEffect(() => {
@@ -90,6 +157,8 @@ export default function AdminDatabasePage(props) {
     }
 
     function pagination(limit, offset) {
+        // console.log(limit);
+        // console.log(offset);
         setLoading(true);
         axios.post("/pagination",
             {
@@ -112,7 +181,7 @@ export default function AdminDatabasePage(props) {
         <div className="admin-db">
             {loading ? <Loader /> : <></>}
             <div className="admin-mg">
-                <AdminDatabaseManager numberOfPages={numberOfPages} setShowPending={switchUserList} Download={Download} isMobile={isMobile}></AdminDatabaseManager>
+                <AdminDatabaseManager setShowPending={switchUserList} Download={Download} isMobile={isMobile}></AdminDatabaseManager>
             </div>
 
 
@@ -122,7 +191,7 @@ export default function AdminDatabasePage(props) {
                     <div className="col-2 col-lg-2"></div>
                     <div className="col-10 col-lg-10 admin-db-acc mb-5 mb-lg-0 mt-5">
 
-                        <AdminDatabaseManagerSearch pagination={pagination} />
+                        <AdminDatabaseManagerSearch numberOfPages={numberOfPages} pagination={pagination} />
 
 
                         <Accordion>
@@ -143,6 +212,11 @@ export default function AdminDatabasePage(props) {
 
                 </div>
             </div>
+            <ScrollTop>
+                <Fab color="inherit" size="medium" aria-label="scroll back to top">
+                    <KeyboardArrowUpIcon />
+                </Fab>
+            </ScrollTop>
         </div>
 
     );
