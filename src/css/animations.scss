@@ -18,6 +18,21 @@
     }
 }
 
+@keyframes dots {
+    0% {
+        content: "";
+    }
+    25% {
+        content: ".";
+    }
+    50% {
+        content: "..";
+    }
+    75% {
+        content: "...";
+    }
+}
+
 @keyframes gradient {
     0% {
         transform: translate(106.988 178.613) rotate(-81.1441) scale(178.629 145.469);

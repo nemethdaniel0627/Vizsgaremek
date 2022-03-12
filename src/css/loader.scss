@@ -31,3 +31,24 @@
         }
     }
 }
+
+#flame-menu {
+    width: 5rem;
+    height: fit-content;
+
+    #flameTop-menu {
+        animation: fireTop 0.7s ease-in-out alternate-reverse infinite;
+    }
+
+    #paint0_radial_140_53-menu {
+        animation: gradient 0.7s ease-in-out alternate-reverse infinite;
+
+        #flameYellow-menu {
+            animation: fireYellow 5s ease-in-out alternate-reverse infinite;
+        }
+
+        #flameRed-menu {
+            animation: fireRed 5s ease-in-out alternate-reverse infinite;
+        }
+    }
+}

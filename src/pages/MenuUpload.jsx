@@ -17,6 +17,7 @@ import startOfWeek from 'date-fns/startOfWeek';
 import locale from 'date-fns/locale/hu'
 import modules from "../helpers/modules.js";
 import ResponseMessage from "../components/ResponseMessage.jsx";
+import AuthUser from "../modules/AuthUser.js";
 
 const CustomPickersDay = styled(PickersDay, {
     shouldForwardProp: (prop) =>
@@ -304,14 +305,14 @@ export default function MenuUpload() {
         sendExcelRows(true);
     }
 
-    function sendExcelRows(isOverride = false) {
+    function sendExcelRows(isOverride) {
         const startDay = modules.getFirstDayOfWeek(week);
-        const override = isOverride;
-        axios.post(`/etlap`, {
-            excelRows: excelRows,
-            date: modules.convertDateWithDash(startDay),
-            override: override
-        })
+        axios.post("/etlap",
+            {
+                excelRows: excelRows,
+                date: modules.convertDateWithDash(startDay),
+                override: isOverride
+            }, AuthUser.authHeader())
             .then((response) => {
                 console.log(response);
                 progressMove();
@@ -416,7 +417,7 @@ export default function MenuUpload() {
                             </LocalizationProvider>
                         </div>
 
-                        <button className="upload-area__button" onClick={sendExcelRows}>Étlap feltöltése</button>
+                        <button className="upload-area__button" onClick={() => sendExcelRows(false)}>Étlap feltöltése</button>
                     </div>
                 </div>
                 {/* <!-- End File Details --> */}
