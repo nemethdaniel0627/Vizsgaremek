@@ -44,7 +44,7 @@ class User {
                 `"${user.omAzon}", "${user.jelszo}", "${user.nev}", ${user.schoolsId}, "${user.osztaly}", "${user.email}"`);
             if (pending === false) {
                 const userId = await sqlQueries.select("user", "id", `omAzon = ${user.omAzon}`, false);
-                await sqlQueries.insert("user_role", "roleId, userId", `2, ${userId[0].id}`);
+                await sqlQueries.insert("user_role", "roleId, userId", `2, ${userId}`);
             }
             added = true;
         }
@@ -99,6 +99,25 @@ class User {
         const user = await sqlQueries.update('user', `${fieldValues}`, `${conditions}`);
         await sqlQueries.EndConnection();
         return user.affectedRows;
+    }
+
+    async convert(iskolaOM) {
+        if (await sqlQueries.isConnection() === false) await sqlQueries.CreateConnection();
+        const schoolsId = await sqlQueries.select('schools', 'id', `iskolaOM = ${iskolaOM}`);
+        await sqlQueries.EndConnection();
+        if (schoolsId.length === 0) return -1;
+        return schoolsId[0][0];
+    }
+
+    async getUsers() {
+        if (await sqlQueries.isConnection() === false) await sqlQueries.CreateConnection();
+        const users = await sqlQueries.innerSelect(
+            'user', 
+            'user.omAzon, user.nev, schools.iskolaOM, user.osztaly, user.email',
+            'INNER JOIN schools ON user.schoolsId = schools.id',
+            'user.schoolsId = schools.id', false);
+          await sqlQueries.EndConnection();
+        return users;
     }
 }
 

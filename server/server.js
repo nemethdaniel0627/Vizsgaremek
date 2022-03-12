@@ -11,7 +11,8 @@ const email = require('./modules/emailSend');
 const auth = require('./modules/auth');
 const exception = require('./exceptions/exceptions');
 const order = require('./modules/order');
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcrypt');
+const fs = require('fs').promises;
 
 const app = express();
 
@@ -85,7 +86,7 @@ app.post("/add", async (req, res) => {
     res.send(`${count} record(s) added`);
   } catch (error) {
     console.log(error);
-    res.send("Error");
+    res.send(error.message);
   }
 })
 
@@ -288,7 +289,7 @@ app.post("/passwordmodify", auth.tokenAutheticate, async (req, res) => {
   }
 })
 
-app.post("/email", async (req, res) => {
+app.post("/email", auth.tokenAutheticate, async (req, res) => {
 
   const emailSpecs = req.body;
   console.log(emailSpecs);
@@ -322,15 +323,54 @@ app.post("/email", async (req, res) => {
   }
 })
 
-app.post("/pagination", async (req, res) => {
+app.post("/pagination", auth.tokenAutheticate, async (req, res) => {
   const limit = req.body.limit || 10;
   const offset = req.body.offset || 0;
   const pending = req.body.pending || false;
   const userCount = (await sqlQueries.selectAll(pending ? 'user_pending' : 'user', 'id', false)).length;
-  const users = await user.getAll(false, limit, offset, pending ? "user_pending" : "user");
+  const users = await user.getAll(false, limit, offset, pending);
   res.send({
     pending: pending,
     pages: Math.ceil(userCount / limit),
+    users: users
+  });
+})
+
+app.post("/userupload", auth.tokenAutheticate, async (req, res) => {
+  const userRows = req.body.userRows;
+  let notAddedUsers = [];
+  let userCount = 0;
+  for (let i = 0; i < userRows.length; i++) {
+    const schoolsId = await user.convert(userRows[i].split(';')[3]);
+    const newUser = {
+      omAzon: userRows[i].split(';')[0],
+      jelszo: userRows[i].split(';')[1],
+      nev: userRows[i].split(';')[2],
+      schoolsId: schoolsId,
+      osztaly: userRows[i].split(';')[4],
+      email: userRows[i].split(';')[5]
+    }
+    if (newUser.schoolsId === -1) notAddedUsers.push(`${newUser.omAzon} - ${newUser.nev}`);
+    else {
+      newUser.jelszo = bcrypt.hashSync(newUser.jelszo, 10);
+      const added = await user.add(newUser, false);
+      if (added) userCount++;
+      else notAddedUsers.push(`${newUser.omAzon} - ${newUser.nev}`);
+    }
+  }
+  if (notAddedUsers.length === 0) res.send(`${userCount} added.`);
+  else res.send(`${userCount} added.\nExcept: ${notAddedUsers}`);
+})
+
+app.post("/userdownload", auth.tokenAutheticate, async (req, res) => {
+  const title = "omAzon;nev;iskolaOM;osztaly;email";
+  const data = await user.getUsers();
+  let users = [];
+  data.forEach(user => {
+    users.push(user.join(';'));
+  });
+  res.send({
+    title: title,
     users: users
   });
 })
