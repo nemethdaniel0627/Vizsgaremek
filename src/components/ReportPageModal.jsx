@@ -22,12 +22,12 @@ export default function ReportPageModal(props) {
     function Send() {
         changeSended(!sended);
         changeSending(false);
-        setCheck(true);
+        check = true;
     }
 
     function Sending() {
         changeSending(!sending);
-        setCheck(false);
+        check = false;
     }
 
     function Checking() {
@@ -67,10 +67,10 @@ export default function ReportPageModal(props) {
 
     }
 
-    const [check, setCheck] = useState(false);
+    let check = false;
 
     function CheckboxChange(e){
-        setCheck(e.target.checked);
+        check = e.target.checked;
     }
 
     function ErrorModal() {
