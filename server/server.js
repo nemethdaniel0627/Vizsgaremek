@@ -227,7 +227,7 @@ app.post("/cancel", auth.tokenAutheticate, async (req, res) => {
 app.post("/test", async (req, res) => {
   // const create = await test.generate('users2.txt', 82);
   // res.send(create);
-  const testOrders = await test.orders('2022-02-04', 15);
+  const testOrders = await test.orders('2022-03-15', 15);
   res.send(testOrders);
 })
 
@@ -347,6 +347,14 @@ app.post("/email", auth.tokenAutheticate, async (req, res) => {
 
       break;
   }
+})
+
+app.post("/cancelledDates", auth.tokenAutheticate, async (req, res) => {
+  const userId = req.body.userId;
+  const cancelledDays = await order.getCancelledDates(userId);
+  res.send({
+    dates: cancelledDays
+  })
 })
 
 app.post("/pagination", auth.tokenAutheticate, async (req, res) => {

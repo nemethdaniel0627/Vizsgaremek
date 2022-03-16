@@ -15,6 +15,10 @@ class modules {
         return `${date.getFullYear()}-${(date.getMonth() + 1) < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1}-${date.getDate() < 10 ? "0" + date.getDate() : date.getDate()}`;
     }
 
+    convertDateWithDot(date) {
+        return `${date.getFullYear()}.${(date.getMonth() + 1) < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1}.${date.getDate() < 10 ? "0" + date.getDate() : date.getDate()}`;
+    }
+
     getFirstDayOfWeek(date) {
         if (date.getDay() === 0) {
             return new Date(date.getFullYear(), date.getMonth(), (date.getDate() - 6));

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   faEye,
   faEyeSlash,
@@ -12,6 +12,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Activities from "../components/AccountPageActivities";
 import AuthUser from "../modules/AuthUser";
 import axios from "axios";
+import modules from "../helpers/modules";
 
 export default function DataPage(props) {
   const [change, changing] = useState(false);
@@ -20,7 +21,7 @@ export default function DataPage(props) {
   const [ujJelszo, setUjJelszo] = useState("");
   const [seeOldPwd, setSeeOldPwd] = useState(false);
   const [seeNewPwd, setSeeNewPwd] = useState(false);
-
+  
 
   function PassChange() {
     changing(!change);
@@ -31,6 +32,37 @@ export default function DataPage(props) {
     aChanging(!aChange);
   }
 
+  const [dates, setDates] = useState([]);
+
+
+  function getDates(){
+    axios.post("/cancelledDates",{
+      userId: props.user.id
+    }, AuthUser.authHeader())
+    .then(response => {
+      setDates(response.data.dates);
+      console.log(response);
+    }).catch(error => {
+  
+    })
+  }
+
+
+  function dateConcatenation(){
+    try {
+      dates.sort();
+    } catch (error) {}
+    let prevDate;
+    let allDates = modules.convertDateWithDot(new Date(dates[0])).toString();
+    console.log(allDates);
+    dates.forEach(date => {
+      console.log(new Date(prevDate).getDate());
+      prevDate = date;
+    });
+    console.log(dates);
+  }
+
+  
   function changePassword() {
     if (regiJelszo && ujJelszo) {
       axios.post("/passwordmodify",
@@ -74,6 +106,10 @@ export default function DataPage(props) {
   function changeNewPasswordType() {
     setSeeNewPwd(!seeNewPwd);
   }
+
+  useEffect(() => {
+    getDates();
+  }, [])
 
   return (
     <div className="h3 m-5">
@@ -271,7 +307,7 @@ export default function DataPage(props) {
               ></Activities>
               <Activities
                 activity="Lemondott nap(ok)"
-                date="2021.12.20"
+                date={dateConcatenation()}
                 type="cancel"
               ></Activities>
               <Activities activity="????????" date="2021.12.20"></Activities>
