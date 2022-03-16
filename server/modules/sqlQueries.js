@@ -15,15 +15,11 @@ class sqlQueries {
         await this._connection.end();
     }
 
-    async isConnection() {
-        if (this._connection === undefined || this._connection.connection._closing === true) return false;
-        else return true;
-    }
-
     async insert(tableName, fields, values) {
         try {
-            if (await this.isConnection() === false) await this.CreateConnection();
+            await this.CreateConnection();
             let [results, resultInfo] = await this._connection.execute(`INSERT INTO ${tableName} (${fields}) VALUES (${values});`);
+            await this.EndConnection();
             return results;
         } catch (error) {
             throw error;
@@ -32,18 +28,20 @@ class sqlQueries {
 
     async select(tableName, field, conditions, array) {
         try {
-            if (await this.isConnection() === false) await this.CreateConnection(array);
+            await this.CreateConnection(array);
             let [results, resultInfo] = await this._connection.query(`SELECT ${field} FROM ${tableName} WHERE ${conditions}`);
+            await this.EndConnection();
             return results;
         } catch (error) {
             throw error;
         }
     }
 
-    async selectAll(tableName, fields = "*", array = true) {
+    async selectAll(tableName, fields = "*", array) {
         try {
-            if (await this.isConnection() === false) await this.CreateConnection(array);
+            await this.CreateConnection(array);
             let [results, resultInfo] = await this._connection.query(`SELECT ${fields} FROM ${tableName}`);
+            await this.EndConnection();
             return results;
         } catch (error) {
             throw error;
@@ -52,8 +50,9 @@ class sqlQueries {
 
     async innerSelect(tableName, fields, innerJoins, conditions, array) {
         try {
-            if (await this.isConnection() === false) await this.CreateConnection(array);
+            await this.CreateConnection(array);
             let [results, resultInfo] = await this._connection.query(`SELECT ${fields} FROM ${tableName} ${innerJoins} WHERE ${conditions}`);
+            await this.EndConnection();
             return results
         } catch (error) {
             throw error;
@@ -62,8 +61,9 @@ class sqlQueries {
 
     async delete(tableName, conditions) {
         try {
-            if (await this.isConnection() === false) await this.CreateConnection();
+            await this.CreateConnection();
             let [results, resultInfo] = await this._connection.query(`DELETE FROM ${tableName} WHERE ${conditions}`);
+            await this.EndConnection();
             return results;
         } catch (error) {
             throw error;
@@ -72,8 +72,9 @@ class sqlQueries {
 
     async update(tableName, sets, conditions) {
         try {
-            if (await this.isConnection() === false) await this.CreateConnection();
+            await this.CreateConnection();
             let [results, resultInfo] = await this._connection.query(`UPDATE ${tableName} SET ${sets} WHERE ${conditions}`);
+            await this.EndConnection();
             return results;
         } catch (error) {
             throw error;

@@ -3,7 +3,6 @@ const sqlQueries = require("./sqlQueries");
 
 class databaseUpload {
     async insertDay(day, date) {
-        if (await sqlQueries.isConnection() === false) await sqlQueries.CreateConnection();
         let idPrefix;
         idPrefix = functions.convertDate(date);
         try {
@@ -50,12 +49,10 @@ class databaseUpload {
         } catch (error) {
             throw error;
         }
-        await sqlQueries.EndConnection();
         return date;
     }
 
     async updateDay(day, date) {
-        if (await sqlQueries.isConnection() === false) await sqlQueries.CreateConnection();
         let idPrefix;
         idPrefix = functions.convertDate(date);
         try {
@@ -86,7 +83,6 @@ class databaseUpload {
         } catch (error) {
             throw error;
         }
-        await sqlQueries.EndConnection();
         return date;
     }
 }
