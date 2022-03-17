@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import {
   faEye,
   faEyeSlash,
+  faInfoCircle,
   faLock,
   faPencilAlt,
   faSyncAlt,
@@ -12,6 +13,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Activities from "../components/AccountPageActivities";
 import AuthUser from "../modules/AuthUser";
 import axios from "axios";
+import Tooltip from "react-tooltip";
 import modules from "../helpers/modules";
 
 export default function DataPage(props) {
@@ -21,7 +23,6 @@ export default function DataPage(props) {
   const [ujJelszo, setUjJelszo] = useState("");
   const [seeOldPwd, setSeeOldPwd] = useState(false);
   const [seeNewPwd, setSeeNewPwd] = useState(false);
-  
 
   function PassChange() {
     changing(!change);
@@ -34,49 +35,49 @@ export default function DataPage(props) {
 
   const [dates, setDates] = useState([]);
 
-
-  function getDates(){
-    axios.post("/cancelledDates",{
-      userId: props.user.id
-    }, AuthUser.authHeader())
-    .then(response => {
-      setDates(response.data.dates);
-      console.log(response);
-    }).catch(error => {
-  
-    })
+  function getDates() {
+    axios
+      .post(
+        "/cancelledDates",
+        {
+          userId: props.user.id,
+        },
+        AuthUser.authHeader()
+      )
+      .then((response) => {
+        setDates(response.data.dates);
+        console.log(response);
+      })
+      .catch((error) => {});
   }
 
-
-  function dateConcatenation(){
+  function dateConcatenation() {
     try {
       dates.sort();
     } catch (error) {}
-    let prevDate;
     let allDates = modules.convertDateWithDot(new Date(dates[0])).toString();
     console.log(allDates);
-    dates.forEach(date => {
-      console.log(new Date(prevDate).getDate());
-      prevDate = date;
+    dates.forEach((date) => {
+      allDates+= ` ${modules.convertDateWithDot(new Date(date))}`;
     });
-    console.log(dates);
+    console.log(allDates);
+    return allDates;
   }
 
-  
   function changePassword() {
     if (regiJelszo && ujJelszo) {
-      axios.post("/passwordmodify",
-        {
-          regiJelszo: regiJelszo,
-          ujJelszo: ujJelszo,
-          omAzon: props.user.omAzon
-        }, AuthUser.authHeader())
-        .then(response => {
-
-        })
-        .catch(error => {
-
-        })
+      axios
+        .post(
+          "/passwordmodify",
+          {
+            regiJelszo: regiJelszo,
+            ujJelszo: ujJelszo,
+            omAzon: props.user.omAzon,
+          },
+          AuthUser.authHeader()
+        )
+        .then((response) => {})
+        .catch((error) => {});
     }
   }
 
@@ -97,11 +98,9 @@ export default function DataPage(props) {
     }
   }
 
-
   function changePasswordType() {
     setSeeOldPwd(!seeOldPwd);
   }
-
 
   function changeNewPasswordType() {
     setSeeNewPwd(!seeNewPwd);
@@ -109,7 +108,7 @@ export default function DataPage(props) {
 
   useEffect(() => {
     getDates();
-  }, [])
+  }, []);
 
   return (
     <div className="h3 m-5">
@@ -236,7 +235,6 @@ export default function DataPage(props) {
                     </button>
                   )}
                 </div>
-
               </div>
 
               {!change ? (
@@ -258,7 +256,21 @@ export default function DataPage(props) {
                           value={regiJelszo}
                           onChange={inputChange}
                         />
-                        {seeOldPwd ? <FontAwesomeIcon onClick={changePasswordType} className="password--icon" icon={faEyeSlash} /> : regiJelszo ? <FontAwesomeIcon onClick={changePasswordType} className="password--icon" icon={faEye} /> : <></>}
+                        {seeOldPwd ? (
+                          <FontAwesomeIcon
+                            onClick={changePasswordType}
+                            className="password--icon"
+                            icon={faEyeSlash}
+                          />
+                        ) : regiJelszo ? (
+                          <FontAwesomeIcon
+                            onClick={changePasswordType}
+                            className="password--icon"
+                            icon={faEye}
+                          />
+                        ) : (
+                          <></>
+                        )}
                       </div>
                     </td>
                     <td className="key">Új jelszó</td>
@@ -275,13 +287,32 @@ export default function DataPage(props) {
                           value={ujJelszo}
                           onChange={inputChange}
                         />
-                        {seeNewPwd ? <FontAwesomeIcon onClick={changeNewPasswordType} className="password--icon" icon={faEyeSlash} /> : ujJelszo ? <FontAwesomeIcon onClick={changeNewPasswordType} className="password--icon" icon={faEye} /> : <></>}
+                        {seeNewPwd ? (
+                          <FontAwesomeIcon
+                            onClick={changeNewPasswordType}
+                            className="password--icon"
+                            icon={faEyeSlash}
+                          />
+                        ) : ujJelszo ? (
+                          <FontAwesomeIcon
+                            onClick={changeNewPasswordType}
+                            className="password--icon"
+                            icon={faEye}
+                          />
+                        ) : (
+                          <></>
+                        )}
                       </div>
                     </td>
                   </tr>
                   <tr>
                     <td colSpan={4} className="text-center">
-                      <button onClick={changePassword} className="btn passChange-btn">Módosítás</button>
+                      <button
+                        onClick={changePassword}
+                        className="btn passChange-btn"
+                      >
+                        Módosítás
+                      </button>
                     </td>
                   </tr>
                 </table>
@@ -297,7 +328,6 @@ export default function DataPage(props) {
                     <FontAwesomeIcon icon={faSyncAlt} />
                   </button>
                 </div>
-
               </div>
               <hr />
               <Activities
@@ -305,17 +335,18 @@ export default function DataPage(props) {
                 date="2022.01.04"
                 type="pay"
               ></Activities>
-              <Activities
+              {dates.length ? <Activities
                 activity="Lemondott nap(ok)"
-                date={dateConcatenation()}
+                dates={dateConcatenation()}
                 type="cancel"
-              ></Activities>
+              ></Activities> : <></>}
               <Activities activity="????????" date="2021.12.20"></Activities>
               <Activities
                 activity="Adatmódosítás"
                 date="2022.01.24"
                 type="modify"
               ></Activities>
+              
             </div>
           </div>
         </div>

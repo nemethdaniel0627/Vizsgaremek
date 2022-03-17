@@ -1,11 +1,22 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Tooltip from "react-tooltip";
 import {
   faCheckCircle,
   faClock,
+  faInfoCircle,
   faTimesCircle,
   faUserCircle,
 } from "@fortawesome/free-solid-svg-icons";
+
+function DateSplit(date) {
+  try {
+    return date.split(" ")[0];
+  } catch (error) {
+    return "";
+  }
+  
+}
 
 export default function Activities(props) {
   return (
@@ -25,15 +36,17 @@ export default function Activities(props) {
           </div>
           <div className="col-10">
             <h3 className="act-name">{props.activity}</h3>
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-toggle="tooltip"
-              data-placement="bottom"
-              title={props.dates}
-            >
-              Tooltip on bottom
-            </button>
+            {props.type === "cancel" ? <div>
+              <p>{DateSplit(props.dates)}</p>
+              <p data-tip={props.dates}>
+                <FontAwesomeIcon
+                  icon={faInfoCircle}
+                  className="fs-1 tooltip2"
+                />
+              </p>
+              <Tooltip></Tooltip>
+            </div> : <></>}
+
             <h5 className="act-date">{props.date}</h5>
           </div>
         </div>
