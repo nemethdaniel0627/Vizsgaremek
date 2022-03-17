@@ -41,8 +41,7 @@ class User {
                 "email ",
                 `"${user.omAzon}", "${user.jelszo}", "${user.nev}", ${user.schoolsId}, "${user.osztaly}", "${user.email}"`);
             if (pending === false) {
-                const userId = await sqlQueries.select("user", "id", `omAzon = ${user.omAzon}`, false);
-                console.log(userId);
+                const userId = (await sqlQueries.select("user", "id", `omAzon = ${user.omAzon}`, false))[0].id;
                 await sqlQueries.insert("user_role", "roleId, userId", `2, ${userId}`);
             }
             added = true;
