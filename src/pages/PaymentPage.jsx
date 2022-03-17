@@ -27,13 +27,13 @@ export default function PaymentPage(props) {
     }
 
     function Pay() {
-        console.log(dates);
+
         let sendDate = []
         for (const date of dates) {
             if (date.cancellation !== null && date.cancellation !== true) {
                 let tmpDate = `${date.year}-${date.month}-${date.day}`;
                 sendDate.push(tmpDate);
-                console.log("teszt");
+    
             }
         }
         if(sendDate.length < 1) {changePayable(false);} //BUGOS
@@ -69,7 +69,7 @@ export default function PaymentPage(props) {
                     console.error(error);
                 })
     
-            console.log(payable);
+
         }
         
 

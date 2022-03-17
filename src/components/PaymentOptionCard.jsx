@@ -8,7 +8,7 @@ export default function PaymentOptionCard(props) {
     props.btnClick(event);
   }
 
-  console.log(props.mobile);
+
 
   return (
     <div className={"card" + (props.modify ? " card-edit" : " card-hover")}>

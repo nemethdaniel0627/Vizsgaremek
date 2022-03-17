@@ -1,7 +1,7 @@
 var date = new Date();
 
 export default function PaymentTableDateArray() {
-    console.log("asd");
+
     var dates = [];
     var d = new Date(date.getMonth() + 2 + " 01," + date.getFullYear());
     var month = date.getMonth() + 1;

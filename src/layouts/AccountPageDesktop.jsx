@@ -32,7 +32,7 @@ export default function DataPage(props) {
   function AccChange() {
     aChanging(!aChange);
   }
-
+  let checker = 0;
   const [dates, setDates] = useState([]);
 
   function getDates() {
@@ -46,7 +46,7 @@ export default function DataPage(props) {
       )
       .then((response) => {
         setDates(response.data.dates);
-        console.log(response);
+
       })
       .catch((error) => {});
   }
@@ -55,12 +55,12 @@ export default function DataPage(props) {
     try {
       dates.sort();
     } catch (error) {}
-    let allDates = modules.convertDateWithDot(new Date(dates[0])).toString();
-    console.log(allDates);
+    let allDates = "";
     dates.forEach((date) => {
-      allDates+= ` ${modules.convertDateWithDot(new Date(date))}`;
+
+      allDates += ` ${modules.convertDateWithDot(new Date(date))}${dates[dates.length-1] === date ? '' : ","}`;
     });
-    console.log(allDates);
+
     return allDates;
   }
 
@@ -96,6 +96,10 @@ export default function DataPage(props) {
       default:
         break;
     }
+  }
+
+  function SetChecker(){
+    checker+=1;
   }
 
   function changePasswordType() {
@@ -323,29 +327,27 @@ export default function DataPage(props) {
             <div className="activities desktop">
               <div className="header">
                 <h1>Tevékenység</h1>
-                <div className="button">
-                  <button className="btn refresh-btn ">
-                    <FontAwesomeIcon icon={faSyncAlt} />
-                  </button>
-                </div>
               </div>
               <hr />
-              <Activities
-                activity="Befizetett ebéd"
-                date="2022.01.04"
+              {props.befizetve ? <Activities
+                activity="Befizetve"
+                descript="Az ebéd befizetése megtörtént a leírt hónapra!"
+                date="2022. március"
                 type="pay"
-              ></Activities>
+              ></Activities>: <></>}
               {dates.length ? <Activities
-                activity="Lemondott nap(ok)"
+                activity={"Lemondott nap" + (dates.length > 1 ? "ok:" : ":")}
+                descript="A leírt dátumokon nem tud ebédelni!"
                 dates={dateConcatenation()}
                 type="cancel"
-              ></Activities> : <></>}
-              <Activities activity="????????" date="2021.12.20"></Activities>
-              <Activities
+              ></Activities> :<></>}
+              { !props.befizetve && !dates.length ?
+              <Activities activity="Nincs tevékenység" descript="Jelenleg nincs semmilyen tevékenysége"></Activities>:<></>}
+              {/* <Activities
                 activity="Adatmódosítás"
                 date="2022.01.24"
                 type="modify"
-              ></Activities>
+              ></Activities> */}
               
             </div>
           </div>

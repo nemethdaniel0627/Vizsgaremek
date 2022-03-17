@@ -110,6 +110,14 @@
   margin-top: 0em !important;
 }
 .personal-activities {
+
+  .header{
+    height: max-content;
+    margin-bottom: 5%;
+    color: #fff;
+    padding: 0.5em;
+  }
+  
   .activities {
     border-radius: 1em;
     border: 1px solid black;
@@ -158,10 +166,16 @@
 
     .act-name {
       color: white;
+      text-decoration: underline;
     }
     .act-date {
       color: #ffffff50;
     }
+    .act-dates{
+      color: #ffffff90;
+      font-size: 1.5rem;
+    }
+
     .pay {
       color: rgb(173, 255, 47);
     }

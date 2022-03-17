@@ -35,16 +35,16 @@ export default function Activities(props) {
             )}
           </div>
           <div className="col-10">
-            <h3 className="act-name">{props.activity}</h3>
-            {props.type === "cancel" ? <div>
-              <p>{DateSplit(props.dates)}</p>
-              <p data-tip={props.dates}>
-                <FontAwesomeIcon
-                  icon={faInfoCircle}
-                  className="fs-1 tooltip2"
-                />
+              <p data-tip={props.descript}>
+              <h3 className="act-name">{props.activity}</h3>
               </p>
               <Tooltip></Tooltip>
+            
+            {props.type === "cancel" ? 
+            
+            <div className="act-dates">
+              <p>{props.dates}</p>
+
             </div> : <></>}
 
             <h5 className="act-date">{props.date}</h5>
