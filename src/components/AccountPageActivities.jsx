@@ -35,9 +35,9 @@ export default function Activities(props) {
             )}
           </div>
           <div className="col-10">
-              <p data-tip={props.descript}>
-              <h3 className="act-name">{props.activity}</h3>
-              </p>
+              <div data-tip={props.descript}>
+                <h3 className="act-name">{props.activity}</h3>
+              </div>
               <Tooltip></Tooltip>
             
             {props.type === "cancel" ? 
