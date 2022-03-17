@@ -19,13 +19,6 @@ CREATE TABLE foode.roles (
   nev VARCHAR(255) NOT NULL UNIQUE
 );
 
-CREATE TABLE foode.payments (
-  id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  userId INT(11) NOT NULL,
-  datum DATE NOT NULL,
-  osszeg INT(11) DEFAULT NULL
-);
-
 CREATE TABLE foode.orders (
   id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
   menuId INT(11) NOT NULL,
@@ -100,7 +93,7 @@ ALTER TABLE foode.user_pending
 
 ALTER TABLE orders 
   ADD CONSTRAINT FK_orders_user_id FOREIGN KEY (userId)
-    REFERENCES user(id) ON DELETE NO ACTION ON UPDATE NO ACTION;
+    REFERENCES user(id) ON DELETE CASCADE ON UPDATE NO ACTION;
 
 ALTER TABLE orders 
   ADD CONSTRAINT FK_orders_menu_id FOREIGN KEY (menuId)
@@ -109,10 +102,6 @@ ALTER TABLE orders
 ALTER TABLE menu 
   ADD CONSTRAINT FK_menu_days_id FOREIGN KEY (daysId)
     REFERENCES days(id) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-ALTER TABLE payments 
-  ADD CONSTRAINT FK_payments_user_id FOREIGN KEY (userId)
-    REFERENCES user(id) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 ALTER TABLE menu 
   ADD CONSTRAINT FK_menu_meal_reggeliId FOREIGN KEY (reggeliId)
@@ -136,7 +125,7 @@ ALTER TABLE menu
 
 ALTER TABLE user_role 
   ADD CONSTRAINT FK_user_role_user_id FOREIGN KEY (userId)
-    REFERENCES user(id) ON DELETE NO ACTION ON UPDATE NO ACTION;
+    REFERENCES user(id) ON DELETE CASCADE ON UPDATE NO ACTION;
 
 ALTER TABLE user_role 
   ADD CONSTRAINT FK_user_role_roles_id FOREIGN KEY (roleId)
@@ -148,4 +137,5 @@ VALUES ('admin'),
        ('alkalmazott');
 
 INSERT INTO schools (nev, iskolaOM)
-VALUES ('Jedlik', 203037);
+VALUES ('Jedlik', 203037)
+       ('Alma', 112233);
