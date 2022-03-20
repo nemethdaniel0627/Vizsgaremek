@@ -348,8 +348,19 @@ app.post("/pagination", auth.tokenAutheticate, async (req, res) => {
   const limit = req.body.limit || 10;
   const offset = req.body.offset || 0;
   const pending = req.body.pending || false;
-  const userCount = (await sqlQueries.selectAll(pending ? 'user_pending' : 'user', 'id', false)).length;
-  const users = await user.getAll(false, limit, offset, pending ? 'user_pending' : 'user');
+  const searchValue = req.body.searchValue || "";
+  let tableName = "";
+  pending ? tableName = 'user_pending' : tableName = 'user';
+  
+  const userCount = (await sqlQueries.selectAll(`${tableName} ` +
+    `INNER JOIN schools ON ${tableName}.schoolsId = schools.id ` +
+    `WHERE (omAzon REGEXP '${searchValue}' OR ` +
+    `${tableName}.nev REGEXP '${searchValue}' OR ` +
+    `schools.iskolaOM REGEXP '${searchValue}' OR ` +
+    `osztaly REGEXP '${searchValue}' OR ` +
+    `email REGEXP '${searchValue}') `, `${tableName}.id`, false)).length;
+  const users = await user.getAll(false, limit, offset, pending ? 'user_pending' : 'user', searchValue);
+
   res.send({
     pending: pending,
     pages: Math.ceil(userCount / limit),

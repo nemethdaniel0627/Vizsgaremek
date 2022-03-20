@@ -49,11 +49,16 @@ class User {
         return added;
     }
 
-    async getAll(array, limit = 10, offset = 0, tableName = "user") {
+    async getAll(array, limit = 10, offset = 0, tableName = "user", searchValue) {
         const all = await sqlQueries.selectAll(
             `${tableName} ` +
             "INNER JOIN schools " +
             `ON ${tableName}.schoolsId = schools.id ` +
+            `WHERE (omAzon REGEXP '${searchValue}' OR ` +
+            `${tableName}.nev REGEXP '${searchValue}' OR ` +
+            `schools.iskolaOM REGEXP '${searchValue}' OR ` +
+            `osztaly REGEXP '${searchValue}' OR ` +
+            `email REGEXP '${searchValue}') ` +
             `ORDER BY CONVERT(REGEXP_REPLACE(${tableName}.osztaly,'[a-zA-Z]+', ''), SIGNED), ${tableName}.osztaly, ${tableName}.nev ` +
             `LIMIT ${limit} OFFSET ${offset}`,
             `${tableName}.omAzon, ` +
