@@ -2,7 +2,7 @@ import React from "react";
 import ticketImg from "../images/icon.png";
 import QRcode from "qrcode.react";
 
-export default function MealTicket(props) {    
+export default function MealTicket(props) {
     return (
         <div>
             <div id="ticket" className="border border-dark p-2 w-75 mx-auto">
@@ -23,9 +23,6 @@ export default function MealTicket(props) {
                             <h1 id="Ticket_info" className="text-center mt-3 ms-1">
                                 <strong>{props.user.befizetve ? "Befizetve" : props.user.befizetve === null ? "Nincs befizetve" : "Lemondta mára"}</strong>
                             </h1>
-                            <div className="date mt-4 ms-1">
-                                <p>Dátum: {props.user.datum}</p>
-                            </div>
                         </div>
                     </div>
                 </div>

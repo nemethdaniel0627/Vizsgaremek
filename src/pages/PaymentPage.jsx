@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import PaymentTableDateArray from "../helpers/PaymentTableDatesArray";
 import AuthUser from "../modules/AuthUser";
+import modules from "../helpers/modules";
 import axios from "axios";
 
 export default function PaymentPage(props) {
@@ -30,7 +31,7 @@ export default function PaymentPage(props) {
         let sendDate = []
         for (const date of dates) {
             if (date.cancel !== null && date.cancel !== true) {
-                let tmpDate = `${date.year}-${date.month}-${date.day}`;
+                let tmpDate = modules.convertDateWithDash(new Date(`${date.year}-${date.month}-${date.day}`));
                 sendDate.push(tmpDate);
             }
         }

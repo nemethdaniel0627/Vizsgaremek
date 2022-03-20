@@ -145,8 +145,7 @@ app.post("/token", auth.tokenAutheticate, (req, res) => {
 })
 
 app.post("/register", async (req, res) => {
-  const user = req.body.user;
-  console.log(user);
+  const user = req.body.user;  
   const authResult = await auth.register(user);
   if (!authResult) {
     res.status(409);
@@ -211,7 +210,7 @@ app.post("/order", auth.tokenAutheticate, async (req, res) => {
     if (!ordered) errorDates.push(dates[i]);
   }
   if (errorDates.length === 0) res.ok();
-  else res.send(`Not cancelled dates: ${errorDates}`); //statuscode
+  else res.send(`Not paid dates: ${errorDates}`); //statuscode
 })
 
 app.post("/cancel", auth.tokenAutheticate, async (req, res) => {
@@ -315,7 +314,7 @@ app.post("/passwordmodify", auth.tokenAutheticate, async (req, res) => {
   }
 })
 
-app.post("/email", auth.tokenAutheticate, async (req, res) => {
+app.post("/email", async (req, res) => {
 
   const emailSpecs = req.body;
   console.log(emailSpecs);
@@ -354,7 +353,7 @@ app.post("/pagination", auth.tokenAutheticate, async (req, res) => {
   const offset = req.body.offset || 0;
   const pending = req.body.pending || false;
   const userCount = (await sqlQueries.selectAll(pending ? 'user_pending' : 'user', 'id', false)).length;
-  const users = await user.getAll(false, limit, offset, pending);
+  const users = await user.getAll(false, limit, offset, pending ? 'user_pending' : 'user');
   res.send({
     pending: pending,
     pages: Math.ceil(userCount / limit),

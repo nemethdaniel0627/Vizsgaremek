@@ -39,7 +39,7 @@ class emailSend {
             + '<img src="https://i.ibb.co/1dsRrHm/Food-Web-logo.png" alt="Food-Web-logo" style="width: 25%; margin: 1rem;">'
             + '</div>'
             + '<div style="margin: 1rem;">'
-            + ' <h1 style="font-size: 2vw;">Kedves ' + email.name + '!</h1>'
+            + ' <h1 style="font-size: 2vw;">Kedves ' + email.nev + '!</h1>'
 
             + '<hr>'
             + ' <p style="font-size: 1.7vw;">A regisztrációja elbírálás alatt van, kérjük legyen türelemmel. Amint sikeresen lezárult a regisztáció, e-mailben értesítsük.</p>'
@@ -73,7 +73,7 @@ class emailSend {
         + '  <img src="https://i.ibb.co/1dsRrHm/Food-Web-logo.png" alt="Food-Web-logo" style="width: 25%; margin: 1rem;">'
         + ' </div>'
         + '<div style="margin: 1rem;">'
-        + ' <h1 style="font-size: 2vw;">Kedves ' + email.name + '!</h1>'
+        + ' <h1 style="font-size: 2vw;">Kedves ' + email.nev + '!</h1>'
 
         + '  <hr>'
         + ' <p style="font-size: 1.7vw;"><b>Sikeresen regisztált a Food-E weboldalon.</b> '
@@ -81,7 +81,7 @@ class emailSend {
         + '   <a href="https://www.foode.hu">itt</a>'
         + '   tud bejelentkezni a következő azonosítóval illetve jelszóval:'
         + ' </p>'
-        + ' <p style="font-size: 1.2vw;> Azonosító: <i>' + email.omAzon + '</i>, Jelszó: <i>' + email.pass + '</i> </p>'
+        + ' <p style="font-size: 1.2vw;> Azonosító: <i>' + email.omAzon + '</i>, Jelszó: <i>' + email.jelszo + '</i> </p>'
         + ' <p style="font-size: 1.4vw;">Bejeletkezés után kérjül változtassa meg a jelszavát!</p>'
 
         + ' <p style="font-size: 1.4vw;">Ha bármilyen kérdés merül fel, forduljon hozzánk bizalommal: <span><br>information.foode@gmail.com</span></p>'
@@ -114,7 +114,7 @@ class emailSend {
             + '  <img src="https://i.ibb.co/1dsRrHm/Food-Web-logo.png" alt="Food-Web-logo" style="width: 25%; margin: 1rem;">'
             + ' </div>'
             + '<div style="margin: 1rem;">'
-            + ' <h1 style="font-size: 2vw;">Kedves ' + email.name + '!</h1>'
+            + ' <h1 style="font-size: 2vw;">Kedves ' + email.nev + '!</h1>'
 
             + '  <hr>'
             + ' <p style="font-size: 1.7vw;"><b>Sikeresen regisztált a Food-E weboldalon.</b> '
@@ -160,10 +160,10 @@ class emailSend {
             + '   <tbody>'
             + '    <tr>'
             + '      <td style="color: #000000c0;">Név</td>'
-            + '      <td style="font-weight: bold">' + email.name + '</td>'
+            + '      <td style="font-weight: bold">' + email.nev + '</td>'
             + '      <td></td>'
             + '      <td style="color: #000000c0;">Osztály</td>'
-            + '      <td style="font-weight: bold">' + email.class + '</td>'
+            + '      <td style="font-weight: bold">' + email.osztaly + '</td>'
             + '   </tr>'
             + '   <tr style="height: 0.5rem;"></tr>'
             + '  <tr>'
@@ -176,7 +176,7 @@ class emailSend {
             + '      <tr style="height: 0.5rem;"></tr>'
             + '      <tr>'
             + '         <td colspan="1" style="color: #000000c0;">Iskola</td>'
-            + '          <td colspan="4" style="font-weight: bold">' + email.school + '</td>'
+            + '          <td colspan="4" style="font-weight: bold">' + email.iskolaOM + '</td>'
             + '      </tr>'
             + '     </tbody>'
             + '  </table>'
@@ -195,7 +195,7 @@ class emailSend {
                 from: email.email,
                 to: "information.foode@gmail.com",
                 html: html,
-                subject: "Regisztráció -- ' "+ email.name + '/' + email.class
+                subject: "Regisztráció -- ' "+ email.nev + '/' + email.osztaly
             }
     
             return this.makeAccount(details);
@@ -234,10 +234,10 @@ class emailSend {
             + '   </tr>'
             + '   <tr>'
             + '       <td style="color: #000000c0;">Név</td>'
-            + '       <td style="font-weight: bold">' + email.name + '</td>'
+            + '       <td style="font-weight: bold">' + email.nev + '</td>'
             + '       <td></td>'
             + '       <td style="color: #000000c0;">Osztály</td>'
-            + '       <td style="font-weight: bold">' + email.class + '</td>'
+            + '       <td style="font-weight: bold">' + email.osztaly + '</td>'
             + '    </tr>'
             + '    <tr style="height: 0.5rem;"></tr>'
             + '     <tr>'

@@ -17,7 +17,7 @@ class menuConvert {
                         const keyName = keys[i];
                         if (keyName !== "__EMPTY" && keyName !== "__EMPTY_1") {
                             if (!dayMenu[y]) dayMenu[y] = [];
-                            if (row[keyName] !== "ÜNNEP" && row[keyName] !== "SZÜNET") {
+                            if (row[keyName] !== "ÜNNEP" && row[keyName] !== "SZÜNET" && row[keyName] !== "Pihenőnap" && row[keyName] !== "Ünnepnap") {
                                 dayMenu[y].push([type, row[keyName]])
                                 y++;
                             }

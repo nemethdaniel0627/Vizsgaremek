@@ -307,6 +307,7 @@ export default function MenuUpload() {
 
     function sendExcelRows(isOverride) {
         const startDay = modules.getFirstDayOfWeek(week);
+        console.log(excelRows);
         axios.post("/etlap",
             {
                 excelRows: excelRows,

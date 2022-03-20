@@ -8,14 +8,16 @@ require('dotenv').config();
 class Auth {
     async register(user) {
         const userResult = await USER.getBy("omAzon", `omAzon = "${user.omAzon}"`, false, false);
-        const schoolId = await sqlQueries.select("schools", "id", `iskolaOM = ${user.iskolaOM}`, false);
+        const schoolsId = await sqlQueries.select("schools", "id", `iskolaOM = ${user.iskolaOM}`, false);
         if (userResult.length !== 0) {
             return undefined;
         }
         else {
             const hashedPassword = bcrypt.hashSync(user.jelszo, 10);
-            user.schoolId = schoolId[0].id;
+            user.schoolsId = schoolsId[0].id;
             user.jelszo = hashedPassword;
+            delete user.iskolaOM;
+            console.log(user);
             const created = await USER.add(user, true);
             if (created) return true;
             return undefined;

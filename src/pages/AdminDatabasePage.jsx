@@ -30,7 +30,7 @@ export default function AdminDatabasePage(props) {
         root: {
             position: "fixed",
             bottom: "2rem",
-            right: "2rem"        
+            right: "2rem"
         }
     }));
 

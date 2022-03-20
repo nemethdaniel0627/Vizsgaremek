@@ -9,6 +9,56 @@
     margin-bottom: 5%;
   }
 
+  .password-change {
+    .header {
+      display: flex;
+      margin-bottom: 0;
+      align-items: center;
+      justify-content: space-between;
+
+      @media only screen and (max-width: 400px) {
+        flex-direction: column;
+
+        button {
+          margin-top: 1rem;
+        }
+      }
+    }
+
+    &--row {
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+
+      @media only screen and (max-width: 769px) {
+        flex-direction: column;
+      }
+    }
+
+    &--inputs {
+      display: flex;
+      align-items: center;
+      
+      .key {
+        margin-right: .5rem;
+        @media only screen and (max-width: 1200px) {
+          margin-bottom: .5rem;
+        }
+      }
+
+      .value {
+        @media only screen and (max-width: 769px) {
+          margin-bottom: 1rem;
+        }
+      }
+
+      @media only screen and (max-width: 1200px) {
+        flex-direction: column;
+        align-items: initial;
+      }
+    }
+  }
+
   .passChange-btn {
     border-radius: 2em;
     border: 1px solid black;

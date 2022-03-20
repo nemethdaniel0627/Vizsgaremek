@@ -61,12 +61,24 @@ class databaseUpload {
         try {
             if (day[0] === undefined) {
                 for (let i = 1; i <= 5; i++) {
-                    await sqlQueries.update("meal", "nev = 'ünnep'", `id = ${idPrefix}${i}`);
+                    await sqlQueries.update(
+                        "meal",
+                        `nev = 'ünnep', ` +
+                        `energia = NULL, ` +
+                        `feherje = NULL, ` +
+                        `zsir = NULL, ` +
+                        `tZsir = NULL, ` +
+                        `szenhidrat = NULL, ` +
+                        `cukor = NULL, ` +
+                        `so = NULL, ` +
+                        `allergenek = NULL`,
+                        `id = ${idPrefix}${i}`);
                 }
                 date.setDate(date.getDate() + 1);
             }
             else {
                 await day.forEach(async (meal) => {
+                    console.log(meal);
                     await sqlQueries.update(
                         "meal",
                         `nev = '${meal[1]}', ` +

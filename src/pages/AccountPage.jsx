@@ -23,9 +23,7 @@ export default function Page(props) {
 
   return (
     <div>
-      {isMobile ? <AccountPageMobile user={props.user} /> :
-        !isLittleScreen ? <AccountPageDesktop user={props.user} /> : <AccountPageMobile user={props.user} />
-      }
+      <AccountPageDesktop user={props.user} />
     </div>
   );
 }

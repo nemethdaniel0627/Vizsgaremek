@@ -4,14 +4,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimesCircle } from "@fortawesome/free-solid-svg-icons";
 
 export default function ErrorMessage(props) {
-    const [alertOpen, setAlertOpen] = useState(false);
+    const [alertOpen, setAlertOpen] = useState(undefined);
 
     useEffect(() => {
         setAlertOpen(props.alertOpen);
     }, [props.alertOpen])
 
     useEffect(() => {
-        if (!alertOpen) {
+        if (alertOpen === false) {
             props.setAlertOpen(false);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -52,7 +52,7 @@ export default function ErrorMessage(props) {
                     })}
                     {props.buttons ?
                         <div className="d-flex align-items-center justify-content-around mt-2">
-                            <Button id="responseYes" onClick={() => {props.buttonClick(); setAlertOpen(false); }} variant="contained" color="success">
+                            <Button id="responseYes" onClick={() => { props.buttonClick(); setAlertOpen(false); }} variant="contained" color="success">
                                 Igen
                             </Button>
                             <Button onClick={() => { setAlertOpen(false); }} id="responseNo" variant="outlined" color="error">
