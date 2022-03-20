@@ -17,7 +17,6 @@ class emailSend {
                 pass: account.pass,
             },
         });
-        console.log(details);
         let info = await transporter.sendMail({
             from: details.from,
             to: details.to,

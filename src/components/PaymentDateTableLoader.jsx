@@ -13,11 +13,9 @@ export default function DateLoader(props) {
       changeSelect(false);
     } else {
       changeSelect(!select);
-      
-      console.log(props.date.cancellation);
+
       props.date.cancellation = !props.date.cancellation;
-      console.log(props.date.cancellation);
-      console.log(props.date);
+
     }
   }
 

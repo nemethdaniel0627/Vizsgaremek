@@ -51,6 +51,24 @@ class Order {
         return order.affectedRows;
     }
 
+    async getCancelledDates(userId){
+        if (await sqlQueries.isConnection() === false) await sqlQueries.CreateConnection();
+        const days = await sqlQueries.innerSelect(
+            'days',
+            'days.datum',
+            'INNER JOIN menu ON menu.daysId = days.id ' +
+            'INNER JOIN orders ON orders.menuId = menu.id ' +
+            'INNER JOIN user ON orders.userId = user.id ',
+            `user.id = ${userId} AND orders.lemondva IS NOT NULL`, false
+        );
+        await sqlQueries.EndConnection();
+        let dates = [];
+        days.forEach(day => {
+            dates.push(functions.convertDateWithDash(new Date(day)))
+        });
+        return dates;
+    }
+
     async doesUserHaveOrderForDate(userId, date) {
         if (isNaN(Number(userId))) return -1;
         if (await sqlQueries.isConnection() === false) await sqlQueries.CreateConnection();
