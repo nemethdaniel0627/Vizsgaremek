@@ -55,7 +55,12 @@ app.post("/etlap", auth.tokenAutheticate, async (req, res) => {
     else {
       try {
         for await (const day of menu) {
-          date = await databaseUpload.updateDay(day, date);
+          let returnData = await databaseUpload.updateDay(day, date);
+          if (returnData.length !== undefined) {
+            date.setDate(date.getDate() - 1);
+            date = await databaseUpload.insertDay(returnData, date);
+          }
+          else date = returnData;
         }
       } catch (error) {
         res.notFound();
@@ -145,7 +150,7 @@ app.post("/token", auth.tokenAutheticate, (req, res) => {
 })
 
 app.post("/register", async (req, res) => {
-  const user = req.body.user;  
+  const user = req.body.user;
   const authResult = await auth.register(user);
   if (!authResult) {
     res.status(409);

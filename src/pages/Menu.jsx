@@ -100,7 +100,7 @@ export default function Menu(props) {
                 break;
 
             case "weekArrow-2":
-                console.log(firstDay);                
+                console.log(firstDay);
                 date = new Date(firstDay);
                 date.setDate(date.getDate() + 7);
                 setLoading(true);
@@ -257,14 +257,34 @@ export default function Menu(props) {
             {loading ? <Loader /> : <></>}
             {
                 menu.length !== 0 ?
-                    <h2 className="menu--header">
-                        {props.header}
-                        <span className="menu--week-header">
-                            <FontAwesomeIcon className="menu--week-header--icon hidden" onClick={weekChange} id="weekArrow-1" icon={faChevronLeft} />
-                            {displayWeek}
-                            <FontAwesomeIcon className="menu--week-header--icon" onClick={weekChange} id="weekArrow-2" icon={faChevronRight} />
-                        </span>
-                    </h2>
+                    <>
+                        <h2 className="menu--header">
+                            {props.header}
+                            <span className="menu--week-header">
+                                <FontAwesomeIcon className="menu--week-header--icon hidden" onClick={weekChange} id="weekArrow-1" icon={faChevronLeft} />
+                                {displayWeek}
+                                <FontAwesomeIcon className="menu--week-header--icon" onClick={weekChange} id="weekArrow-2" icon={faChevronRight} />
+                            </span>
+                        </h2>
+                        <div className="menu--day-selector">
+                            {dayNames.map((day, index) => {
+                                if (index <= weekLength) {
+                                    if (index === 2 || index === 3 || index === 5)
+                                        return <DaySelector
+                                            onChange={daySelect}
+                                            key={`day-selector_${index + 1}`}
+                                            id={`day-selector_${index + 1}`}
+                                            dayName={`${day[0]}${day[1]}${day[2]}`} />
+                                    else return <DaySelector
+                                        onChange={daySelect}
+                                        key={`day-selector_${index + 1}`}
+                                        id={`day-selector_${index + 1}`}
+                                        dayName={`${day[0]}${day[1]}`} />
+                                }
+                                else return "";
+                            })}
+                        </div>
+                    </>
                     :
                     <div className="menu--empty">
                         <h2 className="menu--empty--header">Erre a hétre még nincs étlap</h2>
@@ -283,24 +303,7 @@ export default function Menu(props) {
                     </div>
             }
 
-            <div className="menu--day-selector">
-                {dayNames.map((day, index) => {
-                    if (index <= weekLength) {
-                        if (index === 2 || index === 3 || index === 5)
-                            return <DaySelector
-                                onChange={daySelect}
-                                key={`day-selector_${index + 1}`}
-                                id={`day-selector_${index + 1}`}
-                                dayName={`${day[0]}${day[1]}${day[2]}`} />
-                        else return <DaySelector
-                            onChange={daySelect}
-                            key={`day-selector_${index + 1}`}
-                            id={`day-selector_${index + 1}`}
-                            dayName={`${day[0]}${day[1]}`} />
-                    }
-                    else return "";
-                })}
-            </div>
+
 
             <div className="menu--wrapper">
                 {
@@ -314,7 +317,7 @@ export default function Menu(props) {
                             </div>
                             {menu.map((meal, index) => {
                                 let tmpFirstDay = new Date(firstDay);
-                                tmpFirstDay.setDate(tmpFirstDay.getDate() + index);                                
+                                tmpFirstDay.setDate(tmpFirstDay.getDate() + index);
                                 return (
                                     <label
                                         onChange={cancelSelect}

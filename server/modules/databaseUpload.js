@@ -58,6 +58,7 @@ class databaseUpload {
         if (await sqlQueries.isConnection() === false) await sqlQueries.CreateConnection();
         let idPrefix;
         idPrefix = functions.convertDate(date);
+        let insertDay;
         try {
             if (day[0] === undefined) {
                 for (let i = 1; i <= 5; i++) {
@@ -78,8 +79,7 @@ class databaseUpload {
             }
             else {
                 await day.forEach(async (meal) => {
-                    console.log(meal);
-                    await sqlQueries.update(
+                    const result = await sqlQueries.update(
                         "meal",
                         `nev = '${meal[1]}', ` +
                         `energia = '${meal[2]}', ` +
@@ -91,15 +91,19 @@ class databaseUpload {
                         `so = '${meal[8]}', ` +
                         `allergenek = '${meal[9]}'`,
                         `id = ${idPrefix}${meal[0]}`);
+
+                    if (result.affectedRows === 0 && insertDay === undefined) {
+                        insertDay = day;
+                        console.log(insertDay);
+                    }
                 });
                 date.setDate(date.getDate() + 1);
-
             }
         } catch (error) {
             throw error;
         }
         await sqlQueries.EndConnection();
-        return date;
+        return insertDay !== undefined ? insertDay : date;
     }
 }
 

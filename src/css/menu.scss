@@ -244,6 +244,10 @@
         justify-content: space-around;
         width: 100%;
 
+        @media only screen and (max-width: 400px) {
+            gap: 0;
+        }
+
         &--input {
             display: none;
 

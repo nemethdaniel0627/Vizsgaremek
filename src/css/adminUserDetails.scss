@@ -87,7 +87,7 @@
                 transition: all 0.2s;
                 border-radius: 5px;
 
-                &:not(:nth-last-child(9)) {
+                &:not(:nth-child(2)) {
                     color: #fff;
                     @media only screen and (min-width: 1001px) {
                         &:hover {
