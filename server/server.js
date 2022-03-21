@@ -36,10 +36,8 @@ app.post("/etlap", auth.tokenAutheticate, async (req, res) => {
   let excelRows = req.body.excelRows;
   const setDate = req.body.date;
   const override = req.body.override;
-  if (await sqlQueries.isConnection() === false) await sqlQueries.CreateConnection(true);
   const selectDaysId = await sqlQueries.select("days", "id", `datum = "${setDate}"`);
   if (selectDaysId.length === 0 || override) {
-    await sqlQueries.EndConnection();
     const menu = await menuConvert.convert(excelRows);
     let date = new Date(setDate);
 
@@ -128,7 +126,6 @@ app.post("/user", auth.tokenAutheticate, async (req, res) => {
   const userId = req.body.userId;
   const userResult = await user.getBy("*", `id = "${userId}"`, false);
   const iskola = await sqlQueries.select("schools", "iskolaOM, nev", `id = ${userResult[0].schoolsId}`, false);
-  await sqlQueries.EndConnection();
   const orderResult = await order.doesUserHaveOrderForDate(userId, new Date())
   userResult[0].iskolaOM = iskola[0].iskolaOM;
   userResult[0].iskolaNev = iskola[0].nev;
@@ -140,7 +137,6 @@ app.post("/user", auth.tokenAutheticate, async (req, res) => {
 
 app.get("/alluser", auth.tokenAutheticate, async (req, res) => {
   const allUser = await user.getAll(false);
-  // console.log(allUser);
   if (allUser.length === 0) res.notFound();
   res.json(allUser)
 });
@@ -194,16 +190,6 @@ app.post("/login", async (req, res) => {
   }
 });
 
-app.put("/update", async (req, res) => {
-  const count = await user.modify('omAzon = 72339825529', 'omAzon = 72339825529');
-  res.send(`${count} record(s) updated`);
-})
-
-app.delete("/delete", async (req, res) => {
-  const count = await user.delete('omAzon = 72339825529');
-  res.send(`${count} record(s) deleted`);
-})
-
 app.post("/order", auth.tokenAutheticate, async (req, res) => {
   const omAzon = req.body.omAzon;
   const userId = (await user.getBy('id', `omAzon = ${omAzon}`, false, false))[0].id;
@@ -231,7 +217,7 @@ app.post("/cancel", auth.tokenAutheticate, async (req, res) => {
 app.post("/test", async (req, res) => {
   // const create = await test.generate('users2.txt', 82);
   // res.send(create);
-  const testOrders = await test.orders('2022-02-04', 15);
+  const testOrders = await test.orders('2022-03-15', 15);
   res.send(testOrders);
 })
 
@@ -353,12 +339,31 @@ app.post("/email", async (req, res) => {
   }
 })
 
+app.post("/cancelledDates", auth.tokenAutheticate, async (req, res) => {
+  const userId = req.body.userId;
+  const cancelledDays = await order.getCancelledDates(userId);
+  res.send({
+    dates: cancelledDays
+  })
+})
+
 app.post("/pagination", auth.tokenAutheticate, async (req, res) => {
   const limit = req.body.limit || 10;
   const offset = req.body.offset || 0;
   const pending = req.body.pending || false;
-  const userCount = (await sqlQueries.selectAll(pending ? 'user_pending' : 'user', 'id', false)).length;
-  const users = await user.getAll(false, limit, offset, pending ? 'user_pending' : 'user');
+  const searchValue = req.body.searchValue || "";
+  const tableName = pending ? 'user_pending' : 'user';  
+  const userCount = (await sqlQueries.selectAll(`${tableName} ` +
+    `INNER JOIN schools ON ${tableName}.schoolsId = schools.id ` +
+    `${tableName === "user" ? `INNER JOIN user_role ON user_role.userId = ${tableName}.id INNER JOIN roles ON user_role.roleId = roles.id ` : "" } ` +
+    `WHERE ${tableName === "user" ? `roles.nev = 'user' AND ` : "" }` +
+    `(${tableName}.omAzon REGEXP '${searchValue}' OR ` +
+    `${tableName}.nev REGEXP '${searchValue}' OR ` +
+    `schools.iskolaOM REGEXP '${searchValue}' OR ` +
+    `${tableName}.osztaly REGEXP '${searchValue}' OR ` +
+    `${tableName}.email REGEXP '${searchValue}') `, `${tableName}.id`, false)).length;
+  const users = await user.getAll(false, limit, offset, tableName, searchValue);
+  
   res.send({
     pending: pending,
     pages: Math.ceil(userCount / limit),

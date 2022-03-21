@@ -3,14 +3,13 @@ const sqlQueries = require('./sqlQueries');
 const user = require('./user');
 
 class databaseDownload {
-    async getMenu(date) {
+    async getMenu(date, array = true) {
         if (date.getDay() === 0) date.setDate(date.getDate() + 1);
         else if(date.getDay() === 6) date.setDate(date.getDate() + 2);
         else if (date.getDay() !== 1) date.setDate(date.getDate() - (date.getDay() - 1))
         const startDate = functions.convertDateWithDash(date);
         date.setDate(date.getDate() + 6);
         const endDate = functions.convertDateWithDash(date);
-        if (await sqlQueries.isConnection() === false) await sqlQueries.CreateConnection(true);
         const menu = await sqlQueries.innerSelect(
             "menu",
             "mealReggeli.*," +
@@ -24,9 +23,9 @@ class databaseDownload {
             "INNER JOIN meal AS mealEbed ON menu.ebedId = mealEbed.id " +
             "INNER JOIN meal AS mealUszonna ON menu.uzsonnaId = mealUszonna.id " +
             "INNER JOIN meal AS mealVacsora ON menu.vacsoraId = mealVacsora.id ",
-            `days.datum BETWEEN "${startDate}" AND "${endDate}"`
+            `days.datum BETWEEN "${startDate}" AND "${endDate}"`,
+            array
         )
-        await sqlQueries.EndConnection();
         let tmpMenu = [];
         menu.forEach(day => {
             let tmpDays = [];
@@ -48,10 +47,8 @@ class databaseDownload {
     async getUser(userOM) {
         let tmpUser = await user.getBy('*', `omAzon = ${userOM}`);
         tmpUser = tmpUser[0];
-        if (await sqlQueries.isConnection() === false) await sqlQueries.CreateConnection();
         let order = await sqlQueries.select('orders', '*', `userId = ${tmpUser.id}`);
         order = order[0];
-        await sqlQueries.EndConnection();
         let vNev = tmpUser.nev.split(' ')[0];
         let kNev = tmpUser.nev.split(' ').splice(1, 2).toString().replace(/,/, ' ');
         const data = {

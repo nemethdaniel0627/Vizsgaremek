@@ -75,7 +75,7 @@ export default function RegisterForm(props) {
                         omAzon: user.omAzon,
                         iskolaOM: user.iskolaOM,
                         type: "register"
-                    })
+                    }, AuthUser.authHeader())
                     .then(response => {
                         console.log(response);
                     })

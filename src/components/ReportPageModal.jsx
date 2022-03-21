@@ -22,17 +22,17 @@ export default function ReportPageModal(props) {
     function Send() {
         changeSended(!sended);
         changeSending(false);
-        setCheck(true);
+        check = true;
     }
 
     function Sending() {
         changeSending(!sending);
-        setCheck(false);
+        check = false;
     }
 
     function Checking() {
         setError(false);
-        return document.getElementById('message_where').value !== "" && document.getElementById('message_what').value !== "" ? true : false;
+        return document.getElementById('message_where').value !== "" && document.getElementById('message_what').value !== "" && check ? true : false;
     }
 
     function sendEmail(e) {
@@ -47,6 +47,7 @@ export default function ReportPageModal(props) {
                         omAzon: user.omAzon,
                         where: document.getElementById('message_where').value,
                         what: document.getElementById('message_what').value,
+                        fromEmail: user.email,
                         type: "report"
                     },
                     {
@@ -67,10 +68,10 @@ export default function ReportPageModal(props) {
 
     }
 
-    const [check, setCheck] = useState(false);
+    let check = false;
 
     function CheckboxChange(e){
-        setCheck(e.target.checked);
+        check = e.target.checked;
     }
 
     function ErrorModal() {
@@ -141,7 +142,7 @@ export default function ReportPageModal(props) {
                     {sending ? <EmailSending /> : sended ? <EmailSendedBody /> : props.type === "error" ? <ErrorModal /> : props.type === "email" ? <EmailModal /> : <></>}
                 </Modal.Body>
                 <Modal.Footer className="Report-Modal--body">
-                    {sended ? <></> : props.type === "error" ? <button type="submit" className="btn btn-send fs-4" onClick={sendEmail} disabled={!check}>
+                    {sended ? <></> : props.type === "error" ? <button type="submit" className="btn btn-send fs-4" onClick={sendEmail} >
                         <FontAwesomeIcon icon={faExclamationTriangle} /> <span> Jelentés</span>
                     </button> : props.type === "email" ? <button type="submit" className="btn btn-send fs-4" disabled={sending}>
                         <FontAwesomeIcon icon={faPaperPlane} /> <span> Küldés</span>

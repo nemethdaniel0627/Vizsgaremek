@@ -11,11 +11,6 @@ export default function PaymentDateTable(props) {
         "Július", "Augusztus", "Szeptember", "October", "November", "December"
     ];
     const forFor = [0, 1, 2, 3, 4, 5, 6];
-    const dates = props.dates;
-
-    useEffect(() => {
-        console.log(dates);
-    }, [dates])
     return (
         <div>
             <div className="cal text-light">
@@ -35,36 +30,36 @@ export default function PaymentDateTable(props) {
                     <tbody>
                         <tr>
                             {forFor.map((day, index) => (
-                                <DateLoader key={index} indexKey={index} date={dates[day + 0 * 7]} row='0' />
+                                <DateLoader key={index} indexKey={index} date={props.dates[day + 0 * 7]} row='0' sendDate={props.sendDate} />
                             ))}
                         </tr>
                         <tr>
                             {forFor.map((day, index) => (
-                                <DateLoader key={index} indexKey={index} date={dates[day + 1 * 7]} row='1' />
+                                <DateLoader key={index} indexKey={index} date={props.dates[day + 1 * 7]} row='1' sendDate={props.sendDate} />
                             ))}
                         </tr>
 
                         <tr>
                             {forFor.map((day, index) => (
-                                <DateLoader key={index} indexKey={index} date={dates[day + 2 * 7]} row='2' />
+                                <DateLoader key={index} indexKey={index} date={props.dates[day + 2 * 7]} row='2' sendDate={props.sendDate}/>
                             ))}
                         </tr>
 
                         <tr>
                             {forFor.map((day, index) => (
-                                <DateLoader key={index} indexKey={index} date={dates[day + 3 * 7]} row='3' />
+                                <DateLoader key={index} indexKey={index} date={props.dates[day + 3 * 7]} row='3' sendDate={props.sendDate}/>
                             ))}
                         </tr>
 
                         <tr>
                             {forFor.map((day, index) => (
-                                <DateLoader key={index} indexKey={index} date={dates[day + 4 * 7]} row='4' />
+                                <DateLoader key={index} indexKey={index} date={props.dates[day + 4 * 7]} row='4' sendDate={props.sendDate}/>
                             ))}
                         </tr>
 
-                        <tr className={dates[5 * 7].month === '-1' ? "d-none" : ""}>
+                        <tr className={props.dates[5 * 7].month === '-1' ? "d-none" : ""}>
                             {forFor.map((day, index) => (
-                                <DateLoader key={index} indexKey={index} date={dates[day + 5 * 7]} row='5' />
+                                <DateLoader key={index} indexKey={index} date={props.dates[day + 5 * 7]} row='5' />
                             ))}
                         </tr>
                     </tbody>
