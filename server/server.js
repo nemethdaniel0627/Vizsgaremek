@@ -185,16 +185,6 @@ app.post("/login", async (req, res) => {
   }
 });
 
-app.put("/update", async (req, res) => {
-  const count = await user.modify('omAzon = 72339825529', 'omAzon = 72339825529');
-  res.send(`${count} record(s) updated`);
-})
-
-app.delete("/delete", async (req, res) => {
-  const count = await user.delete('omAzon = 72339825529');
-  res.send(`${count} record(s) deleted`);
-})
-
 app.post("/order", auth.tokenAutheticate, async (req, res) => {
   const omAzon = req.body.omAzon;
   const userId = (await user.getBy('id', `omAzon = ${omAzon}`, false, false))[0].id;
