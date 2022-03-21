@@ -52,8 +52,10 @@ class User {
     async getAll(array, limit = 10, offset = 0, tableName = "user", searchValue) {
         const all = await sqlQueries.selectAll(
             `${tableName} ` +
-            "INNER JOIN schools " +
-            `ON ${tableName}.schoolsId = schools.id ` +
+            `INNER JOIN schools ON ${tableName}.schoolsId = schools.id ` +  
+            // `INNER JOIN ${tableName} ON user_role.userId = ${tableName}.id ` +
+            // `INNER JOIN roles ON user_role.roleId = roles.id ` +
+            // `WHERE roles.nev = "admin" AND ` +
             `WHERE (omAzon REGEXP '${searchValue}' OR ` +
             `${tableName}.nev REGEXP '${searchValue}' OR ` +
             `schools.iskolaOM REGEXP '${searchValue}' OR ` +
@@ -70,10 +72,8 @@ class User {
             "SELECT " +
             "orders.id " +
             "FROM menu " +
-            "INNER JOIN days " +
-            "ON menu.daysId = days.id " +
-            "INNER JOIN orders " +
-            "ON orders.menuId = menu.id " +
+            "INNER JOIN days ON menu.daysId = days.id " +
+            "INNER JOIN orders ON orders.menuId = menu.id " +
             `WHERE datum = '${functions.convertDateWithDash(new Date())}' AND userId = ${tableName}.id` +
             ") AS 'befizetve'", 
             array
