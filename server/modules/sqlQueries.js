@@ -15,65 +15,66 @@ class sqlQueries {
         await this._connection.end();
     }
 
-    async isConnection() {
-        if (this._connection === undefined || this._connection.connection._closing === true) return false;
-        else return true;
-    }
-
-    async insert(tableName, fields, values) {
+    async insert(tableName, fields, values, needConnection = true) {
         try {
-            if (await this.isConnection() === false) await this.CreateConnection();
+            needConnection ? await this.CreateConnection() : setTimeout(() => {}, 0);
             let [results, resultInfo] = await this._connection.execute(`INSERT INTO ${tableName} (${fields}) VALUES (${values});`);
+            needConnection ? await this.EndConnection() : setTimeout(() => {}, 0);
             return results;
         } catch (error) {
             throw error;
         }
     }
 
-    async select(tableName, field, conditions, array) {
+    async select(tableName, field, conditions, array, needConnection = true) {
         try {
-            if (await this.isConnection() === false) await this.CreateConnection(array);
+            needConnection ? await this.CreateConnection(array) : setTimeout(() => {}, 0);
             let [results, resultInfo] = await this._connection.query(`SELECT ${field} FROM ${tableName} WHERE ${conditions}`);
+            needConnection ? await this.EndConnection() : setTimeout(() => {}, 0);
             return results;
         } catch (error) {
             throw error;
         }
     }
 
-    async selectAll(tableName, fields = "*", array = true) {
+    async selectAll(tableName, fields = "*", array, needConnection = true) {
         try {
-            if (await this.isConnection() === false) await this.CreateConnection(array);
+            needConnection ? await this.CreateConnection(array) : setTimeout(() => {}, 0);
             let [results, resultInfo] = await this._connection.query(`SELECT ${fields} FROM ${tableName}`);
+            needConnection ? await this.EndConnection() : setTimeout(() => {}, 0);
             return results;
         } catch (error) {
             throw error;
         }
     }
 
-    async innerSelect(tableName, fields, innerJoins, conditions, array) {
+    async innerSelect(tableName, fields, innerJoins, conditions, array, needConnection = true) {
         try {
-            if (await this.isConnection() === false) await this.CreateConnection(array);
+            needConnection ? await this.CreateConnection(array) : setTimeout(() => {}, 0);
             let [results, resultInfo] = await this._connection.query(`SELECT ${fields} FROM ${tableName} ${innerJoins} WHERE ${conditions}`);
+            needConnection ? await this.EndConnection() : setTimeout(() => {}, 0);
             return results
         } catch (error) {
             throw error;
         }
     }
 
-    async delete(tableName, conditions) {
+    async delete(tableName, conditions, needConnection = true) {
         try {
-            if (await this.isConnection() === false) await this.CreateConnection();
+            needConnection ? await this.CreateConnection() : setTimeout(() => {}, 0);
             let [results, resultInfo] = await this._connection.query(`DELETE FROM ${tableName} WHERE ${conditions}`);
+            needConnection ? await this.EndConnection() : setTimeout(() => {}, 0);
             return results;
         } catch (error) {
             throw error;
         }
     }
 
-    async update(tableName, sets, conditions) {
+    async update(tableName, sets, conditions, needConnection = true) {
         try {
-            if (await this.isConnection() === false) await this.CreateConnection();
+            needConnection ? await this.CreateConnection() : setTimeout(() => {}, 0);
             let [results, resultInfo] = await this._connection.query(`UPDATE ${tableName} SET ${sets} WHERE ${conditions}`);
+            needConnection ? await this.EndConnection() : setTimeout(() => {}, 0);
             return results;
         } catch (error) {
             throw error;

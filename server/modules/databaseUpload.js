@@ -3,22 +3,22 @@ const sqlQueries = require("./sqlQueries");
 
 class databaseUpload {
     async insertDay(day, date) {
-        if (await sqlQueries.isConnection() === false) await sqlQueries.CreateConnection();
+        await sqlQueries.CreateConnection();
         let idPrefix;
         idPrefix = functions.convertDate(date);
         try {
             if (day[0] === undefined) {
                 for (let i = 1; i <= 5; i++) {
-                    await sqlQueries.insert("meal", "id, nev", `${idPrefix}${i}, "ünnep"`);
+                    await sqlQueries.insert("meal", "id, nev", `${idPrefix}${i}, "ünnep"`, false);
                 }
 
-                await sqlQueries.insert("days", "datum, hetkoznap", `"${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}", "${date.getDay()}"`);
-                const selectMealsIds = await sqlQueries.select("meal", "id", `FLOOR(id/10) = "${functions.convertDate(date)}"`);
-                const selectDaysId = await sqlQueries.select("days", "id", `datum = "${functions.convertDateWithDash(date)}"`);
+                await sqlQueries.insert("days", "datum, hetkoznap", `"${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}", "${date.getDay()}"`, false);
+                const selectMealsIds = await sqlQueries.select("meal", "id", `FLOOR(id/10) = "${functions.convertDate(date)}"`, true, false);
+                const selectDaysId = await sqlQueries.select("days", "id", `datum = "${functions.convertDateWithDash(date)}"`, true, false);
                 await sqlQueries.insert(
                     "menu",
                     "daysId, reggeliId, tizoraiId, ebedId, uzsonnaId, vacsoraId",
-                    `${selectDaysId[0]}, ${selectMealsIds[0]}, ${selectMealsIds[1]}, ${selectMealsIds[2]}, ${selectMealsIds[3]}, ${selectMealsIds[4]}`);
+                    `${selectDaysId[0]}, ${selectMealsIds[0]}, ${selectMealsIds[1]}, ${selectMealsIds[2]}, ${selectMealsIds[3]}, ${selectMealsIds[4]}`, false);
                 date.setDate(date.getDate() + 1);
             }
             else {
@@ -35,15 +35,15 @@ class databaseUpload {
                         "cukor," +
                         "so," +
                         "allergenek",
-                        `${idPrefix}${meal[0]},"${meal[1]}","${meal[2]}","${meal[3]}","${meal[4]}","${meal[5]}","${meal[6]}","${meal[7]}","${meal[8]}","${meal[9]}"`);
+                        `${idPrefix}${meal[0]},"${meal[1]}","${meal[2]}","${meal[3]}","${meal[4]}","${meal[5]}","${meal[6]}","${meal[7]}","${meal[8]}","${meal[9]}"`, false);
                 })
-                await sqlQueries.insert("days", "datum, hetkoznap", `"${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}", "${date.getDay()}"`);
-                const selectDaysId = await sqlQueries.select("days", "id", `datum = "${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}"`);
-                const selectMealsIds = await sqlQueries.select("meal", "id", `FLOOR(id/10) = "${functions.convertDate(date)}"`);
+                await sqlQueries.insert("days", "datum, hetkoznap", `"${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}", "${date.getDay()}"`, false);
+                const selectDaysId = await sqlQueries.select("days", "id", `datum = "${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}"`, true, false);
+                const selectMealsIds = await sqlQueries.select("meal", "id", `FLOOR(id/10) = "${functions.convertDate(date)}"`, true, false);
                 await sqlQueries.insert(
                     "menu",
                     "daysId, reggeliId, tizoraiId, ebedId, uzsonnaId, vacsoraId",
-                    `${selectDaysId[0]}, ${selectMealsIds[0]}, ${selectMealsIds[1]}, ${selectMealsIds[2]}, ${selectMealsIds[3]}, ${selectMealsIds[4]}`);
+                    `${selectDaysId[0]}, ${selectMealsIds[0]}, ${selectMealsIds[1]}, ${selectMealsIds[2]}, ${selectMealsIds[3]}, ${selectMealsIds[4]}`, false);
                 date.setDate(date.getDate() + 1);
 
             }
@@ -55,13 +55,13 @@ class databaseUpload {
     }
 
     async updateDay(day, date) {
-        if (await sqlQueries.isConnection() === false) await sqlQueries.CreateConnection();
+        await sqlQueries.CreateConnection();
         let idPrefix;
         idPrefix = functions.convertDate(date);
         try {
             if (day[0] === undefined) {
                 for (let i = 1; i <= 5; i++) {
-                    await sqlQueries.update("meal", "nev = 'ünnep'", `id = ${idPrefix}${i}`);
+                    await sqlQueries.update("meal", "nev = 'ünnep'", `id = ${idPrefix}${i}`, false);
                 }
                 date.setDate(date.getDate() + 1);
             }
@@ -78,10 +78,9 @@ class databaseUpload {
                         `cukor = '${meal[7]}', ` +
                         `so = '${meal[8]}', ` +
                         `allergenek = '${meal[9]}'`,
-                        `id = ${idPrefix}${meal[0]}`);
+                        `id = ${idPrefix}${meal[0]}`, false);
                 });
                 date.setDate(date.getDate() + 1);
-
             }
         } catch (error) {
             throw error;

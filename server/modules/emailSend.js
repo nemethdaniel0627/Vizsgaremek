@@ -1,6 +1,4 @@
 class emailSend {
-    
-
     async makeAccount(details){
         const nodemailer = require('nodemailer');
         const account = {
@@ -26,12 +24,8 @@ class emailSend {
         });
         return "Message sent: " + info.messageId;
     }
-    
-    
 
     async EmailSendingForRegisterBefore(email) {
-
-
         let html =
             '<div style="width: 80%; border-radius: 2rem; border: 1px solid black; margin: auto;  margin-top: 1rem; font-family: Georgia, `Times New Roman`, Times, serif">'
             + '<div class="header" style="background-color: #001e6c; border-radius: 2rem 2rem 0 0;">'
@@ -54,14 +48,12 @@ class emailSend {
             + ' </div>'
             + ' </div>';
 
-
         const details = {
             from: "FoodE <information.foode@gmail.com>",
             to: email.email,
             html: html,
             subject: "Regisztáció"
         }
-
         return this.makeAccount(details);
     }
 
@@ -94,19 +86,16 @@ class emailSend {
         + ' </div>'
         + '</div>';
 
-
         const details = {
             from: "FoodE <information.foode@gmail.com>",
             to: email.email,
             html: html,
             subject: "Sikeres regisztáció"
         }
-
         return this.makeAccount(details);
     }
 
     async EmailSendingForRegisterAccepted(email) {
-
         let html =
             '<div style="width: 80%; border-radius: 2rem; border: 1px solid black; margin: auto; margin-top: 1rem; font-family: Georgia, `Times New Roman`, Times, serif">'
             + '<div class="header" style="background-color: #001e6c; border-radius: 2rem 2rem 0 0;">'
@@ -132,21 +121,16 @@ class emailSend {
             + ' </div>'
             + '</div>';
 
-
             const details = {
                 from: "FoodE <information.foode@gmail.com>",
                 to: email.email,
                 html: html,
                 subject: "Sikeres regisztáció"
             }
-    
             return this.makeAccount(details);
     }
 
-
-
     async ReplyEmailSendingForRegister(email) {
-
         let html = '    <div style="width: 80%; border-radius: 2rem; border: 1px solid black; margin: auto; margin-top: 1rem; font-family: Georgia, `Times New Roman`, Times, serif">'
             + ' <div class="header" style="background-color: #001e6c; border-radius: 2rem 2rem 0 0;">'
             + '    <img src="https://i.ibb.co/1dsRrHm/Food-Web-logo.png" alt="Food-Web-logo" style="width: 25%; margin: 1rem;">'
@@ -189,20 +173,16 @@ class emailSend {
             + '</div>'
             + '</div>';
 
-
             const details = {
                 from: email.email,
                 to: "information.foode@gmail.com",
                 html: html,
                 subject: "Regisztráció -- ' "+ email.name + '/' + email.class
             }
-    
             return this.makeAccount(details);
     }
 
-
     async EmailSendingForReport(email) {
-
         let html = '<div style="width: 80%; border-radius: 2rem; border: 1px solid black; margin: auto; margin-top: 1rem; font-family: Georgia, `Times New Roman`, Times, serif">'
             + ' <div class="header" style="background-color: #001e6c; border-radius: 2rem 2rem 0 0;">'
             + '    <img src="https://i.ibb.co/1dsRrHm/Food-Web-logo.png" alt="Food-Web-logo" style="width: 25%; margin: 1rem;">'
@@ -259,19 +239,16 @@ class emailSend {
             + '  </div>'
             + ' </div>';
 
-
             const details = {
                 to: "report.foode@gmail.com",
                 from: email.fromEmail,
                 html: html,
                 subject: "Hiba jelentés"
             }
-    
             return this.makeAccount(details);
     }
 
     async ReplyEmailSendingForReport(email) {
-
         let html = '<div style="width: 80%; border-radius: 2rem; border: 1px solid black; margin: auto; margin-top: 1rem; font-family: Georgia, `Times New Roman`, Times, serif">'
             + ' <div class="header" style="background-color: #001e6c; border-radius: 2rem 2rem 0 0;">'
             + '   <img src="https://i.ibb.co/1dsRrHm/Food-Web-logo.png" alt="Food-Web-logo" style="width: 25%; margin: 1rem;">'
@@ -296,7 +273,6 @@ class emailSend {
                 html: html,
                 subject: "noreply"
             }
-    
             return this.makeAccount(details);
     }
 }

@@ -8,13 +8,13 @@ require('dotenv').config();
 class Auth {
     async register(user) {
         const userResult = await USER.getBy("omAzon", `omAzon = "${user.omAzon}"`, false, false);
-        const schoolId = await sqlQueries.select("schools", "id", `iskolaOM = ${user.iskolaOM}`, false);
+        const schoolsId = await sqlQueries.select("schools", "id", `iskolaOM = ${user.iskolaOM}`, false);
         if (userResult.length !== 0) {
             return undefined;
         }
         else {
             const hashedPassword = bcrypt.hashSync(user.jelszo, 10);
-            user.schoolId = schoolId[0].id;
+            user.schoolsId = schoolsId[0].id;
             user.jelszo = hashedPassword;
             const created = await USER.add(user, true);
             if (created) return true;
@@ -32,9 +32,7 @@ class Auth {
             if (isPasswordMatching) {
                 user.jelszo = undefined;
                 const loginUserId = await USER.getBy("id", `omAzon = "${user.omAzon}"`);
-                if (await sqlQueries.isConnection() === false) await sqlQueries.CreateConnection();
                 const roles = await sqlQueries.select("user_role", "roleId", `userId = ${loginUserId}`);
-                await sqlQueries.EndConnection();
                 return {
                     tokenData: this.#createToken(loginUserId, { roles: roles[0][0] }),
                     user: user
