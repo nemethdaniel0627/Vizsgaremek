@@ -28,6 +28,7 @@ export default function ErrorMessage(props) {
                             color="inherit"
                             size="large"
                             onClick={() => {
+                                if (props.reload === true) window.location.reload();
                                 setAlertOpen(false);
                             }}
                         >
