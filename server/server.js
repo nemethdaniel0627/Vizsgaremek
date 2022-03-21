@@ -343,11 +343,13 @@ app.post("/pagination", auth.tokenAutheticate, async (req, res) => {
   
   const userCount = (await sqlQueries.selectAll(`${tableName} ` +
     `INNER JOIN schools ON ${tableName}.schoolsId = schools.id ` +
-    `WHERE (omAzon REGEXP '${searchValue}' OR ` +
+    `${tableName === "user" ? `INNER JOIN user_role ON user_role.userId = ${tableName}.id INNER JOIN roles ON user_role.roleId = roles.id ` : "" } ` +
+    `WHERE ${tableName === "user" ? `roles.nev = 'user' AND ` : "" }` +
+    `(${tableName}.omAzon REGEXP '${searchValue}' OR ` +
     `${tableName}.nev REGEXP '${searchValue}' OR ` +
     `schools.iskolaOM REGEXP '${searchValue}' OR ` +
-    `osztaly REGEXP '${searchValue}' OR ` +
-    `email REGEXP '${searchValue}') `, `${tableName}.id`, false)).length;
+    `${tableName}.osztaly REGEXP '${searchValue}' OR ` +
+    `${tableName}.email REGEXP '${searchValue}') `, `${tableName}.id`, false)).length;
   const users = await user.getAll(false, limit, offset, tableName, searchValue);
 
   res.send({
