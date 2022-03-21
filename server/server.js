@@ -339,8 +339,7 @@ app.post("/pagination", auth.tokenAutheticate, async (req, res) => {
   const offset = req.body.offset || 0;
   const pending = req.body.pending || false;
   const searchValue = req.body.searchValue || "";
-  let tableName = "";
-  pending ? tableName = 'user_pending' : tableName = 'user';
+  const tableName = pending ? 'user_pending' : 'user';
   
   const userCount = (await sqlQueries.selectAll(`${tableName} ` +
     `INNER JOIN schools ON ${tableName}.schoolsId = schools.id ` +
@@ -349,7 +348,7 @@ app.post("/pagination", auth.tokenAutheticate, async (req, res) => {
     `schools.iskolaOM REGEXP '${searchValue}' OR ` +
     `osztaly REGEXP '${searchValue}' OR ` +
     `email REGEXP '${searchValue}') `, `${tableName}.id`, false)).length;
-  const users = await user.getAll(false, limit, offset, pending ? 'user_pending' : 'user', searchValue);
+  const users = await user.getAll(false, limit, offset, tableName, searchValue);
 
   res.send({
     pending: pending,

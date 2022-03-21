@@ -137,5 +137,5 @@ VALUES ('admin'),
        ('alkalmazott');
 
 INSERT INTO schools (nev, iskolaOM)
-VALUES ('Jedlik', 203037)
+VALUES ('Jedlik', 203037),
        ('Alma', 112233);
