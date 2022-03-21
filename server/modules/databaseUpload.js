@@ -58,16 +58,28 @@ class databaseUpload {
         await sqlQueries.CreateConnection();
         let idPrefix;
         idPrefix = functions.convertDate(date);
+        let insertDay;
         try {
             if (day[0] === undefined) {
                 for (let i = 1; i <= 5; i++) {
-                    await sqlQueries.update("meal", "nev = 'ünnep'", `id = ${idPrefix}${i}`, false);
+                    await sqlQueries.update(
+                        "meal",
+                        `nev = 'ünnep', ` +
+                        `energia = NULL, ` +
+                        `feherje = NULL, ` +
+                        `zsir = NULL, ` +
+                        `tZsir = NULL, ` +
+                        `szenhidrat = NULL, ` +
+                        `cukor = NULL, ` +
+                        `so = NULL, ` +
+                        `allergenek = NULL`,
+                        `id = ${idPrefix}${i}`);
                 }
                 date.setDate(date.getDate() + 1);
             }
             else {
                 await day.forEach(async (meal) => {
-                    await sqlQueries.update(
+                    const result = await sqlQueries.update(
                         "meal",
                         `nev = '${meal[1]}', ` +
                         `energia = '${meal[2]}', ` +
@@ -78,7 +90,12 @@ class databaseUpload {
                         `cukor = '${meal[7]}', ` +
                         `so = '${meal[8]}', ` +
                         `allergenek = '${meal[9]}'`,
-                        `id = ${idPrefix}${meal[0]}`, false);
+                        `id = ${idPrefix}${meal[0]}`);
+
+                    if (result.affectedRows === 0 && insertDay === undefined) {
+                        insertDay = day;
+                        console.log(insertDay);
+                    }
                 });
                 date.setDate(date.getDate() + 1);
             }
@@ -86,7 +103,7 @@ class databaseUpload {
             throw error;
         }
         await sqlQueries.EndConnection();
-        return date;
+        return insertDay !== undefined ? insertDay : date;
     }
 }
 

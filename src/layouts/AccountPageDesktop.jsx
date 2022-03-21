@@ -124,99 +124,66 @@ export default function DataPage(props) {
                 <h1>Személyes adatok</h1>
               </div>
 
-              <table className="personal-tables">
-                <tbody>
-                  <tr>
-                    <td className="key">Vezetéknév</td>
-
-                    {aChange ? (
-                      <td>
-                        <input
-                          className="form-input"
-                          value={props.user.nev.split(" ")[0]}
-                          disabled
-                        />
-                      </td>
-                    ) : (
-                      <td className="value">{props.user.nev.split(" ")[0]}</td>
-                    )}
-                    <td className="key">Osztály</td>
-                    {aChange ? (
-                      <td>
-                        <input
-                          className="form-input"
-                          value={props.user.osztaly}
-                          disabled
-                        />
-                      </td>
-                    ) : (
-                      <td className="value">{props.user.osztaly}</td>
-                    )}
-                  </tr>
-                  <tr>
-                    <td className="key">Keresztnév</td>
-                    {aChange ? (
-                      <td>
-                        <input
-                          className="form-input"
-                          value={props.user.nev.split(" ")[1]}
-                          disabled
-                        />
-                      </td>
-                    ) : (
-                      <td className="value">{props.user.nev.split(" ")[1]}</td>
-                    )}
-                    <td className="key">Iskola OM azonosító</td>
-                    {aChange ? (
-                      <td>
-                        <input
-                          className="form-input"
-                          value={props.user.iskolaOM}
-                          disabled
-                        />
-                      </td>
-                    ) : (
-                      <td className="value">{props.user.iskolaOM}</td>
-                    )}
-                  </tr>
-                  <tr>
-                    <td className="key">OM azonosító</td>
-                    {aChange ? (
-                      <td>
-                        <input
-                          className="form-input"
-                          value={props.user.omAzon}
-                          disabled
-                        />
-                      </td>
-                    ) : (
-                      <td className="value">{props.user.omAzon}</td>
-                    )}
-                    <td className="key">E-mail cím</td>
-                    {aChange ? (
-                      <td>
-                        <input
-                          className="form-input"
-                          value={props.user.email}
-                        />
-                      </td>
-                    ) : (
-                      <td className="value">{props.user.email}</td>
-                    )}
-                  </tr>
-                  {aChange ? (
-                    <tr>
-                      <td colSpan={4} className="text-center">
-                        <button className="btn passChange-btn">
-                          Módosítás
-                        </button>
-                      </td>
-                    </tr>
-                  ) : (
-                    <></>
-                  )}
-                </tbody>
-              </table>
+              <div className="personal-tables admin_user-details_table">
+                <div className="key">
+                  Vezetéknév
+                  {aChange ?
+                    <input
+                      className="form-input"
+                      value={props.user.nev.split(" ")[0]}
+                    />
+                    : <div className="value">{props.user.nev.split(" ")[0]}</div>}
+                </div>
+                <div className="key">
+                  Keresztnév
+                  {aChange ?
+                    <input
+                      className="form-input"
+                      value={props.user.nev.split(" ")[1]}
+                    />
+                    : <div className="value">{props.user.nev.split(" ")[1]}</div>}
+                </div>
+                <div className="key">
+                  Osztály
+                  {aChange ?
+                    <input
+                      name="osztaly"
+                      className="form-input"
+                      value={props.user.osztaly}
+                    />
+                    : <div className="value">{props.user.osztaly}</div>}
+                </div>
+                <div className="key">
+                  Iskola OM azonosító
+                  {aChange ?
+                    <input
+                      name="iskolaOM"
+                      className="form-input"
+                      value={props.user.iskolaOM}
+                    />
+                    : <div className="value">{props.user.iskolaOM}</div>}
+                </div>
+                <div className="key">
+                  OM azonosító
+                  {aChange ?
+                    <input
+                      name="omAzon"
+                      className="form-input"
+                      value={props.user.omAzon}
+                    />
+                    : <div className="value">{props.user.omAzon}</div>}
+                </div>
+                <div className="key">
+                  E-mail cím
+                  {aChange ?
+                    <input
+                      name="email"
+                      className="form-input"
+                      value={props.user.email}
+                    />
+                    : <div className="value">{props.user.email}</div>}
+                </div>
+              </div>
             </div>
 
             <div className="password-change">
@@ -244,82 +211,53 @@ export default function DataPage(props) {
               {!change ? (
                 <></>
               ) : (
-                <table className="personal-tables">
-                  <tr>
-                    <td className="key">Régi jelszó</td>
-                    <td className="value">
-                      <div className="input-group h-100">
-                        <span className="input-group-text fs-4">
-                          <FontAwesomeIcon icon={faUnlock} />
-                        </span>
-                        <input
-                          type={seeOldPwd ? "text" : "password"}
-                          className="form-control w-75 fs-3 password-input"
-                          required
-                          name="regiJelszo"
-                          value={regiJelszo}
-                          onChange={inputChange}
-                        />
-                        {seeOldPwd ? (
-                          <FontAwesomeIcon
-                            onClick={changePasswordType}
-                            className="password--icon"
-                            icon={faEyeSlash}
+                <div className="personal-tables">
+                  <div className="password-change--row">
+                    <div className="password-change--inputs">
+                      <div className="key">Régi jelszó</div>
+                      <div className="value">
+                        <div className="input-group h-100">
+                          <span className="input-group-text fs-4">
+                            <FontAwesomeIcon icon={faUnlock} />
+                          </span>
+                          <input
+                            type={seeOldPwd ? "text" : "password"}
+                            onChange={inputChange}
+                            className="form-control w-75 fs-3 password-input"
+                            required
+                            name="regiJelszo"
+                            value={regiJelszo}
                           />
-                        ) : regiJelszo ? (
-                          <FontAwesomeIcon
-                            onClick={changePasswordType}
-                            className="password--icon"
-                            icon={faEye}
-                          />
-                        ) : (
-                          <></>
-                        )}
+                          {seeOldPwd ? <FontAwesomeIcon onClick={changePasswordType} className="password--icon" icon={faEyeSlash} /> : regiJelszo ? <FontAwesomeIcon onClick={changePasswordType} className="password--icon" icon={faEye} /> : <></>}
+                        </div>
                       </div>
-                    </td>
-                    <td className="key">Új jelszó</td>
-                    <td className="value">
-                      <div className="input-group h-100 position-relative">
-                        <span className="input-group-text fs-4 password-input">
-                          <FontAwesomeIcon icon={faLock} />
-                        </span>
-                        <input
-                          type={seeNewPwd ? "text" : "password"}
-                          className="form-control w-50 fs-3"
-                          required
-                          name="ujJelszo"
-                          value={ujJelszo}
-                          onChange={inputChange}
-                        />
-                        {seeNewPwd ? (
-                          <FontAwesomeIcon
-                            onClick={changeNewPasswordType}
-                            className="password--icon"
-                            icon={faEyeSlash}
+                    </div>
+                    <div className="password-change--inputs">
+                      <div className="key">Új jelszó</div>
+                      <div className="value">
+                        <div className="input-group h-100 position-relative">
+                          <span className="input-group-text fs-4 password-input">
+                            <FontAwesomeIcon icon={faLock} />
+                          </span>
+                          <input
+                            type={seeNewPwd ? "text" : "password"}
+                            onChange={inputChange}
+                            className="form-control w-50 fs-3"
+                            required
+                            name="ujJelszo"
+                            value={ujJelszo}
                           />
-                        ) : ujJelszo ? (
-                          <FontAwesomeIcon
-                            onClick={changeNewPasswordType}
-                            className="password--icon"
-                            icon={faEye}
-                          />
-                        ) : (
-                          <></>
-                        )}
+                          {seeNewPwd ? <FontAwesomeIcon onClick={changeNewPasswordType} className="password--icon" icon={faEyeSlash} /> : ujJelszo ? <FontAwesomeIcon onClick={changeNewPasswordType} className="password--icon" icon={faEye} /> : <></>}
+                        </div>
                       </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td colSpan={4} className="text-center">
-                      <button
-                        onClick={changePassword}
-                        className="btn passChange-btn"
-                      >
-                        Módosítás
-                      </button>
-                    </td>
-                  </tr>
-                </table>
+                    </div>
+                  </div>
+                  <div>
+                    <div colSpan={4} className="text-center">
+                      <button onClick={changePassword} className="btn passChange-btn">Módosítás</button>
+                    </div>
+                  </div>
+                </div>
               )}
             </div>
           </div>

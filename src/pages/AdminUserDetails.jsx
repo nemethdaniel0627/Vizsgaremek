@@ -23,7 +23,8 @@ export default function AdminUserDetails(props) {
         id: null,
         omAzon: "",
         jelszo: "",
-        nev: "",
+        vNev: "",
+        kNev: "",
         iskolaOM: "",
         osztaly: "",
         email: "",
@@ -36,11 +37,13 @@ export default function AdminUserDetails(props) {
     }
 
     function modifyUser() {
-        if (user.nev.trim() !== "" && user.omAzon.trim() !== "" && user.osztaly.trim() !== "" && user.email.trim() !== "" && user.iskolaOM.trim() !== "") {
+        if (user.vNev.toString().trim() !== "" && user.kNev.toString().trim() !== "" && user.omAzon.trim() !== "" && user.osztaly.trim() !== "" && user.email.trim() !== "" && user.iskolaOM.trim() !== "") {
+            let tmpUser = user;
+            tmpUser.nev = user.vNev + " " + user.kNev;
             axios.post("/usermodify",
                 {
                     omAzon: omAzon,
-                    user: user
+                    user: tmpUser
                 }, AuthUser.authHeader())
                 .then(response => {
                     console.log(response);
@@ -48,11 +51,13 @@ export default function AdminUserDetails(props) {
                     props.user.omAzon = response.data.omAzon;
                     setAlertType(false);
                     setAlertMessage("Sikeres felhasználó módosítás!");
+                    setAlertOpen(true);
                     // ModalClose();
                 })
                 .catch(error => {
                     setAlertType(true);
                     setAlertMessage("Hiba történt a felhasználó módosítása közben!");
+                    setAlertOpen(true);
                     //ERROR
                 })
         }
@@ -69,7 +74,12 @@ export default function AdminUserDetails(props) {
         )
             .then(response => {
                 console.log(response.data);
-                setUser(response.data[0]);
+                let dataSetter = response.data[0];
+                const nev = response.data[0].nev;
+                dataSetter.vNev = nev.split(" ")[0];
+                dataSetter.kNev = nev.split(" ").slice(1).map((nevek, index) => index === (nev.split(" ").slice(1).length) - 1 ? nevek : nevek + " ");
+                delete dataSetter.nev;
+                setUser(dataSetter);
                 setLoading(false);
             })
             .catch(error => {
@@ -99,8 +109,7 @@ export default function AdminUserDetails(props) {
             const root = document.querySelector(":root");
             if (orderBlock0 && root) {
                 const blockWidth = orderBlock0.offsetWidth;
-                const blockHeight = orderBlock.offsetHeight;
-                console.log(orderBlock.clientHeight);
+                const blockHeight = orderBlock.offsetHeight;                
                 root.style.setProperty("--orderBlockWidth", `${blockWidth}px`);
                 root.style.setProperty("--orderBlockHeight", `${blockHeight}px`);
             }
@@ -165,28 +174,11 @@ export default function AdminUserDetails(props) {
         })
     }
 
-    function nevChange(event) {
-        let { name, value } = event.target;
-        name = Number(name.split("_")[1]);
-        console.log(user.nev.split(" ")[name]);
-        let tmpNev;
-        if (name === 0) {
-            tmpNev = user.nev.split(" ")[name] + " " + value;
-        }
-        else {
-            tmpNev = value + " " + user.nev.split(" ")[name];
-        }
-        setUser(prevData => {
-            return {
-                ...prevData,
-                nev: tmpNev
-            }
-        })
-    }
-
     useEffect(() => {
-        console.log(selectedOrder);
-    }, [selectedOrder])
+        if (alertOpen === false) {
+            // window.location.reload();
+        }
+    }, [alertOpen])
 
     return (
         !notFound ?
@@ -194,7 +186,7 @@ export default function AdminUserDetails(props) {
                 {loading ? <Loader /> : <></>}
                 <div className="important">
                     <div className="header">
-                        <h1>{user.nev} adatai</h1>
+                        <h1>{user.vNev} {user.kNev} adatai</h1>
                         {aChange ? (
                             <button
                                 className="btn modify-btn text-danger border-danger"
@@ -216,23 +208,23 @@ export default function AdminUserDetails(props) {
                             Vezetéknév
                             {aChange ?
                                 <input
-                                    onChange={nevChange}
-                                    name="nev_1"
+                                    onChange={inputChange}
+                                    name="vNev"
                                     className="form-input"
-                                    value={user.nev.split(" ")[0]}
+                                    value={user.vNev}
                                 />
-                                : <div className="value">{user.nev.split(" ")[0]}</div>}
+                                : <div className="value">{user.vNev}</div>}
                         </div>
                         <div className="key">
                             Keresztnév
                             {aChange ?
                                 <input
-                                    onChange={nevChange}
-                                    name="nev_0"
+                                    onChange={inputChange}
+                                    name="kNev"
                                     className="form-input"
-                                    value={user.nev.split(" ")[1]}
+                                    value={user.kNev}
                                 />
-                                : <div className="value">{user.nev.split(" ")[1]}</div>}
+                                : <div className="value">{user.kNev}</div>}
                         </div>
                         <div className="key">
                             Osztály
@@ -253,6 +245,7 @@ export default function AdminUserDetails(props) {
                                     name="iskolaOM"
                                     className="form-input"
                                     value={user.iskolaOM}
+                                    type="number"
                                 />
                                 : <div className="value">{user.iskolaOM}</div>}
                         </div>
@@ -264,6 +257,7 @@ export default function AdminUserDetails(props) {
                                     name="omAzon"
                                     className="form-input"
                                     value={user.omAzon}
+                                    type="number"
                                 />
                                 : <div className="value">{user.omAzon}</div>}
                         </div>
@@ -333,7 +327,7 @@ export default function AdminUserDetails(props) {
                             <hr className="admin_user-details_table_line" />
                         </div> : <></>}
                         {aChange ? (
-                            <div colSpan={4} className="text-center">
+                            <div className="text-center admin_user-details--modify">
                                 <button onClick={modifyUser} className="btn passChange-btn">
                                     Módosítás
                                 </button>
@@ -349,12 +343,14 @@ export default function AdminUserDetails(props) {
                         setAlertOpen={setAlertOpen}
                         alertOpen={alertOpen}
                         text={alertMessage}
-                        type="error" />
+                        type="error"
+                        reload={true} />
                     : <ResponseMessage
                         setAlertOpen={setAlertOpen}
                         alertOpen={alertOpen}
                         text={alertMessage}
-                        type="success" />}
+                        type="success"
+                        reload={true} />}
             </div>
             : <NotFoundPage />
     )

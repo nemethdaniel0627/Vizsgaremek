@@ -10,7 +10,7 @@ export default function RegisterForm(props) {
 
     const [selected, setSelected] = useState(false);
     const [seePwd, setSeePwd] = useState(false);
-    const [alertOpen, setAlertOpen] = useState(false);
+    const [alertOpen, setAlertOpen] = useState(undefined);
     const [alertType, setAlertType] = useState(undefined);
     const [schools, setSchools] = useState([]);
     // function closeError() {
@@ -59,41 +59,37 @@ export default function RegisterForm(props) {
     function Regist(e) {
         e.preventDefault();
 
-        axios.post("/email",
+        axios.post("/register",
             {
-                email: user.email,
-                name: user.name,
-                class: user.osztaly,
-                omAzon: user.omAzon,
-                school: user.schoolOM,
-                type: "register"
-            },
-            AuthUser.authHeader())
+                user: user
+            })
             .then(response => {
+                setAlertOpen(true);
+                setAlertType(false);
                 console.log(response);
+                axios.post("/email",
+                    {
+                        email: user.email,
+                        nev: user.nev,
+                        osztaly: user.osztaly,
+                        omAzon: user.omAzon,
+                        iskolaOM: user.iskolaOM,
+                        type: "register"
+                    }, AuthUser.authHeader())
+                    .then(response => {
+                        console.log(response);
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    });
+
             })
             .catch(error => {
-                console.error(error);
+                setAlertOpen(true);
+                setAlertType(true);
+                console.error(error)
             });
-
-
-        // axios.post("/register",
-        //     {
-        //         user: user
-        //     })
-        //     .then(response => {
-        //         setAlertType(false)
-        //         console.log(response);
-        //     })
-        //     .catch(error => {
-        //         setAlertType(true);
-        //         console.error(error)
-        //     });
     }
-
-    useEffect(() => {
-        if (alertType !== undefined) setAlertOpen(true);
-    }, [alertType])
 
     useEffect(() => {
         axios.get("/schoollist")
@@ -125,7 +121,7 @@ export default function RegisterForm(props) {
 
                                         <hr className="mb-3" />
                                         <div className="form-outline form-white mb-4">
-                                            <input type="text" className="form-control form-control-lg fs-4 --input" onChange={inputChange} value={user.nev} placeholder="Név" autoFocus required name="name" />
+                                            <input type="text" className="form-control form-control-lg fs-4 --input" onChange={inputChange} value={user.nev} placeholder="Név" autoFocus required name="nev" />
                                         </div>
 
                                         <div className="form-outline form-white mb-4">
@@ -141,8 +137,8 @@ export default function RegisterForm(props) {
                                         </div>
 
                                         <div className="form-outline form-white mb-4 position-relative">
-                                            <input autoComplete="new-password" type={seePwd ? "text" : "password"} onChange={inputChange} required value={user.password} name="password" className="form-control form-control-lg fs-4 --input" placeholder="Jelszó" />
-                                            {seePwd ? <FontAwesomeIcon onClick={changePasswordType} className="password--icon" icon={faEyeSlash} /> : user.password !== "" ? <FontAwesomeIcon onClick={changePasswordType} className="password--icon" icon={faEye} /> : <></>}
+                                            <input autoComplete="new-password" type={seePwd ? "text" : "password"} onChange={inputChange} required value={user.jelszo} name="jelszo" className="form-control form-control-lg fs-4 --input" placeholder="Jelszó" />
+                                            {seePwd ? <FontAwesomeIcon onClick={changePasswordType} className="password--icon" icon={faEyeSlash} /> : user.jelszo !== "" ? <FontAwesomeIcon onClick={changePasswordType} className="password--icon" icon={faEye} /> : <></>}
                                         </div>
 
 
@@ -161,7 +157,7 @@ export default function RegisterForm(props) {
                                         </div> : <></>}
 
                                         <div className="form-outline form-white mb-4">
-                                            <input className="form-check-input mt-1" type="checkbox" value="" id="flexCheckDefault" />
+                                            <input className="form-check-input mt-1" type="checkbox" value="" id="flexCheckDefault"  required/>
                                             <label className="form-check-label fs-5 ms-2" htmlFor="flexCheckDefault">
                                                 Elfogadom az <a className="rule" href="https://policies.google.com/terms?hl=hu">általános szerződési feltételeket</a>!
                                             </label>
@@ -192,11 +188,12 @@ export default function RegisterForm(props) {
                     alertOpen={alertOpen}
                     text={"Hiba történt a regisztrációkor elküldésekor!\nIlyen OM azonosító vagy email cím már létezik!"}
                     type="error" />
-                : <ResponseMessage
+                : alertType === false ? <ResponseMessage
                     setAlertOpen={setAlertOpen}
                     alertOpen={alertOpen}
                     text={"Sikeres regisztráció!\nTovábbi információkat emailben küldtünk"}
-                    type="success" />}
+                    type="success" />
+                    : <></>}
         </section>
 
     );

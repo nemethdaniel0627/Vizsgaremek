@@ -53,7 +53,12 @@ app.post("/etlap", auth.tokenAutheticate, async (req, res) => {
     else {
       try {
         for await (const day of menu) {
-          date = await databaseUpload.updateDay(day, date);
+          let returnData = await databaseUpload.updateDay(day, date);
+          if (returnData.length !== undefined) {
+            date.setDate(date.getDate() - 1);
+            date = await databaseUpload.insertDay(returnData, date);
+          }
+          else date = returnData;
         }
       } catch (error) {
         res.notFound();
@@ -196,7 +201,7 @@ app.post("/order", auth.tokenAutheticate, async (req, res) => {
     if (!ordered) errorDates.push(dates[i]);
   }
   if (errorDates.length === 0) res.ok();
-  else res.send(`Not cancelled dates: ${errorDates}`); //statuscode
+  else res.send(`Not paid dates: ${errorDates}`); //statuscode
 })
 
 app.post("/cancel", auth.tokenAutheticate, async (req, res) => {
@@ -300,7 +305,7 @@ app.post("/passwordmodify", auth.tokenAutheticate, async (req, res) => {
   }
 })
 
-app.post("/email", auth.tokenAutheticate, async (req, res) => {
+app.post("/email", async (req, res) => {
 
   const emailSpecs = req.body;
   console.log(emailSpecs);
@@ -347,8 +352,7 @@ app.post("/pagination", auth.tokenAutheticate, async (req, res) => {
   const offset = req.body.offset || 0;
   const pending = req.body.pending || false;
   const searchValue = req.body.searchValue || "";
-  const tableName = pending ? 'user_pending' : 'user';
-  
+  const tableName = pending ? 'user_pending' : 'user';  
   const userCount = (await sqlQueries.selectAll(`${tableName} ` +
     `INNER JOIN schools ON ${tableName}.schoolsId = schools.id ` +
     `${tableName === "user" ? `INNER JOIN user_role ON user_role.userId = ${tableName}.id INNER JOIN roles ON user_role.roleId = roles.id ` : "" } ` +
@@ -359,7 +363,7 @@ app.post("/pagination", auth.tokenAutheticate, async (req, res) => {
     `${tableName}.osztaly REGEXP '${searchValue}' OR ` +
     `${tableName}.email REGEXP '${searchValue}') `, `${tableName}.id`, false)).length;
   const users = await user.getAll(false, limit, offset, tableName, searchValue);
-
+  
   res.send({
     pending: pending,
     pages: Math.ceil(userCount / limit),

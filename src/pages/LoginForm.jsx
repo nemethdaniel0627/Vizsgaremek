@@ -3,6 +3,8 @@ import AuthUser from "../modules/AuthUser";
 import RegisterForm from "../layouts/RegisterForm"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash, faSignInAlt } from "@fortawesome/free-solid-svg-icons";
+import axios from "axios";
+import jwt from "jsonwebtoken";
 
 export default function LoginForm(props) {
     const [user, setUser] = useState({
@@ -16,7 +18,6 @@ export default function LoginForm(props) {
 
     function Register() {
         setRegister(!register);
-        console.log("asd");
     }
 
     function inputChange(event) {
@@ -31,7 +32,41 @@ export default function LoginForm(props) {
     }
 
     function loginUser() {
-        setWrongLogin(!AuthUser.loginUser(user.nev, user.jelszo));
+        if (user.nev && user.jelszo) {
+            axios.post("/login",
+                {
+                    user: {
+                        omAzon: user.nev,
+                        jelszo: user.jelszo
+                    }
+                })
+                .then(response => {
+                    console.log(response.headers);
+                    let token = response.headers.authorization.split(" ")[1];
+                    token = token.split(";")[0];
+                    try {
+                        const payload = jwt.verify(token, (process.env.REACT_APP_JWT_SECRET));
+                        sessionStorage.setItem("token", token);
+                        AuthUser.roleConvert(payload.role);
+                        if (sessionStorage.getItem("oldPath")) {
+                            window.location.pathname = sessionStorage.getItem("oldPath");
+                            sessionStorage.removeItem("oldPath");
+                        }
+                        else window.location.pathname = "/";
+                        setWrongLogin(false);
+                    } catch (error) {
+                        console.error(error);
+                        setWrongLogin(true);
+                    }
+                })
+                .catch(error => {
+                    console.error(error);
+                    setWrongLogin(true);
+                });
+        }
+        else {
+            setWrongLogin(true);
+        }
     }
 
     function changePasswordType() {
@@ -44,7 +79,6 @@ export default function LoginForm(props) {
 
     return (
         <div>
-
             {
                 !register ? <section className="gradient-custom login">
                     <div className="container py-5">

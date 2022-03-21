@@ -39,45 +39,7 @@ class AuthUser {
             default:
                 break;
         }
-    }
-
-    loginUser(userName, password) {
-        if (userName && password) {
-            axios.post("/login",
-                {
-                    user: {
-                        omAzon: userName,
-                        jelszo: password
-                    }
-                })
-                .then(response => {
-                    console.log(response.headers);
-                    let token = response.headers.authorization.split(" ")[1];
-                    token = token.split(";")[0];
-                    try {
-                        const payload = jwt.verify(token, (process.env.REACT_APP_JWT_SECRET));
-                        sessionStorage.setItem("token", token);
-                        this.roleConvert(payload.role);
-                        if (sessionStorage.getItem("oldPath")) {
-                            window.location.pathname = sessionStorage.getItem("oldPath");
-                            sessionStorage.removeItem("oldPath");
-                        }
-                        else window.location.pathname = "/";
-                        return true;
-                    } catch (error) {
-                        console.error(error);
-                        return false;
-                    }
-                })
-                .catch(error => {
-                    console.error(error);
-                    return false;
-                });
-        }
-        else {
-            return false;
-        }
-    }
+    }    
 
     registerUser(omAzon, password, name, osztaly, iskolaOM, email) {
         axios.post("/register",

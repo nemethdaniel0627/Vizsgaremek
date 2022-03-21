@@ -8,7 +8,7 @@ import Loader from "../layouts/Loader";
 import ResponseMessage from "../components/ResponseMessage";
 
 export default function LunchCancelation() {
-    const [isMenuChecked, setIsMenuChecked] = useState(false);
+    const [isMenuChecked, setIsMenuChecked] = useState(true);
     const [disabledDays, setDisabledDays] = useState([]);
     const [loading, setLoading] = useState(false);
     const [alertOpen, setAlertOpen] = useState(false);
@@ -72,29 +72,36 @@ export default function LunchCancelation() {
     }
 
     useEffect(() => {
-        const date = new Date();
+        let date = new Date();
         const day = date.getDay();
         const time = Number(date.getHours().toString() + modules.toZeroForm(date.getMinutes()));
         setDisabledDays((prevDays) => {
-            return [...prevDays, day]
+            return [...prevDays, modules.convertDateWithDash(date)]
         });
         if (day !== 0) {
             for (let i = 1; i <= day; i++) {
                 if (i === day && time >= 830) {
+                    let tmpDate = modules.getFirstDayOfWeek(new Date());
+                    tmpDate.setDate(tmpDate.getDate() + (i));
                     setDisabledDays((prevDays) => {
-                        return [...prevDays, (i + 1)]
+                        return [...prevDays, modules.convertDateWithDash(tmpDate)]
                     });
                 }
                 else {
+                    let tmpDate = modules.getFirstDayOfWeek(new Date());
+                    tmpDate.setDate(tmpDate.getDate() + (i - 1));
                     setDisabledDays((prevDays) => {
-                        return [...prevDays, i]
+                        return [...prevDays, modules.convertDateWithDash(tmpDate)]
                     });
                 }
             }
         }
-        else if ((day >= 5 && time >= 830) || day === 0) {
+
+        if ((day >= 5 && time >= 830) || day === 0) {
+            let tmpDate = new Date();
+            day === 0 ? tmpDate.setDate(tmpDate.getDate() + 1) : tmpDate.setDate(tmpDate.getDate() + (8 - tmpDate.getDay()));
             setDisabledDays((prevDays) => {
-                return [...prevDays, 1]
+                return [...prevDays, modules.convertDateWithDash(tmpDate)]
             });
         }
 
