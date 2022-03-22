@@ -205,13 +205,26 @@ app.post("/order", auth.tokenAutheticate, async (req, res) => {
 })
 
 app.post("/cancel", auth.tokenAutheticate, async (req, res) => {
-  const userId = req.body.userId;
+  const omAzon = req.body.omAzon;
+  const userId = (await user.getBy('id', `omAzon = ${omAzon}`, false, false))[0].id;
   const dates = req.body.dates;
+  let notCancelledDates = [];
+  let cancelled;
   for (let i = 0; i < dates.length; i++) {
-    const cancelled = await order.cancelOrder(userId, dates[i]);
-    console.log(cancelled);
+    cancelled = await order.cancelOrder(userId, dates[i]);
+    if (cancelled === false) {
+      notCancelledDates.push(dates[i]);
+    }
   }
-  res.ok();
+  if (notCancelledDates.length === 0) {
+    res.ok();
+  }
+  else if (dates.length === notCancelledDates.length) {
+    res.badRequest();
+  }
+  else {
+    res.status(207).json({ notCancelled: notCancelledDates });
+  }
 })
 
 app.post("/test", async (req, res) => {
@@ -352,18 +365,18 @@ app.post("/pagination", auth.tokenAutheticate, async (req, res) => {
   const offset = req.body.offset || 0;
   const pending = req.body.pending || false;
   const searchValue = req.body.searchValue || "";
-  const tableName = pending ? 'user_pending' : 'user';  
+  const tableName = pending ? 'user_pending' : 'user';
   const userCount = (await sqlQueries.selectAll(`${tableName} ` +
     `INNER JOIN schools ON ${tableName}.schoolsId = schools.id ` +
-    `${tableName === "user" ? `INNER JOIN user_role ON user_role.userId = ${tableName}.id INNER JOIN roles ON user_role.roleId = roles.id ` : "" } ` +
-    `WHERE ${tableName === "user" ? `roles.nev = 'user' AND ` : "" }` +
+    `${tableName === "user" ? `INNER JOIN user_role ON user_role.userId = ${tableName}.id INNER JOIN roles ON user_role.roleId = roles.id ` : ""} ` +
+    `WHERE ${tableName === "user" ? `roles.nev = 'user' AND ` : ""}` +
     `(${tableName}.omAzon REGEXP '${searchValue}' OR ` +
     `${tableName}.nev REGEXP '${searchValue}' OR ` +
     `schools.iskolaOM REGEXP '${searchValue}' OR ` +
     `${tableName}.osztaly REGEXP '${searchValue}' OR ` +
     `${tableName}.email REGEXP '${searchValue}') `, `${tableName}.id`, false)).length;
   const users = await user.getAll(false, limit, offset, tableName, searchValue);
-  
+
   res.send({
     pending: pending,
     pages: Math.ceil(userCount / limit),

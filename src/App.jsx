@@ -147,7 +147,7 @@ export default function App() {
                     } />
 
                     <AuthRoute path="/lemondas" auth="user" component={() =>
-                        <LunchCancelation />
+                        <LunchCancelation user={user}/>
                     } />
 
                     <AuthRoute path="/adatlap" auth="user" component={() =>

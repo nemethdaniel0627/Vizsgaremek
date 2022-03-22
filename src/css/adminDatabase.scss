@@ -156,16 +156,17 @@
 
     .i-search:focus,
     .i-search:active {
-        background-color: #00000070;
+        background-color: #00000070;        
     }
-
-    .i-search,
+    
     .i-search::placeholder {
-        color: white;
+        color: #ffffffa0
     }
 
     .i-search {
         font-weight: 800;
+        cursor: text;
+        color: #fff;
     }
 
     .btn-search:hover {

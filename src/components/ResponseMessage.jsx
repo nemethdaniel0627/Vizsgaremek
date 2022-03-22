@@ -41,7 +41,7 @@ export default function ErrorMessage(props) {
                         {
                             props.type === "error" ? "Hiba"
                                 : props.type === "success" ? "Sikeres művelet"
-                                    : ""}
+                                    : props.type === "warning" ? "Figyelmeztetés" : ""}
                     </AlertTitle>
                     {props.text.split("\n").map((text, index) => {
                         return (

@@ -36,8 +36,7 @@ class Order {
         return order.affectedRows;
     }
 
-    async getCancelledDates(userId){
-        if (await sqlQueries.isConnection() === false) await sqlQueries.CreateConnection();
+    async getCancelledDates(userId) {
         const days = await sqlQueries.innerSelect(
             'days',
             'days.datum',
@@ -46,7 +45,6 @@ class Order {
             'INNER JOIN user ON orders.userId = user.id ',
             `user.id = ${userId} AND orders.lemondva IS NOT NULL`, false
         );
-        await sqlQueries.EndConnection();
         let dates = [];
         days.forEach(day => {
             dates.push(functions.convertDateWithDash(new Date(day)))
@@ -80,8 +78,8 @@ class Order {
 
     async selectMenuIdByDate(date) {
         const menuId = await sqlQueries.innerSelect(
-            'menu', 
-            'menu.id', 
+            'menu',
+            'menu.id',
             'INNER JOIN days ON menu.daysId = days.id',
             `days.datum = '${functions.convertDateWithDash(new Date(date))}'`);
         if (menuId.length === 0) return -1;
@@ -136,22 +134,22 @@ class Order {
         if (orders === 0) return false; // `No order with this ID: ${userId}`
         const menuId = await this.selectMenuIdByDate(functions.convertDateWithDash(new Date(date)));
         if (menuId === -1) return false; // `No menu for this date: ${date}`;
-        
+
         let order = await sqlQueries.select(
             'orders',
             'id',
             `orders.menuId = ${menuId} AND orders.userId = ${userId} AND orders.lemondva IS NULL`);
-        
+
         if (order.length === 0) return false; // 'Already cancelled';
-        
+
         order = order[0];
         const today = functions.convertDateWithDash(new Date());
         await sqlQueries.update(
-            'orders', 
-            'reggeli = 0, ' + 
-            'tizorai = 0, ' + 
-            'ebed = 0, ' + 
-            'uzsonna = 0, ' + 
+            'orders',
+            'reggeli = 0, ' +
+            'tizorai = 0, ' +
+            'ebed = 0, ' +
+            'uzsonna = 0, ' +
             'vacsora = 0, ' +
             'ar = 0, ' +
             `lemondva = '${today}' `,

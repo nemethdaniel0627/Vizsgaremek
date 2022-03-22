@@ -17,7 +17,6 @@ class Auth {
             user.schoolsId = schoolsId[0].id;
             user.jelszo = hashedPassword;
             delete user.iskolaOM;
-            console.log(user);
             const created = await USER.add(user, true);
             if (created) return true;
             return undefined;

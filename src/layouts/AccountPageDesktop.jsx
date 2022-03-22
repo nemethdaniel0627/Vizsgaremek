@@ -15,6 +15,7 @@ import AuthUser from "../modules/AuthUser";
 import axios from "axios";
 import Tooltip from "react-tooltip";
 import modules from "../helpers/modules";
+import ResponseMessage from "../components/ResponseMessage";
 
 export default function DataPage(props) {
   const [change, changing] = useState(false);
@@ -23,6 +24,9 @@ export default function DataPage(props) {
   const [ujJelszo, setUjJelszo] = useState("");
   const [seeOldPwd, setSeeOldPwd] = useState(false);
   const [seeNewPwd, setSeeNewPwd] = useState(false);
+  const [alertOpen, setAlertOpen] = useState(false);
+  const [alertType, setAlertType] = useState(undefined);
+  const [alertMessage, setAlertMessage] = useState("");
 
   function PassChange() {
     changing(!change);
@@ -48,17 +52,17 @@ export default function DataPage(props) {
         setDates(response.data.dates);
 
       })
-      .catch((error) => {});
+      .catch((error) => { });
   }
 
   function dateConcatenation() {
     try {
       dates.sort();
-    } catch (error) {}
+    } catch (error) { }
     let allDates = "";
     dates.forEach((date) => {
 
-      allDates += ` ${modules.convertDateWithDot(new Date(date))}${dates[dates.length-1] === date ? '' : ","}`;
+      allDates += ` ${modules.convertDateWithDot(new Date(date))}${dates[dates.length - 1] === date ? '' : ","}`;
     });
 
     return allDates;
@@ -76,8 +80,12 @@ export default function DataPage(props) {
           },
           AuthUser.authHeader()
         )
-        .then((response) => {})
-        .catch((error) => {});
+        .then((response) => {
+
+        })
+        .catch((error) => {
+
+        });
     }
   }
 
@@ -98,8 +106,8 @@ export default function DataPage(props) {
     }
   }
 
-  function SetChecker(){
-    checker+=1;
+  function SetChecker() {
+    checker += 1;
   }
 
   function changePasswordType() {
@@ -260,6 +268,19 @@ export default function DataPage(props) {
                 </div>
               )}
             </div>
+            {alertType ?
+              <ResponseMessage
+                setAlertOpen={setAlertOpen}
+                alertOpen={alertOpen}
+                text={alertMessage}
+                type="error"
+                reload={true} />
+              : <ResponseMessage
+                setAlertOpen={setAlertOpen}
+                alertOpen={alertOpen}
+                text={alertMessage}
+                type="success"
+                reload={true} />}
           </div>
           <div className="col-12 col-lg-3 personal-activities">
             <div className="activities desktop">
@@ -272,21 +293,21 @@ export default function DataPage(props) {
                 descript="Az ebéd befizetése megtörtént a leírt hónapra!"
                 date="2022. március"
                 type="pay"
-              ></Activities>: <></>}
+              ></Activities> : <></>}
               {dates.length ? <Activities
                 activity={"Lemondott nap" + (dates.length > 1 ? "ok:" : ":")}
                 descript="A leírt dátumokon nem tud ebédelni!"
                 dates={dateConcatenation()}
                 type="cancel"
-              ></Activities> :<></>}
-              { !props.befizetve && !dates.length ?
-              <Activities activity="Nincs tevékenység" descript="Jelenleg nincs semmilyen tevékenysége"></Activities>:<></>}
+              ></Activities> : <></>}
+              {!props.befizetve && !dates.length ?
+                <Activities activity="Nincs tevékenység" descript="Jelenleg nincs semmilyen tevékenysége"></Activities> : <></>}
               {/* <Activities
                 activity="Adatmódosítás"
                 date="2022.01.24"
                 type="modify"
               ></Activities> */}
-              
+
             </div>
           </div>
         </div>

@@ -7,10 +7,11 @@ export default function AdminDatabaseManagerSearch(props) {
     const [forwardDisabled, setForwardDisabled] = useState(false);
     const [backwardDisabled, setBackwardDisabled] = useState(true);
     const [numberOfPeople, setNumberOfPeople] = useState(10);
+    const [searchValue, setSearchValue] = useState("");
 
     function numberOfPeopleChange(event) {
         setNumberOfPeople(Number(event.target.value));
-        props.pagination(Number(event.target.value), 0);
+        props.pagination(Number(event.target.value), 0, searchValue);
         setPageNumber(1);
         setBackwardDisabled(true);
         setForwardDisabled(false);
@@ -24,18 +25,26 @@ export default function AdminDatabaseManagerSearch(props) {
                 setPageNumber(pageNumber + 1);
                 console.log(numberOfPeople);
                 console.log(numberOfPeople * ((pageNumber + 1) - 1));
-                props.pagination(numberOfPeople, numberOfPeople * ((pageNumber + 1) - 1));
+                props.pagination(numberOfPeople, numberOfPeople * ((pageNumber + 1) - 1), searchValue);
                 break;
 
             case "backward":
                 if (pageNumber - 1 === 1) setBackwardDisabled(true);
                 setForwardDisabled(false);
                 setPageNumber(pageNumber - 1);
-                props.pagination(numberOfPeople, numberOfPeople * ((pageNumber - 1) - 1));
+                props.pagination(numberOfPeople, numberOfPeople * ((pageNumber - 1) - 1), searchValue);
                 break;
             default:
                 break;
         }
+    }
+
+    function inputChange(event) {
+        setSearchValue(event.target.value);
+    }
+
+    function search() {
+        props.pagination(numberOfPeople, 0, searchValue);
     }
 
     return (
@@ -44,8 +53,8 @@ export default function AdminDatabaseManagerSearch(props) {
                 <div className="row">
                     <div className="col-12 col-lg-3">
                         <div className="input-group search-group">
-                            <input type="text" className="form-control btn btn-new i-search" placeholder="Keresés" />
-                            <button className="input-group-text btn-search" ><FontAwesomeIcon icon={faSearch} /></button>
+                            <input type="text" onChange={inputChange} value={searchValue} className="form-control btn btn-new i-search" placeholder="Keresés" />
+                            <button className="input-group-text btn-search" onClick={search}><FontAwesomeIcon icon={faSearch} /></button>
                         </div>
                     </div>
                     <div className="col-12 col-lg-1 space"></div>

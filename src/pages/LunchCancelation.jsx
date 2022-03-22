@@ -7,7 +7,7 @@ import AuthUser from "../modules/AuthUser";
 import Loader from "../layouts/Loader";
 import ResponseMessage from "../components/ResponseMessage";
 
-export default function LunchCancelation() {
+export default function LunchCancelation(props) {
     const [isMenuChecked, setIsMenuChecked] = useState(true);
     const [disabledDays, setDisabledDays] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -25,7 +25,7 @@ export default function LunchCancelation() {
         console.log(dates);
         let sendingDates = [];
         dates.forEach(date => {
-            if (date.includes("-")) {
+            if (date.includes(".")) {
                 console.log("hosszu");
                 let startDate = new Date(date.split("-")[0].trim());
                 let endDate = new Date(date.split("-")[1].trim());
@@ -43,14 +43,22 @@ export default function LunchCancelation() {
             setLoading(true);
             axios.post("/cancel",
                 {
+                    omAzon: props.user.omAzon,
                     dates: dates
                 }, AuthUser.authHeader())
                 .then(response => {
                     console.log(response);
                     setLoading(false);
-                    setAlertText("Sikeres ebéd lemondás!");
-                    setAlertOpen(true);
-                    setAlertType("success");
+                    if (response.status === 200) {
+                        setAlertText("Sikeres ebéd lemondás!");
+                        setAlertOpen(true);
+                        setAlertType("success");
+                    }
+                    else if (response.status === 207) {
+                        setAlertText("Részben sikeres ebéd lemondás!");
+                        setAlertOpen(true);
+                        setAlertType("warning");
+                    }
                 })
                 .catch(error => {
                     console.error(error);
