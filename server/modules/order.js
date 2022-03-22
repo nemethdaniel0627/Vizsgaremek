@@ -158,6 +158,32 @@ class Order {
             `orders.id = ${order[0]}`);
         return true;
     }
+
+    async cancelDateCheck(date, today, time) {
+        date = functions.convertDateWithDash(new Date(date));
+        today = new Date(today);
+        let tomorrow = new Date(today);
+        tomorrow.setDate(new Date(today).getDate() + 1);
+        tomorrow = functions.convertDateWithDash(tomorrow);
+        const day = today.getDay();
+        // const time = Number(today.getHours().toString() + functions.convertToZeroForm(today.getMinutes()));
+        today = functions.convertDateWithDash(today);
+
+        let dateFrom;
+        if ((day > 0 && day <= 5)) {
+            if (time < 830) {
+                dateFrom = today;
+            }
+            else {
+                dateFrom = tomorrow;
+            }
+        }
+        else {
+            dateFrom = functions.convertDateWithDash(new Date("2022-03-28"));
+            console.log("kövi");
+        }
+        console.log(dateFrom);
+    }
 }
 
 module.exports = new Order();
