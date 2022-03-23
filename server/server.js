@@ -219,8 +219,6 @@ app.post("/test", async (req, res) => {
   // res.send(create);
   // const testOrders = await test.orders('2022-03-15', 15);
   // res.send(testOrders);
-  await order.cancelDateCheck(req.body.date, req.body.today, req.body.time);
-  res.send();
 })
 
 app.post("/scan", async (req, res) => {

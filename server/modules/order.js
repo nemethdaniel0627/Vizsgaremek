@@ -36,7 +36,7 @@ class Order {
         return order.affectedRows;
     }
 
-    async getCancelledDates(userId){
+    async getCancelledDates(userId) {
         if (await sqlQueries.isConnection() === false) await sqlQueries.CreateConnection();
         const days = await sqlQueries.innerSelect(
             'days',
@@ -80,8 +80,8 @@ class Order {
 
     async selectMenuIdByDate(date) {
         const menuId = await sqlQueries.innerSelect(
-            'menu', 
-            'menu.id', 
+            'menu',
+            'menu.id',
             'INNER JOIN days ON menu.daysId = days.id',
             `days.datum = '${functions.convertDateWithDash(new Date(date))}'`);
         if (menuId.length === 0) return -1;
@@ -136,22 +136,22 @@ class Order {
         if (orders === 0) return false; // `No order with this ID: ${userId}`
         const menuId = await this.selectMenuIdByDate(functions.convertDateWithDash(new Date(date)));
         if (menuId === -1) return false; // `No menu for this date: ${date}`;
-        
+
         let order = await sqlQueries.select(
             'orders',
             'id',
             `orders.menuId = ${menuId} AND orders.userId = ${userId} AND orders.lemondva IS NULL`);
-        
+
         if (order.length === 0) return false; // 'Already cancelled';
-        
+
         order = order[0];
         const today = functions.convertDateWithDash(new Date());
         await sqlQueries.update(
-            'orders', 
-            'reggeli = 0, ' + 
-            'tizorai = 0, ' + 
-            'ebed = 0, ' + 
-            'uzsonna = 0, ' + 
+            'orders',
+            'reggeli = 0, ' +
+            'tizorai = 0, ' +
+            'ebed = 0, ' +
+            'uzsonna = 0, ' +
             'vacsora = 0, ' +
             'ar = 0, ' +
             `lemondva = '${today}' `,
@@ -159,30 +159,30 @@ class Order {
         return true;
     }
 
-    async cancelDateCheck(date, today, time) {
-        date = functions.convertDateWithDash(new Date(date));
-        today = new Date(today);
+    async cancelDateFrom() {
+        let today = new Date();
         let tomorrow = new Date(today);
         tomorrow.setDate(new Date(today).getDate() + 1);
         tomorrow = functions.convertDateWithDash(tomorrow);
         const day = today.getDay();
-        // const time = Number(today.getHours().toString() + functions.convertToZeroForm(today.getMinutes()));
+        const time = Number(today.getHours().toString() + functions.convertToZeroForm(today.getMinutes()));
         today = functions.convertDateWithDash(today);
 
         let dateFrom;
-        if ((day > 0 && day <= 5)) {
-            if (time < 830) {
+        if (day > 0 && day < 5) {
+            if (time < 830) 
                 dateFrom = today;
-            }
-            else {
+            else 
                 dateFrom = tomorrow;
-            }
-        }
-        else {
-            dateFrom = functions.convertDateWithDash(new Date("2022-03-28"));
-            console.log("kövi");
-        }
-        console.log(dateFrom);
+        } else if (day === 5) {
+            if (time < 830) 
+                dateFrom = today;
+            else 
+                dateFrom = functions.convertDateWithDash(functions.getFirstDayOfWeek(new Date(today)));
+        } else 
+            dateFrom = functions.convertDateWithDash(functions.getFirstDayOfWeek(new Date(today)));
+
+        return dateFrom;
     }
 }
 
