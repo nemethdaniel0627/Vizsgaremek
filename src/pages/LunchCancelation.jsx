@@ -25,10 +25,12 @@ export default function LunchCancelation(props) {
         console.log(dates);
         let sendingDates = [];
         dates.forEach(date => {
-            if (date.includes(".")) {
+            console.log("date");
+            console.log(date);
+            if (date.includes("-") && date.includes(".")) {
                 console.log("hosszu");
-                let startDate = new Date(date.split("-")[0].trim());
-                let endDate = new Date(date.split("-")[1].trim());
+                let startDate = new Date(date.split("-")[0].toString().trim());
+                let endDate = new Date(date.split("-")[1].toString().trim());
                 sendingDates.push(modules.convertDateWithDash(startDate));
                 while (modules.convertDateWithDash(startDate) !== modules.convertDateWithDash(endDate)) {
                     startDate.setDate(startDate.getDate() + 1);
@@ -44,7 +46,7 @@ export default function LunchCancelation(props) {
             axios.post("/cancel",
                 {
                     omAzon: props.user.omAzon,
-                    dates: dates
+                    dates: sendingDates
                 }, AuthUser.authHeader())
                 .then(response => {
                     console.log(response);
@@ -80,6 +82,7 @@ export default function LunchCancelation(props) {
     }
 
     useEffect(() => {
+        console.log("cancelled days");
         let date = new Date();
         const day = date.getDay();
         const time = Number(date.getHours().toString() + modules.toZeroForm(date.getMinutes()));
@@ -115,6 +118,12 @@ export default function LunchCancelation(props) {
 
     }, [])
 
+    function errorMessage() {
+        setAlertType("error");
+        setAlertText("Nem kiválasztható dátumo(ka)t tartalmaz");
+        setAlertOpen(true);
+    }
+
     return (
         <div className="lunch-cncl--container">
             {loading ? <Loader /> : <></>}
@@ -124,7 +133,7 @@ export default function LunchCancelation(props) {
                 <label htmlFor="etlapCancel" id="etlapCancelItem" className="lunch-cncl--menu--item">Étlap alapú lemondás</label>
                 <label htmlFor="datumCancel" id="datumCancelItem" className="lunch-cncl--menu--item">Dátum alapú lemondás</label>
             </div>
-            {isMenuChecked ? <Menu disabledDays={disabledDays} getDates={getDates} cancel={true} header="Lemondás" /> : <DateSelector getDates={getDates} />}
+            {isMenuChecked ? <Menu disabledDays={disabledDays} getDates={getDates} cancel={true} header="Lemondás" /> : <DateSelector errorMessage={errorMessage} disabledDays={disabledDays} getDates={getDates} />}
             <div className="lunch-cncl--button--container">
                 <input onClick={cancelMeal} type="button" name="ResignBTN" id="ResignBTN" className="btn btn-success mt-5 lunch-cncl--button" value="Lemondás" />
             </div>

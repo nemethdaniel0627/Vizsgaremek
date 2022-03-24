@@ -47,7 +47,7 @@ class Order {
         );
         let dates = [];
         days.forEach(day => {
-            dates.push(functions.convertDateWithDash(new Date(day)))
+            dates.push(functions.convertDateWithDash(new Date(day.datum)))
         });
         return dates;
     }

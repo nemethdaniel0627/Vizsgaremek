@@ -36,7 +36,7 @@ export default function Activities(props) {
           </div>
           <div className="col-10">
               <div data-tip={props.descript}>
-                <h3 className="act-name">{props.activity}</h3>
+                <div className="act-name">{props.activity}</div>
               </div>
               <Tooltip></Tooltip>
             

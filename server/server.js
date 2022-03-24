@@ -353,7 +353,7 @@ app.post("/email", async (req, res) => {
 })
 
 app.post("/cancelledDates", auth.tokenAutheticate, async (req, res) => {
-  const userId = req.body.userId;
+  const userId = await user.getBy("id", `omAzon = ${req.body.omAzon}`, true, false);
   const cancelledDays = await order.getCancelledDates(userId);
   res.send({
     dates: cancelledDays

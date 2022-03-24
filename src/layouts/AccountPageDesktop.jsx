@@ -44,7 +44,7 @@ export default function DataPage(props) {
       .post(
         "/cancelledDates",
         {
-          userId: props.user.id,
+          omAzon: props.user.omAzon,
         },
         AuthUser.authHeader()
       )
@@ -52,7 +52,9 @@ export default function DataPage(props) {
         setDates(response.data.dates);
 
       })
-      .catch((error) => { });
+      .catch((error) => {
+        console.error(error);
+      });
   }
 
   function dateConcatenation() {
@@ -123,7 +125,7 @@ export default function DataPage(props) {
   }, []);
 
   return (
-    <div className="h3 m-5">
+    <div className="m-5">
       <div className="container datas">
         <div className="row">
           <div className="col-12 col-lg-9 personal-datas">

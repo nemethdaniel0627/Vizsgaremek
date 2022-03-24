@@ -19,17 +19,29 @@
 
     &_table {
         display: grid;
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(2, max-content);
         row-gap: 2rem;
+        align-items: center;
+        justify-content: space-between;
 
         @media only screen and (max-width: 600px) {
             display: flex;
+            align-items: initial;
             flex-direction: column;
         }
 
         .key {
             display: grid;
             grid-template-columns: repeat(2, minmax(10rem, 1fr));
+            gap: 2rem;
+
+            @media only screen and (max-width: 1070px) {
+                gap: 0;
+            }
+
+            @media only screen and (max-width: 992px) {
+                gap: 2rem;
+            }
 
             @media only screen and (max-width: 900px) {
                 grid-template-columns: initial;

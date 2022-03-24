@@ -165,17 +165,24 @@ export default function DateSelector(props) {
 
   function showSelectedDate(manuJustOneDay = null) {
     if (justOneDay || manuJustOneDay === true) {
-      const sameDate = sameDateCheck();
-      console.log(sameDate);
+      const sameDate = sameDateCheck();      
+      console.log(props.disabledDays);
       console.log((!selectedDates.includes(startInputValue.replaceAll("-", ".")) && sameDate));
-      if ((!selectedDates.includes(startInputValue.replaceAll("-", ".")) && sameDate))
+      if (props.disabledDays.includes(startInputValue) || new Date(startInputValue) < new Date(props.disabledDays[0])) {
+        props.errorMessage();
+      }
+      else if ((!selectedDates.includes(startInputValue.replaceAll("-", ".")) && sameDate))
         setSelectedDates((prevDates) => {
           return [...prevDates, startInputValue.replaceAll("-", ".")];
         });
     }
     else if (startInputValue === endInputValue) {
       const sameDate = sameDateCheck();
-      if (!sameDate)
+      console.log(props.disabledDays);
+      if (props.disabledDays.includes(startInputValue) || new Date(startInputValue) < new Date(props.disabledDays[0])) {
+        props.errorMessage();
+      }
+      else if (!sameDate)
         setSelectedDates((prevDates) => {
           return [...prevDates, startInputValue.replaceAll("-", ".")];
         });
@@ -184,7 +191,10 @@ export default function DateSelector(props) {
       console.log("ad");
       const samdeDate = sameDateCheck();
       const dateInterval = `${startInputValue.replaceAll("-", ".")} - ${endInputValue.replaceAll("-", ".")}`;
-      if ((!selectedDates.includes(dateInterval) && samdeDate))
+      if (props.disabledDays.includes(startInputValue) || new Date(startInputValue) < new Date(props.disabledDays[0])) {
+        props.errorMessage();
+      }
+      else if ((!selectedDates.includes(dateInterval) && samdeDate))
         setSelectedDates((prevDates) => {
           return [...prevDates, dateInterval];
         });
