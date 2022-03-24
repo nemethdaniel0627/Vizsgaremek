@@ -372,6 +372,7 @@ app.post("/pagination", auth.tokenAutheticate, async (req, res) => {
 })
 
 app.post("/userupload", auth.tokenAutheticate, async (req, res) => {
+  // "omAzon;jelszo;nev;iskolaOM;osztaly;email"
   const userRows = req.body.userRows;
   let notAddedUsers = [];
   let userCount = 0;
