@@ -10,6 +10,16 @@
     margin-bottom: 5%;
   }
 
+  .header {
+    @media only screen and (max-width: 600px) {
+      font-size: 1.6rem;
+    }
+
+    @media only screen and (max-width: 400px) {
+      font-size: 1.4rem;
+    }
+  }
+
   .password-change {
     .header {
       display: flex;

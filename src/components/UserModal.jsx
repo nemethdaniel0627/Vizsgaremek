@@ -60,6 +60,7 @@ export default function UserModal(props) {
     useEffect(() => {
         props.getUserInfo(tmpUser);
         console.log(props.user);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [tmpUser])
 
     return (

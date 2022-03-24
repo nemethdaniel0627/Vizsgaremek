@@ -2,7 +2,6 @@ import { faEye, faEyeSlash, faUserPlus } from "@fortawesome/free-solid-svg-icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import login_icon from "../images/icon.png";
 import ResponseMessage from "../components/ResponseMessage";
 import AuthUser from "../modules/AuthUser";
 

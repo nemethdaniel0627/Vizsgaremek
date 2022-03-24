@@ -12,7 +12,6 @@ export default function AdminDatabaseModal(props) {
   const [dates, setDates] = useState([]);
   const [datesBool, setDatesBool] = useState(true);
   const [fileURL, setFileURL] = useState("");
-  const [canceledDate, setCanceledDate] = useState("");
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertType, setAlertType] = useState(undefined);
   const [alertMessage, setAlertMessage] = useState("");
@@ -90,7 +89,7 @@ export default function AdminDatabaseModal(props) {
     })
 
     if (tmpUser.nev.trim() !== "" && tmpUser.omAzon.trim() !== "" && tmpUser.osztaly.trim() !== "" && tmpUser.email.trim() !== "" && tmpUser.iskolaOM.trim() !== "") {
-      let addedUser = tmpUser;      
+      let addedUser = tmpUser;
       axios.post("/useradd",
         {
           user: addedUser

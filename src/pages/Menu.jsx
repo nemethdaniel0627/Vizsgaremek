@@ -239,6 +239,7 @@ export default function Menu(props) {
         }
         checkNextWeek()
 
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [firstDay])
 
     function getDates(tmpSelectedDates) {

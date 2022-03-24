@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import PaymentDateTable from "../layouts/PaymentDateTable";
-// import PaymentDateTableMobile from "../layouts/PaymentDateTableMobile";
+import PaymentDateTableMobile from "../layouts/PaymentDateTableMobile";
 import PaymentOptionCard from "../components/PaymentOptionCard";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
@@ -8,6 +8,7 @@ import PaymentTableDateArray from "../helpers/PaymentTableDatesArray";
 import AuthUser from "../modules/AuthUser";
 import modules from "../helpers/modules";
 import axios from "axios";
+import ResponseMessage from "../components/ResponseMessage";
 
 export default function PaymentPage(props) {
 
@@ -19,8 +20,12 @@ export default function PaymentPage(props) {
     const [modify, cheking] = useState(false);
     const [payable, changePayable] = useState(true);
     const [type, typing] = useState('');
-    let dates = PaymentTableDateArray(); 
-    const [sendDate, addSendDate] = useState([]);    
+    let dates = PaymentTableDateArray();
+    // eslint-disable-next-line no-unused-vars
+    const [sendDate, addSendDate] = useState([]);
+    const [alertOpen, setAlertOpen] = useState(false);
+    const [alertText, setAlertText] = useState("");
+    const [alertType, setAlertType] = useState();
 
     function cardBtnClick(event) {
         cheking(!modify);
@@ -36,9 +41,9 @@ export default function PaymentPage(props) {
                 sendDate.push(tmpDate);
             }
         }
-        if(sendDate.length < 1) {changePayable(false);} //BUGOS
+        if (sendDate.length < 1) { changePayable(false); } //BUGOS
         let sendMeals = [];
-        if(payable){
+        if (payable) {
             switch (type) {
                 case "Teljes":
                     sendMeals = [1, 1, 1, 1, 1];
@@ -52,7 +57,7 @@ export default function PaymentPage(props) {
                 case "Ebéd":
                     sendMeals = [0, 0, 1, 0, 0];
                     break;
-    
+
                 default:
                     break;
             }
@@ -64,21 +69,22 @@ export default function PaymentPage(props) {
                 }, AuthUser.authHeader())
                 .then(response => {
                     console.log(response);
+                    setAlertText("Sikeres ebéd befizetés!");
+                    setAlertOpen(true);
+                    setAlertType("success");
                 })
                 .catch(error => {
                     console.error(error);
+                    setAlertText("Sikertelen ebéd befizetés!");
+                    setAlertOpen(true);
+                    setAlertType("error");
                 })
-    
+
 
         }
-        
+
 
     }
-
-
-    useEffect(() => {
-        console.log(type);
-    }, [type])
 
     return (
         <div className="mx-auto payment-page">
@@ -105,7 +111,7 @@ export default function PaymentPage(props) {
                     <div className="container">
                         <div className="row justify-content-around">
                             <div className="w-75 col-12 col-lg-10">
-                                {!isMobile ? <PaymentDateTable type={type} dates={dates} sendDate={sendDate}></PaymentDateTable> : <></>}
+                                {!isMobile ? <PaymentDateTable type={type} dates={dates} sendDate={sendDate}></PaymentDateTable> : <PaymentDateTableMobile type={type} dates={dates} sendDate={sendDate} />}
                             </div>
 
                             <div className="col-12 col-lg-2 mt-5 mt-lg-0">
@@ -131,6 +137,12 @@ export default function PaymentPage(props) {
                     </div>
                 </div>
             }
+            <ResponseMessage
+                setAlertOpen={setAlertOpen}
+                alertOpen={alertOpen}
+                text={alertText}
+                type={alertType}
+                fixed={true} />
         </div>
     );
 }
