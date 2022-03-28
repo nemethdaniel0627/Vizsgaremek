@@ -8,7 +8,7 @@ import Loader from "../layouts/Loader";
 import ResponseMessage from "../components/ResponseMessage";
 
 export default function LunchCancelation(props) {
-    const [isMenuChecked, setIsMenuChecked] = useState(true);
+    const [isMenuChecked, setIsMenuChecked] = useState(false);
     const [disabledDays, setDisabledDays] = useState([]);
     const [loading, setLoading] = useState(false);
     const [alertOpen, setAlertOpen] = useState(false);
@@ -18,8 +18,6 @@ export default function LunchCancelation(props) {
     function checkChange() {
         setIsMenuChecked(!isMenuChecked)
     }
-
-
 
     function cancelMeal() {
         console.log(dates);
@@ -124,6 +122,7 @@ export default function LunchCancelation(props) {
         setAlertOpen(true);
     }
 
+    
     return (
         <div className="lunch-cncl--container">
             {loading ? <Loader /> : <></>}
@@ -133,16 +132,21 @@ export default function LunchCancelation(props) {
                 <label htmlFor="etlapCancel" id="etlapCancelItem" className="lunch-cncl--menu--item">Étlap alapú lemondás</label>
                 <label htmlFor="datumCancel" id="datumCancelItem" className="lunch-cncl--menu--item">Dátum alapú lemondás</label>
             </div>
-            {isMenuChecked ? <Menu disabledDays={disabledDays} getDates={getDates} cancel={true} header="Lemondás" /> : <DateSelector errorMessage={errorMessage} disabledDays={disabledDays} getDates={getDates} />}
+            {
+                isMenuChecked ?
+                    <Menu disabledDays={disabledDays} getDates={getDates} cancel={true} header="Lemondás" /> :
+                    <DateSelector errorMessage={errorMessage} disabledDays={disabledDays} getDates={getDates} />                    
+            }
             <div className="lunch-cncl--button--container">
                 <input onClick={cancelMeal} type="button" name="ResignBTN" id="ResignBTN" className="btn btn-success mt-5 lunch-cncl--button" value="Lemondás" />
             </div>
+
             <ResponseMessage
                 setAlertOpen={setAlertOpen}
                 alertOpen={alertOpen}
                 text={alertText}
                 type={alertType}
                 fixed={true} />
-        </div>
+        </div >
     )
 }

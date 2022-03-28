@@ -1,12 +1,36 @@
 .lunch-cncl {
     &--container {
         display: flex;
-        flex-direction: column;        
+        flex-direction: column;
         justify-content: center;
         margin: 0 10vh;
 
         @media only screen and (max-width: 1200px) {
             margin: initial;
+        }
+
+        .css-17vdz66 {
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .MuiFilledInput-input.MuiInputBase-input {
+            @media only screen and (max-width: 1000px) {
+                width: 30rem;
+            }
+
+            @media only screen and (max-width: 750px) {
+                width: 40rem;
+            }
+
+            @media only screen and (max-width: 600px) {
+                width: 30rem;
+            }
+
+            @media only screen and (max-width: 400px) {
+                width: 20rem;
+            }
         }
     }
 
@@ -39,18 +63,17 @@
 
             @media only screen and (max-width: 800px) {
                 padding: 1rem 1.5rem;
-
             }
         }
 
         &--input {
             display: none;
-        }        
+        }
     }
 
     &--button {
-        padding: 1rem 0;            
-        font-size: 2rem;        
+        padding: 1rem 0;
+        font-size: 2rem;
         width: 100%;
         cursor: pointer;
         position: relative;
@@ -60,10 +83,42 @@
             margin-bottom: 5rem;
         }
     }
+
+    &--input-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 3rem;
+        @media only screen and (max-width: 750px) {
+            flex-direction: column;
+            gap: 1rem;
+        }
+    }
+    &--checkbox {
+        display: inline-block;
+        align-self: baseline;
+        text-align: left;
+        margin-top: 2rem;
+        margin-left: 7.5rem;
+        font-size: 1.4rem;
+        color: var(--darkModeFontColor);
+
+        @media only screen and (max-width: 600px) {
+            width: calc(100% - 6rem);
+            margin-left: 1rem;
+        }
+    }
 }
 
 .disabled-day {
     background-image: linear-gradient(rgb(168, 168, 168), var(--bodyBackground)) !important;
+}
+
+#JustOneDay {
+    background-color: var(--dateRangeBackground);
+    &:checked {
+        background-color: var(--dark-blue);
+    }
 }
 
 #etlapCancel:checked ~ #etlapCancelItem,
