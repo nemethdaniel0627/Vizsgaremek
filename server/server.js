@@ -264,8 +264,11 @@ app.post("/useradd", auth.tokenAutheticate, async (req, res) => {
     nev: newUser.nev,
     schoolsId: schoolsId[0].id,
     osztaly: newUser.osztaly,
-    email: newUser.email
+    email: newUser.email,
+    jog: newUser.jog
   }
+  const emailReturn = await email.RegisterInDatabase(tmpUser);
+  console.log(emailReturn);
   tmpUser.jelszo = bcrypt.hashSync(tmpUser.jelszo, 10);
   console.log(tmpUser);
   const added = await user.add(tmpUser, false);
@@ -423,9 +426,13 @@ app.post("/userdownload", auth.tokenAutheticate, async (req, res) => {
   });
 })
 
-app.get("/", (req, res) => {
-  res.send("<div>Hello world</div>")
-})
+app.get('/*', function (req, res) {
+  res.sendFile(path.join(__dirname, '../build/index.html'), function (err) {
+    if (err) {
+      res.status(500).send(err)
+    }
+  })
+});
 
 app.listen(PORT, () => {
   console.log(`server started on port ${PORT}`);

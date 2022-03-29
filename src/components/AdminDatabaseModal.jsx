@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faFileUpload, faTimesCircle, faUserPlus, faUserTimes } from "@fortawesome/free-solid-svg-icons";
 import Modal from "react-bootstrap/Modal";
@@ -47,13 +47,15 @@ export default function AdminDatabaseModal(props) {
           console.log(response);
           props.user.email = response.data.email;
           props.user.omAzon = response.data.omAzon;
-          setAlertType(false);
+          setAlertType("success");
           setAlertMessage("Sikeres felhasználó módosítás!");
+          setAlertOpen(true)
           // ModalClose();
         })
         .catch(error => {
-          setAlertType(true);
+          setAlertType("error");
           setAlertMessage("Hiba történt a felhasználó módosítása közben!");
+          setAlertOpen(true)
           //ERROR
         })
     }
@@ -67,28 +69,23 @@ export default function AdminDatabaseModal(props) {
       },
       AuthUser.authHeader())
       .then(response => {
-        setAlertType(false);
+        setAlertType("success");
         window.location.reload();
         setAlertMessage("Sikeres felhasználó törlés!");
+        setAlertOpen(true)
       })
       .catch(error => {
         console.error(error);
-        setAlertType(true);
+        setAlertType("error");
         setAlertMessage("Hiba történt a felhasználó törlése során!")
+        setAlertOpen(true)
       })
     // ModalClose();    
   }
 
-  function addUser() {
-    const loggedInUser = JSON.parse(sessionStorage.getItem("user"));
-    setTmpUser(prevData => {
-      return {
-        ...prevData,
-        iskolaOM: loggedInUser.iskolaOM
-      }
-    })
+  function addUser() {  
 
-    if (tmpUser.nev.trim() !== "" && tmpUser.omAzon.trim() !== "" && tmpUser.osztaly.trim() !== "" && tmpUser.email.trim() !== "" && tmpUser.iskolaOM.trim() !== "") {
+    if (tmpUser.nev.trim() !== "" && tmpUser.omAzon.trim() !== "" && tmpUser.email.trim() !== "" && tmpUser.iskolaOM.trim() !== "") {
       let addedUser = tmpUser;
       axios.post("/useradd",
         {
@@ -96,13 +93,20 @@ export default function AdminDatabaseModal(props) {
         },
         AuthUser.authHeader())
         .then(response => {
-          setAlertType(false);
+          setAlertType("success");
           setAlertMessage("Sikeres felhasználó hozzáadás!");
+          setAlertOpen(true)
         })
         .catch(error => {
-          setAlertType(true);
+          setAlertType("error");
           setAlertMessage("Hiba történt a felhasználó hozzáadása közben!");
+          setAlertOpen(true)
         });
+    }
+    else {
+      setAlertType("error");
+      setAlertMessage(`Hiányzó adat!`);
+      setAlertOpen(true)
     }
     // ModalClose();
   }
@@ -130,10 +134,6 @@ export default function AdminDatabaseModal(props) {
   function getUserInfo(user) {
     setTmpUser(user);
   }
-
-  useEffect(() => {
-    if (alertType !== undefined) setAlertOpen(true);
-  }, [alertType])
 
   function FileUploadModal() {
     return (
@@ -190,17 +190,12 @@ export default function AdminDatabaseModal(props) {
             <FontAwesomeIcon icon={faTimesCircle} /> Mégsem
           </button>
         </Modal.Footer>
-        {alertType ?
-          <ResponseMessage
-            setAlertOpen={setAlertOpen}
-            alertOpen={alertOpen}
-            text={alertMessage}
-            type="error" />
-          : <ResponseMessage
-            setAlertOpen={setAlertOpen}
-            alertOpen={alertOpen}
-            text={alertMessage}
-            type="success" />}
+        <ResponseMessage
+          setAlertOpen={setAlertOpen}
+          alertOpen={alertOpen}
+          text={alertMessage}
+          type={alertType}
+          reload={alertType === "success" ? true : false} />
       </Modal>
     </div>
   );

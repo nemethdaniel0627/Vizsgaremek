@@ -34,8 +34,7 @@ CREATE TABLE foode.orders (
 
 CREATE TABLE foode.days (
   id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  datum DATE NOT NULL UNIQUE,
-  hetkoznap VARCHAR(255) NOT NULL
+  datum DATE NOT NULL UNIQUE  
 );
 
 CREATE TABLE foode.menu (

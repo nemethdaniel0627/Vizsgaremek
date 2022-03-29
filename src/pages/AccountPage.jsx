@@ -24,6 +24,7 @@ export default function Page(props) {
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertType, setAlertType] = useState(undefined);
   const [alertText, setAlertText] = useState("");
+  const [logoutUser, setLogoutUser] = useState(false);
 
   function PassChange() {
     changing(!change);
@@ -82,6 +83,7 @@ export default function Page(props) {
           setAlertText("Sikeres jelszó módosítás!");
           setAlertOpen(true);
           setAlertType("success");
+          setLogoutUser(true);
         })
         .catch((error) => {
           setAlertText("Sikertelen jelszó módosítás!");
@@ -272,7 +274,8 @@ export default function Page(props) {
               alertOpen={alertOpen}
               text={alertText}
               type={alertType}
-              fixed={true} />
+              fixed={true}
+              customFunc={logoutUser === true ? () => {AuthUser.logoutUser(); setLogoutUser(false);} : undefined} />
           </div>
           <div className="col-12 col-lg-3 personal-activities">
             <div className="activities desktop">

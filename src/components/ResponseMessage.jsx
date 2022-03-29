@@ -29,6 +29,7 @@ export default function ErrorMessage(props) {
                             size="large"
                             onClick={() => {
                                 if (props.reload === true) window.location.reload();
+                                if (props.customFunc !== undefined) props.customFunc();
                                 setAlertOpen(false);
                             }}
                         >

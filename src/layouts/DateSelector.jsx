@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import DateSelectorInput from "../components/DateSelectorInputs";
 import Chips from "../components/Chips";
 import modules from "../helpers/modules";
 import TextField from '@mui/material/TextField';
@@ -111,29 +110,29 @@ export default function DateSelector(props) {
     }
   }
 
-  function dateInputChange(event) {
-    const inputId = event.target.attributes[1].value;
-    const inputValue = event.target.value;
-    switch (inputId) {
-      case "startDate":
-        if (new Date(inputValue) > new Date(endInputValue)) {
-          setStartInputValue(endInputValue);
-          setEndInputValue(inputValue)
-        }
-        else setStartInputValue(inputValue);
-        break;
-      case "endDate":
-        if (new Date(inputValue) < new Date(startInputValue)) {
-          setEndInputValue(startInputValue);
-          setStartInputValue(inputValue);
-        }
-        else setEndInputValue(inputValue);
-        break;
+  // function dateInputChange(event) {
+  //   const inputId = event.target.attributes[1].value;
+  //   const inputValue = event.target.value;
+  //   switch (inputId) {
+  //     case "startDate":
+  //       if (new Date(inputValue) > new Date(endInputValue)) {
+  //         setStartInputValue(endInputValue);
+  //         setEndInputValue(inputValue)
+  //       }
+  //       else setStartInputValue(inputValue);
+  //       break;
+  //     case "endDate":
+  //       if (new Date(inputValue) < new Date(startInputValue)) {
+  //         setEndInputValue(startInputValue);
+  //         setStartInputValue(inputValue);
+  //       }
+  //       else setEndInputValue(inputValue);
+  //       break;
 
-      default:
-        break;
-    }
-  }
+  //     default:
+  //       break;
+  //   }
+  // }
 
   function sameDateCheck() {
     let hasInterval = false;
@@ -225,7 +224,7 @@ export default function DateSelector(props) {
 
       returnValue = false;
     }
-    else {      
+    else {
       if (selectedDates.length !== 0) {
         selectedDates.sort().forEach((date, index) => {
 

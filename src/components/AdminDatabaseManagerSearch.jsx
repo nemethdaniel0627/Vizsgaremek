@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleLeft, faAngleRight, faSearch } from "@fortawesome/free-solid-svg-icons";
+import ResponseMessage from "../components/ResponseMessage";
 
 export default function AdminDatabaseManagerSearch(props) {
     const [pageNumber, setPageNumber] = useState(1);
@@ -8,6 +9,9 @@ export default function AdminDatabaseManagerSearch(props) {
     const [backwardDisabled, setBackwardDisabled] = useState(true);
     const [numberOfPeople, setNumberOfPeople] = useState(10);
     const [searchValue, setSearchValue] = useState("");
+    const [alertOpen, setAlertOpen] = useState(false);
+    const [alertText, setAlertText] = useState("");
+    const [alertType, setAlertType] = useState();
 
     function numberOfPeopleChange(event) {
         setNumberOfPeople(Number(event.target.value));
@@ -43,9 +47,69 @@ export default function AdminDatabaseManagerSearch(props) {
         setSearchValue(event.target.value);
     }
 
+    function pageInputChange(event) {
+        if ((event.target.value.toString().length <= props.numberOfPages.toString().length) && !event.target.value.includes("e")) {
+            setPageNumber(event.target.value === "" ? "" : Number(event.target.value));
+            console.log(event.target.value.toString().length);
+            event.target.style.width = event.target.value.toString().length + 4 + "ch";
+        }
+    }
+
+    function preventExtraCharacters(event) {
+        if ((event.keyCode > 47 && event.keyCode < 58) || (event.keyCode > 95 && event.keyCode < 106) || event.keyCode === 8 || event.keyCode === 46) {
+
+        }
+        else event.preventDefault();
+    }
+
+    function pageNumberChange(event, outFocus) {
+
+        if (event.keyCode === 13 || outFocus === true) {
+            if (Number(event.target.value) <= props.numberOfPages && Number(event.target.value) !== "" && Number(event.target.value) !== 0) {
+                if (Number(event.target.value) === 1) {
+                    setBackwardDisabled(true);
+                    setForwardDisabled(false);
+                }
+                console.log(Number(event.target.value));
+                console.log(props.numberOfPages);
+                if (Number(event.target.value) === props.numberOfPages) {
+                    setBackwardDisabled(false);
+                    setForwardDisabled(true);
+                }
+                props.pagination(numberOfPeople, numberOfPeople * (Number(event.target.value) - 1), searchValue);
+                if (!outFocus) event.target.blur();
+            }
+            else if (event.target.value === "") {
+                setAlertText("Nem hagyható üresen az oldalszám");
+                setAlertType("warning");
+                setAlertOpen(true);
+                setPageNumber(1);
+                if (!outFocus) event.target.blur();
+            }
+            else {
+                setAlertText("Nincs ennyi oldal az adatbázisban");
+                setAlertType("error");
+                setAlertOpen(true);
+                setPageNumber(1);
+                if (!outFocus) event.target.blur();
+            }
+        }
+    }
+
     function search() {
         props.pagination(numberOfPeople, 0, searchValue);
+        setPageNumber(1);
+        setBackwardDisabled(true);
+        setForwardDisabled(false);
     }
+
+    useEffect(() => {
+        setPageNumber(1);
+        setNumberOfPeople(10);
+        setSearchValue("");
+        setBackwardDisabled(true);
+        setForwardDisabled(false);
+    }, [props.showPending])
 
     return (
         <div className="acc-head manager" id="back-to-top-anchor">
@@ -61,7 +125,7 @@ export default function AdminDatabaseManagerSearch(props) {
                     <div className="col-12 col-lg-4 justify-content-center d-flex">
                         <div className="onePage">
                             <label htmlFor="" className="fs-4 p-1">Egy oldalon: </label>
-                            <select onChange={numberOfPeopleChange} name="" id="" className="form-select select float-end page--select">
+                            <select onChange={numberOfPeopleChange} value={numberOfPeople} name="" id="" className="form-select select float-end page--select">
                                 <option value="10">10</option>
                                 <option value="25">25</option>
                                 <option value="50">50</option>
@@ -71,7 +135,7 @@ export default function AdminDatabaseManagerSearch(props) {
                     <div className="col-12 col-lg-1 space"></div>
                     <div className="col-12 col-lg-3 justify-content-center d-flex">
                         <div className="pageChanger">
-                            <label htmlFor=""><span className="page-number">{pageNumber}</span> oldal / <span className="page-number">{props.numberOfPages}</span> oldal</label>
+                            <label htmlFor="" className="mb-3"><span className="page-number"><input type="number" onKeyDown={preventExtraCharacters} onKeyUp={pageNumberChange} onChange={pageInputChange} value={pageNumber} /></span> oldal / <span className="page-number">{props.numberOfPages}</span> oldal</label>
                             <div>
                                 <button disabled={backwardDisabled} onClick={pageChange} name="backward" className="btn btn-page ms-2"><FontAwesomeIcon pointerEvents={"none"} icon={faAngleLeft} /></button>
                                 <button disabled={forwardDisabled} onClick={pageChange} name="forward" className="btn btn-page"><FontAwesomeIcon pointerEvents={"none"} icon={faAngleRight} /></button>
@@ -80,42 +144,12 @@ export default function AdminDatabaseManagerSearch(props) {
                     </div>
                 </div>
             </div>
-            {/* <div className="container">
-                <div className="row">
-                    <div className="div-search col-12 col-lg-3">
-                        <div className="input-group search-group">
-                            <input type="text" className="form-control btn btn-new i-search" placeholder="Keresés" />
-                            <button className="input-group-text btn-search" ><FontAwesomeIcon icon={faSearch} /></button>
-                        </div>
-                    </div>
-
-
-                    <div className="col-0 col-lg-1"></div>
-
-                    <div className="col-6 col-lg-2 mt-3 mt-lg-0"><label htmlFor="" className="fs-4 p-1 float-end">Egy oldalon: </label></div>
-
-                    <div className="div-max col-6 col-lg-1 mt-3 mt-lg-0">
-                        <select name="" id="" className="form-select mt-1">
-                            <option value="10">10</option>
-                            <option value="25">25</option>
-                            <option value="50">50</option>
-                        </select>
-                    </div>
-
-                    <div className="col-0 col-lg-2"></div>
-
-                    <div className="div-page-number col-7 col-lg-2 mt-3 mt-lg-0">
-                        <label htmlFor=""><span className="page-number">1</span> oldal / <span className="page-number">10</span> oldal</label>
-                    </div>
-
-                    <div className="div-page-btns col-5 col-lg-1 mt-3 mt-lg-0">
-                        <button className="btn btn-page"><FontAwesomeIcon icon={faAngleLeft} /></button>
-                        <button className="btn btn-page"><FontAwesomeIcon icon={faAngleRight} /></button>
-                    </div>
-                </div>
-            </div> */}
-
-
+            <ResponseMessage
+                setAlertOpen={setAlertOpen}
+                alertOpen={alertOpen}
+                text={alertText}
+                type={alertType}
+                fixed={true} />
 
         </div>
     );

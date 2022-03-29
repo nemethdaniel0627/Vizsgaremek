@@ -192,7 +192,7 @@ export default function AdminDatabasePage(props) {
                     <div className="col-2 col-lg-2"></div>
                     <div className="col-10 col-lg-10 admin-db-acc mb-5 mb-lg-0 mt-5">
 
-                        <AdminDatabaseManagerSearch numberOfPages={numberOfPages} pagination={pagination} />
+                        <AdminDatabaseManagerSearch showPending={showPending} numberOfPages={numberOfPages} pagination={pagination} />
 
 
                         <Accordion>
