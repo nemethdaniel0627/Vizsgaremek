@@ -157,11 +157,6 @@ app.post("/register", async (req, res) => {
   }
 });
 
-app.get("/pending", auth.tokenAutheticate, async (req, res) => {
-  const pending = await sqlQueries.selectAll("user_pending", "*", false);
-  res.json(pending);
-});
-
 app.post("/acceptpending", auth.tokenAutheticate, async (req, res) => {
   const omAzon = req.body.omAzon;
   const tmpUser = (await user.getBy("*", `omAzon = '${omAzon}'`, false, true))[0];
@@ -174,16 +169,13 @@ app.post("/acceptpending", auth.tokenAutheticate, async (req, res) => {
 app.post("/rejectpending", auth.tokenAutheticate, async (req, res) => {
   const omAzon = req.body.omAzon;
   const result = await user.delete(`omAzon = ${omAzon}`, true);
-  res.send("Ok");
+  result === 1 ? res.ok() : res.conflict();
 });
 
 app.post("/login", async (req, res) => {
   const user = req.body.user;
   const authResult = await auth.login(user);
-  if (!authResult) {
-    res.status(401);
-    res.send("Unauthorized");
-  }
+  if (!authResult) res.unauthorized();
   else {
     res.setHeader("Authorization", [auth.createCookie(authResult.tokenData)]);
     res.send(authResult.user);
@@ -201,7 +193,7 @@ app.post("/order", auth.tokenAutheticate, async (req, res) => {
     if (!ordered) errorDates.push(dates[i]);
   }
   if (errorDates.length === 0) res.ok();
-  else res.send(`Not paid dates: ${errorDates}`); //statuscode
+  else res.status(207).send(`Not paid dates: ${errorDates}`); //statuscode
 })
 
 app.post("/cancel", auth.tokenAutheticate, async (req, res) => {
@@ -230,11 +222,11 @@ app.post("/cancel", auth.tokenAutheticate, async (req, res) => {
 app.post("/test", async (req, res) => {
   // const create = await test.generate('users2.txt', 82);
   // res.send(create);
-  const testOrders = await test.orders('2022-03-15', 15);
-  res.send(testOrders);
+  // const testOrders = await test.orders('2022-03-15', 15);
+  // res.send(testOrders);
 })
 
-app.post("/scan", async (req, res) => {
+app.post("/scan", auth.tokenAutheticate, async (req, res) => {
   const omAzon = req.body.omAzon;
   const userId = await user.getBy("id", `omAzon = ${omAzon}`, false, false);
   if (userId.length === 0) res.notFound();
@@ -249,8 +241,7 @@ app.post("/userdelete", auth.tokenAutheticate, async (req, res) => {
   const currentUser = await user.getBy('*', `omAzon = ${omAzon}`, false, false);
   if (currentUser.length === 0) res.notFound();
   else {
-    await user.delete(`omAzon = ${omAzon}`, false);
-    res.ok();
+    await user.delete(`omAzon = ${omAzon}`, false) === 1 ? res.ok() : res.conflict();
   }
 })
 
@@ -280,24 +271,37 @@ app.post("/usermodify", auth.tokenAutheticate, async (req, res) => {
   const omAzon = req.body.omAzon;
   const updatedUser = req.body.user;
   const schoolsId = await sqlQueries.select("schools", "id", `iskolaOM = ${updatedUser.iskolaOM}`, false);
-  const users = await user.getAll(false);
-  let unique = true;
-  const currentUser = await user.getBy('*', `omAzon = ${omAzon}`, false, false);
-  if (currentUser.length === 0) res.notFound();
-  else if (currentUser[0].omAzon === updatedUser.omAzon || updatedUser.email === currentUser[0].email) {
-    await user.modify(`omAzon = ${updatedUser.omAzon}, nev = '${updatedUser.nev}', schoolsId = '${schoolsId[0].id}', 
-                         osztaly = '${updatedUser.osztaly}', email = '${updatedUser.email}'`, `omAzon = ${omAzon}`);
-    res.json({ email: updatedUser.email, omAzon: updatedUser.omAzon });
-  }
+  if (schoolsId.length === 0) res.notFound();
   else {
-    users.forEach(user => {
-      if (updatedUser.omAzon === user.omAzon || updatedUser.email === user.email) unique = false;
-    });
-    if (!unique) res.conflict();
+    const users = await user.getAll(false);
+    let unique = true;
+    const currentUser = await user.getBy('*', `omAzon = ${omAzon}`, false, false);
+    if (currentUser.length === 0) res.notFound();
+    else if (currentUser[0].omAzon === updatedUser.omAzon || updatedUser.email === currentUser[0].email) {
+      const modified =await user.modify(
+        `omAzon = ${updatedUser.omAzon}, 
+         nev = '${updatedUser.nev}', 
+         schoolsId = '${schoolsId[0].id}', 
+         osztaly = '${updatedUser.osztaly}', 
+         email = '${updatedUser.email}'`,
+        `omAzon = ${omAzon}`);
+      modified === 1 ? res.json({ email: updatedUser.email, omAzon: updatedUser.omAzon }) : res.conflict();
+    }
     else {
-      await user.modify(`omAzon = ${updatedUser.omAzon}, nev = '${updatedUser.nev}', schoolsId = '${schoolsId[0].id}', 
-                         osztaly = '${updatedUser.osztaly}', email = '${updatedUser.email}'`, `omAzon = ${omAzon}`);
-      res.ok();
+      users.forEach(user => {
+        if (updatedUser.omAzon === user.omAzon || updatedUser.email === user.email) unique = false;
+      });
+      if (!unique) res.conflict();
+      else {
+        const modified = await user.modify(
+          `omAzon = ${updatedUser.omAzon}, 
+           nev = '${updatedUser.nev}', 
+           schoolsId = '${schoolsId[0].id}', 
+           osztaly = '${updatedUser.osztaly}', 
+           email = '${updatedUser.email}'`,
+          `omAzon = ${omAzon}`);
+        modified === 1 ? res.json({ email: updatedUser.email, omAzon: updatedUser.omAzon }) : res.conflict();
+      }
     }
   }
 })
@@ -357,10 +361,13 @@ app.post("/email", async (req, res) => {
 
 app.post("/cancelledDates", auth.tokenAutheticate, async (req, res) => {
   const userId = await user.getBy("id", `omAzon = ${req.body.omAzon}`, true, false);
-  const cancelledDays = await order.getCancelledDates(userId);
-  res.send({
-    dates: cancelledDays
-  })
+  if (userId.length === 0) res.notFound()
+  else {
+    const cancelledDays = await order.getCancelledDates(userId);
+    res.send({
+      dates: cancelledDays
+    })
+  }
 })
 
 app.post("/pagination", auth.tokenAutheticate, async (req, res) => {
@@ -388,6 +395,7 @@ app.post("/pagination", auth.tokenAutheticate, async (req, res) => {
 })
 
 app.post("/userupload", auth.tokenAutheticate, async (req, res) => {
+  // "omAzon;jelszo;nev;iskolaOM;osztaly;email"
   const userRows = req.body.userRows;
   let notAddedUsers = [];
   let userCount = 0;
@@ -410,7 +418,7 @@ app.post("/userupload", auth.tokenAutheticate, async (req, res) => {
     }
   }
   if (notAddedUsers.length === 0) res.send(`${userCount} added.`);
-  else res.send(`${userCount} added.\nExcept: ${notAddedUsers}`);
+  else res.status(207).send(`${userCount} added.\nExcept: ${notAddedUsers}`);
 })
 
 app.post("/userdownload", auth.tokenAutheticate, async (req, res) => {
