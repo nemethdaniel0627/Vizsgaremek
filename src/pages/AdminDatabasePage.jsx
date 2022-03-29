@@ -156,7 +156,7 @@ export default function AdminDatabasePage(props) {
 
     }
 
-    function pagination(limit, offset) {
+    function pagination(limit, offset, searchValue = "") {
         // console.log(limit);
         // console.log(offset);
         setLoading(true);
@@ -164,7 +164,8 @@ export default function AdminDatabasePage(props) {
             {
                 pending: showPending,
                 limit: limit,
-                offset: offset
+                offset: offset,
+                searchValue: searchValue
             }, AuthUser.authHeader())
             .then(response => {
                 showPending ? setPending(response.data.users) : setUsers(response.data.users);
@@ -191,7 +192,7 @@ export default function AdminDatabasePage(props) {
                     <div className="col-2 col-lg-2"></div>
                     <div className="col-10 col-lg-10 admin-db-acc mb-5 mb-lg-0 mt-5">
 
-                        <AdminDatabaseManagerSearch numberOfPages={numberOfPages} pagination={pagination} />
+                        <AdminDatabaseManagerSearch showPending={showPending} numberOfPages={numberOfPages} pagination={pagination} />
 
 
                         <Accordion>

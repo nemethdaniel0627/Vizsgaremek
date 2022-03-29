@@ -2,7 +2,6 @@ import { faEye, faEyeSlash, faUserPlus } from "@fortawesome/free-solid-svg-icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import login_icon from "../images/icon.png";
 import ResponseMessage from "../components/ResponseMessage";
 import AuthUser from "../modules/AuthUser";
 
@@ -157,7 +156,7 @@ export default function RegisterForm(props) {
                                         </div> : <></>}
 
                                         <div className="form-outline form-white mb-4">
-                                            <input className="form-check-input mt-1" type="checkbox" value="" id="flexCheckDefault"  required/>
+                                            <input className="form-check-input mt-1" type="checkbox" value="" id="flexCheckDefault" required />
                                             <label className="form-check-label fs-5 ms-2" htmlFor="flexCheckDefault">
                                                 Elfogadom az <a className="rule" href="https://policies.google.com/terms?hl=hu">általános szerződési feltételeket</a>!
                                             </label>

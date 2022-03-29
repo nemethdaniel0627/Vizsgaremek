@@ -19,24 +19,28 @@
 
     &_table {
         display: grid;
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(2, max-content);
         row-gap: 2rem;
+        align-items: center;
+        justify-content: space-between;
 
         @media only screen and (max-width: 600px) {
             display: flex;
+            align-items: initial;
             flex-direction: column;
         }
 
         .key {
             display: grid;
-            grid-template-columns: repeat(2, minmax(10rem, 1fr));
+            grid-template-columns: repeat(2, minmax(min-content, max-content));
+            gap: 2rem;
 
             @media only screen and (max-width: 900px) {
                 grid-template-columns: initial;
             }
 
             @media only screen and (max-width: 600px) {
-                grid-template-columns: repeat(2, minmax(10rem, 1fr));
+                grid-template-columns: repeat(2, minmax(min-content, max-content));
             }
 
             @media only screen and (max-width: 450px) {

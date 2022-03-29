@@ -18,6 +18,7 @@ export default function Menu(props) {
     const [selectedDates, setSelectedDates] = useState([]);
     const [loading, setLoading] = useState(false);
     const [currentMonday, setCurrentMonday] = useState();
+    const [disabledDays, setDisabledDays] = useState([]);
 
     const dayNames = ["Hétfő", "Kedd", "Szerda", "Csütörtök", "Péntek", "Szombat"];
     const mealTypes = ["Reggeli", "Tízórai", "Ebéd", "Uzsonna", "Vacsora"];
@@ -44,12 +45,13 @@ export default function Menu(props) {
         }
     }
 
-    function setCurrentWeek(date) {
+    function setCurrentWeek(date, tmpWeekLength = weekLength) {
         const year = date.getFullYear();
         const month = date.getMonth();
         const startDay = new Date(year, month, ((date.getDate()) - (date.getDay() - 1)));
         setFirstDay(`${year}-${(startDay.getMonth() + 1) < 10 ? "0" : ""}${(startDay.getMonth() + 1)}-${startDay.getDate() < 10 ? "0" : ""}${startDay.getDate()}`);
-        const endDay = new Date(year, month, ((date.getDate()) - (date.getDay() - 1)) + weekLength)
+        const endDay = new Date(year, month, ((date.getDate()) - (date.getDay() - 1)) + tmpWeekLength)
+        console.log(endDay);
         let finalString = `${year}.${(startDay.getMonth() + 1) < 10 ? "0" : ""}${(startDay.getMonth() + 1)}.${startDay.getDate() < 10 ? "0" : ""}${startDay.getDate()} - ${(endDay.getMonth() + 1) < 10 ? "0" : ""}${(endDay.getMonth() + 1)}.${endDay.getDate() < 10 ? "0" : ""}${endDay.getDate()}`;
 
         setDisplayWeek(finalString);
@@ -89,7 +91,7 @@ export default function Menu(props) {
                         console.log(response.data);
                         setMenu(response.data.menu)
                         setLoading(false);
-                        setCurrentWeek(date);
+                        setCurrentWeek(date, response.data.menu.length - 1);
                         if (!response.data.nextWeek) lastArrow.classList.add("hidden");
                         else lastArrow.classList.remove("hidden")
                     })
@@ -112,7 +114,7 @@ export default function Menu(props) {
                         console.log(response.data);
                         setMenu(response.data.menu);
                         setLoading(false);
-                        setCurrentWeek(date);
+                        setCurrentWeek(date, response.data.menu.length - 1);
                         if (firstArrow) firstArrow.classList.remove("hidden");
                         if (!response.data.nextWeek) lastArrow.classList.add("hidden");
                         else lastArrow.classList.remove("hidden")
@@ -152,9 +154,9 @@ export default function Menu(props) {
                     console.log(response.data.nextWeek);
                     const lastArrow = document.getElementById("weekArrow-2");
                     if (!response.data.nextWeek) lastArrow.classList.add("hidden");
-                    setWeekLength(response.data.menu.length - 1);
+                    setWeekLength(response.data.menu.length);
                     const startDay = modules.getFirstDayOfWeek(new Date());
-                    setCurrentWeek(new Date());
+                    setCurrentWeek(new Date(), response.data.menu.length - 1);
                     setCurrentMonday(`${startDay.getFullYear()}-${(startDay.getMonth() + 1) < 10 ? "0" : ""}${(startDay.getMonth() + 1)}-${startDay.getDate() < 10 ? "0" : ""}${startDay.getDate()}`);
                 })
                 .catch((error) => {
@@ -162,6 +164,7 @@ export default function Menu(props) {
                 })
         }
         if (sessionStorage.getItem("menu") === null) {
+            console.log("axios");
             axios.get(`/etlap`)
                 .then((response) => {
                     sessionStorage.setItem("menu", JSON.stringify(response.data.menu))
@@ -171,9 +174,9 @@ export default function Menu(props) {
                     }
                     const lastArrow = document.getElementById("weekArrow-2");
                     if (!response.data.nextWeek) lastArrow.classList.add("hidden");
-                    setWeekLength(response.data.menu.length - 1);
+                    setWeekLength(response.data.menu.length);
                     const startDay = modules.getFirstDayOfWeek(new Date());
-                    setCurrentWeek(new Date());
+                    setCurrentWeek(new Date(), response.data.menu.length - 1);
                     setCurrentMonday(`${startDay.getFullYear()}-${(startDay.getMonth() + 1) < 10 ? "0" : ""}${(startDay.getMonth() + 1)}-${startDay.getDate() < 10 ? "0" : ""}${startDay.getDate()}`);
                 })
                 .catch((error) => {
@@ -181,8 +184,12 @@ export default function Menu(props) {
                 })
         }
         else {
+            console.log("json");
             const tmpMenu = JSON.parse(sessionStorage.getItem("menu"))
             setMenu(tmpMenu);
+            const startDay = modules.getFirstDayOfWeek(new Date());
+            setCurrentWeek(new Date(), tmpMenu.length - 1);
+            setCurrentMonday(`${startDay.getFullYear()}-${(startDay.getMonth() + 1) < 10 ? "0" : ""}${(startDay.getMonth() + 1)}-${startDay.getDate() < 10 ? "0" : ""}${startDay.getDate()}`);
             if (root) {
                 root.style.setProperty("--numberOfDays", tmpMenu.length);
             }
@@ -232,6 +239,7 @@ export default function Menu(props) {
         }
         checkNextWeek()
 
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [firstDay])
 
     function getDates(tmpSelectedDates) {
@@ -249,8 +257,18 @@ export default function Menu(props) {
         console.log("menu");
         currentDayColorize();
         // setCurrentWeek(new Date());
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [menu])
+
+    useEffect(() => {
+        console.log("disabledDays");
+        console.log(props.disabledDays);
+        setDisabledDays(props.disabledDays);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [props.disabledDays])
+
+
 
     return (
         <div className="menu">
@@ -325,12 +343,12 @@ export default function Menu(props) {
                                         id={`day-${index + 1}`}
                                         className={
                                             "menu--day-table menu--container " +
-                                            (props.disabledDays.includes(modules.convertDateWithDash(tmpFirstDay)) ? "disabled-day " : "") +
+                                            (disabledDays.includes(modules.convertDateWithDash(tmpFirstDay)) ? "disabled-day " : "") +
                                             (props.cancel ? "clickable" : "")}>
 
                                         {props.cancel
                                             ? <input
-                                                disabled={props.disabledDays.includes(index + 1)}
+                                                disabled={disabledDays.includes(modules.convertDateWithDash(tmpFirstDay))}
                                                 key={`menucheck_day-${index + 1}`}
                                                 className="menu--day-table--input"
                                                 type="checkbox"

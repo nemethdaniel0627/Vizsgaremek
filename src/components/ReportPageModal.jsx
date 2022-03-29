@@ -8,7 +8,7 @@ export default function ReportPageModal(props) {
     const user = props.user.props;
 
     const [sended, changeSended] = useState(false);
-    
+
     const [sending, changeSending] = useState(false);
 
     const [error, setError] = useState(false);
@@ -40,28 +40,29 @@ export default function ReportPageModal(props) {
             Sending();
 
             axios.post("/email",
-                    {
-                        email: user.email,
-                        name: user.nev,
-                        class: user.osztaly,
-                        omAzon: user.omAzon,
-                        where: document.getElementById('message_where').value,
-                        what: document.getElementById('message_what').value,
-                        fromEmail: user.email,
-                        type: "report"
-                    },
-                    {
-                        headers: {
-                            "Authorization": `Baerer ${sessionStorage.getItem("token")}`
-                        }
-                    })
-                    .then(response => {
-                        console.log(response);
-                        Send();
-                    })
-                    .catch(error => {
-                        console.error(error);
-                    });
+                {
+                    email: user.email,
+                    nev: user.nev,
+                    osztaly: user.osztaly,
+                    omAzon: user.omAzon,
+                    where: document.getElementById('message_where').value,
+                    what: document.getElementById('message_what').value,
+                    fromEmail: user.email,
+                    type: "report"
+                },
+                {
+                    headers: {
+                        "Authorization": `Baerer ${sessionStorage.getItem("token")}`
+                    }
+                })
+                .then(response => {
+                    console.log(response);
+                    Send();
+                })
+                .catch(error => {
+                    console.error(error);
+                    setError(true);
+                });
         } else {
             setError(true);
         }
@@ -70,26 +71,26 @@ export default function ReportPageModal(props) {
 
     let check = false;
 
-    function CheckboxChange(e){
+    function CheckboxChange(e) {
         check = e.target.checked;
     }
 
     function ErrorModal() {
         return (
-            <div className="fs-4 text-center ReportModal">
-                <div className="input-group mb-3">
+            <div className="fs-4 ReportModal">
+                <div className="input-group mb-3 input-container">
                     <label htmlFor="where_error" className="mb-2">Hol a hiba?</label>
                     <input type="text" id="message_where" className="w-100 form-control" name="message_where" />
                 </div>
-                <div className="input-group mb-5">
+                <div className="input-group mb-5 input-container">
                     <label htmlFor="error" className="mb-2">Hiba rövid leírása:</label>
                     <textarea className="w-100 form-control" id="message_what" cols="30" rows="10" name="message_what"></textarea>
                 </div>
                 <div className="form-check checkbox">
-                    <input className="form-check-input" type="checkbox" id="hozza" onChange={CheckboxChange}/>
-                        <label className="form-check-label" htmlFor="hozza">
-                            Hozzájárulok az adataim elküldésére
-                        </label>
+                    <input className="form-check-input" type="checkbox" id="hozza" onChange={CheckboxChange} />
+                    <label className="form-check-label" htmlFor="hozza">
+                        Hozzájárulok az adataim elküldésére
+                    </label>
                 </div>
                 {error ? <span className="alert alert-danger mb-2 ">Nincs kitöltve minden adat!</span> : <></>}
             </div>

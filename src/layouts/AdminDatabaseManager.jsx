@@ -1,21 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit, faFileDownload, faFileUpload, faUserPlus, faCaretUp, faCaretDown, faBars, faTimes, faCheckSquare } from "@fortawesome/free-solid-svg-icons";
+import { faFileDownload, faFileUpload, faUserPlus, faBars, faTimes, faCheckSquare } from "@fortawesome/free-solid-svg-icons";
 import AdminDatabaseModal from "../components/AdminDatabaseModal";
 
 export default function Manager(props) {
     const [uploadModalAppear, setUploadModal] = useState(false);
     const [newModalAppear, setNewModal] = useState(false);
-    const [search, setSearch] = useState(false);
-    const [modify, setModify] = useState(false);
     const [showPending, setShowPending] = useState(false);
 
     const [active, setActive] = useState(!props.isMobile);
-
-    function Modify() {
-        setModify(!modify);
-        search ? setSearch(!search) : setSearch(search);
-    }
 
     function UploadModal() {
         setUploadModal(!uploadModalAppear);

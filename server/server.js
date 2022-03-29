@@ -197,13 +197,26 @@ app.post("/order", auth.tokenAutheticate, async (req, res) => {
 })
 
 app.post("/cancel", auth.tokenAutheticate, async (req, res) => {
-  const userId = req.body.userId;
+  const omAzon = req.body.omAzon;
+  const userId = (await user.getBy('id', `omAzon = ${omAzon}`, false, false))[0].id;
   const dates = req.body.dates;
+  let notCancelledDates = [];
+  let cancelled;
   for (let i = 0; i < dates.length; i++) {
-    const cancelled = await order.cancelOrder(userId, dates[i]);
-    console.log(cancelled);
+    cancelled = await order.cancelOrder(userId, dates[i]);
+    if (cancelled === false) {
+      notCancelledDates.push(dates[i]);
+    }
   }
-  res.ok();
+  if (notCancelledDates.length === 0) {
+    res.ok();
+  }
+  else if (dates.length === notCancelledDates.length) {
+    res.badRequest();
+  }
+  else {
+    res.status(207).json({ notCancelled: notCancelledDates });
+  }
 })
 
 app.post("/test", async (req, res) => {
@@ -242,8 +255,11 @@ app.post("/useradd", auth.tokenAutheticate, async (req, res) => {
     nev: newUser.nev,
     schoolsId: schoolsId[0].id,
     osztaly: newUser.osztaly,
-    email: newUser.email
+    email: newUser.email,
+    jog: newUser.jog
   }
+  const emailReturn = await email.RegisterInDatabase(tmpUser);
+  console.log(emailReturn);
   tmpUser.jelszo = bcrypt.hashSync(tmpUser.jelszo, 10);
   console.log(tmpUser);
   const added = await user.add(tmpUser, false);
@@ -418,9 +434,13 @@ app.post("/userdownload", auth.tokenAutheticate, async (req, res) => {
   });
 })
 
-app.get("/", (req, res) => {
-  res.send("<div>Hello world</div>")
-})
+app.get('/*', function (req, res) {
+  res.sendFile(path.join(__dirname, '../build/index.html'), function (err) {
+    if (err) {
+      res.status(500).send(err)
+    }
+  })
+});
 
 app.listen(PORT, () => {
   console.log(`server started on port ${PORT}`);

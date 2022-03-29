@@ -95,6 +95,44 @@ class emailSend {
         return this.makeAccount(details);
     }
 
+    async RegisterInDatabase(email){
+        let html =
+        '<div style="width: 80%; border-radius: 2rem; border: 1px solid black; margin: auto; margin-top: 1rem; font-family: Georgia, `Times New Roman`, Times, serif">'
+        + '<div class="header" style="background-color: #001e6c; border-radius: 2rem 2rem 0 0;">'
+        + '  <img src="https://i.ibb.co/1dsRrHm/Food-Web-logo.png" alt="Food-Web-logo" style="width: 25%; margin: 1rem;">'
+        + ' </div>'
+        + '<div style="margin: 1rem;">'
+        + ' <h1 style="font-size: 2vw;">Kedves ' + email.nev + '!</h1>'
+
+        + '  <hr>'
+        + ' <p style="font-size: 1.7vw;"><b>Sikeresen regisztálták önt a Food-E weboldalon.</b> '
+        + '   <br> A továbbiakban'
+        + '   <a href="https://www.foode.hu">itt</a>'
+        + '   tud bejelentkezni a következő azonosítóval illetve jelszóval:'
+        + ' </p>'
+        + ` <p style="font-size: 1.2vw;"> Azonosító: <i> ${email.omAzon} </i>, Jelszó: <i> ${email.jelszo} </i> </p>`
+        + ' <p style="font-size: 1.4vw;">Bejeletkezés után kérjül változtassa meg a jelszavát!</p>'
+
+        + ' <p style="font-size: 1.4vw;">Ha bármilyen kérdés merül fel, forduljon hozzánk bizalommal: <span><br>information.foode@gmail.com</span></p>'
+        + ' <hr>'
+
+        + ' <p style="font-size: 1.2vw;">Üdvözlettel: <i>FoodE</i></p>'
+        + '</div>'
+
+        + '<div class="lower" style="background-color: #001e6c; border-radius: 0 0 2rem 2rem;">'
+        + '<img src="https://i.ibb.co/1dsRrHm/Food-Web-logo.png" alt="Food-Web-logo" style="width: 25%; margin: 1rem; opacity: 0;">'
+        + ' </div>'
+        + '</div>';
+
+        const details = {
+            from: "FoodE <information.foode@gmail.com>",
+            to: email.email,
+            html: html,
+            subject: "Sikeres regisztáció"
+        }
+        return this.makeAccount(details);
+    }
+
     async EmailSendingForRegisterAccepted(email) {
         let html =
             '<div style="width: 80%; border-radius: 2rem; border: 1px solid black; margin: auto; margin-top: 1rem; font-family: Georgia, `Times New Roman`, Times, serif">'

@@ -37,7 +37,6 @@ class Order {
     }
 
     async getCancelledDates(userId) {
-        if (await sqlQueries.isConnection() === false) await sqlQueries.CreateConnection();
         const days = await sqlQueries.innerSelect(
             'days',
             'days.datum',
@@ -46,10 +45,9 @@ class Order {
             'INNER JOIN user ON orders.userId = user.id ',
             `user.id = ${userId} AND orders.lemondva IS NOT NULL`, false
         );
-        await sqlQueries.EndConnection();
         let dates = [];
         days.forEach(day => {
-            dates.push(functions.convertDateWithDash(new Date(day)))
+            dates.push(functions.convertDateWithDash(new Date(day.datum)))
         });
         return dates;
     }

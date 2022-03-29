@@ -113,9 +113,9 @@
         align-items: center;
         justify-content: center;
 
-        &--icon {
+        svg.menu--week-header--icon{
             margin: 0 1rem;
-            font-size: 2.5rem;
+            font-size: 2rem;
             cursor: pointer;
         }
     }

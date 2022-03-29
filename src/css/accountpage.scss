@@ -1,4 +1,5 @@
 .personal-datas {
+  font-size: 170%;
   .bank-account,
   .important,
   .password-change {
@@ -7,6 +8,16 @@
     box-shadow: 1px 1px 5px 1px black;
     padding: 2%;
     margin-bottom: 5%;
+  }
+
+  .header {
+    @media only screen and (max-width: 600px) {
+      font-size: 1.6rem;
+    }
+
+    @media only screen and (max-width: 400px) {
+      font-size: 1.4rem;
+    }
   }
 
   .password-change {
@@ -38,11 +49,11 @@
     &--inputs {
       display: flex;
       align-items: center;
-      
+
       .key {
-        margin-right: .5rem;
+        margin-right: 0.5rem;
         @media only screen and (max-width: 1200px) {
-          margin-bottom: .5rem;
+          margin-bottom: 0.5rem;
         }
       }
 
@@ -160,14 +171,15 @@
   margin-top: 0em !important;
 }
 .personal-activities {
+  font-size: 170%;
 
-  .header{
+  .header {
     height: max-content;
     margin-bottom: 5%;
     color: #fff;
     padding: 0.5em;
   }
-  
+
   .activities {
     border-radius: 1em;
     border: 1px solid black;
@@ -221,7 +233,7 @@
     .act-date {
       color: #ffffff50;
     }
-    .act-dates{
+    .act-dates {
       color: #ffffff90;
       font-size: 1.5rem;
     }

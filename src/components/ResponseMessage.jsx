@@ -29,6 +29,7 @@ export default function ErrorMessage(props) {
                             size="large"
                             onClick={() => {
                                 if (props.reload === true) window.location.reload();
+                                if (props.customFunc !== undefined) props.customFunc();
                                 setAlertOpen(false);
                             }}
                         >
@@ -41,7 +42,7 @@ export default function ErrorMessage(props) {
                         {
                             props.type === "error" ? "Hiba"
                                 : props.type === "success" ? "Sikeres művelet"
-                                    : ""}
+                                    : props.type === "warning" ? "Figyelmeztetés" : ""}
                     </AlertTitle>
                     {props.text.split("\n").map((text, index) => {
                         return (
