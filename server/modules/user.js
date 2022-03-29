@@ -105,7 +105,7 @@ class User {
             'user', 
             'user.omAzon, user.nev, schools.iskolaOM, user.osztaly, user.email',
             'INNER JOIN schools ON user.schoolsId = schools.id',
-            'user.schoolsId = schools.id', false);
+            'user.schoolsId = schools.id', true);
     }
 }
 
