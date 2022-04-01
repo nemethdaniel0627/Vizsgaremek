@@ -134,14 +134,8 @@ app.post("/user", auth.tokenAutheticate, async (req, res) => {
   else res.notFound();
 });
 
-app.get("/alluser", auth.tokenAutheticate, async (req, res) => {
-  const allUser = await user.getAll(false);
-  if (allUser.length === 0) res.notFound();
-  res.json(allUser)
-});
-
 app.post("/token", auth.tokenAutheticate, (req, res) => {
-  res.json({ message: "Ok" });
+  res.ok();
 })
 
 app.post("/register", async (req, res) => {
@@ -218,13 +212,6 @@ app.post("/cancel", auth.tokenAutheticate, async (req, res) => {
   }
 })
 
-app.post("/test", async (req, res) => {
-  // const create = await test.generate('users2.txt', 82);
-  // res.send(create);
-  // const testOrders = await test.orders('2022-03-15', 15);
-  // res.send(testOrders);
-})
-
 app.post("/scan", auth.tokenAutheticate, async (req, res) => {
   const omAzon = req.body.omAzon;
   const userId = await user.getBy("id", `omAzon = ${omAzon}`, false, false);
@@ -257,12 +244,12 @@ app.post("/useradd", auth.tokenAutheticate, async (req, res) => {
     email: newUser.email,
     jog: newUser.jog
   }
-  const emailReturn = await email.RegisterInDatabase(tmpUser);
+  await email.RegisterInDatabase(tmpUser);
   tmpUser.jelszo = bcrypt.hashSync(tmpUser.jelszo, 10);
   const added = await user.add(tmpUser, false);
   if (added) res.created();
   else res.conflict();
-})
+});
 
 app.post("/usermodify", auth.tokenAutheticate, async (req, res) => {
   const omAzon = req.body.omAzon;
@@ -352,7 +339,9 @@ app.post("/email", async (req, res) => {
     default:
 
       break;
+
   }
+  res.ok();
 })
 
 app.post("/cancelledDates", auth.tokenAutheticate, async (req, res) => {
@@ -393,7 +382,6 @@ app.post("/userupload", auth.tokenAutheticate, async (req, res) => {
   // "omAzon;jelszo;nev;iskolaOM;osztaly;email"
   const userRows = req.body.userRows.split("\n");
   let notAddedUsers = [];
-  let userCount = 0;
 
   for (let i = 1; i < userRows.length - 1; i++) {
     const schoolsId = await user.convert(userRows[i].split(';')[2]);
@@ -410,8 +398,8 @@ app.post("/userupload", auth.tokenAutheticate, async (req, res) => {
     if (newUser.schoolsId === -1) notAddedUsers.push(`${newUser.omAzon} - ${newUser.nev}`);
     else {
       const added = await user.add(newUser, false);
-      if (added) userCount++;
-      else notAddedUsers.push(`${newUser.omAzon} - ${newUser.nev}`);
+      if (added === false)
+        notAddedUsers.push(`${newUser.omAzon} - ${newUser.nev}`);
     }
   }
   if (notAddedUsers.length === 0) res.ok();
