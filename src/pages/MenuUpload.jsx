@@ -308,6 +308,12 @@ export default function MenuUpload() {
     function sendExcelRows(isOverride) {
         const startDay = modules.getFirstDayOfWeek(week);
         console.log(excelRows);
+        const uploadedFileCounter = document.querySelector('.uploaded-file__counter');
+        const uploadedFileInfo = document.querySelector('#uploadedFileInfo');
+        if (uploadedFileInfo.classList.contains("uploaded-file__info--active")) {
+            uploadedFileInfo.classList.remove('uploaded-file__info--active');
+        }
+        uploadedFileCounter.innerHTML = `0%`
         axios.post("/etlap",
             {
                 excelRows: excelRows,

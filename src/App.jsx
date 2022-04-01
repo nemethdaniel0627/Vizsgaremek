@@ -28,7 +28,7 @@ export default function App() {
     const [user, setUser] = useState(JSON.parse(sessionStorage.getItem("user")));
 
     useEffect(() => {
-        setSearchBarHeight();       
+        setSearchBarHeight();
     }, [])
 
     useEffect(() => {
@@ -147,7 +147,7 @@ export default function App() {
                     } />
 
                     <AuthRoute path="/lemondas" auth="user" component={() =>
-                        <LunchCancelation user={user}/>
+                        <LunchCancelation user={user} />
                     } />
 
                     <AuthRoute path="/adatlap" auth="user" component={() =>

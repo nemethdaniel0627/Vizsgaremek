@@ -25,3 +25,6 @@ ALTER TABLE orders AUTO_INCREMENT = 1;
 -- SELECT id FROM days WHERE datum = "2021-12-1";
 
 -- INSERT INTO meal (id,nev) VALUES (202111221, "Hagyma");
+
+INSERT INTO orders (menuId, userId, reggeli, tizorai, ebed, uzsonna, vacsora, ar)
+  VALUES (1, 4, 1, 1, 1, 1, 1, 3000), (2, 4, 1, 1, 1, 1, 1, 3000), (3, 4, 1, 1, 1, 1, 1, 3000), (4, 4, 1, 1, 1, 1, 1, 3000), (5, 4, 1, 1, 1, 1, 1, 3000);

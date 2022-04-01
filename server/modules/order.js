@@ -143,7 +143,7 @@ class Order {
             'orders',
             'id',
             `orders.menuId = ${menuId} AND orders.userId = ${userId} AND orders.lemondva IS NULL`);
-
+        console.log(order);
         if (order.length === 0) return false; // Már lemondva
 
         order = order[0];
@@ -165,16 +165,16 @@ class Order {
 
         let dateFrom;
         if (day > 0 && day < 5) {
-            if (time < 830) 
+            if (time < 830)
                 dateFrom = today;
-            else 
+            else
                 dateFrom = tomorrow;
         } else if (day === 5) {
-            if (time < 830) 
+            if (time < 830)
                 dateFrom = today;
-            else 
+            else
                 dateFrom = functions.convertDateWithDash(functions.getFirstDayOfWeek(new Date(today)));
-        } else 
+        } else
             dateFrom = functions.convertDateWithDash(functions.getFirstDayOfWeek(new Date(today)));
 
         return dateFrom;

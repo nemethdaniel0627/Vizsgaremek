@@ -6,6 +6,8 @@ import axios from 'axios'
 import AuthUser from "../modules/AuthUser";
 import UserModal from "./UserModal";
 import ResponseMessage from "./ResponseMessage";
+import Loader from "../layouts/Loader";
+import { CircularProgress } from "@mui/material";
 
 export default function AdminDatabaseModal(props) {
   const [search, setSearch] = useState(props.show);
@@ -15,6 +17,8 @@ export default function AdminDatabaseModal(props) {
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertType, setAlertType] = useState(undefined);
   const [alertMessage, setAlertMessage] = useState("");
+  const [uploadFile, setUploadFile] = useState("");
+  const [loading, setLoading] = useState(false);
   const [tmpUser, setTmpUser] = useState({
     nev: "",
     omAzon: "",
@@ -37,7 +41,7 @@ export default function AdminDatabaseModal(props) {
 
   function modifyUser() {
     console.log("modify");
-    if (tmpUser.nev.trim() !== "" && tmpUser.omAzon.trim() !== "" && tmpUser.osztaly.trim() !== "" && tmpUser.email.trim() !== "" && tmpUser.iskolaOM.trim() !== "") {
+    if (tmpUser.nev.trim() !== "" && tmpUser.omAzon.trim() !== "" && tmpUser.email.trim() !== "" && tmpUser.iskolaOM.trim() !== "") {
       axios.post("/usermodify",
         {
           omAzon: props.user.omAzon,
@@ -58,6 +62,11 @@ export default function AdminDatabaseModal(props) {
           setAlertOpen(true)
           //ERROR
         })
+    }
+    else {
+      setAlertType("error");
+      setAlertMessage(`Hiányzó adat!`);
+      setAlertOpen(true)
     }
 
   }
@@ -83,7 +92,7 @@ export default function AdminDatabaseModal(props) {
     // ModalClose();    
   }
 
-  function addUser() {  
+  function addUser() {
 
     if (tmpUser.nev.trim() !== "" && tmpUser.omAzon.trim() !== "" && tmpUser.email.trim() !== "" && tmpUser.iskolaOM.trim() !== "") {
       let addedUser = tmpUser;
@@ -95,12 +104,12 @@ export default function AdminDatabaseModal(props) {
         .then(response => {
           setAlertType("success");
           setAlertMessage("Sikeres felhasználó hozzáadás!");
-          setAlertOpen(true)
+          setAlertOpen(true);
         })
         .catch(error => {
           setAlertType("error");
           setAlertMessage("Hiba történt a felhasználó hozzáadása közben!");
-          setAlertOpen(true)
+          setAlertOpen(true);
         });
     }
     else {
@@ -111,24 +120,58 @@ export default function AdminDatabaseModal(props) {
     // ModalClose();
   }
 
+  function uploadUser() {
+    setLoading(true);
+
+    axios.post("/userupload", {
+      userRows: uploadFile
+    }, AuthUser.authHeader())
+      .then(response => {
+        if (response.status === 207) {
+          console.log(response.data);
+          setAlertType("warning");
+          setAlertMessage(`Pár felhasználót nem sikerült hozzáadni!`);
+          setAlertOpen(true);
+        }
+        else {
+          setAlertType("success");
+          setAlertMessage("Sikeres felhasználók hozzáadása!");
+          setAlertOpen(true);
+        }
+        let circleLoader = document.querySelector(".circle-loader");
+        let checkMark = document.querySelector(".checkmark");
+        circleLoader.classList.add("load-complete");
+        checkMark.style.display = "block";
+
+      })
+      .catch(error => {
+        console.error(error);
+        setAlertType("error");
+        setAlertMessage(`Hiba a hozzáadás közben`);
+        setAlertOpen(true);
+        let circleLoader = document.querySelector(".circle-loader");
+        let cross = document.querySelector(".cross");
+        circleLoader.classList.add("load-complete-error");
+        cross.style.display = "block";
+
+      })
+  }
+
   function ModalClose() {
     setSearch(!search);
     props.ModalClose();
   }
 
-  function TextAbstract(text, length) {
-    if (text == null) {
-      return "";
-    }
-    if (text.length <= length) {
-      return text;
-    }
-    text = text.toString().substring(0, length - 3);
-    return text + "...";
-  }
-
   function FileUploadText(e) {
-    setFileURL(TextAbstract(e.target.value, 40));
+    const file = e.target.files[0];
+    const reader = new FileReader();
+    if (reader.readAsText) {
+      reader.readAsText(file);
+    }
+    reader.addEventListener('loadend', () => {
+      setUploadFile(reader.result);
+    })
+    setFileURL(file.name);
   }
 
   function getUserInfo(user) {
@@ -169,8 +212,14 @@ export default function AdminDatabaseModal(props) {
               <FontAwesomeIcon icon={faUserPlus} /> <span> {props.button}</span>
             </button> :
             props.type === "File" ?
-              <button type="button" className="btn btn-modify fs-4">
-                <FontAwesomeIcon icon={faFileUpload} /> <span> {props.button}</span>
+              <button type="button" className="btn btn-modify fs-4 d-flex align-items-center gap-2" onClick={uploadUser}>
+                {loading ?
+                  <div className="circle-loader">
+                    <div className="checkmark draw"></div>
+                    <div className="cross"></div>
+                  </div> :
+                  <FontAwesomeIcon icon={faFileUpload} />
+                } <span> {props.button}</span>
               </button> :
               props.type === "Modify" ?
                 <button type="button" className="btn btn-modify fs-4" onClick={modifyUser}>
@@ -195,7 +244,8 @@ export default function AdminDatabaseModal(props) {
           alertOpen={alertOpen}
           text={alertMessage}
           type={alertType}
-          reload={alertType === "success" ? true : false} />
+          reload={alertType === "success" ? true : false}
+          customFunc={() => { setLoading(false) }} />
       </Modal>
     </div>
   );

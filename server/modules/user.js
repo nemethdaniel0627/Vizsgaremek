@@ -51,10 +51,10 @@ class User {
 
     async getAll(array, limit = 10, offset = 0, tableName = "user", searchValue) {
         const all = await sqlQueries.selectAll(
-            `${tableName} ` + 
+            `${tableName} ` +
             `INNER JOIN schools ON ${tableName}.schoolsId = schools.id ` +
-            `${tableName === "user" ? `INNER JOIN user_role ON user_role.userId = ${tableName}.id INNER JOIN roles ON user_role.roleId = roles.id ` : "" } ` +
-            `WHERE ${tableName === "user" ? `roles.nev = 'user' AND ` : "" }` +
+            `${tableName === "user" ? `INNER JOIN user_role ON user_role.userId = ${tableName}.id INNER JOIN roles ON user_role.roleId = roles.id ` : ""} ` +
+            `WHERE ${tableName === "user" ? `roles.nev = 'user' AND ` : ""}` +
             `(${tableName}.omAzon REGEXP '${searchValue}' OR ` +
             `${tableName}.nev REGEXP '${searchValue}' OR ` +
             `schools.iskolaOM REGEXP '${searchValue}' OR ` +
@@ -74,8 +74,7 @@ class User {
             "INNER JOIN days ON menu.daysId = days.id " +
             "INNER JOIN orders ON orders.menuId = menu.id " +
             `WHERE datum = '${functions.convertDateWithDash(new Date())}' AND userId = ${tableName}.id` +
-            ") AS 'befizetve'", 
-            array
+            ") AS 'befizetve'", array
         );
         return all;
     }
@@ -101,11 +100,12 @@ class User {
     }
 
     async getUsers() {
-        return await sqlQueries.innerSelect(
-            'user', 
+        const userResult = await sqlQueries.innerSelect(
+            'user',
             'user.omAzon, user.nev, schools.iskolaOM, user.osztaly, user.email',
             'INNER JOIN schools ON user.schoolsId = schools.id',
             'user.schoolsId = schools.id', true);
+        return userResult;
     }
 }
 

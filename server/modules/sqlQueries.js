@@ -17,9 +17,9 @@ class sqlQueries {
 
     async insert(tableName, fields, values, needConnection = true) {
         try {
-            needConnection ? await this.CreateConnection() : setTimeout(() => {}, 0);
+            needConnection ? await this.CreateConnection() : setTimeout(() => { }, 0);
             let [results, resultInfo] = await this._connection.execute(`INSERT INTO ${tableName} (${fields}) VALUES (${values});`);
-            needConnection ? await this.EndConnection() : setTimeout(() => {}, 0);
+            needConnection ? await this.EndConnection() : setTimeout(() => { }, 0);
             return results;
         } catch (error) {
             throw error;
@@ -28,9 +28,9 @@ class sqlQueries {
 
     async select(tableName, field, conditions, array, needConnection = true) {
         try {
-            needConnection ? await this.CreateConnection(array) : setTimeout(() => {}, 0);
+            needConnection ? await this.CreateConnection(array) : setTimeout(() => { }, 0);
             let [results, resultInfo] = await this._connection.query(`SELECT ${field} FROM ${tableName} WHERE ${conditions}`);
-            needConnection ? await this.EndConnection() : setTimeout(() => {}, 0);
+            needConnection ? await this.EndConnection() : setTimeout(() => { }, 0);
             return results;
         } catch (error) {
             throw error;
@@ -39,9 +39,9 @@ class sqlQueries {
 
     async selectAll(tableName, fields = "*", array, needConnection = true) {
         try {
-            needConnection ? await this.CreateConnection(array) : setTimeout(() => {}, 0);
+            needConnection ? await this.CreateConnection(array) : setTimeout(() => { }, 0);
             let [results, resultInfo] = await this._connection.query(`SELECT ${fields} FROM ${tableName}`);
-            needConnection ? await this.EndConnection() : setTimeout(() => {}, 0);
+            needConnection ? await this.EndConnection() : setTimeout(() => { }, 0);
             return results;
         } catch (error) {
             throw error;
@@ -50,9 +50,9 @@ class sqlQueries {
 
     async innerSelect(tableName, fields, innerJoins, conditions, array, needConnection = true) {
         try {
-            needConnection ? await this.CreateConnection(array) : setTimeout(() => {}, 0);
+            needConnection ? await this.CreateConnection(array) : setTimeout(() => { }, 0);
             let [results, resultInfo] = await this._connection.query(`SELECT ${fields} FROM ${tableName} ${innerJoins} WHERE ${conditions}`);
-            needConnection ? await this.EndConnection() : setTimeout(() => {}, 0);
+            needConnection ? await this.EndConnection() : setTimeout(() => { }, 0);
             return results
         } catch (error) {
             throw error;
@@ -61,9 +61,9 @@ class sqlQueries {
 
     async delete(tableName, conditions, needConnection = true) {
         try {
-            needConnection ? await this.CreateConnection() : setTimeout(() => {}, 0);
+            needConnection ? await this.CreateConnection() : setTimeout(() => { }, 0);
             let [results, resultInfo] = await this._connection.query(`DELETE FROM ${tableName} WHERE ${conditions}`);
-            needConnection ? await this.EndConnection() : setTimeout(() => {}, 0);
+            needConnection ? await this.EndConnection() : setTimeout(() => { }, 0);
             return results;
         } catch (error) {
             throw error;
@@ -72,9 +72,9 @@ class sqlQueries {
 
     async update(tableName, sets, conditions, needConnection = true) {
         try {
-            needConnection ? await this.CreateConnection() : setTimeout(() => {}, 0);
+            needConnection ? await this.CreateConnection() : setTimeout(() => { }, 0);
             let [results, resultInfo] = await this._connection.query(`UPDATE ${tableName} SET ${sets} WHERE ${conditions}`);
-            needConnection ? await this.EndConnection() : setTimeout(() => {}, 0);
+            needConnection ? await this.EndConnection() : setTimeout(() => { }, 0);
             return results;
         } catch (error) {
             throw error;

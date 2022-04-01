@@ -163,38 +163,40 @@ export default function Menu(props) {
                     console.log(error.response);
                 })
         }
-        if (sessionStorage.getItem("menu") === null) {
-            console.log("axios");
-            axios.get(`/etlap`)
-                .then((response) => {
-                    sessionStorage.setItem("menu", JSON.stringify(response.data.menu))
-                    setMenu(response.data.menu);
-                    if (root) {
-                        root.style.setProperty("--numberOfDays", response.data.menu.length);
-                    }
-                    const lastArrow = document.getElementById("weekArrow-2");
-                    if (!response.data.nextWeek) lastArrow.classList.add("hidden");
-                    setWeekLength(response.data.menu.length);
-                    const startDay = modules.getFirstDayOfWeek(new Date());
-                    setCurrentWeek(new Date(), response.data.menu.length - 1);
-                    setCurrentMonday(`${startDay.getFullYear()}-${(startDay.getMonth() + 1) < 10 ? "0" : ""}${(startDay.getMonth() + 1)}-${startDay.getDate() < 10 ? "0" : ""}${startDay.getDate()}`);
-                })
-                .catch((error) => {
-                    console.log(error.response);
-                })
-        }
-        else {
-            console.log("json");
-            const tmpMenu = JSON.parse(sessionStorage.getItem("menu"))
-            setMenu(tmpMenu);
-            const startDay = modules.getFirstDayOfWeek(new Date());
-            setCurrentWeek(new Date(), tmpMenu.length - 1);
-            setCurrentMonday(`${startDay.getFullYear()}-${(startDay.getMonth() + 1) < 10 ? "0" : ""}${(startDay.getMonth() + 1)}-${startDay.getDate() < 10 ? "0" : ""}${startDay.getDate()}`);
-            if (root) {
-                root.style.setProperty("--numberOfDays", tmpMenu.length);
-            }
-            setWeekLength(tmpMenu.length - 1);
-        }
+        // if (sessionStorage.getItem("menu") === null) {
+        console.log("axios");
+        axios.get(`/etlap`)
+            .then((response) => {
+                sessionStorage.setItem("menu", JSON.stringify(response.data.menu))
+                setMenu(response.data.menu);
+                if (root) {
+                    root.style.setProperty("--numberOfDays", response.data.menu.length);
+                }
+                const lastArrow = document.getElementById("weekArrow-2");
+                if (!response.data.nextWeek) lastArrow.classList.add("hidden");
+                setWeekLength(response.data.menu.length);
+                const startDay = modules.getFirstDayOfWeek(new Date());
+                setCurrentWeek(new Date(), response.data.menu.length - 1);
+                setCurrentMonday(`${startDay.getFullYear()}-${(startDay.getMonth() + 1) < 10 ? "0" : ""}${(startDay.getMonth() + 1)}-${startDay.getDate() < 10 ? "0" : ""}${startDay.getDate()}`);
+            })
+            .catch((error) => {
+                console.log(error.response);
+            })
+        // }
+        // else {
+        //     console.log("json");
+        //     const tmpMenu = JSON.parse(sessionStorage.getItem("menu"))
+        //     setMenu(tmpMenu);
+        //     const startDay = modules.getFirstDayOfWeek(new Date());
+        //     const lastArrow = document.getElementById("weekArrow-2");
+        //     if (!response.data.nextWeek) lastArrow.classList.add("hidden");
+        //     setCurrentWeek(new Date(), tmpMenu.length - 1);
+        //     setCurrentMonday(`${startDay.getFullYear()}-${(startDay.getMonth() + 1) < 10 ? "0" : ""}${(startDay.getMonth() + 1)}-${startDay.getDate() < 10 ? "0" : ""}${startDay.getDate()}`);
+        //     if (root) {
+        //         root.style.setProperty("--numberOfDays", tmpMenu.length);
+        //     }
+        //     setWeekLength(tmpMenu.length - 1);
+        // }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 

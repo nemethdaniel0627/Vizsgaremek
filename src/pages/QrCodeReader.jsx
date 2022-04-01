@@ -7,8 +7,8 @@ import AuthUser from "../modules/AuthUser";
 
 export default function QrCodeReader() {
     const [isCamera, setIsCamera] = useState(false);
-    // const [qrResult, setQrResult] = useState({ nev: "Teszt Elek", omAzon: 1231231231, osztaly: "12.a", iskolaNev: "Jedlik Ányos Technikum És Kollégium", befizetve: false });
-    const [qrResult, setQrResult] = useState({ nev: "", osztaly: "", befizetve: null });
+    const [qrResult, setQrResult] = useState({ nev: "Teszt Elek", omAzon: 1231231231, osztaly: "12.A", iskolaNev: "Jedlik Ányos Technikum És Kollégium", befizetve: false });
+    // const [qrResult, setQrResult] = useState({ nev: "", osztaly: "", befizetve: null });
     const [loading, setLoading] = useState(false);
 
     let handleScan = data => {
@@ -18,24 +18,24 @@ export default function QrCodeReader() {
 
             setLoading(true);
             axios.post("/scan",
-            {
-                omAzon: tmpJson.omAzon
-            }, AuthUser.authHeader())
-            .then(response => {
-                console.log(response);
-                setQrResult({
-                    nev: tmpJson.nev,
-                    osztaly: tmpJson.osztaly,
-                    befizetve: response.data.befizetve,
-                    iskolaNev: tmpJson.iskolaNev
-                });
-                setLoading(false);
-            })
-            .catch(error => {
-                console.error(error);
-                setLoading(false);
-            })
-            
+                {
+                    omAzon: tmpJson.omAzon
+                }, AuthUser.authHeader())
+                .then(response => {
+                    console.log(response);
+                    setQrResult({
+                        nev: tmpJson.nev,
+                        osztaly: tmpJson.osztaly,
+                        befizetve: response.data.befizetve,
+                        iskolaNev: tmpJson.iskolaNev
+                    });
+                    setLoading(false);
+                })
+                .catch(error => {
+                    console.error(error);
+                    setLoading(false);
+                })
+
             console.log(isCamera);
         }
     }

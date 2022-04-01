@@ -191,7 +191,8 @@ export default function RegisterForm(props) {
                     setAlertOpen={setAlertOpen}
                     alertOpen={alertOpen}
                     text={"Sikeres regisztráció!\nTovábbi információkat emailben küldtünk"}
-                    type="success" />
+                    type="success" 
+                    customFunc={() => {props.RegisterOff()}}/>
                     : <></>}
         </section>
 

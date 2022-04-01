@@ -5,7 +5,7 @@ import ResponseMessage from "../components/ResponseMessage";
 
 export default function AdminDatabaseManagerSearch(props) {
     const [pageNumber, setPageNumber] = useState(1);
-    const [forwardDisabled, setForwardDisabled] = useState(false);
+    const [forwardDisabled, setForwardDisabled] = useState(props.numberOfPages === 1 ? true : false);
     const [backwardDisabled, setBackwardDisabled] = useState(true);
     const [numberOfPeople, setNumberOfPeople] = useState(10);
     const [searchValue, setSearchValue] = useState("");
@@ -66,13 +66,15 @@ export default function AdminDatabaseManagerSearch(props) {
 
         if (event.keyCode === 13 || outFocus === true) {
             if (Number(event.target.value) <= props.numberOfPages && Number(event.target.value) !== "" && Number(event.target.value) !== 0) {
-                if (Number(event.target.value) === 1) {
+                if (Number(event.target.value) === 1 && Number(event.target.value) === props.numberOfPages) {
+                    setBackwardDisabled(true);
+                    setForwardDisabled(true);
+                }
+                else if (Number(event.target.value) === 1) {
                     setBackwardDisabled(true);
                     setForwardDisabled(false);
                 }
-                console.log(Number(event.target.value));
-                console.log(props.numberOfPages);
-                if (Number(event.target.value) === props.numberOfPages) {
+                else if (Number(event.target.value) === props.numberOfPages) {
                     setBackwardDisabled(false);
                     setForwardDisabled(true);
                 }
@@ -108,8 +110,18 @@ export default function AdminDatabaseManagerSearch(props) {
         setNumberOfPeople(10);
         setSearchValue("");
         setBackwardDisabled(true);
-        setForwardDisabled(false);
+        console.log(props.numberOfPages);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [props.showPending])
+
+    useEffect(() => {
+        if (props.numberOfPages === 1) {
+            setForwardDisabled(true);
+        }
+        else {
+            setForwardDisabled(false);
+        }
+    }, [props.numberOfPages])
 
     return (
         <div className="acc-head manager" id="back-to-top-anchor">

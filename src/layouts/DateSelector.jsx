@@ -221,8 +221,7 @@ export default function DateSelector(props) {
       }
     }
     else if (selectedDates.includes(startInputValue.replaceAll("-", "."))) {
-
-      returnValue = false;
+      returnValue = true;
     }
     else {
       if (selectedDates.length !== 0) {
@@ -244,12 +243,13 @@ export default function DateSelector(props) {
             else returnValue = true;
           }
           else {
+            console.log("fazsom öccse");
             returnValue = true;
 
           }
         });
       }
-      else returnValue = true;
+      else returnValue = false;
     }
     return returnValue;
   }
