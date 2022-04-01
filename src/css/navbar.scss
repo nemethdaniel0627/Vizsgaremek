@@ -90,7 +90,6 @@
         }
 
         &--collapse {
-            // display: none;
             width: 50vw;
             height: 100vh;
             background-color: var(--dark-blue);
@@ -299,11 +298,6 @@
     background-color: inherit;
     position: relative;
     height: 100%;
-
-    &:hover #dropdown {
-        // height: var(---dropDownHeight);
-        // height: 18.6rem;
-    }
 }
 
 .dropdown {
@@ -345,7 +339,6 @@
 }
 
 .dropdown--content {
-    // display: none;
     position: absolute;
     background-color: #f1f1f1;
     width: max-content;

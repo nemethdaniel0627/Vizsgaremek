@@ -11,7 +11,6 @@ $check-thickness: 3px;
 $check-color: $brand-success;
 
 .circle-loader {
-    //   margin-bottom: $loader-size/2;
     border: 2px solid rgba(0, 0, 0, 0.2);
     border-left-color: $check-color;
     animation: loader-spin 1.2s ease-in infinite;

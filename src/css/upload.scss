@@ -45,7 +45,7 @@
         }
 
         &--open {
-            /* Slid Down Animation */
+        
             animation: slidDown 500ms ease-in-out;
         }
 
@@ -114,10 +114,9 @@
     }
 }
 
-/* Drop Zoon */
 .upload-area__drop-zoon {
     position: relative;
-    height: 10.25em; /* 180px */
+    height: 10.25em;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -187,7 +186,6 @@
     display: none;
 }
 
-/* (drop-zoon--over) Modifier Class */
 .drop-zoon--over {
     border-color: var(--clr-blue);
 }
@@ -202,7 +200,6 @@
     display: none;
 }
 
-/* File Details Area */
 .upload-area__file-details {
     height: 0;
     visibility: hidden;
@@ -211,15 +208,12 @@
     transition: none 500ms ease-in-out;
     transition-property: opacity, visibility;
     transition-delay: 500ms;
-    // display: none;
 }
 
-/* (duploaded-file--open) Modifier Class */
 .file-details--open {
     height: auto;
     visibility: visible;
     opacity: 1;
-    // display: block;
 
     & .week-selector .css-1snvurg-MuiPickerStaticWrapper-root {
         width: initial;
@@ -233,7 +227,6 @@
     color: var(--clr-light-gray);
 }
 
-/* Uploaded File */
 .uploaded-file {
     display: flex;
     flex-direction: column;
@@ -245,7 +238,6 @@
     transition-property: visibility, opacity;
 }
 
-/* (duploaded-file--open) Modifier Class */
 .uploaded-file--open {
     visibility: visible;
     opacity: 1;
@@ -295,7 +287,6 @@
     background-color: var(--clr-blue);
 }
 
-/* Progress Animation */
 .uploaded-file__info--active::after {
     animation: progressMove 1500ms ease-in-out forwards;
     animation-delay: 300ms;
@@ -322,7 +313,7 @@
 
 .uploaded-file__name {
     width: 100%;
-    max-width: 7.25em; /* 100px */
+    max-width: 7.25em;
     display: inline-block;
     font-size: 1em;
     white-space: nowrap;

@@ -186,7 +186,7 @@ app.post("/order", auth.tokenAutheticate, async (req, res) => {
     if (!ordered) errorDates.push(dates[i]);
   }
   if (errorDates.length === 0) res.ok();
-  else res.status(207).send(`Not paid dates: ${errorDates}`); //statuscode
+  else res.status(207).send(`Not paid dates: ${errorDates}`);
 })
 
 app.post("/cancel", auth.tokenAutheticate, async (req, res) => {
@@ -378,8 +378,7 @@ app.post("/pagination", auth.tokenAutheticate, async (req, res) => {
   });
 })
 
-app.post("/userupload", auth.tokenAutheticate, async (req, res) => {
-  // "omAzon;jelszo;nev;iskolaOM;osztaly;email"
+app.post("/userupload", auth.tokenAutheticate, async (req, res) => {  
   const userRows = req.body.userRows.split("\n");
   let notAddedUsers = [];
 

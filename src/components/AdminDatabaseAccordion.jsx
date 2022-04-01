@@ -27,15 +27,6 @@ export default function AdminDatabaseAccodrion(props) {
         setDeleteModal(!deleteModalAppear);
     }
 
-    // function DateRewrite(date) {
-    //     const temporaryDate = date.split('-');
-    //     return temporaryDate[0] + ". " + temporaryDate[1] + ". " + temporaryDate[2] + ".";
-    // }
-
-    // function SelectionChange(e) {
-    //     e.target.selectedIndex = 0;
-    // }    
-
     function acceptPending() {
         axios.post("/acceptpending",
             {

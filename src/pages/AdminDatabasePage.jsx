@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import AdminDatabaseModal from "../components/AdminDatabaseModal";
 import AdminDatabaseAccordion from "../components/AdminDatabaseAccordion";
 import AdminDatabaseManager from "../layouts/AdminDatabaseManager";
@@ -19,8 +19,6 @@ import ResponseMessage from "../components/ResponseMessage";
 
 export default function AdminDatabasePage(props) {
 
-    const { endLoading, startLoading } = props;
-
     const [users, setUsers] = useState([])
     const [pending, setPending] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -38,13 +36,6 @@ export default function AdminDatabasePage(props) {
             right: "2rem"
         }
     }));
-
-    // const useStylesFab = makeStyles(theme => ({
-    //     root: {
-    //         backgroundColor: "#f00"          
-    //     }
-    // }));
-
     function ScrollTop(props) {
         const { children } = props;
         const classes = useStyles();
@@ -139,40 +130,6 @@ export default function AdminDatabasePage(props) {
             })
     }
 
-    // useEffect(() => {
-    //     if (users.length === 0) {
-    //         setLoading(true);
-    //         axios.post("/pagination",
-    //             {
-    //                 pending: showPending
-    //             }
-    //             , AuthUser.authHeader())
-    //             .then(response => {
-    //                 showPending ? setPending(response.data.users) : setUsers(response.data.users);
-    //                 setNumberOfPages(response.data.pages);
-    //                 setLoading(false);
-    //                 console.log("asd");
-    //             })
-    //             .catch(error => {
-    //                 setAlertType("error");
-    //                 setAlertMessage("Hiba történt a felhasználók lekérése közben!");
-    //                 setAlertOpen(true);
-    //                 setLoading(false);
-    //             });
-    //     }
-    //     setLoading(true);
-    //     axios.get("/userdownload", AuthUser.authHeader())
-    //         .then(response => {
-    //             setDownloadUsers(response.data.users);
-    //             setLoading(false);
-    //         })
-    //         .catch(error => {
-    //             console.error(error);
-    //             setLoading(false);
-    //         })
-    //     // eslint-disable-next-line react-hooks/exhaustive-deps
-    // }, [endLoading, startLoading])
-
     function Download() {
 
         var csv = [];
@@ -206,8 +163,6 @@ export default function AdminDatabasePage(props) {
     }
 
     function pagination(limit, offset, searchValue = "") {
-        // console.log(limit);
-        // console.log(offset);
         setLoading(true);
         axios.post("/pagination",
             {

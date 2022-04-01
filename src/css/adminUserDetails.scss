@@ -78,11 +78,6 @@
                 gap: 0;
             }
 
-            // @media only screen and (max-width: 1000px) {
-            //     flex-direction: row;
-            //     display: grid !important;
-            // }
-
             @media only screen and (max-width: 450px) {
                 display: flex !important;
                 justify-content: space-between;
@@ -117,10 +112,8 @@
                     &.with_data {
                         display: none;
                         text-align: center;
-                        // position: absolute;
                         top: 0;
                         left: 50%;
-                        // transform: translateX(-50%);
                     }
                 }
 

@@ -4,17 +4,11 @@
     justify-items: end;
     border-radius: 10px;
     row-gap: 1rem;
-    column-gap: 1rem;
-    // grid-auto-columns: max-content;
-    grid-auto-rows: max-content;
-    // width: 30rem;
+    column-gap: 1rem;    
+    grid-auto-rows: max-content;    
     font-size: 3rem;
     background-color: var(--light-blue);
-    color: #fff;
-    // position: absolute;
-    // top: 50%;
-    // left: 50%;
-    // transform: translate(-50%, -50%);
+    color: #fff;                
     margin: 2rem;
     align-items: center;
 

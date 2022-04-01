@@ -6,8 +6,6 @@ import axios from 'axios'
 import AuthUser from "../modules/AuthUser";
 import UserModal from "./UserModal";
 import ResponseMessage from "./ResponseMessage";
-import Loader from "../layouts/Loader";
-import { CircularProgress } from "@mui/material";
 
 export default function AdminDatabaseModal(props) {
   const [search, setSearch] = useState(props.show);
@@ -28,10 +26,8 @@ export default function AdminDatabaseModal(props) {
     befizetve: undefined,
     lemondva: []
   })
-  // let user = {};
 
   if (props.user !== undefined) {
-    // user = props.user;
     if (props.user.date && dates.length === 0 && datesBool) {
       setDates(props.user.date.split('#'));
       setDatesBool(false);
@@ -54,13 +50,11 @@ export default function AdminDatabaseModal(props) {
           setAlertType("success");
           setAlertMessage("Sikeres felhasználó módosítás!");
           setAlertOpen(true)
-          // ModalClose();
         })
         .catch(error => {
           setAlertType("error");
           setAlertMessage("Hiba történt a felhasználó módosítása közben!");
           setAlertOpen(true)
-          //ERROR
         })
     }
     else {
@@ -84,12 +78,10 @@ export default function AdminDatabaseModal(props) {
         setAlertOpen(true)
       })
       .catch(error => {
-        console.error(error);
         setAlertType("error");
         setAlertMessage("Hiba történt a felhasználó törlése során!")
         setAlertOpen(true)
       })
-    // ModalClose();    
   }
 
   function addUser() {
@@ -117,7 +109,6 @@ export default function AdminDatabaseModal(props) {
       setAlertMessage(`Hiányzó adat!`);
       setAlertOpen(true)
     }
-    // ModalClose();
   }
 
   function uploadUser() {

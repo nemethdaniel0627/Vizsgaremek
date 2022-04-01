@@ -3,11 +3,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 
 export default function Chips(props) {
-    
-    function closeSelect() {        
-        // const element = document.getElementById(`select_${props.date}`);
-        // if (element) element.style.display = "none";
-        // console.log(typeof(props.closeDate));
+
+    function closeSelect() {
         props.closeDate(props.removeIndex);
     }
 

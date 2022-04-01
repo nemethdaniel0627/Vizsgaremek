@@ -55,135 +55,93 @@ export default function MenuUpload() {
     const [alertButtons, setAlertButtons] = useState(false);
 
 
-    // Design By
-    // - https://dribbble.com/shots/13992184-File-Uploader-Drag-Drop    
     useEffect(() => {
-        // Select Upload-Area
         const uploadArea = document.querySelector('#uploadArea')
 
-        // Select Drop-Zoon Area
         const dropZoon = document.querySelector('#dropZoon');
 
-        // Loading Text
         const loadingText = document.querySelector('#loadingText');
 
-        // Slect File Input 
         const fileInput = document.querySelector('#fileInput');
 
-        // Select Preview Image
         const previewImage = document.querySelector('#previewImage');
 
-        // File-Details Area
         const fileDetails = document.querySelector('#fileDetails');
 
-        // Uploaded File
         const uploadedFile = document.querySelector('#uploadedFile');
 
-        // Uploaded File Info
         const uploadedFileInfo = document.querySelector('#uploadedFileInfo');
 
-        // Uploaded File  Name
         const uploadedFileName = document.querySelector('.uploaded-file__name');
 
-        // Uploaded File Counter        
 
-        // ToolTip Data
         const toolTipData = document.querySelector('.upload-area__tooltip-data');
 
-        // Images Types
         const fileTypes = [
             ".csv",
             "xls",
             "xlsx"
         ];
 
-        // Append Images Types Array Inisde Tooltip Data
         toolTipData.innerHTML = [...fileTypes].join(', .');
 
-        // When (drop-zoon) has (dragover) Event 
         dropZoon.addEventListener('dragover', function (event) {
-            // Prevent Default Behavior 
             event.preventDefault();
 
-            // Add className (drop-zoon--over) On (drop-zoon)
             dropZoon.classList.add('drop-zoon--over');
         });
 
-        // When (drop-zoon) has (dragleave) Event 
         dropZoon.addEventListener('dragleave', function (event) {
-            // Remove className (drop-zoon--over) from (drop-zoon)
             dropZoon.classList.remove('drop-zoon--over');
         });
 
-        // When (drop-zoon) has (drop) Event 
         dropZoon.addEventListener('drop', function (event) {
-            // Prevent Default Behavior 
             event.preventDefault();
 
-            // Remove className (drop-zoon--over) from (drop-zoon)
             dropZoon.classList.remove('drop-zoon--over');
 
-            // Select The Dropped File
             const file = event.dataTransfer.files[0];
 
-            // Call Function uploadFile(), And Send To Her The Dropped File :)
             uploadFile(file);
         });
 
-        // When (drop-zoon) has (click) Event 
         dropZoon.addEventListener('click', function (event) {
-            // Click The (fileInput)
             fileInput.click();
             console.log("click");
         });
 
-        // When (fileInput) has (change) Event 
         fileInput.addEventListener('change', function (event) {
-            // Select The Chosen File
             const file = event.target.files[0];
 
-            // Call Function uploadFile(), And Send To Her The Chosen File :)
             uploadFile(file);
         });
 
-        // Upload File Function
         function uploadFile(file) {
             try {
-                // File Type 
                 const fileType = file.type;
-                // File Size 
                 const fileSize = file.size;
 
                 if (fileValidate(fileType, fileSize)) {
-                    // Add className (drop-zoon--Uploaded) on (drop-zoon)
                     dropZoon.classList.add('drop-zoon--Uploaded');
 
-                    // Show Loading-text
                     loadingText.style.display = "block";
-                    // Hide Preview Image
                     previewImage.style.display = 'none';
 
-                    // Remove className (uploaded-file--open) From (uploadedFile)
                     uploadedFile.classList.remove('uploaded-file--open');
-                    // Remove className (uploaded-file__info--active) from (uploadedFileInfo)
                     uploadedFileInfo.classList.remove('uploaded-file__info--active');
 
                     console.log(file);
                     Upload(file);
-                    // Read (file) As Data Url 
-                    // fileReader.readAsDataURL(file);
 
-                } else { // Else
+                } else {
                     console.log("this");
                     return this;
-                    // fileValidate(fileType, fileSize); // (this) Represent The fileValidate(fileType, fileSize) Function
 
                 };
             } catch (error) {
             }
         };
 
-        // Progress Counter Increase Function
 
 
         function Upload(file) {
@@ -193,25 +151,17 @@ export default function MenuUpload() {
                     try {
                         processExcel(reader.result);
                         setTimeout(function () {
-                            // Add className (upload-area--open) On (uploadArea)
                             uploadArea.classList.add('upload-area--open');
 
-                            // Hide Loading-text (please-wait) Element
                             loadingText.style.display = "none";
-                            // Show Preview Image
                             previewImage.style.display = 'block';
 
-                            // Add className (file-details--open) On (fileDetails)
                             fileDetails.classList.add('file-details--open');
-                            // Add className (uploaded-file--open) On (uploadedFile)
                             uploadedFile.classList.add('uploaded-file--open');
-                            // Add className (uploaded-file__info--active) On (uploadedFileInfo)                        
 
-                            // Add File Name Inside Uploaded File Name
                             uploadedFileName.innerHTML = file.name;
 
-                            // Call Function progressMove();                        
-                        }, 500); // 0.5s
+                        }, 500);
                     } catch (error) {
                         console.log(error);
                         uploadArea.classList.remove('upload-area--open');
@@ -248,24 +198,18 @@ export default function MenuUpload() {
             console.log(excelRows);
         }
 
-        // Simple File Validate Function
         function fileValidate(fileType, fileSize) {
-            // File Type Validation
             let isGoodFormat = fileTypes.filter((type) => {
                 return fileType.indexOf(`application/vnd.ms-excel`) !== -1 ? true : fileType.indexOf(`application/vnd.openxmlformats-officedocument.spreadsheetml.sheet`) !== -1 && type === "xlsx" ? true : false;
-                // return fileType.indexOf(`image/${type}`) !== -1;
             });
 
-            // uploadedFileIconText.innerHTML = isGoodFormat[0];
-            // If The Uploaded File Is An Image
             if (isGoodFormat.length !== 0) {
-                // Check, If File Size Is 2MB or Less
-                if (fileSize <= 2000000) { // 2MB :)
+                if (fileSize <= 2000000) {
                     return true;
-                } else { // Else File Size
+                } else {
                     return alert('A fájl méretének kisebbnek kell lenni mint 2MB');
                 };
-            } else { // Else File Type 
+            } else {
                 return alert('Kérem jó formátumú fájl válasszon');
             };
         };
@@ -273,7 +217,6 @@ export default function MenuUpload() {
     }, [])
 
     function progressMove() {
-        // Counter Start
         let counter = 0;
         const uploadedFileCounter = document.querySelector('.uploaded-file__counter');
         const uploadedFileInfo = document.querySelector('#uploadedFileInfo');
@@ -281,19 +224,13 @@ export default function MenuUpload() {
             uploadedFileInfo.classList.add('uploaded-file__info--active');
         }
 
-        // After 600ms 
         if (uploadedFileCounter) {
             setTimeout(() => {
-                // Every 100ms
                 let counterIncrease = setInterval(() => {
-                    // If (counter) is equle 100 
                     if (counter === 100) {
-                        // Stop (Counter Increase)
                         clearInterval(counterIncrease);
-                    } else { // Else
-                        // plus 10 on counter
+                    } else {
                         counter = counter + 10;
-                        // add (counter) vlaue inisde (uploadedFileCounter)
                         uploadedFileCounter.innerHTML = `${counter}%`
                     }
                 }, 100);
