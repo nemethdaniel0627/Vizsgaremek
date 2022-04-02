@@ -91,26 +91,26 @@
 
     width: var(--size);
     height: var(--size);
-    box-shadow: inset calc(calc(var(--size) * 0.33)) calc(calc(var(--size) * (-0.25))) 0;
+    box-shadow: inset calc(calc(var(--size) * 0.33)) calc(calc((-0.25) * var(--size))) 0;
     border-radius: 999px;
     color: hsl(240, 100%, 95%);
 
     transition: all 500ms;
 
     &:checked {
-        --ray-size: calc(calc(var(--size) * (-0.4)));
+        --ray-size: calc(calc((-0.4) * var(--size)));
         --offset-orthogonal: calc(calc(var(--size) * 0.65));
         --offset-diagonal: calc(calc(var(--size) * 0.45));
 
         transform: scale(0.75);
         color: hsl(40, 100%, 50%);
-        box-shadow: inset 0 0 0 var(--size), calc(calc(var(--offset-orthogonal) * (-1))) 0 0 var(--ray-size),
-            var(--offset-orthogonal) 0 0 var(--ray-size), 0 calc(calc(var(--offset-orthogonal) * (-1))) 0 var(--ray-size),
+        box-shadow: inset 0 0 0 var(--size), calc(calc((-1) * var(--offset-orthogonal))) 0 0 var(--ray-size),
+            var(--offset-orthogonal) 0 0 var(--ray-size), 0 calc(calc((-1) * var(--offset-orthogonal))) 0 var(--ray-size),
             0 var(--offset-orthogonal) 0 var(--ray-size),
-            calc(var(--offset-diagonal) * (-1)) calc(calc(var(--offset-diagonal) * (-1))) 0 var(--ray-size),
+            calc((-1 * var(--offset-diagonal))) calc(calc((-1) * var(--offset-diagonal))) 0 var(--ray-size),
             var(--offset-diagonal) var(--offset-diagonal) 0 var(--ray-size),
-            calc(calc(var(--offset-diagonal) * (-1))) var(--offset-diagonal) 0 var(--ray-size),
-            var(--offset-diagonal) calc(calc(var(--offset-diagonal) * (-1))) 0 var(--ray-size);
+            calc(calc((-1) * var(--offset-diagonal))) var(--offset-diagonal) 0 var(--ray-size),
+            var(--offset-diagonal) calc(calc((-1) * var(--offset-diagonal))) 0 var(--ray-size);
     }
 }
 
