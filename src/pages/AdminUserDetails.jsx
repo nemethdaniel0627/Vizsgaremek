@@ -52,13 +52,11 @@ export default function AdminUserDetails(props) {
                     setAlertType(false);
                     setAlertMessage("Sikeres felhasználó módosítás!");
                     setAlertOpen(true);
-                    // ModalClose();
                 })
                 .catch(error => {
                     setAlertType(true);
                     setAlertMessage("Hiba történt a felhasználó módosítása közben!");
                     setAlertOpen(true);
-                    //ERROR
                 })
         }
     }
@@ -109,7 +107,7 @@ export default function AdminUserDetails(props) {
             const root = document.querySelector(":root");
             if (orderBlock0 && root) {
                 const blockWidth = orderBlock0.offsetWidth;
-                const blockHeight = orderBlock.offsetHeight;                
+                const blockHeight = orderBlock.offsetHeight;
                 root.style.setProperty("--orderBlockWidth", `${blockWidth}px`);
                 root.style.setProperty("--orderBlockHeight", `${blockHeight}px`);
             }
@@ -173,12 +171,6 @@ export default function AdminUserDetails(props) {
             }
         })
     }
-
-    useEffect(() => {
-        if (alertOpen === false) {
-            // window.location.reload();
-        }
-    }, [alertOpen])
 
     return (
         !notFound ?

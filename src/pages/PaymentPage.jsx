@@ -41,7 +41,7 @@ export default function PaymentPage(props) {
                 sendDate.push(tmpDate);
             }
         }
-        if (sendDate.length < 1) { changePayable(false); } //BUGOS
+        if (sendDate.length < 1) { changePayable(false); }
         let sendMeals = [];
         if (payable) {
             switch (type) {

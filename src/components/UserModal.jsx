@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
-// import Chips from "./Chips";
 
 export default function UserModal(props) {
-
-    // const [canceledDate, setCanceledDate] = useState("");
+    
     const loggedInUser = JSON.parse(sessionStorage.getItem("user"));
     const [tmpUser, setTmpUser] = useState({
         nev: props.user ? props.user.nev : "",
@@ -13,20 +11,6 @@ export default function UserModal(props) {
         iskolaOM: props.user ? props.user.iskolaOM : loggedInUser.iskolaOM,
         jog: props.user ? 2 : ""
     })
-
-    // function dateChange(event) {
-    //     const value = event.target.value;
-    //     console.log(value);
-    //     let tmpDates = tmpUser.lemondva;
-    //     tmpDates.push(value)
-    //     setTmpUser(prevDates => {
-    //         return {
-    //             ...prevDates,
-    //             lemondva: tmpDates
-    //         }
-    //     })
-    //     setCanceledDate("");
-    // }
 
     function inputChange(event) {
         let { name, value } = event.target;
@@ -38,24 +22,7 @@ export default function UserModal(props) {
             }
         })
     }
-
-    // function DateRewrite(date) {
-    //     const temporaryDate = date.split('-');
-    //     return temporaryDate[0] + ". " + temporaryDate[1] + ". " + temporaryDate[2];
-    // }
-
-    // function DateCancelDelete(index) {
-    //     const dates = tmpUser.lemondva.filter((item) => item !== tmpUser.lemondva[index]);
-
-    //     setTmpUser(prevDatas => {
-    //         return {
-    //             ...prevDatas,
-    //             lemondva: dates
-    //         }
-    //     });
-    //     // console.log(dates);
-    // }
-
+    
     useEffect(() => {
         props.getUserInfo(tmpUser);
         console.log(props.user);

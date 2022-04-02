@@ -20,15 +20,19 @@ import PaymentPage from "./pages/PaymentPage";
 import Loader from "./layouts/Loader";
 import jwt from "jsonwebtoken";
 import AdminUserDetails from "./pages/AdminUserDetails";
+import ResponseMessage from "./components/ResponseMessage";
 
 
 export default function App() {
     const [loading, setLoading] = useState(true);
     const path = useLocation().pathname;
     const [user, setUser] = useState(JSON.parse(sessionStorage.getItem("user")));
+    const [alertOpen, setAlertOpen] = useState(false);
+    const [alertText, setAlertText] = useState("");
+    const [alertType, setAlertType] = useState();
 
     useEffect(() => {
-        setSearchBarHeight();       
+        setSearchBarHeight();
     }, [])
 
     useEffect(() => {
@@ -76,7 +80,9 @@ export default function App() {
             else setLoading(false);
         } catch (error) {
             setLoading(false);
-            //TODO ERROR
+            setAlertType("error");
+            setAlertText("Nem sikerült lekérni a felhasználói adatokat!\nPróbáljon meg be és kijelentkezni")
+            setAlertOpen(true);
         }
     }
 
@@ -147,7 +153,7 @@ export default function App() {
                     } />
 
                     <AuthRoute path="/lemondas" auth="user" component={() =>
-                        <LunchCancelation user={user}/>
+                        <LunchCancelation user={user} />
                     } />
 
                     <AuthRoute path="/adatlap" auth="user" component={() =>
@@ -185,6 +191,12 @@ export default function App() {
 
                 </Switch>
             }
+            <ResponseMessage
+                setAlertOpen={setAlertOpen}
+                alertOpen={alertOpen}
+                text={alertText}
+                type={alertType}
+                fixed={true} />
         </div>
     )
 }

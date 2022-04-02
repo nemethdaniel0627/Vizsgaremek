@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import AdminDatabaseModal from "../components/AdminDatabaseModal";
 import AdminDatabaseAccordion from "../components/AdminDatabaseAccordion";
 import AdminDatabaseManager from "../layouts/AdminDatabaseManager";
@@ -15,16 +15,19 @@ import { Accordion } from "react-bootstrap";
 import axios from "axios";
 import Loader from "../layouts/Loader";
 import AuthUser from "../modules/AuthUser";
+import ResponseMessage from "../components/ResponseMessage";
 
 export default function AdminDatabasePage(props) {
-
-    const { endLoading, startLoading } = props;
 
     const [users, setUsers] = useState([])
     const [pending, setPending] = useState([]);
     const [loading, setLoading] = useState(false);
     const [showPending, setShowPending] = useState(false);
     const [numberOfPages, setNumberOfPages] = useState();
+    const [alertOpen, setAlertOpen] = useState(false);
+    const [alertType, setAlertType] = useState(undefined);
+    const [alertMessage, setAlertMessage] = useState("");
+    const [downloadUsers, setDownloadUsers] = useState([]);
 
     const useStyles = makeStyles(theme => ({
         root: {
@@ -33,13 +36,6 @@ export default function AdminDatabasePage(props) {
             right: "2rem"
         }
     }));
-
-    // const useStylesFab = makeStyles(theme => ({
-    //     root: {
-    //         backgroundColor: "#f00"          
-    //     }
-    // }));
-
     function ScrollTop(props) {
         const { children } = props;
         const classes = useStyles();
@@ -102,27 +98,37 @@ export default function AdminDatabasePage(props) {
             });
     }
 
-    useEffect(() => {
-        if (users.length === 0) {
-            setLoading(true);
-            axios.post("/pagination",
-                {
-                    pending: showPending
-                }
-                , AuthUser.authHeader())
-                .then(response => {
-                    showPending ? setPending(response.data.users) : setUsers(response.data.users);
-                    setNumberOfPages(response.data.pages);
-                    console.log(response.data);
-                    setLoading(false);
-                })
-                .catch(error => {
-                    console.error(error);
-                    setLoading(false);
-                });
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [endLoading, startLoading, users])
+    window.onload = () => {
+        setLoading(true);
+        axios.post("/pagination",
+            {
+                pending: showPending
+            }
+            , AuthUser.authHeader())
+            .then(response => {
+                showPending ? setPending(response.data.users) : setUsers(response.data.users);
+                setNumberOfPages(response.data.pages);
+                setLoading(false);
+                console.log("asd");
+            })
+            .catch(error => {
+                setAlertType("error");
+                setAlertMessage("Hiba történt a felhasználók lekérése közben!");
+                setAlertOpen(true);
+                setLoading(false);
+            });
+
+        setLoading(true);
+        axios.get("/userdownload", AuthUser.authHeader())
+            .then(response => {
+                setDownloadUsers(response.data.users);
+                setLoading(false);
+            })
+            .catch(error => {
+                console.error(error);
+                setLoading(false);
+            })
+    }
 
     function Download() {
 
@@ -157,8 +163,6 @@ export default function AdminDatabasePage(props) {
     }
 
     function pagination(limit, offset, searchValue = "") {
-        // console.log(limit);
-        // console.log(offset);
         setLoading(true);
         axios.post("/pagination",
             {
@@ -182,7 +186,7 @@ export default function AdminDatabasePage(props) {
         <div className="admin-db">
             {loading ? <Loader /> : <></>}
             <div className="admin-mg">
-                <AdminDatabaseManager setShowPending={switchUserList} Download={Download} isMobile={isMobile}></AdminDatabaseManager>
+                <AdminDatabaseManager downloadUsers={downloadUsers} setShowPending={switchUserList} Download={Download} isMobile={isMobile}></AdminDatabaseManager>
             </div>
 
 
@@ -200,7 +204,7 @@ export default function AdminDatabasePage(props) {
                             {
                                 showPending ?
                                     pending.map((pending, index) => {
-                                        return <AdminDatabaseAccordion key={`pending_${index}`} eventkey='1' user={pending} isMobile={isMobile} new="true"></AdminDatabaseAccordion>
+                                        return <AdminDatabaseAccordion key={`pending_${index}`} eventkey={`pendings_${index}`} user={pending} isMobile={isMobile} new="true"></AdminDatabaseAccordion>
                                     })
                                     :
                                     users.map((user, index) => {
@@ -218,6 +222,13 @@ export default function AdminDatabasePage(props) {
                     <KeyboardArrowUpIcon />
                 </Fab>
             </ScrollTop>
+            <ResponseMessage
+                setAlertOpen={setAlertOpen}
+                alertOpen={alertOpen}
+                text={alertMessage}
+                type={alertType}
+                fixed={true}
+                reload={alertType === "success" ? true : false} />
         </div>
 
     );

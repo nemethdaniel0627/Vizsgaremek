@@ -52,8 +52,7 @@ export default function DateSelector(props) {
 
           input: {
             fontSize: "1.6rem",
-            width: "40rem",
-            // backgroundColor: "#fff",
+            width: "40rem",            
           },
         }
       },
@@ -109,30 +108,6 @@ export default function DateSelector(props) {
       setStartInputValue("");
     }
   }
-
-  // function dateInputChange(event) {
-  //   const inputId = event.target.attributes[1].value;
-  //   const inputValue = event.target.value;
-  //   switch (inputId) {
-  //     case "startDate":
-  //       if (new Date(inputValue) > new Date(endInputValue)) {
-  //         setStartInputValue(endInputValue);
-  //         setEndInputValue(inputValue)
-  //       }
-  //       else setStartInputValue(inputValue);
-  //       break;
-  //     case "endDate":
-  //       if (new Date(inputValue) < new Date(startInputValue)) {
-  //         setEndInputValue(startInputValue);
-  //         setStartInputValue(inputValue);
-  //       }
-  //       else setEndInputValue(inputValue);
-  //       break;
-
-  //     default:
-  //       break;
-  //   }
-  // }
 
   function sameDateCheck() {
     let hasInterval = false;
@@ -221,8 +196,7 @@ export default function DateSelector(props) {
       }
     }
     else if (selectedDates.includes(startInputValue.replaceAll("-", "."))) {
-
-      returnValue = false;
+      returnValue = true;
     }
     else {
       if (selectedDates.length !== 0) {
@@ -244,12 +218,13 @@ export default function DateSelector(props) {
             else returnValue = true;
           }
           else {
+            console.log("fazsom öccse");
             returnValue = true;
 
           }
         });
       }
-      else returnValue = true;
+      else returnValue = false;
     }
     return returnValue;
   }
@@ -288,8 +263,7 @@ export default function DateSelector(props) {
         setSelectedDates((prevDates) => {
           return [...prevDates, dateInterval];
         });
-    }
-    // setSelectedDates(tmpDates);
+    }    
   }
 
   function closeDate(index) {

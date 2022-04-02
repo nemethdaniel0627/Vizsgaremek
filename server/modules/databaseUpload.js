@@ -12,7 +12,7 @@ class databaseUpload {
                     await sqlQueries.insert("meal", "id, nev", `${idPrefix}${i}, "ünnep"`, false);
                 }
 
-                await sqlQueries.insert("days", "datum, hetkoznap", `"${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}", "${date.getDay()}"`, false);
+                await sqlQueries.insert("days", "datum", `"${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}"`, false);
                 const selectMealsIds = await sqlQueries.select("meal", "id", `FLOOR(id/10) = "${functions.convertDate(date)}"`, true, false);
                 const selectDaysId = await sqlQueries.select("days", "id", `datum = "${functions.convertDateWithDash(date)}"`, true, false);
                 await sqlQueries.insert(
@@ -37,7 +37,7 @@ class databaseUpload {
                         "allergenek",
                         `${idPrefix}${meal[0]},"${meal[1]}","${meal[2]}","${meal[3]}","${meal[4]}","${meal[5]}","${meal[6]}","${meal[7]}","${meal[8]}","${meal[9]}"`, false);
                 })
-                await sqlQueries.insert("days", "datum, hetkoznap", `"${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}", "${date.getDay()}"`, false);
+                await sqlQueries.insert("days", "datum", `"${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}"`, false);
                 const selectDaysId = await sqlQueries.select("days", "id", `datum = "${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}"`, true, false);
                 const selectMealsIds = await sqlQueries.select("meal", "id", `FLOOR(id/10) = "${functions.convertDate(date)}"`, true, false);
                 await sqlQueries.insert(

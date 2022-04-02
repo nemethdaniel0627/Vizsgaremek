@@ -17,6 +17,7 @@ export default function AdminDatabaseAccodrion(props) {
     const [deleteModalAppear, setDeleteModal] = useState(false);
     const [alertOpen, setAlertOpen] = useState(false);
     const [alertType, setAlertType] = useState(undefined);
+    const [alertMessage, setAlertMessage] = useState("");
 
     function ModifyModal(event) {
         setModifyModal(!modifyModalAppear);
@@ -26,28 +27,21 @@ export default function AdminDatabaseAccodrion(props) {
         setDeleteModal(!deleteModalAppear);
     }
 
-    // function DateRewrite(date) {
-    //     const temporaryDate = date.split('-');
-    //     return temporaryDate[0] + ". " + temporaryDate[1] + ". " + temporaryDate[2] + ".";
-    // }
-
-    // function SelectionChange(e) {
-    //     e.target.selectedIndex = 0;
-    // }    
-
     function acceptPending() {
         axios.post("/acceptpending",
             {
                 omAzon: props.user.omAzon
             },
             AuthUser.authHeader())
-            .then(response => {            
-                setAlertType(false);
-                console.log(response);
+            .then(response => {
+                setAlertType("success");
+                setAlertMessage("Sikeres elfogadás!")
+                setAlertOpen(true);
             })
             .catch(error => {
+                setAlertType("error");
+                setAlertMessage("Sikertelen elfogadás!")
                 setAlertOpen(true);
-                console.error(error);
             });
     }
 
@@ -58,12 +52,14 @@ export default function AdminDatabaseAccodrion(props) {
             },
             AuthUser.authHeader())
             .then(response => {
-                setAlertOpen(false);
-                console.log(response);
+                setAlertType("success");
+                setAlertMessage("Sikeres elutasítás!")
+                setAlertOpen(true);
             })
             .catch(error => {
+                setAlertType("error");
+                setAlertMessage("Sikertelen elutasítás!")
                 setAlertOpen(true);
-                console.error(error);
             });
     }
 
@@ -115,17 +111,12 @@ export default function AdminDatabaseAccodrion(props) {
                         {deleteModalAppear ? <AdminDatabaseModal ModalClose={DeleteModal} title="Személy törlése" message={"Biztosan törölni akarok ezt a személyt? (" + props.user.nev + ")"} user={props.user} button="Törlés" show={deleteModalAppear} type="Delete" ></AdminDatabaseModal> : <></>}
                     </div>
                 </div>
-                {alertType ?
-                    <ResponseMessage
-                        setAlertOpen={setAlertOpen}
-                        alertOpen={alertOpen}
-                        text={"Hiba történt a regisztrációkor elküldésekor!\nIlyen OM azonosító vagy email cím már létezik!"}
-                        type="error" />
-                    : <ResponseMessage
-                        setAlertOpen={setAlertOpen}
-                        alertOpen={alertOpen}
-                        text={"Sikeres regisztráció!\nTovábbi információkat emailben küldtünk"}
-                        type="success" />}
+                <ResponseMessage
+                    setAlertOpen={setAlertOpen}
+                    alertOpen={alertOpen}
+                    text={alertMessage}
+                    type={alertType}
+                    reload={true} />
             </Accordion.Body>
         </Accordion.Item>
 

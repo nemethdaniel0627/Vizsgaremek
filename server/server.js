@@ -90,7 +90,6 @@ app.post("/add", async (req, res) => {
     }
     res.send(`${count} record(s) added`);
   } catch (error) {
-    console.log(error);
     res.send(error.message);
   }
 })
@@ -135,14 +134,8 @@ app.post("/user", auth.tokenAutheticate, async (req, res) => {
   else res.notFound();
 });
 
-app.get("/alluser", auth.tokenAutheticate, async (req, res) => {
-  const allUser = await user.getAll(false);
-  if (allUser.length === 0) res.notFound();
-  res.json(allUser)
-});
-
 app.post("/token", auth.tokenAutheticate, (req, res) => {
-  res.json({ message: "Ok" });
+  res.ok();
 })
 
 app.post("/register", async (req, res) => {
@@ -193,7 +186,7 @@ app.post("/order", auth.tokenAutheticate, async (req, res) => {
     if (!ordered) errorDates.push(dates[i]);
   }
   if (errorDates.length === 0) res.ok();
-  else res.status(207).send(`Not paid dates: ${errorDates}`); //statuscode
+  else res.status(207).send(`Not paid dates: ${errorDates}`);
 })
 
 app.post("/cancel", auth.tokenAutheticate, async (req, res) => {
@@ -217,13 +210,6 @@ app.post("/cancel", auth.tokenAutheticate, async (req, res) => {
   else {
     res.status(207).json({ notCancelled: notCancelledDates });
   }
-})
-
-app.post("/test", async (req, res) => {
-  // const create = await test.generate('users2.txt', 82);
-  // res.send(create);
-  // const testOrders = await test.orders('2022-03-15', 15);
-  // res.send(testOrders);
 })
 
 app.post("/scan", auth.tokenAutheticate, async (req, res) => {
@@ -258,14 +244,12 @@ app.post("/useradd", auth.tokenAutheticate, async (req, res) => {
     email: newUser.email,
     jog: newUser.jog
   }
-  const emailReturn = await email.RegisterInDatabase(tmpUser);
-  console.log(emailReturn);
+  await email.RegisterInDatabase(tmpUser);
   tmpUser.jelszo = bcrypt.hashSync(tmpUser.jelszo, 10);
-  console.log(tmpUser);
   const added = await user.add(tmpUser, false);
   if (added) res.created();
   else res.conflict();
-})
+});
 
 app.post("/usermodify", auth.tokenAutheticate, async (req, res) => {
   const omAzon = req.body.omAzon;
@@ -278,13 +262,15 @@ app.post("/usermodify", auth.tokenAutheticate, async (req, res) => {
     const currentUser = await user.getBy('*', `omAzon = ${omAzon}`, false, false);
     if (currentUser.length === 0) res.notFound();
     else if (currentUser[0].omAzon === updatedUser.omAzon || updatedUser.email === currentUser[0].email) {
-      const modified =await user.modify(
+      const modified = await user.modify(
         `omAzon = ${updatedUser.omAzon}, 
          nev = '${updatedUser.nev}', 
          schoolsId = '${schoolsId[0].id}', 
          osztaly = '${updatedUser.osztaly}', 
          email = '${updatedUser.email}'`,
         `omAzon = ${omAzon}`);
+      const userId = (await sqlQueries.select("user", "id", `omAzon = ${omAzon}`, true));
+      await sqlQueries.update("user_role", `roleId = ${updatedUser.jog}`, `userId = ${userId}`);
       modified === 1 ? res.json({ email: updatedUser.email, omAzon: updatedUser.omAzon }) : res.conflict();
     }
     else {
@@ -328,7 +314,6 @@ app.post("/passwordmodify", auth.tokenAutheticate, async (req, res) => {
 app.post("/email", async (req, res) => {
 
   const emailSpecs = req.body;
-  console.log(emailSpecs);
   let o;
   let o2;
   switch (emailSpecs.type) {
@@ -338,9 +323,7 @@ app.post("/email", async (req, res) => {
       res.send(o);
       break;
     case 'register':
-      console.log("asd");
       o = await email.EmailSendingForRegisterBefore(emailSpecs);
-      console.log("asd2");
       o2 = await email.ReplyEmailSendingForRegister(emailSpecs);
       res.send(o);
       break;
@@ -356,7 +339,9 @@ app.post("/email", async (req, res) => {
     default:
 
       break;
+
   }
+  res.ok();
 })
 
 app.post("/cancelledDates", auth.tokenAutheticate, async (req, res) => {
@@ -386,7 +371,6 @@ app.post("/pagination", auth.tokenAutheticate, async (req, res) => {
     `${tableName}.osztaly REGEXP '${searchValue}' OR ` +
     `${tableName}.email REGEXP '${searchValue}') `, `${tableName}.id`, false)).length;
   const users = await user.getAll(false, limit, offset, tableName, searchValue);
-
   res.send({
     pending: pending,
     pages: Math.ceil(userCount / limit),
@@ -394,44 +378,45 @@ app.post("/pagination", auth.tokenAutheticate, async (req, res) => {
   });
 })
 
-app.post("/userupload", auth.tokenAutheticate, async (req, res) => {
-  // "omAzon;jelszo;nev;iskolaOM;osztaly;email"
-  const userRows = req.body.userRows;
+app.post("/userupload", auth.tokenAutheticate, async (req, res) => {  
+  const userRows = req.body.userRows.split("\n");
   let notAddedUsers = [];
-  let userCount = 0;
-  for (let i = 0; i < userRows.length; i++) {
-    const schoolsId = await user.convert(userRows[i].split(';')[3]);
+
+  for (let i = 1; i < userRows.length - 1; i++) {
+    const schoolsId = await user.convert(userRows[i].split(';')[2]);
+    const tmpPassword = userRows[i].split(';')[1].toLowerCase().split(' ').join('.').normalize('NFD').replace(/[\u0300-\u036f]/g, "");
+    const password = bcrypt.hashSync(tmpPassword.trim(), 10);
     const newUser = {
       omAzon: userRows[i].split(';')[0],
-      jelszo: userRows[i].split(';')[1],
-      nev: userRows[i].split(';')[2],
+      jelszo: password,
+      nev: userRows[i].split(';')[1],
       schoolsId: schoolsId,
-      osztaly: userRows[i].split(';')[4],
-      email: userRows[i].split(';')[5]
+      osztaly: userRows[i].split(';')[3],
+      email: userRows[i].split(';')[4]
     }
     if (newUser.schoolsId === -1) notAddedUsers.push(`${newUser.omAzon} - ${newUser.nev}`);
     else {
-      newUser.jelszo = bcrypt.hashSync(newUser.jelszo, 10);
       const added = await user.add(newUser, false);
-      if (added) userCount++;
-      else notAddedUsers.push(`${newUser.omAzon} - ${newUser.nev}`);
+      if (added === false)
+        notAddedUsers.push(`${newUser.omAzon} - ${newUser.nev}`);
     }
   }
-  if (notAddedUsers.length === 0) res.send(`${userCount} added.`);
-  else res.status(207).send(`${userCount} added.\nExcept: ${notAddedUsers}`);
+  if (notAddedUsers.length === 0) res.ok();
+  else if (userRows.length - 2 !== notAddedUsers.length) res.status(207).json({ users: notAddedUsers });
+  else res.badRequest();
 })
 
-app.post("/userdownload", auth.tokenAutheticate, async (req, res) => {
-  const title = "omAzon;nev;iskolaOM;osztaly;email";
+app.get("/userdownload", auth.tokenAutheticate, async (req, res) => {
+  const title = "OM azonosító;Név;Iskola OM azonosító;Osztály;Email cím";
   const data = await user.getUsers();
-  let users = [];
+  let users = "";
+  users += title + "\n";
   data.forEach(user => {
-    users.push(user.join(';'));
+    users += user.join(";");
+    users += "\n";
   });
-  res.send({
-    title: title,
-    users: users
-  });
+  data.unshift(title);
+  res.json({ users: users });
 })
 
 app.get('/*', function (req, res) {

@@ -1,5 +1,3 @@
-// export const URL = "http://10.0.12.22:5000";
-// export const URL = "http://localhost:5000";
 export const allgergens = [
     "1-glutén",
     "2-rák",

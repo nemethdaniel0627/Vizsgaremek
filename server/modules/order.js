@@ -9,9 +9,6 @@ class Order {
         const orders = await sqlQueries.select('orders', '*', `userId = ${userId}`);
         if (orders.length === 0) return 0;
         return 1;
-        // -1 - nincs ilyen user / hiba
-        //  0 - van ilyen user, de nincs orderje
-        //  1 - van ilyen user és van orderje
     }
 
     async getAll() {
@@ -104,14 +101,14 @@ class Order {
     }
 
     async order(userId, meals, date) {
-        if (meals.length !== 5) return false; // Meals tömb hiba
-        if (meals[0] === 0 && meals[1] === 0 && meals[2] === 0 && meals[3] === 0 && meals[4] === 0) return false; // Nem rendelt semmit
+        if (meals.length !== 5) return false;
+        if (meals[0] === 0 && meals[1] === 0 && meals[2] === 0 && meals[3] === 0 && meals[4] === 0) return false;
         const orders = await this.isOrderOrUserExists(userId);
-        if (orders === -1) return false; // Nincs ilyen user
+        if (orders === -1) return false;
         const menuId = await this.selectMenuIdByDate(functions.convertDateWithDash(new Date(date)));
-        if (menuId === -1) return false; // Nincs menu erre a napra
+        if (menuId === -1) return false;
         const exists = await this.selectMenuIdByUserIdAndDate(userId, new Date(date));
-        if (exists) return false; // Már rendelt
+        if (exists) return false;
 
         await sqlQueries.insert(
             'orders',
@@ -130,21 +127,21 @@ class Order {
 
     async cancelOrder(userId, date) {
         const orders = await this.isOrderOrUserExists(userId);
-        if (orders === -1) return false; // Nincs ilyen user
-        if (orders === 0) return false; // Nincs rendelése a usernek
+        if (orders === -1) return false;
+        if (orders === 0) return false;
         const menuId = await this.selectMenuIdByDate(functions.convertDateWithDash(new Date(date)));
-        if (menuId === -1) return false; // Nincs menu erre a napra
+        if (menuId === -1) return false;
         const today = functions.convertDateWithDash(new Date());
         date = functions.convertDateWithDash(new Date(date));
         const dateFrom = functions.convertDateWithDash(new Date(await this.cancelDateFrom()));
-        if (date <= dateFrom) return false; // Nem lemondható nap / idő miatt
+        if (date <= dateFrom) return false;
 
         let order = await sqlQueries.select(
             'orders',
             'id',
             `orders.menuId = ${menuId} AND orders.userId = ${userId} AND orders.lemondva IS NULL`);
-
-        if (order.length === 0) return false; // Már lemondva
+        console.log(order);
+        if (order.length === 0) return false;
 
         order = order[0];
         await sqlQueries.update(
@@ -165,16 +162,16 @@ class Order {
 
         let dateFrom;
         if (day > 0 && day < 5) {
-            if (time < 830) 
+            if (time < 830)
                 dateFrom = today;
-            else 
+            else
                 dateFrom = tomorrow;
         } else if (day === 5) {
-            if (time < 830) 
+            if (time < 830)
                 dateFrom = today;
-            else 
+            else
                 dateFrom = functions.convertDateWithDash(functions.getFirstDayOfWeek(new Date(today)));
-        } else 
+        } else
             dateFrom = functions.convertDateWithDash(functions.getFirstDayOfWeek(new Date(today)));
 
         return dateFrom;
