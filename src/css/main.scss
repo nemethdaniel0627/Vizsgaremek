@@ -17,7 +17,7 @@
   --numberOfDays: 0;
   --dropDownHeight: 18.6rem;
   --searchBarHeight: 0px;
-  --fullScreen: calc(100vh - 6rem - (var(--searchBarHeight)));
+  --fullScreen: calc(100vh - 6rem - calc(var(--searchBarHeight)));
   --clr-white: rgb(255, 255, 255);
   --clr-black: rgb(0, 0, 0);
   --clr-light: rgb(245, 248, 255);
