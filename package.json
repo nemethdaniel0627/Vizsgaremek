@@ -29,6 +29,9 @@
         "sass": "^1.49.9",
         "xlsx": "^0.17.4"
     },
+    "resolutions": {
+        "postcss-custom-properties": "12.1.5"
+    },
     "scripts": {
         "start-client": "react-scripts start",
         "build": "react-scripts build && (cd server && npm install)",
