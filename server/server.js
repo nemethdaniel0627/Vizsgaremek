@@ -6,7 +6,6 @@ const databaseUpload = require('./modules/databaseUpload');
 const sqlQueries = require('./modules/sqlQueries');
 const databaseDownload = require('./modules/databaseDownload');
 const user = require('./modules/user');
-const test = require('./modules/test');
 const email = require('./modules/emailSend');
 const auth = require('./modules/auth');
 const exception = require('./exceptions/exceptions');
@@ -234,7 +233,7 @@ app.post("/userdelete", auth.tokenAutheticate, async (req, res) => {
 app.post("/useradd", auth.tokenAutheticate, async (req, res) => {
   const newUser = req.body.user;
   const schoolsId = await sqlQueries.select("schools", "id", `iskolaOM = ${newUser.iskolaOM}`, false);
-  const jelszo = await test.randomString(10);
+  const jelszo = functions.randomString(10);
   const tmpUser = {
     omAzon: newUser.omAzon,
     jelszo: jelszo,
