@@ -7,8 +7,9 @@ import DatePicker from '@mui/lab/DatePicker';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import Box from '@mui/material/Box';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { makeStyles } from "@mui/styles";
+import ThemeProvider from '@mui/material/styles/ThemeProvider';
+import createTheme from '@mui/material/styles/createTheme';
+import makeStyles from "@mui/styles/makeStyles";
 import locale from 'date-fns/locale/hu'
 
 export default function DateSelector(props) {
@@ -52,7 +53,7 @@ export default function DateSelector(props) {
 
           input: {
             fontSize: "1.6rem",
-            width: "40rem",            
+            width: "40rem",
           },
         }
       },
@@ -95,7 +96,7 @@ export default function DateSelector(props) {
     calendar: {
       backgroundColor: "var(--dateRangeBackground)",
     },
-  }));
+  }), { index: 1 });
 
   const classes = useStyles();
 
@@ -120,7 +121,7 @@ export default function DateSelector(props) {
       selectedDates.sort().some((date, index) => {
 
         if (date.includes("-")) {
-          if (endInputValue) {
+          if (endInputValue && endInputValue !== startInputValue) {
             const tmpStart = date.toString().split("-")[0].trim();
             const tmpEnd = date.toString().split("-")[1].trim();
             if (
@@ -132,7 +133,7 @@ export default function DateSelector(props) {
               const dateInterval = `${startInputValue.replaceAll("-", ".")} - ${endInputValue.replaceAll("-", ".")}`;
               tmpSelectedDates.push(dateInterval);
               setSelectedDates(tmpSelectedDates);
-              returnValue = false;
+              returnValue = true;
             }
             else if (
               modules.convertDateWithDash(new Date(tmpStart)) >= modules.convertDateWithDash(new Date(startInputValue)) &&
@@ -144,7 +145,7 @@ export default function DateSelector(props) {
               const dateInterval = `${startInputValue.replaceAll("-", ".")} - ${tmpEnd}`;
               tmpSelectedDates.push(dateInterval);
               setSelectedDates(tmpSelectedDates);
-              returnValue = false;
+              returnValue = true;
             }
             else if (
               modules.convertDateWithDash(new Date(tmpStart)) <= modules.convertDateWithDash(new Date(startInputValue)) &&
@@ -156,33 +157,32 @@ export default function DateSelector(props) {
               const dateInterval = `${tmpStart} - ${endInputValue.replaceAll("-", ".")}`;
               tmpSelectedDates.push(dateInterval);
               setSelectedDates(tmpSelectedDates);
-              returnValue = false;
+              returnValue = true;
             }
             else {
-
-              returnValue = true;
+              returnValue = false;
             }
           }
           else {
             const tmpStart = date.toString().split("-")[0].trim();
 
             const tmpEnd = date.toString().split("-")[1].trim();
-
+            console.log("itt vagyok");
 
             if (modules.convertDateWithDash(new Date(tmpEnd)) === modules.convertDateWithDash(new Date(startInputValue))
               || modules.convertDateWithDash(new Date(startInputValue)) === modules.convertDateWithDash(new Date(tmpStart))) {
-              returnValue = false;
+              returnValue = true;
               addDate = false;
             }
             else if (modules.convertDateWithDash(new Date(tmpStart)) > modules.convertDateWithDash(new Date(startInputValue))
               || modules.convertDateWithDash(new Date(tmpEnd)) < modules.convertDateWithDash(new Date(startInputValue))) {
 
               addDate = true;
-              returnValue = false;
+              returnValue = true;
             }
             else {
               addDate = false;
-              returnValue = false
+              returnValue = true;
             }
           }
         }
@@ -219,7 +219,7 @@ export default function DateSelector(props) {
           }
           else {
             console.log("fazsom öccse");
-            returnValue = true;
+            returnValue = false;
 
           }
         });
@@ -231,14 +231,17 @@ export default function DateSelector(props) {
 
   function showSelectedDate(manuJustOneDay = null) {
     if (justOneDay || manuJustOneDay === true) {
-      const sameDate = sameDateCheck();
       if (props.disabledDays.includes(startInputValue) || new Date(startInputValue) < new Date(props.disabledDays[0])) {
         props.errorMessage();
       }
-      else if ((!selectedDates.includes(startInputValue.replaceAll("-", ".")) && sameDate))
-        setSelectedDates((prevDates) => {
-          return [...prevDates, startInputValue.replaceAll("-", ".")];
-        });
+      else {
+        const sameDate = sameDateCheck();
+        if ((!selectedDates.includes(startInputValue.replaceAll("-", ".")) && !sameDate))
+          setSelectedDates((prevDates) => {
+            return [...prevDates, startInputValue.replaceAll("-", ".")];
+          });
+      }
+
     }
     else if (startInputValue === endInputValue) {
       const sameDate = sameDateCheck();
@@ -255,15 +258,16 @@ export default function DateSelector(props) {
       const sameDate = sameDateCheck();
       console.log(startInputValue);
       console.log(endInputValue);
+      console.log(sameDate);
       const dateInterval = `${startInputValue.replaceAll("-", ".")} - ${endInputValue.replaceAll("-", ".")}`;
       if (props.disabledDays.includes(startInputValue) || new Date(startInputValue) < new Date(props.disabledDays[0])) {
         props.errorMessage();
       }
-      else if ((!selectedDates.includes(dateInterval) && sameDate))
+      else if ((!selectedDates.includes(dateInterval) && !sameDate))
         setSelectedDates((prevDates) => {
           return [...prevDates, dateInterval];
         });
-    }    
+    }
   }
 
   function closeDate(index) {
