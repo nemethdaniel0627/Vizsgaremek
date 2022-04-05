@@ -11,6 +11,7 @@ export default function RegisterForm(props) {
     const [seePwd, setSeePwd] = useState(false);
     const [alertOpen, setAlertOpen] = useState(undefined);
     const [alertType, setAlertType] = useState(undefined);
+    const [alertText, setAlertText] = useState("");
     const [schools, setSchools] = useState([]);
     const [user, setUser] = useState({
         nev: "",
@@ -61,7 +62,8 @@ export default function RegisterForm(props) {
             })
             .then(response => {
                 setAlertOpen(true);
-                setAlertType(false);
+                setAlertType("success");
+                setAlertText("Sikeres regisztráció!\nTovábbi információkat emailben küldtünk");
                 console.log(response);
                 axios.post("/email",
                     {
@@ -82,7 +84,8 @@ export default function RegisterForm(props) {
             })
             .catch(error => {
                 setAlertOpen(true);
-                setAlertType(true);
+                setAlertType("error");
+                setAlertText("Hiba történt a regisztrációkor elküldésekor!\nIlyen OM azonosító vagy email cím már létezik!");
                 console.error(error)
             });
     }
@@ -178,19 +181,12 @@ export default function RegisterForm(props) {
                     </div>
                 </div>
             </div>
-            {alertType ?
-                <ResponseMessage
-                    setAlertOpen={setAlertOpen}
-                    alertOpen={alertOpen}
-                    text={"Hiba történt a regisztrációkor elküldésekor!\nIlyen OM azonosító vagy email cím már létezik!"}
-                    type="error" />
-                : alertType === false ? <ResponseMessage
-                    setAlertOpen={setAlertOpen}
-                    alertOpen={alertOpen}
-                    text={"Sikeres regisztráció!\nTovábbi információkat emailben küldtünk"}
-                    type="success"
-                    customFunc={() => { props.RegisterOff() }} />
-                    : <></>}
+            <ResponseMessage
+                setAlertOpen={setAlertOpen}
+                alertOpen={alertOpen}
+                text={alertText}
+                type={alertType}
+                fixed={true} />
         </section>
 
     );

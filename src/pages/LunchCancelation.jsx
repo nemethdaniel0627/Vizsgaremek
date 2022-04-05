@@ -6,7 +6,6 @@ import axios from "axios";
 import AuthUser from "../modules/AuthUser";
 import Loader from "../layouts/Loader";
 import ResponseMessage from "../components/ResponseMessage";
-import StylesProvider from "@mui/styles/StylesProvider";
 
 export default function LunchCancelation(props) {
     const [isMenuChecked, setIsMenuChecked] = useState(false);
@@ -126,30 +125,28 @@ export default function LunchCancelation(props) {
 
     return (
         <div className="lunch-cncl--container">
-            <StylesProvider injectFirst={true}>
-                {loading ? <Loader /> : <></>}
-                <div className="lunch-cncl--menu">
-                    <input onChange={checkChange} className="lunch-cncl--menu--input" defaultChecked={isMenuChecked} type="radio" name="lunchCancelation" id="etlapCancel" />
-                    <input onChange={checkChange} className="lunch-cncl--menu--input" defaultChecked={!isMenuChecked} type="radio" name="lunchCancelation" id="datumCancel" />
-                    <label htmlFor="etlapCancel" id="etlapCancelItem" className="lunch-cncl--menu--item">Étlap alapú lemondás</label>
-                    <label htmlFor="datumCancel" id="datumCancelItem" className="lunch-cncl--menu--item">Dátum alapú lemondás</label>
-                </div>
-                {
-                    isMenuChecked ?
-                        <Menu disabledDays={disabledDays} getDates={getDates} cancel={true} header="Lemondás" /> :
-                        <DateSelector errorMessage={errorMessage} disabledDays={disabledDays} getDates={getDates} />
-                }
-                <div className="lunch-cncl--button--container">
-                    <input onClick={cancelMeal} type="button" name="ResignBTN" id="ResignBTN" className="btn btn-success mt-5 lunch-cncl--button" value="Lemondás" />
-                </div>
+            {loading ? <Loader /> : <></>}
+            <div className="lunch-cncl--menu">
+                <input onChange={checkChange} className="lunch-cncl--menu--input" defaultChecked={isMenuChecked} type="radio" name="lunchCancelation" id="etlapCancel" />
+                <input onChange={checkChange} className="lunch-cncl--menu--input" defaultChecked={!isMenuChecked} type="radio" name="lunchCancelation" id="datumCancel" />
+                <label htmlFor="etlapCancel" id="etlapCancelItem" className="lunch-cncl--menu--item">Étlap alapú lemondás</label>
+                <label htmlFor="datumCancel" id="datumCancelItem" className="lunch-cncl--menu--item">Dátum alapú lemondás</label>
+            </div>
+            {
+                isMenuChecked ?
+                    <Menu disabledDays={disabledDays} getDates={getDates} cancel={true} header="Lemondás" /> :
+                    <DateSelector errorMessage={errorMessage} disabledDays={disabledDays} getDates={getDates} />
+            }
+            <div className="lunch-cncl--button--container">
+                <input onClick={cancelMeal} type="button" name="ResignBTN" id="ResignBTN" className="btn btn-success mt-5 lunch-cncl--button" value="Lemondás" />
+            </div>
 
-                <ResponseMessage
-                    setAlertOpen={setAlertOpen}
-                    alertOpen={alertOpen}
-                    text={alertText}
-                    type={alertType}
-                    fixed={true} />
-            </StylesProvider>
+            <ResponseMessage
+                setAlertOpen={setAlertOpen}
+                alertOpen={alertOpen}
+                text={alertText}
+                type={alertType}
+                fixed={true} />
         </div >
     )
 }

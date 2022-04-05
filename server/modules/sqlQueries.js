@@ -4,10 +4,13 @@ class sqlQueries {
 
     async CreateConnection(array = true) {
         this._connection = await mysql.createConnection({
-            host: 'eporqep6b4b8ql12.chr7pe7iynqr.eu-west-1.rds.amazonaws.com',
-            user: 'gv0mvqhvp3pzbc4o',
-            password: 'dbs0wqnd0vvxkjk2',
-            database: 's2v7anrhwduvuhqp',
+            // host: 'eporqep6b4b8ql12.chr7pe7iynqr.eu-west-1.rds.amazonaws.com',
+            // user: 'gv0mvqhvp3pzbc4o',
+            // password: 'dbs0wqnd0vvxkjk2',
+            // database: 's2v7anrhwduvuhqp',
+            host: 'localhost',
+            user: 'root',
+            database: 'foode',
             rowsAsArray: array
         });
     }
