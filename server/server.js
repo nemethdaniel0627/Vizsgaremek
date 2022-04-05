@@ -74,7 +74,6 @@ app.post("/etlap", auth.tokenAutheticate, async (req, res) => {
 app.post("/add", async (req, res) => {
   try {
     const data = await user.readFile('users.txt');
-    let count = 0;
     for (let i = 0; i < data.length; i++) {
       const newUser = {
         omAzon: data[i].split(';')[0],
@@ -84,10 +83,9 @@ app.post("/add", async (req, res) => {
         osztaly: data[i].split(';')[4],
         email: data[i].split(';')[5]
       }
-      let added = await user.add(newUser, false);
-      if (added) count++;
+      await user.add(newUser, false);
     }
-    res.send(`${count} record(s) added`);
+    res.send("Success");
   } catch (error) {
     res.send(error.message);
   }
@@ -377,7 +375,7 @@ app.post("/pagination", auth.tokenAutheticate, async (req, res) => {
   });
 })
 
-app.post("/userupload", auth.tokenAutheticate, async (req, res) => {  
+app.post("/userupload", auth.tokenAutheticate, async (req, res) => {
   const userRows = req.body.userRows.split("\n");
   let notAddedUsers = [];
 

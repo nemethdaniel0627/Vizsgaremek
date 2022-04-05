@@ -4,7 +4,7 @@ class sqlQueries {
 
     async CreateConnection(array = true) {
         try {
-                this._connection = await mysql.createConnection({
+            this._connection = await mysql.createConnection({
                 host: 'localhost',
                 user: 'root',
                 database: 'foode',
