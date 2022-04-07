@@ -15,7 +15,7 @@ test('Számóló', () => {
     expect(2 + 2).toBe(4);
 });
 
-test('Login test', async () => {
+test('Login', async () => {
     const response = await axios.post("http://localhost:5000/login",
         {
             user: {
@@ -36,7 +36,7 @@ test('Login test', async () => {
     expect(response.data).toEqual({ "omAzon": "72386351245" });
 });
 
-test('School list test', async () => {
+test('School list', async () => {
     const response = await axios.get("http://localhost:5000/schoollist").then(response => {
         return response.data;
     }).catch(error => {
@@ -45,7 +45,7 @@ test('School list test', async () => {
     expect(response).toEqual([{ id: 1, nev: 'Jedlik', iskolaOM: '203037' }, { id: 2, nev: 'Alma', iskolaOM: '112233' }]);
 });
 
-test('Add users from txt test', async () => {
+test('Add users from txt', async () => {
     const response = await axios.post("http://localhost:5000/add").then(response => {
         return response.data;
     }).catch(error => {
@@ -54,7 +54,7 @@ test('Add users from txt test', async () => {
     expect(response).toEqual("Success");
 });
 
-test('Token ok test', async () => {
+test('Token ok', async () => {
     const response = await axios.post("http://localhost:5000/token",
         {}, token).then(response => {
             return response;
@@ -64,7 +64,7 @@ test('Token ok test', async () => {
     expect(response.data.message).toEqual("Sikeres művelet");
 });
 
-test("Userdetails test", async () => {
+test("Userdetails", async () => {
     const response = await axios.post("http://localhost:5000/userdetails",
         {
             omAzon: "72386351245",
@@ -74,11 +74,11 @@ test("Userdetails test", async () => {
             console.error(error);
         })
     expect(response.data).toEqual([{"email": "ka.pal@gmail.com", "id": 4, 
-    "iskolaOM": "203037", "jelszo": "$2b$10$4kSQEOoOTQYq9OPUiwlLVuW7njdO1SGqSiBIY8Q4uBt0FEAYbN16C", 
-    "nev": "Ka Pál", "omAzon": "72386351245", "orders":  [], "osztaly": "10F", "schoolsId": 1}]);
+        "iskolaOM": "203037", "jelszo": "$2b$10$4kSQEOoOTQYq9OPUiwlLVuW7njdO1SGqSiBIY8Q4uBt0FEAYbN16C", 
+        "nev": "Ka Pál", "omAzon": "72386351245", "orders":  [], "osztaly": "10F", "schoolsId": 1}]);
 });
 
-test("User test", async () => {
+test("User", async () => {
     const response = await axios.post("http://localhost:5000/user",
         {
             userId: 4,
@@ -88,7 +88,26 @@ test("User test", async () => {
             console.error(error);
         })
     expect(response.data).toEqual([{"befizetve": false, "email": "ka.pal@gmail.com", 
-    "id": 4, "iskolaNev": "Jedlik", "iskolaOM": "203037", 
-    "jelszo": "$2b$10$4kSQEOoOTQYq9OPUiwlLVuW7njdO1SGqSiBIY8Q4uBt0FEAYbN16C", "nev": "Ka Pál", 
-    "omAzon": "72386351245", "osztaly": "10F", "schoolsId": 1}]);
+        "id": 4, "iskolaNev": "Jedlik", "iskolaOM": "203037", 
+        "jelszo": "$2b$10$4kSQEOoOTQYq9OPUiwlLVuW7njdO1SGqSiBIY8Q4uBt0FEAYbN16C", "nev": "Ka Pál", 
+        "omAzon": "72386351245", "osztaly": "10F", "schoolsId": 1}]);
+});
+
+test("Register", async () => {
+    const response = await axios.post("http://localhost:5000/register",
+        {
+            user: {
+                nev: "asd",
+                jelszo: "asd",
+                email: `${functions.randomString(10)}@email.com`,
+                iskolaOM: 203037,
+                osztaly: "1A",
+                omAzon: Math.floor(Math.random() * (72399999999 - 72300000000)) + 72300000000
+            }
+        }).then(response => {
+            return response;
+        }).catch(error => {
+            console.error(error);
+        })
+    expect(response.data).toEqual({"message": "Sikeresen létrehozva"});
 });
