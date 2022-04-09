@@ -38,7 +38,7 @@ export default function AdminDatabaseModal(props) {
   function modifyUser() {
     console.log("modify");
     if (tmpUser.nev.trim() !== "" && tmpUser.omAzon.trim() !== "" && tmpUser.email.trim() !== "" && tmpUser.iskolaOM.trim() !== "") {
-      axios.post("/usermodify",
+      axios.put("/user/modify",
         {
           omAzon: props.user.omAzon,
           user: tmpUser
@@ -66,7 +66,7 @@ export default function AdminDatabaseModal(props) {
   }
 
   function deleteUser() {
-    axios.post("/userdelete",
+    axios.delete("/user/delete",
       {
         omAzon: props.user.omAzon
       },
@@ -88,7 +88,7 @@ export default function AdminDatabaseModal(props) {
 
     if (tmpUser.nev.trim() !== "" && tmpUser.omAzon.trim() !== "" && tmpUser.email.trim() !== "" && tmpUser.iskolaOM.trim() !== "") {
       let addedUser = tmpUser;
-      axios.post("/useradd",
+      axios.post("/user/add",
         {
           user: addedUser
         },
@@ -114,7 +114,7 @@ export default function AdminDatabaseModal(props) {
   function uploadUser() {
     setLoading(true);
 
-    axios.post("/userupload", {
+    axios.post("/user/upload", {
       userRows: uploadFile
     }, AuthUser.authHeader())
       .then(response => {

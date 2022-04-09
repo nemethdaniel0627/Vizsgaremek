@@ -38,8 +38,7 @@ export default function Page(props) {
 
   function getDates() {
     axios
-      .post(
-        "/cancelledDates",
+      .post("/cancel/dates",
         {
           omAzon: props.user.omAzon,
         },
@@ -70,8 +69,7 @@ export default function Page(props) {
   function changePassword() {
     if (regiJelszo && ujJelszo) {
       axios
-        .post(
-          "/passwordmodify",
+        .put("/password/modify",
           {
             regiJelszo: regiJelszo,
             ujJelszo: ujJelszo,
@@ -275,7 +273,7 @@ export default function Page(props) {
               text={alertText}
               type={alertType}
               fixed={true}
-              customFunc={logoutUser === true ? () => {AuthUser.logoutUser(); setLogoutUser(false);} : undefined} />
+              customFunc={logoutUser === true ? () => { AuthUser.logoutUser(); setLogoutUser(false); } : undefined} />
           </div>
           <div className="col-12 col-lg-3 personal-activities">
             <div className="activities desktop">

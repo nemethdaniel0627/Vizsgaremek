@@ -28,7 +28,7 @@ export default function AdminDatabaseAccodrion(props) {
     }
 
     function acceptPending() {
-        axios.post("/acceptpending",
+        axios.put("/pending/accept",
             {
                 omAzon: props.user.omAzon
             },
@@ -46,7 +46,7 @@ export default function AdminDatabaseAccodrion(props) {
     }
 
     function rejectPending() {
-        axios.post("/rejectpending",
+        axios.delete("/pending/reject",
             {
                 omAzon: props.user.omAzon
             },

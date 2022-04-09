@@ -24,7 +24,7 @@ app.use(express.json());
 app.use(cors());
 app.use(exception.exception)
 
-app.get("/etlap", async (req, res) => {
+app.get("/menu", async (req, res) => {
   const menu = await databaseDownload.getMenu(new Date());
   const nextWeekDate = new Date();
   nextWeekDate.setDate(nextWeekDate.getDate() + 7);
@@ -32,7 +32,7 @@ app.get("/etlap", async (req, res) => {
   res.json({ menu: menu, nextWeek: nextWeek.length !== 0 ? true : false });
 });
 
-app.post("/etlap", auth.tokenAutheticate, async (req, res) => {
+app.put("/menu", auth.tokenAutheticate, async (req, res) => {
   let excelRows = req.body.excelRows;
   const setDate = req.body.date;
   const override = req.body.override;
@@ -94,7 +94,7 @@ app.post("/add", async (req, res) => {
   }
 })
 
-app.post("/menupagination", auth.tokenAutheticate, async (req, res) => {
+app.post("/menu/pagination", auth.tokenAutheticate, async (req, res) => {
   const date = new Date(req.body.date);
   const nextWeekDate = new Date(functions.convertDateWithDash(date));
   nextWeekDate.setDate(nextWeekDate.getDate() + 7);
@@ -103,7 +103,7 @@ app.post("/menupagination", auth.tokenAutheticate, async (req, res) => {
   res.json({ menu: menu, nextWeek: nextWeek.length !== 0 ? true : false });
 })
 
-app.post("/userdetails", auth.tokenAutheticate, async (req, res) => {
+app.post("/user/details", auth.tokenAutheticate, async (req, res) => {
   const omAzon = req.body.omAzon;
   const userWithDetails = await user.getBy("*", `user.omAzon = ${omAzon}`, false);
   if (userWithDetails.length > 0) {
@@ -114,11 +114,6 @@ app.post("/userdetails", auth.tokenAutheticate, async (req, res) => {
     res.json(userWithDetails);
   }
   else res.notFound();
-})
-
-app.get("/schoollist", async (req, res) => {
-  const schools = await sqlQueries.selectAll("schools", "*", false);
-  res.json(schools);
 })
 
 app.post("/user", auth.tokenAutheticate, async (req, res) => {
@@ -133,6 +128,11 @@ app.post("/user", auth.tokenAutheticate, async (req, res) => {
   if (userResult) res.send(userResult);
   else res.notFound();
 });
+
+app.get("/schoollist", async (req, res) => {
+  const schools = await sqlQueries.selectAll("schools", "*", false);
+  res.json(schools);
+})
 
 app.post("/token", auth.tokenAutheticate, (req, res) => {
   res.ok();
@@ -150,7 +150,7 @@ app.post("/register", async (req, res) => {
   }
 });
 
-app.post("/acceptpending", auth.tokenAutheticate, async (req, res) => {
+app.put("/pending/accept", auth.tokenAutheticate, async (req, res) => {
   const omAzon = req.body.omAzon;
   const tmpUser = (await user.getBy("*", `omAzon = '${omAzon}'`, false, true))[0];
   await user.delete(`omAzon = ${omAzon}`, true);
@@ -159,7 +159,7 @@ app.post("/acceptpending", auth.tokenAutheticate, async (req, res) => {
   res.created();
 });
 
-app.post("/rejectpending", auth.tokenAutheticate, async (req, res) => {
+app.delete("/pending/reject", auth.tokenAutheticate, async (req, res) => {
   const omAzon = req.body.omAzon;
   const result = await user.delete(`omAzon = ${omAzon}`, true);
   result === 1 ? res.ok() : res.conflict();
@@ -189,7 +189,7 @@ app.post("/order", auth.tokenAutheticate, async (req, res) => {
   else res.status(207).send(`Not paid dates: ${errorDates}`);
 })
 
-app.post("/cancel", auth.tokenAutheticate, async (req, res) => {
+app.patch("/cancel", auth.tokenAutheticate, async (req, res) => {
   const omAzon = req.body.omAzon;
   const userId = (await user.getBy('id', `omAzon = ${omAzon}`, false, false))[0].id;
   const dates = req.body.dates;
@@ -222,7 +222,7 @@ app.post("/scan", auth.tokenAutheticate, async (req, res) => {
   }
 })
 
-app.post("/userdelete", auth.tokenAutheticate, async (req, res) => {
+app.delete("/user/delete", auth.tokenAutheticate, async (req, res) => {
   const omAzon = req.body.omAzon;
   const currentUser = await user.getBy('*', `omAzon = ${omAzon}`, false, false);
   if (currentUser.length === 0) res.notFound();
@@ -231,7 +231,7 @@ app.post("/userdelete", auth.tokenAutheticate, async (req, res) => {
   }
 })
 
-app.post("/useradd", auth.tokenAutheticate, async (req, res) => {
+app.post("/user/add", auth.tokenAutheticate, async (req, res) => {
   const newUser = req.body.user;
   const schoolsId = await sqlQueries.select("schools", "id", `iskolaOM = ${newUser.iskolaOM}`, false);
   const jelszo = await test.randomString(10);
@@ -251,7 +251,7 @@ app.post("/useradd", auth.tokenAutheticate, async (req, res) => {
   else res.conflict();
 });
 
-app.post("/usermodify", auth.tokenAutheticate, async (req, res) => {
+app.put("/user/modify", auth.tokenAutheticate, async (req, res) => {
   const omAzon = req.body.omAzon;
   const updatedUser = req.body.user;
   const schoolsId = await sqlQueries.select("schools", "id", `iskolaOM = ${updatedUser.iskolaOM}`, false);
@@ -292,7 +292,7 @@ app.post("/usermodify", auth.tokenAutheticate, async (req, res) => {
   }
 })
 
-app.post("/passwordmodify", auth.tokenAutheticate, async (req, res) => {
+app.put("/password/modify", auth.tokenAutheticate, async (req, res) => {
   const omAzon = req.body.omAzon;
   const regiJelszo = req.body.regiJelszo;
   const ujJelszo = req.body.ujJelszo;
@@ -344,7 +344,7 @@ app.post("/email", async (req, res) => {
   res.ok();
 })
 
-app.post("/cancelledDates", auth.tokenAutheticate, async (req, res) => {
+app.post("/cancel/dates", auth.tokenAutheticate, async (req, res) => {
   const userId = await user.getBy("id", `omAzon = ${req.body.omAzon}`, true, false);
   if (userId.length === 0) res.notFound()
   else {
@@ -378,7 +378,7 @@ app.post("/pagination", auth.tokenAutheticate, async (req, res) => {
   });
 })
 
-app.post("/userupload", auth.tokenAutheticate, async (req, res) => {
+app.post("/user/upload", auth.tokenAutheticate, async (req, res) => {
   const userRows = req.body.userRows.split("\n");
   let notAddedUsers = [];
 
@@ -406,7 +406,7 @@ app.post("/userupload", auth.tokenAutheticate, async (req, res) => {
   else res.badRequest();
 })
 
-app.get("/userdownload", auth.tokenAutheticate, async (req, res) => {
+app.get("/user/download", auth.tokenAutheticate, async (req, res) => {
   const title = "OM azonosító;Név;Iskola OM azonosító;Osztály;Email cím";
   const data = await user.getUsers();
   let users = "";

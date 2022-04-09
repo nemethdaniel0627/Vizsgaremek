@@ -41,7 +41,7 @@ export default function LunchCancelation(props) {
 
         if (dates.length !== 0) {
             setLoading(true);
-            axios.post("/cancel",
+            axios.patch("/cancel",
                 {
                     omAzon: props.user.omAzon,
                     dates: sendingDates
