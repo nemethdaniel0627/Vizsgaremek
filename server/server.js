@@ -231,7 +231,7 @@ app.post("/userdelete", auth.tokenAutheticate, async (req, res) => {
 app.post("/useradd", auth.tokenAutheticate, async (req, res) => {
   const newUser = req.body.user;
   const schoolsId = await sqlQueries.select("schools", "id", `iskolaOM = ${newUser.iskolaOM}`, false);
-  const jelszo = functions.randomString(10);
+  const jelszo = newUser.nev.toLowerCase().split(' ').join('.').normalize('NFD').replace(/[\u0300-\u036f]/g, "");
   const tmpUser = {
     omAzon: newUser.omAzon,
     jelszo: jelszo,
