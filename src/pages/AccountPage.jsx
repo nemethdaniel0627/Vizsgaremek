@@ -41,6 +41,7 @@ export default function Page(props) {
       .post("/cancel/dates",
         {
           omAzon: props.user.omAzon,
+          month: new Date().getMonth() + 1
         },
         AuthUser.authHeader()
       )
@@ -281,7 +282,7 @@ export default function Page(props) {
                 <h1>Tevékenység</h1>
               </div>
               <hr />
-              {props.befizetve ? <Activities
+              {props.user.befizetve ? <Activities
                 activity="Befizetve"
                 descript="Az ebéd befizetése megtörtént a leírt hónapra!"
                 date="2022. március"
@@ -289,7 +290,7 @@ export default function Page(props) {
               ></Activities> : <></>}
               {dates.length ? <Activities
                 activity={"Lemondott nap" + (dates.length > 1 ? "ok:" : ":")}
-                descript="A leírt dátumokon nem tud ebédelni!"
+                descript="A leírt dátumokat már korábban lemondta!"
                 dates={dateConcatenation()}
                 type="cancel"
               ></Activities> : <></>}

@@ -47,7 +47,7 @@ export default function Manager(props) {
                         <button className="btn-new btn fs-3 w-100 mb-3 btn-mg" onClick={() => setShowPending(!showPending)}><FontAwesomeIcon icon={faCheckSquare} /> {active ? showPending ? "Felhasználók" : "Megerősítések" : ""}</button>
                     </div>
                     <div className="download-mg">
-                        <CSVLink onClick={props.downloadUsers.length === 0 ? emptyUsers : () => { }} className={`btn-new btn fs-3 w-100 mb-3 btn-mg ${props.downloadUsers.length === 0 ? "disabled" : ""}`} data={props.downloadUsers} separator={";"} filename={"tanulok.csv"}><FontAwesomeIcon icon={faFileDownload} /> {active ? "Letöltés" : ""}</CSVLink>
+                        <CSVLink onClick={props.downloadUsers.length === 0 ? emptyUsers : () => { }} className={`btn-new btn fs-3 w-100 mb-3 btn-mg ${props.downloadUsers.length === 0 ? "disabled" : ""}`} data={props.downloadUsers} separator={";"} filename={"tanulok.csv"}><FontAwesomeIcon icon={faFileDownload} /> {active ? "Személyek letöltése" : ""}</CSVLink>
                     </div>
                     <div className="new btn-div">
                         <button className="btn-new btn fs-3 w-100 mb-3 btn-mg" onClick={NewModal}><FontAwesomeIcon icon={faUserPlus} /> Új személy</button>
@@ -55,7 +55,7 @@ export default function Manager(props) {
                     </div>
                     <div className="file btn-div">
 
-                        <button className="btn-new btn fs-3 w-100 mb-3 btn-mg" onClick={UploadModal}><FontAwesomeIcon icon={faFileUpload} /> Fájl feltöltés</button>
+                        <button className="btn-new btn fs-3 w-100 mb-3 btn-mg" onClick={UploadModal}><FontAwesomeIcon icon={faFileUpload} /> Személyek feltöltése</button>
                         {uploadModalAppear ? <AdminDatabaseModal ModalClose={UploadModal} title="Feltöltés" message="" button="Feltöltés" show={uploadModalAppear} type="File"></AdminDatabaseModal> : <></>}
                     </div></>
                     : <></>}

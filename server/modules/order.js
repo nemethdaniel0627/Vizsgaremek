@@ -33,14 +33,14 @@ class Order {
         return order.affectedRows;
     }
 
-    async getCancelledDates(userId) {
+    async getCancelledDates(userId, month) {
         const days = await sqlQueries.innerSelect(
             'days',
             'days.datum',
             'INNER JOIN menu ON menu.daysId = days.id ' +
             'INNER JOIN orders ON orders.menuId = menu.id ' +
             'INNER JOIN user ON orders.userId = user.id ',
-            `user.id = ${userId} AND orders.lemondva IS NOT NULL`, false
+            `user.id = ${userId} AND orders.lemondva IS NOT NULL AND MONTH(days.datum) = ${month}`, false
         );
         let dates = [];
         days.forEach(day => {
@@ -51,14 +51,13 @@ class Order {
 
     async doesUserHaveOrderForDate(userId, date) {
         if (isNaN(Number(userId))) return -1;
-        const orderId = await sqlQueries.innerSelect(
+        const order = await sqlQueries.innerSelect(
             'menu',
-            'orders.id',
+            'orders.*',
             'INNER JOIN days ON menu.daysId = days.id ' +
             'INNER JOIN orders ON orders.menuId = menu.id',
-            `orders.userId = ${userId} AND days.datum = '${functions.convertDateWithDash(date)}'`);
-        if (orderId.length === 0) return false;
-        return orderId;
+            `orders.userId = ${userId} AND days.datum = '${functions.convertDateWithDash(date)}'`, false);
+        return order;
     }
 
     async selectMenuIdByUserIdAndDate(userId, date) {

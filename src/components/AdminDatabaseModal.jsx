@@ -23,8 +23,7 @@ export default function AdminDatabaseModal(props) {
     osztaly: "",
     email: "",
     iskolaOM: "",
-    befizetve: undefined,
-    lemondva: []
+    jog: ""
   })
 
   if (props.user !== undefined) {
@@ -86,7 +85,15 @@ export default function AdminDatabaseModal(props) {
 
   function addUser() {
 
-    if (tmpUser.nev.trim() !== "" && tmpUser.omAzon.trim() !== "" && tmpUser.email.trim() !== "" && tmpUser.iskolaOM.trim() !== "") {
+    if (tmpUser.nev.trim() !== ""
+      && tmpUser.omAzon.trim() !== ""
+      && tmpUser.email.trim() !== ""
+      && tmpUser.iskolaOM.trim() !== ""
+      && (tmpUser.jog.trim() === "2" && tmpUser.osztaly.trim() !== "" ?
+        true :
+        tmpUser.jog.trim() === "3" && tmpUser.osztaly.trim() === "" ?
+          true :
+          false)) {
       let addedUser = tmpUser;
       axios.post("/user/add",
         {

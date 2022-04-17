@@ -29,7 +29,8 @@ CREATE TABLE foode.orders (
   uzsonna BOOLEAN NOT NULL,
   vacsora BOOLEAN NOT NULL,
   ar INT(11) NOT NULL,
-  lemondva DATE DEFAULT NULL
+  lemondva DATE DEFAULT NULL,
+  ebedelt VARCHAR(5) DEFAULT NULL
 );
 
 CREATE TABLE foode.days (

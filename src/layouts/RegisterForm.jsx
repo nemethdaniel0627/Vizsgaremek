@@ -7,7 +7,6 @@ import AuthUser from "../modules/AuthUser";
 
 export default function RegisterForm(props) {
 
-    const [selected, setSelected] = useState(false);
     const [seePwd, setSeePwd] = useState(false);
     const [alertOpen, setAlertOpen] = useState(undefined);
     const [alertType, setAlertType] = useState(undefined);
@@ -24,9 +23,6 @@ export default function RegisterForm(props) {
 
     function SelectionChange(event) {
         const { value, name } = event.target;
-
-        if (value === '4') setSelected(true);
-        else setSelected(false);
 
         console.log(value);
 
@@ -147,13 +143,8 @@ export default function RegisterForm(props) {
                                                 {schools.map((school, index) => {
                                                     return <option key={`school_${index}`} value={school.iskolaOM}>{school.nev}</option>
                                                 })}
-                                                <option value="4">--Iskola hozzáadása--</option>
                                             </select>
                                         </div>
-
-                                        {selected ? <div className="form-outline form-white mb-4">
-                                            <input type="number" className="form-control form-control-lg fs-4 --input" onChange={inputChange} value={user.iskola} placeholder="Iskola OM azonosítója" autoFocus required name="iskolaOM" />
-                                        </div> : <></>}
 
                                         <div className="form-outline form-white mb-4">
                                             <input className="form-check-input mt-1" type="checkbox" value="" id="flexCheckDefault" required />

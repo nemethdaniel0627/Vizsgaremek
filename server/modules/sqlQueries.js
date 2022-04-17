@@ -77,6 +77,7 @@ class sqlQueries {
     async update(tableName, sets, conditions, needConnection = true) {
         try {
             needConnection ? await this.CreateConnection() : setTimeout(() => { }, 0);
+            console.log(`UPDATE ${tableName} SET ${sets} WHERE ${conditions}`);
             let [results, resultInfo] = await this._connection.query(`UPDATE ${tableName} SET ${sets} WHERE ${conditions}`);
             needConnection ? await this.EndConnection() : setTimeout(() => { }, 0);
             return results;

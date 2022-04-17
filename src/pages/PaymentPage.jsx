@@ -126,10 +126,6 @@ export default function PaymentPage(props) {
                         </div>
                     </div>
 
-                    <div className="mx-auto w-75 btn-div mt-5 text-center">
-                        <button className="btn fs-3">Étlap megnyitása/letöltése</button>
-                    </div>
-
                     <hr className="div-hr" />
                     <div className="w-50 mx-auto mt-5 mb-5">
                         <button className={"btn w-100 fs-2 btn-pay " + (payable ? "" : "notpayable")} onClick={Pay}>Fizetés</button>
@@ -142,7 +138,8 @@ export default function PaymentPage(props) {
                 alertOpen={alertOpen}
                 text={alertText}
                 type={alertType}
-                fixed={true} />
+                fixed={true}
+                customFunc={alertType === "succes" ? AuthUser.logoutUser() : () => {}} />
         </div>
     );
 }

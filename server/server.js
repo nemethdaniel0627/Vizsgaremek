@@ -123,8 +123,11 @@ app.post("/user", auth.tokenAutheticate, async (req, res) => {
   const orderResult = await order.doesUserHaveOrderForDate(userId, new Date())
   userResult[0].iskolaOM = iskola[0].iskolaOM;
   userResult[0].iskolaNev = iskola[0].nev;
-  if (!orderResult) userResult[0].befizetve = false;
-  else userResult[0].befizetve = true;
+  delete userResult[0].jelszo;
+  if (orderResult.length === 0) userResult[0].befizetve = null;
+  else if (orderResult.length !== 0 && orderResult[0].lemondva === null)
+    userResult[0].befizetve = [orderResult[0].reggeli, orderResult[0].tizorai, orderResult[0].ebed, orderResult[0].uzsonna, orderResult[0].vacsora];
+  else userResult[0].befizetve = false;
   if (userResult) res.send(userResult);
   else res.notFound();
 });
@@ -142,8 +145,7 @@ app.post("/register", async (req, res) => {
   const user = req.body.user;
   const authResult = await auth.register(user);
   if (!authResult) {
-    res.status(409);
-    res.send("Felhasználó már létezik");
+    res.conflict();
   }
   else {
     res.created();
@@ -217,8 +219,86 @@ app.post("/scan", auth.tokenAutheticate, async (req, res) => {
   const userId = await user.getBy("id", `omAzon = ${omAzon}`, false, false);
   if (userId.length === 0) res.notFound();
   else {
-    const befizetve = await order.doesUserHaveOrderForDate(userId[0].id, new Date());
-    res.json({ befizetve: befizetve === false ? false : true });
+    const date = new Date();
+    let befizetve = await order.doesUserHaveOrderForDate(userId[0].id, date);
+    const time = Number(date.getHours().toString() + functions.convertToZeroForm(date.getMinutes()));
+    let ebedelt = befizetve[0].ebedelt ?? "00000";
+    let ebedeltEtkezes = "";
+
+    if (time <= 730 && time >= 700) {
+      if (ebedelt[0] === "1") {
+        ebedelt = true;
+      }
+      else {
+        ebedeltEtkezes = befizetve[0].reggeli === 1 ? "1" : "";
+        if (ebedeltEtkezes === "") {
+          ebedelt = null;
+        }
+        else ebedelt = ebedeltEtkezes + ebedelt[1] + ebedelt[2] + ebedelt[3] + ebedelt[4];
+      }
+    }
+    else if (time <= 1130) {
+      if (ebedelt[1] === "1") {
+        ebedelt = true;
+      }
+      else {
+        ebedeltEtkezes = befizetve[0].tizorai === 1 ? "1" : "";
+        if (ebedeltEtkezes === "") {
+          ebedelt = null;
+        }
+        else ebedelt = ebedelt[0] + ebedeltEtkezes + ebedelt[2] + ebedelt[3] + ebedelt[4];
+      }
+    }
+    else if (time <= 1430) {
+      if (ebedelt[2] === "1") {
+  
+        ebedelt = true;
+      }
+      else {
+        ebedeltEtkezes = befizetve[0].ebed === 1 ? "1" : "";
+        if (ebedeltEtkezes === "") {
+          ebedelt = null;
+        }
+        else ebedelt = ebedelt[0] + ebedelt[1] + ebedeltEtkezes + ebedelt[3] + ebedelt[4];
+      }
+    }
+    else if (time <= 1730) {
+      if (ebedelt[3] === "1") {
+        ebedelt = true;
+      }
+      else {
+        ebedeltEtkezes = befizetve[0].uzsonna === 1 ? "1" : "";
+        if (ebedeltEtkezes === "") {
+          ebedelt = null;
+        }
+        else ebedelt = ebedelt[0] + ebedelt[1] + ebedelt[2] + ebedeltEtkezes + ebedelt[4];
+      }
+    }
+    else if (time <= 2030) {
+      if (ebedelt[4] === "1") {
+        ebedelt = true;
+      }
+      else {
+        ebedeltEtkezes = befizetve[0].vacsora === 1 ? "1" : "";
+        if (ebedeltEtkezes === "") {
+          ebedelt = null;
+        }
+        else ebedelt = ebedelt[0] + ebedelt[1] + ebedelt[2] + ebedelt[3] + ebedeltEtkezes;
+      }
+    }
+    else ebedelt = "Lekéste az étkezést";
+
+    if (befizetve.length === 0) befizetve = "Nincs befizetve";
+    else if (befizetve.length !== 0 && befizetve[0].lemondva === null)
+      befizetve = "Igen";
+    else befizetve = "Lemondta mára";
+
+    if (ebedelt === null) befizetve = "Nincs az étkezésre befizetve";
+    else if (ebedelt === true) befizetve = "Már korábban evett";
+    else if (ebedelt === "Lekéste az étkezést") befizetve = ebedelt;
+    else await sqlQueries.update("orders", `ebedelt = '${ebedelt}'`, `userId = ${userId[0].id}`);
+
+    res.json({ befizetve: befizetve });
   }
 })
 
@@ -346,9 +426,10 @@ app.post("/email", async (req, res) => {
 
 app.post("/cancel/dates", auth.tokenAutheticate, async (req, res) => {
   const userId = await user.getBy("id", `omAzon = ${req.body.omAzon}`, true, false);
+  const month = req.body.month;
   if (userId.length === 0) res.notFound()
   else {
-    const cancelledDays = await order.getCancelledDates(userId);
+    const cancelledDays = await order.getCancelledDates(userId, month);
     res.send({
       dates: cancelledDays
     })
