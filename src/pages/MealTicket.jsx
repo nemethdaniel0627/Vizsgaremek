@@ -28,6 +28,7 @@ export default function MealTicket(props) {
             }
             else setCanEatMeal(null);
         }
+        // else setCanEatMeal(false);
 
 
     }, [props.user.befizetve])
@@ -50,7 +51,7 @@ export default function MealTicket(props) {
                             <h2 id="Ticket_name" className="mb-1 ms-1 fs-1">{props.user.nev}</h2>
                             <h5 id="Ticket_class" className="ms-1">{props.user.osztaly}</h5>
                             <h1 id="Ticket_info" className="text-center mt-3 ms-1">
-                                <strong>{props.user.befizetve ? "Befizetve" : props.user.befizetve === null ? "Nincs befizetve" : canEatMeal === null ? "Nincs jelenleg étkezés" : "Lemondta mára"}</strong>
+                                <strong>{canEatMeal === null && props.user.befizetve ? "Nincs jelenleg étkezés" : canEatMeal === false ? "Nincs erre az étkezésre befizetve" : props.user.befizetve ? "Befizetve" : props.user.befizetve === null ? "Nincs befizetve" : "Lemondta mára"}</strong>
                             </h1>
                         </div>
                     </div>
