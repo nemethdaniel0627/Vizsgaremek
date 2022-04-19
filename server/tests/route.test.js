@@ -62,7 +62,7 @@ test('School list', async () => {
 });
 
 test("Userdetails", async () => {
-    const response = await axios.post("http://localhost:5000/userdetails",
+    const response = await axios.post("http://localhost:5000/user/details",
         {
             omAzon: "72386351245",
         }, token).then(response => {
@@ -129,7 +129,7 @@ test("Register 2", async () => {
 });
 
 test("Accept pending", async () => {
-    const response = await axios.post("http://localhost:5000/acceptpending",
+    const response = await axios.post("http://localhost:5000/pending/accept",
         {
             omAzon: omAzon_1
         }, token).then(response => {
@@ -141,7 +141,7 @@ test("Accept pending", async () => {
 });
 
 test("Reject pending", async () => {
-    const response = await axios.post("http://localhost:5000/rejectpending",
+    const response = await axios.post("http://localhost:5000/pending/reject",
         {
             omAzon: omAzon_2
         }, token).then(response => {
@@ -165,7 +165,7 @@ test("QR scan", async () => {
 });
 
 test("User delete", async () => {
-    const response = await axios.post("http://localhost:5000/userdelete",
+    const response = await axios.post("http://localhost:5000/user/delete",
         {
             omAzon: omAzon_1
         }, token).then(response => {
@@ -177,7 +177,7 @@ test("User delete", async () => {
 });
 
 test("User add", async () => {
-    const response = await axios.post("http://localhost:5000/useradd",
+    const response = await axios.post("http://localhost:5000/user/add",
         {
             user: {
                 nev: "Kis János",
@@ -197,7 +197,7 @@ test("User add", async () => {
 
 
 test("User modify", async () => {
-    const response = await axios.post("http://localhost:5000/usermodify",
+    const response = await axios.post("http://localhost:5000/user/modify",
         {
             omAzon: omAzon_1,
             user: {
@@ -216,7 +216,7 @@ test("User modify", async () => {
 });
 
 test("Password modify", async () => {
-    const response = await axios.post("http://localhost:5000/passwordmodify",
+    const response = await axios.post("http://localhost:5000/password/modify",
         {
             omAzon: omAzon_2,
             regiJelszo: "kis.janos",
