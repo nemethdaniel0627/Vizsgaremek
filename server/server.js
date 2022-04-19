@@ -6,7 +6,6 @@ const databaseUpload = require('./modules/databaseUpload');
 const sqlQueries = require('./modules/sqlQueries');
 const databaseDownload = require('./modules/databaseDownload');
 const user = require('./modules/user');
-const test = require('./modules/test');
 const email = require('./modules/emailSend');
 const auth = require('./modules/auth');
 const exception = require('./exceptions/exceptions');
@@ -75,7 +74,6 @@ app.post("/etlap", auth.tokenAutheticate, async (req, res) => {
 app.post("/add", async (req, res) => {
   try {
     const data = await user.readFile('users.txt');
-    let count = 0;
     for (let i = 0; i < data.length; i++) {
       const newUser = {
         omAzon: data[i].split(';')[0],
@@ -85,10 +83,9 @@ app.post("/add", async (req, res) => {
         osztaly: data[i].split(';')[4],
         email: data[i].split(';')[5]
       }
-      let added = await user.add(newUser, false);
-      if (added) count++;
+      await user.add(newUser, false);
     }
-    res.send(`${count} record(s) added`);
+    res.send("Success");
   } catch (error) {
     res.send(error.message);
   }
@@ -234,7 +231,7 @@ app.post("/userdelete", auth.tokenAutheticate, async (req, res) => {
 app.post("/useradd", auth.tokenAutheticate, async (req, res) => {
   const newUser = req.body.user;
   const schoolsId = await sqlQueries.select("schools", "id", `iskolaOM = ${newUser.iskolaOM}`, false);
-  const jelszo = await test.randomString(10);
+  const jelszo = newUser.nev.toLowerCase().split(' ').join('.').normalize('NFD').replace(/[\u0300-\u036f]/g, "");
   const tmpUser = {
     omAzon: newUser.omAzon,
     jelszo: jelszo,
@@ -378,7 +375,7 @@ app.post("/pagination", auth.tokenAutheticate, async (req, res) => {
   });
 })
 
-app.post("/userupload", auth.tokenAutheticate, async (req, res) => {  
+app.post("/userupload", auth.tokenAutheticate, async (req, res) => {
   const userRows = req.body.userRows.split("\n");
   let notAddedUsers = [];
 
