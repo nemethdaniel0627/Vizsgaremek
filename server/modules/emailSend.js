@@ -1,6 +1,6 @@
+const nodemailer = require('nodemailer');
 class emailSend {
     async makeAccount(details) {
-        const nodemailer = require('nodemailer');
         const account = {
             user: "information.foodE@gmail.com",
             pass: process.env.EMAIL_PASS
