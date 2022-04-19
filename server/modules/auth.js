@@ -43,7 +43,7 @@ class Auth {
         }
     }
 
-    tokenAutheticate(req, res, next) {
+    tokenAutheticate(req, res, next) {        
         let token = req.headers.authorization.split(" ")[1];
         token = token.split(";")[0];
         try {
