@@ -5,7 +5,7 @@ import AdminDatabaseManager from "../layouts/AdminDatabaseManager";
 import AdminDatabaseManagerSearch from "../components/AdminDatabaseManagerSearch";
 
 import PropTypes from "prop-types";
-import { makeStyles } from "@mui/styles";
+import makeStyles from "@mui/styles/makeStyles";
 import useScrollTrigger from "@mui/material/useScrollTrigger";
 import Fab from "@mui/material/Fab";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
@@ -35,7 +35,7 @@ export default function AdminDatabasePage(props) {
             bottom: "2rem",
             right: "2rem"
         }
-    }));
+    }), { index: 1 });
     function ScrollTop(props) {
         const { children } = props;
         const classes = useStyles();

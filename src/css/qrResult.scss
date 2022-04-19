@@ -81,8 +81,8 @@
         height: var(--fullScreen);
 
         div {
-            border-top: calc(var(--fullScreen) / 3.3333) solid rgba(0, 0, 0, 0.3) !important;
-            border-bottom: calc(var(--fullScreen) / 3.3333) solid rgba(0, 0, 0, 0.3) !important;
+            border-top: calc(calc(var(--fullScreen) / 3.3333)) solid rgba(0, 0, 0, 0.3) !important;
+            border-bottom: calc(calc(var(--fullScreen) / 3.3333)) solid rgba(0, 0, 0, 0.3) !important;
         }
     }
 }

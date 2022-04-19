@@ -3,7 +3,7 @@
     margin: 3rem;
 
     @media only screen and (max-width: 800px) {
-        margin-top: calc(var(--navBarHeight) + 3rem);
+        margin-top: calc(calc(var(--navBarHeight) + 3rem));
     }
 
     @media only screen and (max-width: 400px) {

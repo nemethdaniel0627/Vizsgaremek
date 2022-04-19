@@ -13,7 +13,6 @@ class sqlQueries {
         } catch (error) {
             throw error;
         }
-
     }
 
     async EndConnection() {
