@@ -3,16 +3,16 @@ class sqlQueries {
     _connection;
 
     async CreateConnection(array = true) {
-        try {
-            this._connection = await mysql.createConnection({
-                host: 'localhost',
-                user: 'root',
-                database: 'foode',
-                rowsAsArray: array
-            });
-        } catch (error) {
-            throw error;
-        }
+        this._connection = await mysql.createConnection({
+            // host: 'eporqep6b4b8ql12.chr7pe7iynqr.eu-west-1.rds.amazonaws.com',
+            // user: 'gv0mvqhvp3pzbc4o',
+            // password: 'dbs0wqnd0vvxkjk2',
+            // database: 's2v7anrhwduvuhqp',
+            host: 'localhost',
+            user: 'root',
+            database: 'foode',
+            rowsAsArray: array
+        });
     }
 
     async EndConnection() {
@@ -77,6 +77,7 @@ class sqlQueries {
     async update(tableName, sets, conditions, needConnection = true) {
         try {
             needConnection ? await this.CreateConnection() : setTimeout(() => { }, 0);
+            console.log(`UPDATE ${tableName} SET ${sets} WHERE ${conditions}`);
             let [results, resultInfo] = await this._connection.query(`UPDATE ${tableName} SET ${sets} WHERE ${conditions}`);
             needConnection ? await this.EndConnection() : setTimeout(() => { }, 0);
             return results;

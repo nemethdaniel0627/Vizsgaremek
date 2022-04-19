@@ -40,7 +40,7 @@ export default function AdminUserDetails(props) {
         if (user.vNev.toString().trim() !== "" && user.kNev.toString().trim() !== "" && user.omAzon.trim() !== "" && user.osztaly.trim() !== "" && user.email.trim() !== "" && user.iskolaOM.trim() !== "") {
             let tmpUser = user;
             tmpUser.nev = user.vNev + " " + user.kNev;
-            axios.post("/usermodify",
+            axios.put("/user/modify",
                 {
                     omAzon: omAzon,
                     user: tmpUser
@@ -64,7 +64,7 @@ export default function AdminUserDetails(props) {
     useEffect(() => {
         console.log("asd");
         setLoading(true);
-        axios.post("/userdetails",
+        axios.post("/user/details",
             {
                 omAzon: omAzon
             },

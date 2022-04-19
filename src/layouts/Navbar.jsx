@@ -25,7 +25,7 @@ export default function Navbar(props) {
             root.style.setProperty('--bodyBackground', "#3E5C76");
             root.style.setProperty('--darkModeFontColor', "#fff");
             root.style.setProperty('--currentDay', "#28622a");
-            root.style.setProperty('--accountBackground', "#00000040");
+            root.style.setProperty('--accountBackground', "#2e4558");
             root.style.setProperty('--paymentCardBg', "#000b26c0");
             root.style.setProperty('--paymentCardBgEdit', "#000b26a0");
             root.style.setProperty('--paymentCardBgHover', "white");
@@ -42,7 +42,7 @@ export default function Navbar(props) {
             root.style.setProperty('--bodyBackground', "#fff");
             root.style.setProperty('--darkModeFontColor', "#000");
             root.style.setProperty('--currentDay', "#adf7b0");
-            root.style.setProperty('--accountBackground', "#001E6Cca");
+            root.style.setProperty('--accountBackground', "#354d8b");
             root.style.setProperty('--paymentCardBg', "#000b26f0");
             root.style.setProperty('--paymentCardBgEdit', "#000b26a0");
             root.style.setProperty('--paymentCardBgHover', "black");

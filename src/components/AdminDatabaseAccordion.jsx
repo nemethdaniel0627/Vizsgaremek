@@ -28,7 +28,7 @@ export default function AdminDatabaseAccodrion(props) {
     }
 
     function acceptPending() {
-        axios.post("/acceptpending",
+        axios.put("/pending/accept",
             {
                 omAzon: props.user.omAzon
             },
@@ -46,7 +46,7 @@ export default function AdminDatabaseAccodrion(props) {
     }
 
     function rejectPending() {
-        axios.post("/rejectpending",
+        axios.delete("/pending/reject",
             {
                 omAzon: props.user.omAzon
             },
@@ -83,29 +83,33 @@ export default function AdminDatabaseAccodrion(props) {
                         </div>
                         <hr className="col-12 col-lg-0 d-flex d-lg-none" />
                         <div className="col-sm-12 col-lg-6 fs-4 mb-3">
-                            <span className="key">E-mail:</span>
-                            {props.isMobile ? <br /> : <></>}
-                            <span className={"me-5 float-end " + (props.isMobile ? "mobile-email" : "")}>{props.user.email}</span>
+                            <span className="key">Iskola OM azonosító:</span>
+                            <span className={"me-5 float-end"}>{props.user.iskolaOM}</span>
                         </div>
                         <hr />
-                        {!props.new ? <><div className="col-sm-12 col-lg-6 fs-4 mb-3">
-                            <span className="key">Befizetve:</span>
-                            <span className={"me-5 float-end" + (props.user.befizetve ? " text-success" : " text-danger")}>{props.user.befizetve ? <FontAwesomeIcon icon={faCheck} /> : <FontAwesomeIcon icon={faTimes} />}</span>
-                        </div>
-                            <hr className="col-12 col-lg-0 d-flex d-lg-none" />
-                            <div className="col-sm-12 col-lg-6 fs-4 mb-3">
-                                <span className="key">Összeg:</span>
-                                <span className={"me-5 float-end"}>{props.user.value ? props.user.value : "Nincs befizetve!"}</span>
-                            </div>
+                        {!props.new ?
+                            <>
+                                <div className="col-sm-12 col-lg-6 fs-4 mb-3">
+                                    <span className="key">Befizetve:</span>
+                                    <span className={"me-5 float-end" + (props.user.befizetve ? " text-success" : " text-danger")}>{props.user.befizetve ? <FontAwesomeIcon icon={faCheck} /> : <FontAwesomeIcon icon={faTimes} />}</span>
+                                </div>
+                                <div className="col-sm-12 col-lg-6 fs-4 mb-3">
+                                    <span className="key">E-mail:</span>
+                                    {props.isMobile ? <br /> : <></>}
+                                    <span className={"me-5 float-end " + (props.isMobile ? "mobile-email" : "")}>{props.user.email}</span>
+                                </div>
+                                <hr className="col-12 col-lg-0 d-flex d-lg-none" />
 
-                            <div className={"accordion_buttons" + (props.isMobile ? " text-center" : "")}>
-                                <button className="btn btn-modify fs-3" id={"btn_" + props.user.nev + "-" + props.user.class} onClick={ModifyModal} ><FontAwesomeIcon id={"icon_" + props.user.nev + "-" + props.user.class} icon={faEdit} /> Módosítás</button>
-                                <button className="btn btn-delete fs-3" id={"btn2_" + props.user.nev + "-" + props.user.class} onClick={DeleteModal}><FontAwesomeIcon id={"icon2_" + props.user.nev + "-" + props.user.class} icon={faUserTimes} /> Törlés</button>
-                                <Link to={`/reszletes/${props.user.omAzon}`}><button className="btn btn-infos fs-3" id={"btn3_" + props.user.nev + "-" + props.user.class} onClick={DeleteModal}><ReadMoreIcon className="fs-1" fontSize="inherit" color="#000" /> Részletes adatok</button></Link>
-                            </div></> : <><div className={"accordion_buttons" + (props.isMobile ? " text-center" : "")}>
-                                <button className="btn btn-infos fs-3 me-lg-5 mb-2 mb-lg-0" id={"btn_" + props.user.nev + "-" + props.user.class} onClick={acceptPending} ><FontAwesomeIcon id={"icon_" + props.user.nev + "-" + props.user.class} icon={faUserCheck} /> Elfogadás</button>
-                                <button className="btn btn-delete fs-3" id={"btn2_" + props.user.nev + "-" + props.user.class} onClick={rejectPending}><FontAwesomeIcon id={"icon2_" + props.user.nev + "-" + props.user.class} icon={faUserTimes} /> Elutasítás</button>
-                            </div></>}
+                                <div className={"accordion_buttons" + (props.isMobile ? " text-center" : "")}>
+                                    <button className="btn btn-modify fs-3" id={"btn_" + props.user.nev + "-" + props.user.class} onClick={ModifyModal} ><FontAwesomeIcon id={"icon_" + props.user.nev + "-" + props.user.class} icon={faEdit} /> Módosítás</button>
+                                    <button className="btn btn-delete fs-3" id={"btn2_" + props.user.nev + "-" + props.user.class} onClick={DeleteModal}><FontAwesomeIcon id={"icon2_" + props.user.nev + "-" + props.user.class} icon={faUserTimes} /> Törlés</button>
+                                    <Link to={`/reszletes/${props.user.omAzon}`}><button className="btn btn-infos fs-3" id={"btn3_" + props.user.nev + "-" + props.user.class} onClick={DeleteModal}><ReadMoreIcon className="fs-1" fontSize="inherit" color="#000" /> Részletes adatok</button></Link>
+                                </div></> : <><div className={"accordion_buttons" + (props.isMobile ? " text-center" : "")}>
+                                    <button className="btn btn-infos fs-3 me-lg-5 mb-2 mb-lg-0" id={"btn_" + props.user.nev + "-" + props.user.class} onClick={acceptPending} ><FontAwesomeIcon id={"icon_" + props.user.nev + "-" + props.user.class} icon={faUserCheck} /> Elfogadás</button>
+                                    <button className="btn btn-delete fs-3" id={"btn2_" + props.user.nev + "-" + props.user.class} onClick={rejectPending}><FontAwesomeIcon id={"icon2_" + props.user.nev + "-" + props.user.class} icon={faUserTimes} /> Elutasítás</button>
+                                </div>
+                            </>
+                        }
 
                         {modifyModalAppear ? <AdminDatabaseModal ModalClose={ModifyModal} title="Személy módosítása" message="" button="Módosítás" show={modifyModalAppear} type="Modify" user={props.user}></AdminDatabaseModal> : <></>}
                         {deleteModalAppear ? <AdminDatabaseModal ModalClose={DeleteModal} title="Személy törlése" message={"Biztosan törölni akarok ezt a személyt? (" + props.user.nev + ")"} user={props.user} button="Törlés" show={deleteModalAppear} type="Delete" ></AdminDatabaseModal> : <></>}

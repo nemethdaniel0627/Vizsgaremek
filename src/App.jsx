@@ -21,8 +21,6 @@ import Loader from "./layouts/Loader";
 import jwt from "jsonwebtoken";
 import AdminUserDetails from "./pages/AdminUserDetails";
 import ResponseMessage from "./components/ResponseMessage";
-import StylesProvider from "@mui/styles/StylesProvider";
-import { ThemeProvider } from "@mui/styles";
 
 
 export default function App() {
@@ -81,6 +79,7 @@ export default function App() {
             }
             else setLoading(false);
         } catch (error) {
+            console.log(error);
             setLoading(false);
             setAlertType("error");
             setAlertText("Nem sikerült lekérni a felhasználói adatokat!\nPróbáljon meg be és kijelentkezni")
@@ -109,9 +108,9 @@ export default function App() {
                     sessionStorage.setItem("oldPath", oldPath);
                     AuthUser.logoutUser();
                 })
+            getUser();
         }
         else setLoading(false);
-        getUser();
     }, [path])
 
     function startLoading() {
@@ -123,87 +122,83 @@ export default function App() {
     }
 
     return (
-        <ThemeProvider>
-            <div className="App">
-                <StylesProvider injectFirst={true}>
-                    <Navbar nev={`${user == null ? "" : user.nev}`} />
-                    {loading ? <Loader />
-                        :
-                        <Switch>
-                            <AuthRoute path="/" auth={AuthUser._authorization()} exact component={() => {
-                                return AuthUser._authorization() === "user"
-                                    ?
-                                    <Redirect to="/etlap" />
-                                    : AuthUser._authorization() === "admin" ?
-                                        <Redirect to="/adatbazis" />
-                                        : AuthUser._authorization() === "alkalmazott" ?
-                                            <Redirect to="/beolvas" />
-                                            :
-                                            <Menu cancel={false} header="Étlap" disabledDays={[]} />
+        <div className="App">
+            <Navbar nev={`${user == null ? "" : user.nev}`} />
+            {loading ? <Loader />
+                :
+                <Switch>
+                    <AuthRoute path="/" auth={AuthUser._authorization()} exact component={() => {
+                        return AuthUser._authorization() === "user"
+                            ?
+                            <Redirect to="/etlap" />
+                            : AuthUser._authorization() === "admin" ?
+                                <Redirect to="/adatbazis" />
+                                : AuthUser._authorization() === "alkalmazott" ?
+                                    <Redirect to="/beolvas" />
+                                    :
+                                    <Menu cancel={false} header="Étlap" disabledDays={[]} />
 
-                            }
-                            } />
-
-                            <Route path="/login" component={() =>
-                                AuthUser.isLoggedIn() ? <Redirect to="/" /> : <LoginForm title="Bejelentkezés" />
-                            } />
-
-                            <AuthRoute path="/etlap" auth="user" component={() =>
-                                <Menu cancel={false} header="Étlap" disabledDays={[]} />
-                            } />
-
-                            <AuthRoute path="/ebedjegy" auth="user" component={() =>
-                                <MealTicket user={user} />
-                            } />
-
-                            <AuthRoute path="/lemondas" auth="user" component={() =>
-                                <LunchCancelation user={user} />
-                            } />
-
-                            <AuthRoute path="/adatlap" auth="user" component={() =>
-                                <AccountPage user={user} />
-                            } />
-
-                            <AuthRoute path="/kapcsolat" auth="user" component={() =>
-                                <ReportPage props={user} />
-                            } />
-
-
-                            <AuthRoute path="/adatbazis" auth="admin" component={() =>
-                                <AdminDatabasePage endLoading={endLoading} startLoading={startLoading} />
-                            } />
-
-                            <AuthRoute path="/fizetes" auth="user" component={() =>
-                                <PaymentPage user={user} />
-                            } />
-
-                            <AuthRoute path="/beolvas" auth="admin alkalmazott" component={() =>
-                                <QrCodeReader />
-                            } />
-
-                            <AuthRoute path="/etlapfeltolt" auth="admin" component={() =>
-                                <MenuUpload />
-                            } />
-
-                            <AuthRoute path="/reszletes/:omAzon" auth="admin" component={() =>
-                                <AdminUserDetails user={user} />
-                            } />
-
-                            <Route>
-                                <NotFoundPage />
-                            </Route>
-
-                        </Switch>
                     }
+                    } />
 
-                    <ResponseMessage
-                        setAlertOpen={setAlertOpen}
-                        alertOpen={alertOpen}
-                        text={alertText}
-                        type={alertType}
-                        fixed={true} />
-                </StylesProvider>
-            </div>
-        </ThemeProvider>
+                    <Route path="/login" component={() =>
+                        AuthUser.isLoggedIn() ? <Redirect to="/" /> : <LoginForm title="Bejelentkezés" />
+                    } />
+
+                    <AuthRoute path="/etlap" auth="user" component={() =>
+                        <Menu cancel={false} header="Étlap" disabledDays={[]} />
+                    } />
+
+                    <AuthRoute path="/ebedjegy" auth="user" component={() =>
+                        <MealTicket user={user} />
+                    } />
+
+                    <AuthRoute path="/lemondas" auth="user" component={() =>
+                        <LunchCancelation user={user} />
+                    } />
+
+                    <AuthRoute path="/adatlap" auth="user" component={() =>
+                        <AccountPage user={user} />
+                    } />
+
+                    <AuthRoute path="/kapcsolat" auth="user" component={() =>
+                        <ReportPage props={user} />
+                    } />
+
+
+                    <AuthRoute path="/adatbazis" auth="admin" component={() =>
+                        <AdminDatabasePage endLoading={endLoading} startLoading={startLoading} />
+                    } />
+
+                    <AuthRoute path="/fizetes" auth="user" component={() =>
+                        <PaymentPage user={user} />
+                    } />
+
+                    <AuthRoute path="/beolvas" auth="admin alkalmazott" component={() =>
+                        <QrCodeReader />
+                    } />
+
+                    <AuthRoute path="/etlapfeltolt" auth="admin" component={() =>
+                        <MenuUpload />
+                    } />
+
+                    <AuthRoute path="/reszletes/:omAzon" auth="admin" component={() =>
+                        <AdminUserDetails user={user} />
+                    } />
+
+                    <Route>
+                        <NotFoundPage />
+                    </Route>
+
+                </Switch>
+            }
+
+            <ResponseMessage
+                setAlertOpen={setAlertOpen}
+                alertOpen={alertOpen}
+                text={alertText}
+                type={alertType}
+                fixed={true} />
+        </div >
     )
 }

@@ -102,7 +102,7 @@ export default function QrCodeReader() {
                     <div className="qr-result">
                         <div className="qr-result--item qr-result--name">{qrResult.nev}</div>
                         <div className="qr-result--item">Osztály:  {qrResult.osztaly}</div>
-                        <div className="qr-result--item">Ebédelhet? {qrResult.befizetve ? "Igen" : "Nincs befizetve"}</div>
+                        <div className="qr-result--item">Ebédelhet? {qrResult.befizetve}</div>
                         <div className="qr-result--item">Iskola:  <div className="qr-result--item--school">{qrResult.iskolaNev}</div></div>
                         <button className="qr-result--button" onClick={newRead}>
                             <div>Új beolvas</div>

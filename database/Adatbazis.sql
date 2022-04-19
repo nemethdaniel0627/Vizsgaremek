@@ -29,7 +29,8 @@ CREATE TABLE foode.orders (
   uzsonna BOOLEAN NOT NULL,
   vacsora BOOLEAN NOT NULL,
   ar INT(11) NOT NULL,
-  lemondva DATE DEFAULT NULL
+  lemondva DATE DEFAULT NULL,
+  ebedelt VARCHAR(5) DEFAULT NULL
 );
 
 CREATE TABLE foode.days (
@@ -138,3 +139,9 @@ VALUES ('admin'),
 INSERT INTO schools (nev, iskolaOM)
 VALUES ('Jedlik', 203037),
        ('Alma', 112233);
+
+INSERT INTO user (`omAzon`, `jelszo`, `nev`, `schoolsId`, `osztaly`, `email`)
+VALUES ('20303340312','$2a$10$iS0peTuztACfnWELT.WYCucW8n.RN659jfNaJNpLenT4kXPBu2PLe','Admin Isztratív','1',null,'admin@jedlik.eu')
+
+INSERT INTO user_pending (`omAzon`, `jelszo`, `nev`, `schoolsId`, `osztaly`, `email`)
+VALUES ('1234567891','$2a$10$iS0peTuztACfnWELT.WYCucW8n.RN659jfNaJNpLenT4kXPBu2PLe','Teszt Elek','1', '1D','admin@jedlik.eu')

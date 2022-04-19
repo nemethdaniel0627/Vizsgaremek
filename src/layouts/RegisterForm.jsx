@@ -7,10 +7,10 @@ import AuthUser from "../modules/AuthUser";
 
 export default function RegisterForm(props) {
 
-    const [selected, setSelected] = useState(false);
     const [seePwd, setSeePwd] = useState(false);
     const [alertOpen, setAlertOpen] = useState(undefined);
     const [alertType, setAlertType] = useState(undefined);
+    const [alertText, setAlertText] = useState("");
     const [schools, setSchools] = useState([]);
     const [user, setUser] = useState({
         nev: "",
@@ -23,9 +23,6 @@ export default function RegisterForm(props) {
 
     function SelectionChange(event) {
         const { value, name } = event.target;
-
-        if (value === '4') setSelected(true);
-        else setSelected(false);
 
         console.log(value);
 
@@ -61,7 +58,8 @@ export default function RegisterForm(props) {
             })
             .then(response => {
                 setAlertOpen(true);
-                setAlertType(false);
+                setAlertType("success");
+                setAlertText("Sikeres regisztráció!\nTovábbi információkat emailben küldtünk");
                 console.log(response);
                 axios.post("/email",
                     {
@@ -82,7 +80,8 @@ export default function RegisterForm(props) {
             })
             .catch(error => {
                 setAlertOpen(true);
-                setAlertType(true);
+                setAlertType("error");
+                setAlertText("Hiba történt a regisztrációkor elküldésekor!\nIlyen OM azonosító vagy email cím már létezik!");
                 console.error(error)
             });
     }
@@ -144,13 +143,8 @@ export default function RegisterForm(props) {
                                                 {schools.map((school, index) => {
                                                     return <option key={`school_${index}`} value={school.iskolaOM}>{school.nev}</option>
                                                 })}
-                                                <option value="4">--Iskola hozzáadása--</option>
                                             </select>
                                         </div>
-
-                                        {selected ? <div className="form-outline form-white mb-4">
-                                            <input type="number" className="form-control form-control-lg fs-4 --input" onChange={inputChange} value={user.iskola} placeholder="Iskola OM azonosítója" autoFocus required name="iskolaOM" />
-                                        </div> : <></>}
 
                                         <div className="form-outline form-white mb-4">
                                             <input className="form-check-input mt-1" type="checkbox" value="" id="flexCheckDefault" required />
@@ -178,19 +172,12 @@ export default function RegisterForm(props) {
                     </div>
                 </div>
             </div>
-            {alertType ?
-                <ResponseMessage
-                    setAlertOpen={setAlertOpen}
-                    alertOpen={alertOpen}
-                    text={"Hiba történt a regisztrációkor elküldésekor!\nIlyen OM azonosító vagy email cím már létezik!"}
-                    type="error" />
-                : alertType === false ? <ResponseMessage
-                    setAlertOpen={setAlertOpen}
-                    alertOpen={alertOpen}
-                    text={"Sikeres regisztráció!\nTovábbi információkat emailben küldtünk"}
-                    type="success"
-                    customFunc={() => { props.RegisterOff() }} />
-                    : <></>}
+            <ResponseMessage
+                setAlertOpen={setAlertOpen}
+                alertOpen={alertOpen}
+                text={alertText}
+                type={alertType}
+                fixed={true} />
         </section>
 
     );

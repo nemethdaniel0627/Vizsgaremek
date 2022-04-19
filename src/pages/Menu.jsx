@@ -83,7 +83,7 @@ export default function Menu(props) {
                 date = new Date(firstDay);
                 date.setDate(date.getDate() - 7);
                 setLoading(true);
-                axios.post("/menupagination",
+                axios.post("/menu/pagination",
                     {
                         date: modules.convertDateWithDash(date)
                     }, AuthUser.authHeader())
@@ -106,7 +106,7 @@ export default function Menu(props) {
                 date = new Date(firstDay);
                 date.setDate(date.getDate() + 7);
                 setLoading(true);
-                axios.post("/menupagination",
+                axios.post("/menu/pagination",
                     {
                         date: modules.convertDateWithDash(date)
                     }, AuthUser.authHeader())
@@ -144,7 +144,7 @@ export default function Menu(props) {
 
     useEffect(() => {
         window.onload = () => {
-            axios.get(`/etlap`)
+            axios.get(`/menu`)
                 .then((response) => {
                     sessionStorage.setItem("menu", JSON.stringify(response.data.menu))
                     setMenu(response.data.menu);
@@ -163,7 +163,7 @@ export default function Menu(props) {
                     console.log(error.response);
                 })
         }
-        axios.get(`/etlap`)
+        axios.get(`/menu`)
             .then((response) => {
                 sessionStorage.setItem("menu", JSON.stringify(response.data.menu))
                 setMenu(response.data.menu);

@@ -6,7 +6,7 @@
   --bodyBackground: #fff;
   --darkModeFontColor: #000;
   --currentDay: #adf7b0;
-  --accountBackground: #00000040;
+  --accountBackground: #2e4558;
   --paymentCardBg: #000b26c0;
   --adminDb: #ffffff40;
   --adminDbFontKey: #ffffffa0;
@@ -75,5 +75,5 @@ footer {
   left: 50%;
   transform: translate(-50%, -50%);
   backface-visibility: hidden;
-  z-index: 9;
+  z-index: 1301;
 }

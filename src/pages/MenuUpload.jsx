@@ -251,7 +251,7 @@ export default function MenuUpload() {
             uploadedFileInfo.classList.remove('uploaded-file__info--active');
         }
         uploadedFileCounter.innerHTML = `0%`
-        axios.post("/etlap",
+        axios.put("/menu",
             {
                 excelRows: excelRows,
                 date: modules.convertDateWithDash(startDay),

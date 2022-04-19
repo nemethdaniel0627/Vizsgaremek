@@ -23,8 +23,7 @@ export default function AdminDatabaseModal(props) {
     osztaly: "",
     email: "",
     iskolaOM: "",
-    befizetve: undefined,
-    lemondva: []
+    jog: ""
   })
 
   if (props.user !== undefined) {
@@ -38,7 +37,7 @@ export default function AdminDatabaseModal(props) {
   function modifyUser() {
     console.log("modify");
     if (tmpUser.nev.trim() !== "" && tmpUser.omAzon.trim() !== "" && tmpUser.email.trim() !== "" && tmpUser.iskolaOM.trim() !== "") {
-      axios.post("/usermodify",
+      axios.put("/user/modify",
         {
           omAzon: props.user.omAzon,
           user: tmpUser
@@ -66,7 +65,7 @@ export default function AdminDatabaseModal(props) {
   }
 
   function deleteUser() {
-    axios.post("/userdelete",
+    axios.delete("/user/delete",
       {
         omAzon: props.user.omAzon
       },
@@ -86,9 +85,17 @@ export default function AdminDatabaseModal(props) {
 
   function addUser() {
 
-    if (tmpUser.nev.trim() !== "" && tmpUser.omAzon.trim() !== "" && tmpUser.email.trim() !== "" && tmpUser.iskolaOM.trim() !== "") {
+    if (tmpUser.nev.trim() !== ""
+      && tmpUser.omAzon.trim() !== ""
+      && tmpUser.email.trim() !== ""
+      && tmpUser.iskolaOM.trim() !== ""
+      && (tmpUser.jog.trim() === "2" && tmpUser.osztaly.trim() !== "" ?
+        true :
+        tmpUser.jog.trim() === "3" && tmpUser.osztaly.trim() === "" ?
+          true :
+          false)) {
       let addedUser = tmpUser;
-      axios.post("/useradd",
+      axios.post("/user/add",
         {
           user: addedUser
         },
@@ -114,7 +121,7 @@ export default function AdminDatabaseModal(props) {
   function uploadUser() {
     setLoading(true);
 
-    axios.post("/userupload", {
+    axios.post("/user/upload", {
       userRows: uploadFile
     }, AuthUser.authHeader())
       .then(response => {

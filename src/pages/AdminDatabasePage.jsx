@@ -118,8 +118,8 @@ export default function AdminDatabasePage(props) {
                 setLoading(false);
             });
 
-        setLoading(true);
-        axios.get("/userdownload", AuthUser.authHeader())
+        // setLoading(true);
+        axios.get("/user/download", AuthUser.authHeader())
             .then(response => {
                 setDownloadUsers(response.data.users);
                 setLoading(false);
