@@ -456,7 +456,7 @@ app.post("/pagination", auth.tokenAutheticate, async (req, res) => {
   });
 })
 
-app.post("/user/upload", auth.tokenAutheticate, async (req, res) => 
+app.post("/user/upload", auth.tokenAutheticate, async (req, res) => {
   const userRows = req.body.userRows.split("\n");
   let notAddedUsers = [];
 
