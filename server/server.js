@@ -103,6 +103,7 @@ app.post("/menu/pagination", auth.tokenAutheticate, async (req, res) => {
 app.post("/user/details", auth.tokenAutheticate, async (req, res) => {
   const omAzon = req.body.omAzon;
   const userWithDetails = await user.getBy("*", `user.omAzon = ${omAzon}`, false);
+  delete userWithDetails[0].jelszo;
   if (userWithDetails.length > 0) {
     const iskolaOM = await sqlQueries.select("schools", "iskolaOM", `id = ${userWithDetails[0].schoolsId}`, false);
     const userOrders = await order.selectOrdersWithDateByUserId(userWithDetails[0].id);
