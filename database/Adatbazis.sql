@@ -141,7 +141,9 @@ VALUES ('Jedlik', 203037),
        ('Alma', 112233);
 
 INSERT INTO user (`omAzon`, `jelszo`, `nev`, `schoolsId`, `osztaly`, `email`)
-VALUES ('20303340312','$2a$10$iS0peTuztACfnWELT.WYCucW8n.RN659jfNaJNpLenT4kXPBu2PLe','Admin Isztratív','1',null,'admin@jedlik.eu')
+VALUES ('20303340312','$2a$10$iS0peTuztACfnWELT.WYCucW8n.RN659jfNaJNpLenT4kXPBu2PLe','Admin Isztratív','1',null,'admin@jedlik.eu');
+
+INSERT INTO user_role (userId, roleId) VALUES (1, 1);
 
 INSERT INTO user_pending (`omAzon`, `jelszo`, `nev`, `schoolsId`, `osztaly`, `email`)
-VALUES ('1234567891','$2a$10$iS0peTuztACfnWELT.WYCucW8n.RN659jfNaJNpLenT4kXPBu2PLe','Teszt Elek','1', '1D','admin@jedlik.eu')
+VALUES ('1234567891','$2a$10$iS0peTuztACfnWELT.WYCucW8n.RN659jfNaJNpLenT4kXPBu2PLe','Teszt Elek','1', '1D','admin@jedlik.eu');

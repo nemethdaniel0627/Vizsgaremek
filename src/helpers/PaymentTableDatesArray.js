@@ -5,9 +5,9 @@ export default function PaymentTableDateArray() {
     var dates = [];
     var d = new Date(date.getMonth() + 2 + " 01," + date.getFullYear());
     var month = date.getMonth() + 1;
-    for (let index = 0; index < d.getDay() - 1; index++) {
+    for (let index = 0; index < (d.getDay() === 0 ? 6 : d.getDay() - 1); index++) {
         var day = {
-            day: lastDayInTheMonth(month) - (d.getDay() - 1 - (index + 1)),
+            day: lastDayInTheMonth(month) - ((d.getDay() === 0 ? 6 : d.getDay() - 1) - (index + 1)),
             month: "-1",
             year: "-1",
             cancellation: null,
@@ -35,8 +35,6 @@ export default function PaymentTableDateArray() {
     return dates;
 }
 
-
-
 function lastDayInTheMonth(month) {
     if (month > 7) {
         var lastday =
@@ -57,6 +55,8 @@ function lastDayInTheMonth(month) {
                         : 28
                     : 30;
     }
+   
 
     return lastday;
 }
+

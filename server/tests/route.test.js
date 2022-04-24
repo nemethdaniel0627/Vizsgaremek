@@ -73,7 +73,7 @@ test("Userdetails", async () => {
         })
     expect(response.data).toEqual([{
         "email": "ka.pal@gmail.com", "id": 5,
-        "iskolaOM": "203037", "jelszo": "$2b$10$4kSQEOoOTQYq9OPUiwlLVuW7njdO1SGqSiBIY8Q4uBt0FEAYbN16C",
+        "iskolaOM": "203037",
         "nev": "Ka Pál", "omAzon": "72386351245", "orders": [], "osztaly": "10F", "schoolsId": 1
     }]);
 });
