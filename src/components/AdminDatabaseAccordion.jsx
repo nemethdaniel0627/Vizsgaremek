@@ -48,9 +48,11 @@ export default function AdminDatabaseAccodrion(props) {
     function rejectPending() {
         axios.delete("/pending/reject",
             {
-                omAzon: props.user.omAzon
-            },
-            AuthUser.authHeader())
+                data: {
+                    omAzon: props.user.omAzon
+                },
+                headers: AuthUser.headerAuthorization
+            })
             .then(response => {
                 setAlertType("success");
                 setAlertMessage("Sikeres elutasítás!")

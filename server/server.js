@@ -218,72 +218,75 @@ app.post("/scan", auth.tokenAutheticate, async (req, res) => {
   else {
     const date = new Date();
     let befizetve = await order.doesUserHaveOrderForDate(userId[0].id, date);
-    const time = Number(date.getHours().toString() + functions.convertToZeroForm(date.getMinutes()));
-    let ebedelt = befizetve[0].ebedelt ?? "00000";
-    let ebedeltEtkezes = "";
+    let ebedelt;
+    if (befizetve.length !== 0) {
+      const time = Number(date.getHours().toString() + functions.convertToZeroForm(date.getMinutes()));
+      ebedelt = befizetve[0].ebedelt === undefined || befizetve[0].ebedelt === null ? "00000" : befizetve[0].ebedelt;
+      let ebedeltEtkezes = "";
 
-    if (time <= 730 && time >= 700) {
-      if (ebedelt[0] === "1") {
-        ebedelt = true;
-      }
-      else {
-        ebedeltEtkezes = befizetve[0].reggeli === 1 ? "1" : "";
-        if (ebedeltEtkezes === "") {
-          ebedelt = null;
+      if (time <= 730 && time >= 700) {
+        if (ebedelt[0] === "1") {
+          ebedelt = true;
         }
-        else ebedelt = ebedeltEtkezes + ebedelt[1] + ebedelt[2] + ebedelt[3] + ebedelt[4];
-      }
-    }
-    else if (time <= 1130) {
-      if (ebedelt[1] === "1") {
-        ebedelt = true;
-      }
-      else {
-        ebedeltEtkezes = befizetve[0].tizorai === 1 ? "1" : "";
-        if (ebedeltEtkezes === "") {
-          ebedelt = null;
+        else {
+          ebedeltEtkezes = befizetve[0].reggeli === 1 ? "1" : "";
+          if (ebedeltEtkezes === "") {
+            ebedelt = null;
+          }
+          else ebedelt = ebedeltEtkezes + ebedelt[1] + ebedelt[2] + ebedelt[3] + ebedelt[4];
         }
-        else ebedelt = ebedelt[0] + ebedeltEtkezes + ebedelt[2] + ebedelt[3] + ebedelt[4];
       }
-    }
-    else if (time <= 1430) {
-      if (ebedelt[2] === "1") {
-  
-        ebedelt = true;
-      }
-      else {
-        ebedeltEtkezes = befizetve[0].ebed === 1 ? "1" : "";
-        if (ebedeltEtkezes === "") {
-          ebedelt = null;
+      else if (time <= 1130) {
+        if (ebedelt[1] === "1") {
+          ebedelt = true;
         }
-        else ebedelt = ebedelt[0] + ebedelt[1] + ebedeltEtkezes + ebedelt[3] + ebedelt[4];
-      }
-    }
-    else if (time <= 1730) {
-      if (ebedelt[3] === "1") {
-        ebedelt = true;
-      }
-      else {
-        ebedeltEtkezes = befizetve[0].uzsonna === 1 ? "1" : "";
-        if (ebedeltEtkezes === "") {
-          ebedelt = null;
+        else {
+          ebedeltEtkezes = befizetve[0].tizorai === 1 ? "1" : "";
+          if (ebedeltEtkezes === "") {
+            ebedelt = null;
+          }
+          else ebedelt = ebedelt[0] + ebedeltEtkezes + ebedelt[2] + ebedelt[3] + ebedelt[4];
         }
-        else ebedelt = ebedelt[0] + ebedelt[1] + ebedelt[2] + ebedeltEtkezes + ebedelt[4];
       }
-    }
-    else if (time <= 2030) {
-      if (ebedelt[4] === "1") {
-        ebedelt = true;
-      }
-      else {
-        ebedeltEtkezes = befizetve[0].vacsora === 1 ? "1" : "";
-        if (ebedeltEtkezes === "") {
-          ebedelt = null;
+      else if (time <= 1430) {
+        if (ebedelt[2] === "1") {
+
+          ebedelt = true;
         }
-        else ebedelt = ebedelt[0] + ebedelt[1] + ebedelt[2] + ebedelt[3] + ebedeltEtkezes;
+        else {
+          ebedeltEtkezes = befizetve[0].ebed === 1 ? "1" : "";
+          if (ebedeltEtkezes === "") {
+            ebedelt = null;
+          }
+          else ebedelt = ebedelt[0] + ebedelt[1] + ebedeltEtkezes + ebedelt[3] + ebedelt[4];
+        }
       }
+      else if (time <= 1730) {
+        if (ebedelt[3] === "1") {
+          ebedelt = true;
+        }
+        else {
+          ebedeltEtkezes = befizetve[0].uzsonna === 1 ? "1" : "";
+          if (ebedeltEtkezes === "") {
+            ebedelt = null;
+          }
+          else ebedelt = ebedelt[0] + ebedelt[1] + ebedelt[2] + ebedeltEtkezes + ebedelt[4];
+        }
+      }
+      else if (time <= 2030) {
+        if (ebedelt[4] === "1") {
+          ebedelt = true;
+        }
+        else {
+          ebedeltEtkezes = befizetve[0].vacsora === 1 ? "1" : "";
+          if (ebedeltEtkezes === "") {
+            ebedelt = null;
+          }
+          else ebedelt = ebedelt[0] + ebedelt[1] + ebedelt[2] + ebedelt[3] + ebedeltEtkezes;
+        }
+      }
+      else ebedelt = "Lekéste az étkezést";
     }
-    else ebedelt = "Lekéste az étkezést";
 
     if (befizetve.length === 0) befizetve = "Nincs befizetve";
     else if (befizetve.length !== 0 && befizetve[0].lemondva === null)
@@ -321,7 +324,7 @@ app.post("/user/add", auth.tokenAutheticate, async (req, res) => {
     email: newUser.email,
     jog: newUser.jog
   }
-  await email.RegisterInDatabase(tmpUser);
+  // await email.RegisterInDatabase(tmpUser);
   tmpUser.jelszo = bcrypt.hashSync(tmpUser.jelszo, 10);
   const added = await user.add(tmpUser, false);
   if (added) res.created();
@@ -456,7 +459,7 @@ app.post("/pagination", auth.tokenAutheticate, async (req, res) => {
   });
 })
 
-app.post("/user/upload", auth.tokenAutheticate, async (req, res) => 
+app.post("/user/upload", auth.tokenAutheticate, async (req, res) => {
   const userRows = req.body.userRows.split("\n");
   let notAddedUsers = [];
 

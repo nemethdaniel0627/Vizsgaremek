@@ -67,9 +67,11 @@ export default function AdminDatabaseModal(props) {
   function deleteUser() {
     axios.delete("/user/delete",
       {
-        omAzon: props.user.omAzon
-      },
-      AuthUser.authHeader())
+        data: {
+          omAzon: props.user.omAzon
+        },
+        headers: AuthUser.headerAuthorization
+      })
       .then(response => {
         setAlertType("success");
         window.location.reload();
