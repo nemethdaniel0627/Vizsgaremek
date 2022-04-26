@@ -155,8 +155,8 @@ app.put("/pending/accept", auth.tokenAutheticate, async (req, res) => {
   const tmpUser = (await user.getBy("*", `omAzon = '${omAzon}'`, false, true))[0];
   await user.delete(`omAzon = ${omAzon}`, true);
   const newUser = await user.add(tmpUser, false);
-  if (newUser.length === 0) res.conflict();
-  res.created();
+  if (newUser === false) res.conflict();
+  else res.created();
 });
 
 app.delete("/pending/reject", auth.tokenAutheticate, async (req, res) => {
