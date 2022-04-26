@@ -8,7 +8,7 @@ import Loader from "../layouts/Loader";
 import ResponseMessage from "../components/ResponseMessage";
 
 export default function LunchCancelation(props) {
-    const [isMenuChecked, setIsMenuChecked] = useState(false);
+    const [isMenuChecked, setIsMenuChecked] = useState(true);
     const [disabledDays, setDisabledDays] = useState([]);
     const [loading, setLoading] = useState(false);
     const [alertOpen, setAlertOpen] = useState(false);

@@ -25,23 +25,29 @@ export default function Menu(props) {
     const root = document.querySelector(":root");
 
     function currentDayColorize() {
-        const day = new Date().getDay();
-        let currentDay;
-        let currentDayInput;
-        if (day === 6 || day === 0) {
-            currentDay = document.getElementById("day-" + 1);
-            setSelectedDay(day + 1);
-            currentDayInput = document.getElementById("day-selector_" + 1);
-        }
-        else {
-            currentDay = document.getElementById(`day-${day}`);
-            setSelectedDay(day);
-            currentDayInput = document.getElementById("day-selector_" + day);
-        }
-        if (currentDay && currentDayInput) {
-            currentDay.classList.add("menu--day-selected");
-            currentDay.classList.add("today");
-            currentDayInput.checked = true;
+        let date = new Date();
+        let currentWeek = new Date(firstDay);
+        currentWeek = modules.getWeekNumber(currentWeek);
+        const dateWeek = modules.getWeekNumber(date);
+        if (currentWeek === dateWeek) {
+            const day = date.getDay();
+            let currentDay;
+            let currentDayInput;
+            if (day === 6 || day === 0) {
+                currentDay = document.getElementById("day-" + 1);
+                setSelectedDay(day + 1);
+                currentDayInput = document.getElementById("day-selector_" + 1);
+            }
+            else {
+                currentDay = document.getElementById(`day-${day}`);
+                setSelectedDay(day);
+                currentDayInput = document.getElementById("day-selector_" + day);
+            }
+            if (currentDay && currentDayInput) {
+                currentDay.classList.add("menu--day-selected");
+                currentDay.classList.add("today");
+                currentDayInput.checked = true;
+            }
         }
     }
 
@@ -64,6 +70,21 @@ export default function Menu(props) {
         const startDay = new Date(year, month, ((date.getDate()) - (date.getDay() - 1)));
         const endDay = new Date(year, month, ((date.getDate()) - (date.getDay() - 1)) + weekLength);
         setDisplayWeek(`${year}.${(startDay.getMonth() + 1) < 10 ? "0" : ""}${(startDay.getMonth() + 1)}.${startDay.getDate() < 10 ? "0" : ""}${startDay.getDate()} - ${(endDay.getMonth() + 1) < 10 ? "0" : ""}${(endDay.getMonth() + 1)}.${endDay.getDate() < 10 ? "0" : ""}${endDay.getDate()}`);
+    }
+
+    function dayCheckedTest() {
+        const days = document.querySelectorAll(".menu--day-table.clickable");
+        const inputs = document.querySelectorAll(".menu--day-table--input");
+        days.forEach(day => {
+            day.style.backgroundImage = "";
+        })
+        inputs.forEach((input, index) => {
+            if (selectedDates.includes(input.value)) {
+                input.checked = true;
+                days[index].style.backgroundImage = "linear-gradient(rgba(255, 0, 0, 0.349), var(--bodyBackground))";
+            }
+        });
+
     }
 
     function weekChange(event) {
@@ -93,7 +114,8 @@ export default function Menu(props) {
                         setLoading(false);
                         setCurrentWeek(date, response.data.menu.length - 1);
                         if (!response.data.nextWeek) lastArrow.classList.add("hidden");
-                        else lastArrow.classList.remove("hidden")
+                        else lastArrow.classList.remove("hidden");
+                        dayCheckedTest();
                     })
                     .catch(error => {
                         console.error(error);
@@ -117,7 +139,8 @@ export default function Menu(props) {
                         setCurrentWeek(date, response.data.menu.length - 1);
                         if (firstArrow) firstArrow.classList.remove("hidden");
                         if (!response.data.nextWeek) lastArrow.classList.add("hidden");
-                        else lastArrow.classList.remove("hidden")
+                        else lastArrow.classList.remove("hidden");
+                        dayCheckedTest();
                     })
                     .catch(error => {
                         console.error(error);
@@ -192,6 +215,8 @@ export default function Menu(props) {
         const input = document.getElementById(event.target.attributes[2].value);
         const day = document.getElementById(event.target.attributes[2].value.split("_")[1]);
         if (day && input) {
+            console.log(day);
+            console.log(input);
             if (input.checked) {
                 day.style.backgroundImage = "linear-gradient(rgba(255, 0, 0, 0.349), var(--bodyBackground))";
                 setSelectedDates(prevDates => {
@@ -205,6 +230,7 @@ export default function Menu(props) {
                     if (index > -1) {
                         tmpSelectedDates.splice(index, 1);
                     }
+                    console.log(tmpSelectedDates);
                     setSelectedDates(tmpSelectedDates);
                 }
                 day.style.backgroundImage = null;
