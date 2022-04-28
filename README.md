@@ -28,3 +28,7 @@ Front-end terv: https://www.youtube.com/watch?v=Rlfcsn4XfIk&ab_channel=R0Z5N0RB3
 ## START SERVERS
 ### BACK-END: cd server && npm run start
 ### FRONT-END: npm run start-client
+
+## TESTS
+### BACK-END: cd server && npm run test
+### FRONT-END: importálás SELENIUM IDE Chrome bővítménybe a gyökérkönyvtárban lévő selenium mappából
