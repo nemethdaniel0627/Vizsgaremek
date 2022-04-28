@@ -24,3 +24,7 @@ Front-end terv: https://www.youtube.com/watch?v=Rlfcsn4XfIk&ab_channel=R0Z5N0RB3
 
 
 ## FONTOS: NODE VERZIÓ BIZTOS MŰKÖDÉSE v14.15.0
+
+## START SERVERS
+### BACK-END: cd server && npm run start
+### FRONT-END: npm run start-client
