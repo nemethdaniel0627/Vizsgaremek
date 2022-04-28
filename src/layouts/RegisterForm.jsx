@@ -89,11 +89,12 @@ export default function RegisterForm(props) {
     useEffect(() => {
         axios.get("/schoollist")
             .then(response => {
-
                 setSchools(response.data)
             })
             .catch(error => {
-
+                setAlertOpen(true);
+                setAlertType("error");
+                setAlertText("Hiba történt az iskolák listájának lekérésében!");
             })
     }, [])
 

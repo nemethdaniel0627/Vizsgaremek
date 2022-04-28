@@ -62,7 +62,7 @@ export default function QrCodeReader() {
                     }
                 })
                 .catch(error => {
-
+                    console.error(error);
                 })
         }
 
