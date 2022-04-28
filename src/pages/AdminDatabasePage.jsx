@@ -89,7 +89,7 @@ export default function AdminDatabasePage(props) {
             .then(response => {
                 state ? setPending(response.data.users) : setUsers(response.data.users);
                 setNumberOfPages(response.data.pages);
-                console.log(response.data);
+
                 setLoading(false);
             })
             .catch(error => {
@@ -109,7 +109,7 @@ export default function AdminDatabasePage(props) {
                 showPending ? setPending(response.data.users) : setUsers(response.data.users);
                 setNumberOfPages(response.data.pages);
                 setLoading(false);
-                console.log("asd");
+
             })
             .catch(error => {
                 setAlertType("error");
@@ -177,7 +177,7 @@ export default function AdminDatabasePage(props) {
                 setLoading(false);
             })
             .catch(error => {
-                console.log(error);
+
                 setLoading(false);
             })
     }

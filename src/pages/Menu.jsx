@@ -25,7 +25,12 @@ export default function Menu(props) {
     const root = document.querySelector(":root");
 
     function currentDayColorize() {
-        const day = new Date().getDay();
+        let date = new Date();
+        let currentWeek = new Date(firstDay);
+
+        currentWeek = modules.getWeekNumber(currentWeek);
+        const dateWeek = modules.getWeekNumber(date);
+        const day = date.getDay();
         let currentDay;
         let currentDayInput;
         if (day === 6 || day === 0) {
@@ -38,10 +43,16 @@ export default function Menu(props) {
             setSelectedDay(day);
             currentDayInput = document.getElementById("day-selector_" + day);
         }
-        if (currentDay && currentDayInput) {
+
+        if (currentWeek === dateWeek && (currentDay && currentDayInput)) {
             currentDay.classList.add("menu--day-selected");
             currentDay.classList.add("today");
             currentDayInput.checked = true;
+        }
+        else if (currentDay && currentDayInput) {
+            currentDay.classList.remove("menu--day-selected");
+            currentDay.classList.remove("today");
+            currentDayInput.checked = false;
         }
     }
 
@@ -51,7 +62,7 @@ export default function Menu(props) {
         const startDay = new Date(year, month, ((date.getDate()) - (date.getDay() - 1)));
         setFirstDay(`${year}-${(startDay.getMonth() + 1) < 10 ? "0" : ""}${(startDay.getMonth() + 1)}-${startDay.getDate() < 10 ? "0" : ""}${startDay.getDate()}`);
         const endDay = new Date(year, month, ((date.getDate()) - (date.getDay() - 1)) + tmpWeekLength)
-        console.log(endDay);
+
         let finalString = `${year}.${(startDay.getMonth() + 1) < 10 ? "0" : ""}${(startDay.getMonth() + 1)}.${startDay.getDate() < 10 ? "0" : ""}${startDay.getDate()} - ${(endDay.getMonth() + 1) < 10 ? "0" : ""}${(endDay.getMonth() + 1)}.${endDay.getDate() < 10 ? "0" : ""}${endDay.getDate()}`;
 
         setDisplayWeek(finalString);
@@ -66,8 +77,23 @@ export default function Menu(props) {
         setDisplayWeek(`${year}.${(startDay.getMonth() + 1) < 10 ? "0" : ""}${(startDay.getMonth() + 1)}.${startDay.getDate() < 10 ? "0" : ""}${startDay.getDate()} - ${(endDay.getMonth() + 1) < 10 ? "0" : ""}${(endDay.getMonth() + 1)}.${endDay.getDate() < 10 ? "0" : ""}${endDay.getDate()}`);
     }
 
+    function dayCheckedTest() {
+        const days = document.querySelectorAll(".menu--day-table.clickable");
+        const inputs = document.querySelectorAll(".menu--day-table--input");
+        days.forEach(day => {
+            day.style.backgroundImage = "";
+        })
+        inputs.forEach((input, index) => {
+            if (selectedDates.includes(input.value)) {
+                input.checked = true;
+                days[index].style.backgroundImage = "linear-gradient(rgba(255, 0, 0, 0.349), var(--bodyBackground))";
+            }
+        });
+
+    }
+
     function weekChange(event) {
-        console.log("change");
+
         let arrow = event.target.attributes[8];
         if (arrow === undefined) {
             arrow = event.target.attributes[0].ownerElement.parentNode.id;
@@ -88,12 +114,13 @@ export default function Menu(props) {
                         date: modules.convertDateWithDash(date)
                     }, AuthUser.authHeader())
                     .then(response => {
-                        console.log(response.data);
+
                         setMenu(response.data.menu)
                         setLoading(false);
                         setCurrentWeek(date, response.data.menu.length - 1);
                         if (!response.data.nextWeek) lastArrow.classList.add("hidden");
-                        else lastArrow.classList.remove("hidden")
+                        else lastArrow.classList.remove("hidden");
+                        dayCheckedTest();
                     })
                     .catch(error => {
                         console.error(error);
@@ -102,7 +129,7 @@ export default function Menu(props) {
                 break;
 
             case "weekArrow-2":
-                console.log(firstDay);
+
                 date = new Date(firstDay);
                 date.setDate(date.getDate() + 7);
                 setLoading(true);
@@ -111,13 +138,14 @@ export default function Menu(props) {
                         date: modules.convertDateWithDash(date)
                     }, AuthUser.authHeader())
                     .then(response => {
-                        console.log(response.data);
+
                         setMenu(response.data.menu);
                         setLoading(false);
                         setCurrentWeek(date, response.data.menu.length - 1);
                         if (firstArrow) firstArrow.classList.remove("hidden");
                         if (!response.data.nextWeek) lastArrow.classList.add("hidden");
-                        else lastArrow.classList.remove("hidden")
+                        else lastArrow.classList.remove("hidden");
+                        dayCheckedTest();
                     })
                     .catch(error => {
                         console.error(error);
@@ -151,7 +179,7 @@ export default function Menu(props) {
                     if (root) {
                         root.style.setProperty("--numberOfDays", response.data.menu.length);
                     }
-                    console.log(response.data.nextWeek);
+
                     const lastArrow = document.getElementById("weekArrow-2");
                     if (!response.data.nextWeek) lastArrow.classList.add("hidden");
                     setWeekLength(response.data.menu.length);
@@ -160,7 +188,7 @@ export default function Menu(props) {
                     setCurrentMonday(`${startDay.getFullYear()}-${(startDay.getMonth() + 1) < 10 ? "0" : ""}${(startDay.getMonth() + 1)}-${startDay.getDate() < 10 ? "0" : ""}${startDay.getDate()}`);
                 })
                 .catch((error) => {
-                    console.log(error.response);
+
                 })
         }
         axios.get(`/menu`)
@@ -178,7 +206,7 @@ export default function Menu(props) {
                 setCurrentMonday(`${startDay.getFullYear()}-${(startDay.getMonth() + 1) < 10 ? "0" : ""}${(startDay.getMonth() + 1)}-${startDay.getDate() < 10 ? "0" : ""}${startDay.getDate()}`);
             })
             .catch((error) => {
-                console.log(error.response);
+
             })
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
@@ -192,6 +220,8 @@ export default function Menu(props) {
         const input = document.getElementById(event.target.attributes[2].value);
         const day = document.getElementById(event.target.attributes[2].value.split("_")[1]);
         if (day && input) {
+
+
             if (input.checked) {
                 day.style.backgroundImage = "linear-gradient(rgba(255, 0, 0, 0.349), var(--bodyBackground))";
                 setSelectedDates(prevDates => {
@@ -205,6 +235,7 @@ export default function Menu(props) {
                     if (index > -1) {
                         tmpSelectedDates.splice(index, 1);
                     }
+
                     setSelectedDates(tmpSelectedDates);
                 }
                 day.style.backgroundImage = null;
@@ -213,12 +244,12 @@ export default function Menu(props) {
     }
 
     useEffect(() => {
-        console.log(firstDay);
+
         if (new Date(currentMonday) <= new Date() && new Date(firstDay) <= new Date()) {
             const firstArrow = document.getElementById("weekArrow-1");
             if (firstArrow) firstArrow.classList.add("hidden");
         }
-
+        currentDayColorize();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [firstDay])
 
@@ -234,7 +265,7 @@ export default function Menu(props) {
     }, [selectedDates])
 
     useEffect(() => {
-        console.log("menu");
+
         currentDayColorize();
         // setCurrentWeek(new Date());
 
@@ -242,8 +273,8 @@ export default function Menu(props) {
     }, [menu])
 
     useEffect(() => {
-        console.log("disabledDays");
-        console.log(props.disabledDays);
+
+
         setDisabledDays(props.disabledDays);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [props.disabledDays])

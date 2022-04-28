@@ -21,3 +21,10 @@
    A webalkalmazáshoz szükséges adatok egy MySQL alapú adatstruktúrában lesznek eltárolva, ami könnyen hozzáférhető a weboldal számára. Természetesen ezek az adatok titkosítottan lesznek eltárolva és elküldve a weboldal részére ezzel is növelve a felhasználók, valamint az iskolák adatainak a biztonságát. A webszerver minden hónap elején küld egy kör e-mailt az oldalt használó felhasználók részére, hogy felhívja a figyelmüket a befizetésre.
             
 Front-end terv: https://www.youtube.com/watch?v=Rlfcsn4XfIk&ab_channel=R0Z5N0RB3RT
+
+
+## FONTOS: NODE VERZIÓ BIZTOS MŰKÖDÉSE v14.15.0
+
+## START SERVERS
+### BACK-END: cd server && npm run start
+### FRONT-END: npm run start-client

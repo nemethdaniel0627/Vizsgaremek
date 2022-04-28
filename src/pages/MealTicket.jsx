@@ -42,7 +42,7 @@ export default function MealTicket(props) {
                             <img src={ticketImg} alt="Icon" className="mx-auto d-none d-lg-block align-center" id="Ticket_img" />
                             {props.user.befizetve !== false && props.user.befizetve !== null && canEatMeal === true ?
                                 <div className="qrcode w-100 d-flex justify-content-center d-block d-lg-none p-3" id="qrcode">
-                                    <QRcode value={`{"nev": "${props.user.nev}", "osztaly": "${props.user.osztaly}", "omAzon": "${props.user.omAzon}", "iskolaNev": "${props.user.iskolaNev}", "befizetve": ${props.user.befizetve}}`} bgColor="#ffffff00" width="20%" height='20%' size={100} />
+                                    <QRcode value={`{"nev": "${props.user.nev}", "osztaly": "${props.user.osztaly}", "omAzon": "${props.user.omAzon}", "iskolaNev": "${props.user.iskolaNev}", "befizetve": "${props.user.befizetve}"}`} bgColor="#ffffff00" width="20%" height='20%' size={100} />
                                 </div>
                                 :
                                 <i />}

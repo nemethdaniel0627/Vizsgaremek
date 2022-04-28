@@ -24,7 +24,7 @@ class AuthUser {
     }
 
     headerAuthorization() {
-        return {"Authorization": `Baerer ${sessionStorage.getItem("token")}`};
+        return { "Authorization": `Baerer ${sessionStorage.getItem("token")}` };
     }
 
     isLoggedIn() {
@@ -43,7 +43,7 @@ class AuthUser {
             default:
                 break;
         }
-    }    
+    }
 
     registerUser(omAzon, password, name, osztaly, iskolaOM, email) {
         axios.post("/register",
@@ -56,7 +56,7 @@ class AuthUser {
                 email: email
             })
             .then(response => {
-                console.log(response);
+
             })
             .catch(error => {
                 console.error(error);

@@ -107,7 +107,7 @@ export default function MenuUpload() {
 
         dropZoon.addEventListener('click', function (event) {
             fileInput.click();
-            console.log("click");
+
         });
 
         fileInput.addEventListener('change', function (event) {
@@ -130,11 +130,11 @@ export default function MenuUpload() {
                     uploadedFile.classList.remove('uploaded-file--open');
                     uploadedFileInfo.classList.remove('uploaded-file__info--active');
 
-                    console.log(file);
+
                     Upload(file);
 
                 } else {
-                    console.log("this");
+
                     return this;
 
                 };
@@ -163,7 +163,7 @@ export default function MenuUpload() {
 
                         }, 500);
                     } catch (error) {
-                        console.log(error);
+
                         uploadArea.classList.remove('upload-area--open');
                         fileDetails.classList.remove('file-details--open');
                         uploadedFile.classList.remove('uploaded-file--open');
@@ -179,7 +179,7 @@ export default function MenuUpload() {
         function processExcel(data) {
             const workbook = XLSX.read(data, { type: "binary" });
             const firstSheet = workbook.SheetNames[0];
-            console.log(workbook.Sheets[firstSheet]);
+
             const excelRows = XLSX.utils.sheet_to_json(workbook.Sheets[firstSheet]);
             let index = 0;
             excelRows.forEach(row => {
@@ -195,7 +195,7 @@ export default function MenuUpload() {
 
                 throw new Error("Bad format");
             }
-            console.log(excelRows);
+
         }
 
         function fileValidate(fileType, fileSize) {
@@ -244,7 +244,7 @@ export default function MenuUpload() {
 
     function sendExcelRows(isOverride) {
         const startDay = modules.getFirstDayOfWeek(week);
-        console.log(excelRows);
+
         const uploadedFileCounter = document.querySelector('.uploaded-file__counter');
         const uploadedFileInfo = document.querySelector('#uploadedFileInfo');
         if (uploadedFileInfo.classList.contains("uploaded-file__info--active")) {
@@ -258,7 +258,7 @@ export default function MenuUpload() {
                 override: isOverride
             }, AuthUser.authHeader())
             .then((response) => {
-                console.log(response);
+
                 progressMove();
             })
             .catch((error) => {

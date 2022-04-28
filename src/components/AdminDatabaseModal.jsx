@@ -35,7 +35,7 @@ export default function AdminDatabaseModal(props) {
   }
 
   function modifyUser() {
-    console.log("modify");
+
     if (tmpUser.nev.trim() !== "" && tmpUser.omAzon.trim() !== "" && tmpUser.email.trim() !== "" && tmpUser.iskolaOM.trim() !== "") {
       axios.put("/user/modify",
         {
@@ -43,7 +43,7 @@ export default function AdminDatabaseModal(props) {
           user: tmpUser
         }, AuthUser.authHeader())
         .then(response => {
-          console.log(response);
+
           props.user.email = response.data.email;
           props.user.omAzon = response.data.omAzon;
           setAlertType("success");
@@ -128,7 +128,7 @@ export default function AdminDatabaseModal(props) {
     }, AuthUser.authHeader())
       .then(response => {
         if (response.status === 207) {
-          console.log(response.data);
+
           setAlertType("warning");
           setAlertMessage(`Pár felhasználót nem sikerült hozzáadni!`);
           setAlertOpen(true);

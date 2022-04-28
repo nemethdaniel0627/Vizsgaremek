@@ -8,7 +8,7 @@ import Loader from "../layouts/Loader";
 import ResponseMessage from "../components/ResponseMessage";
 
 export default function LunchCancelation(props) {
-    const [isMenuChecked, setIsMenuChecked] = useState(false);
+    const [isMenuChecked, setIsMenuChecked] = useState(true);
     const [disabledDays, setDisabledDays] = useState([]);
     const [loading, setLoading] = useState(false);
     const [alertOpen, setAlertOpen] = useState(false);
@@ -20,13 +20,13 @@ export default function LunchCancelation(props) {
     }
 
     function cancelMeal() {
-        console.log(dates);
+
         let sendingDates = [];
         dates.forEach(date => {
-            console.log("date");
-            console.log(date);
+
+
             if (date.includes("-") && date.includes(".")) {
-                console.log("hosszu");
+
                 let startDate = new Date(date.split("-")[0].toString().trim());
                 let endDate = new Date(date.split("-")[1].toString().trim());
                 sendingDates.push(modules.convertDateWithDash(startDate));
@@ -37,7 +37,7 @@ export default function LunchCancelation(props) {
             }
             else sendingDates.push(date);
         })
-        console.log(sendingDates);
+
 
         if (dates.length !== 0) {
             setLoading(true);
@@ -47,7 +47,7 @@ export default function LunchCancelation(props) {
                     dates: sendingDates
                 }, AuthUser.authHeader())
                 .then(response => {
-                    console.log(response);
+
                     setLoading(false);
                     if (response.status === 200) {
                         setAlertText("Sikeres ebéd lemondás!");
@@ -80,7 +80,7 @@ export default function LunchCancelation(props) {
     }
 
     useEffect(() => {
-        console.log("cancelled days");
+
         let date = new Date();
         const day = date.getDay();
         const time = Number(date.getHours().toString() + modules.toZeroForm(date.getMinutes()));

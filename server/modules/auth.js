@@ -23,8 +23,7 @@ class Auth {
         }
     }
 
-    async login(user) {
-        console.log(user);
+    async login(user) {        
         const userResult = await USER.getBy("jelszo", `omAzon = "${user.omAzon}"`);
         if (userResult.length === 0) {
             return undefined;

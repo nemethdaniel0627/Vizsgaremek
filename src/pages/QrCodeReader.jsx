@@ -13,7 +13,7 @@ export default function QrCodeReader() {
 
     let handleScan = data => {
         if (data) {
-            console.log(data);
+
             const tmpJson = JSON.parse(data);
 
             setLoading(true);
@@ -22,7 +22,7 @@ export default function QrCodeReader() {
                     omAzon: tmpJson.omAzon
                 }, AuthUser.authHeader())
                 .then(response => {
-                    console.log(response);
+
                     setQrResult({
                         nev: tmpJson.nev,
                         osztaly: tmpJson.osztaly,
@@ -36,7 +36,7 @@ export default function QrCodeReader() {
                     setLoading(false);
                 })
 
-            console.log(isCamera);
+
         }
     }
 
@@ -48,7 +48,7 @@ export default function QrCodeReader() {
         if (isCamera !== null || isCamera === "false") {
             navigator.permissions.query({ name: "camera" })
                 .then((permissionObj) => {
-                    console.log(permissionObj.state);
+
                     if (permissionObj.state === "granted")
                         setIsCamera(true);
 
@@ -62,17 +62,16 @@ export default function QrCodeReader() {
                     }
                 })
                 .catch(error => {
-                    console.log(error);
+                    console.error(error);
                 })
         }
 
     }, [isCamera])
 
     function askPermission(denied) {
-        var now = Date.now();
         navigator.mediaDevices.getUserMedia({ audio: false, video: true })
             .then(function (stream) {
-                console.log('Got stream, time diff :', Date.now() - now);
+
             })
             .catch(function (err) {
                 if (denied) setIsCamera(null);
