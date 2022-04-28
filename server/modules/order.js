@@ -138,8 +138,7 @@ class Order {
         let order = await sqlQueries.select(
             'orders',
             'id',
-            `orders.menuId = ${menuId} AND orders.userId = ${userId} AND orders.lemondva IS NULL`);
-        console.log(order);
+            `orders.menuId = ${menuId} AND orders.userId = ${userId} AND orders.lemondva IS NULL`);        
         if (order.length === 0) return false;
 
         order = order[0];

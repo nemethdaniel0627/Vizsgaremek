@@ -27,8 +27,8 @@ export default function AdminDatabaseManagerSearch(props) {
                 if (pageNumber + 1 === props.numberOfPages) setForwardDisabled(true);
                 setBackwardDisabled(false);
                 setPageNumber(pageNumber + 1);
-                console.log(numberOfPeople);
-                console.log(numberOfPeople * ((pageNumber + 1) - 1));
+
+
                 props.pagination(numberOfPeople, numberOfPeople * ((pageNumber + 1) - 1), searchValue);
                 break;
 
@@ -50,7 +50,7 @@ export default function AdminDatabaseManagerSearch(props) {
     function pageInputChange(event) {
         if ((event.target.value.toString().length <= props.numberOfPages.toString().length) && !event.target.value.includes("e")) {
             setPageNumber(event.target.value === "" ? "" : Number(event.target.value));
-            console.log(event.target.value.toString().length);
+
             event.target.style.width = event.target.value.toString().length + 4 + "ch";
         }
     }
@@ -110,7 +110,7 @@ export default function AdminDatabaseManagerSearch(props) {
         setNumberOfPeople(10);
         setSearchValue("");
         setBackwardDisabled(true);
-        console.log(props.numberOfPages);
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [props.showPending])
 

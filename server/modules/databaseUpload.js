@@ -93,8 +93,7 @@ class databaseUpload {
                         `id = ${idPrefix}${meal[0]}`);
 
                     if (result.affectedRows === 0 && insertDay === undefined) {
-                        insertDay = day;
-                        console.log(insertDay);
+                        insertDay = day;                        
                     }
                 });
                 date.setDate(date.getDate() + 1);

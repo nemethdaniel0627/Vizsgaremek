@@ -56,7 +56,7 @@ export default function ReportPageModal(props) {
                     }
                 })
                 .then(response => {
-                    console.log(response);
+
                     Send();
                 })
                 .catch(error => {

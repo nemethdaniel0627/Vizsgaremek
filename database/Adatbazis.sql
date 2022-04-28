@@ -147,3 +147,10 @@ INSERT INTO user_role (userId, roleId) VALUES (1, 1);
 
 INSERT INTO user_pending (`omAzon`, `jelszo`, `nev`, `schoolsId`, `osztaly`, `email`)
 VALUES ('1234567891','$2a$10$iS0peTuztACfnWELT.WYCucW8n.RN659jfNaJNpLenT4kXPBu2PLe','Teszt Elek','1', '1D','teszt@jedlik.eu');
+
+INSERT INTO user (`omAzon`, `jelszo`, `nev`, `schoolsId`, `osztaly`, `email`)
+VALUES 
+('1234567892','$2a$10$iS0peTuztACfnWELT.WYCucW8n.RN659jfNaJNpLenT4kXPBu2PLe','Winch Eszter','1', '1D','winch@jedlik.eu'),
+('1234567893','$2a$10$iS0peTuztACfnWELT.WYCucW8n.RN659jfNaJNpLenT4kXPBu2PLe','Kis Pista','1', '1D','kis@jedlik.eu');
+
+INSERT INTO user_role (userId, roleId) VALUES (2, 2), (3,2);

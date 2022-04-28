@@ -55,7 +55,7 @@ export default function App() {
     function getUser() {
         try {
             if (sessionStorage.getItem("user") == null) {
-                console.log("getUser");
+
                 const payload = jwt.verify(sessionStorage.getItem("token"), process.env.REACT_APP_JWT_SECRET);
                 const userId = payload._id;
                 axios.post("/user",
@@ -79,7 +79,7 @@ export default function App() {
             }
             else setLoading(false);
         } catch (error) {
-            console.log(error);
+
             setLoading(false);
             setAlertType("error");
             setAlertText("Nem sikerült lekérni a felhasználói adatokat!\nPróbáljon meg be és kijelentkezni")

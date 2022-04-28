@@ -41,7 +41,7 @@ export default function LoginForm(props) {
                     }
                 })
                 .then(response => {
-                    console.log(response.headers);
+
                     let token = response.headers.authorization.split(" ")[1];
                     token = token.split(";")[0];
                     try {

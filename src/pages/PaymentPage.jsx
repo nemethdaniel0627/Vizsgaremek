@@ -68,7 +68,7 @@ export default function PaymentPage(props) {
                     meals: sendMeals
                 }, AuthUser.authHeader())
                 .then(response => {
-                    console.log(response);
+
                     setAlertText("Sikeres ebéd befizetés!");
                     setAlertOpen(true);
                     setAlertType("success");
@@ -139,7 +139,7 @@ export default function PaymentPage(props) {
                 text={alertText}
                 type={alertType}
                 fixed={true}
-                customFunc={alertType === "succes" ? AuthUser.logoutUser() : () => {}} />
+                customFunc={alertType === "succes" ? AuthUser.logoutUser() : () => { }} />
         </div>
     );
 }

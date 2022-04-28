@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 export default function UserModal(props) {
-    
+
     const loggedInUser = JSON.parse(sessionStorage.getItem("user"));
     const [tmpUser, setTmpUser] = useState({
         nev: props.user ? props.user.nev : "",
@@ -22,10 +22,10 @@ export default function UserModal(props) {
             }
         })
     }
-    
+
     useEffect(() => {
         props.getUserInfo(tmpUser);
-        console.log(props.user);
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [tmpUser])
 

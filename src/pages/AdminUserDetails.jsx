@@ -46,7 +46,7 @@ export default function AdminUserDetails(props) {
                     user: tmpUser
                 }, AuthUser.authHeader())
                 .then(response => {
-                    console.log(response);
+
                     props.user.email = response.data.email;
                     props.user.omAzon = response.data.omAzon;
                     setAlertType(false);
@@ -62,7 +62,7 @@ export default function AdminUserDetails(props) {
     }
 
     useEffect(() => {
-        console.log("asd");
+
         setLoading(true);
         axios.post("/user/details",
             {
@@ -71,7 +71,7 @@ export default function AdminUserDetails(props) {
             AuthUser.authHeader()
         )
             .then(response => {
-                console.log(response.data);
+
                 let dataSetter = response.data[0];
                 const nev = response.data[0].nev;
                 dataSetter.vNev = nev.split(" ")[0];
@@ -95,7 +95,7 @@ export default function AdminUserDetails(props) {
         if (orderBlock && orderBlock0 && root) {
             const blockWidth = orderBlock0.offsetWidth;
             const blockHeight = orderBlock.offsetHeight;
-            console.log(orderBlock.clientHeight);
+
             root.style.setProperty("--orderBlockWidth", `${blockWidth}px`);
             root.style.setProperty("--orderBlockHeight", `${blockHeight}px`);
         }

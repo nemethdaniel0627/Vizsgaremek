@@ -24,7 +24,7 @@ export default function RegisterForm(props) {
     function SelectionChange(event) {
         const { value, name } = event.target;
 
-        console.log(value);
+
 
         setUser(prevUser => {
             return {
@@ -60,7 +60,7 @@ export default function RegisterForm(props) {
                 setAlertOpen(true);
                 setAlertType("success");
                 setAlertText("Sikeres regisztráció!\nTovábbi információkat emailben küldtünk");
-                console.log(response);
+
                 axios.post("/email",
                     {
                         email: user.email,
@@ -71,7 +71,7 @@ export default function RegisterForm(props) {
                         type: "register"
                     }, AuthUser.authHeader())
                     .then(response => {
-                        console.log(response);
+
                     })
                     .catch(error => {
                         console.error(error);
@@ -89,7 +89,7 @@ export default function RegisterForm(props) {
     useEffect(() => {
         axios.get("/schoollist")
             .then(response => {
-                console.log(response.data);
+
                 setSchools(response.data)
             })
             .catch(error => {

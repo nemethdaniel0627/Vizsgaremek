@@ -167,7 +167,7 @@ export default function DateSelector(props) {
             const tmpStart = date.toString().split("-")[0].trim();
 
             const tmpEnd = date.toString().split("-")[1].trim();
-            console.log("itt vagyok");
+
 
             if (modules.convertDateWithDash(new Date(tmpEnd)) === modules.convertDateWithDash(new Date(startInputValue))
               || modules.convertDateWithDash(new Date(startInputValue)) === modules.convertDateWithDash(new Date(tmpStart))) {
@@ -218,7 +218,7 @@ export default function DateSelector(props) {
             else returnValue = true;
           }
           else {
-            console.log("fazsom öccse");
+
             returnValue = false;
 
           }
@@ -256,9 +256,9 @@ export default function DateSelector(props) {
     }
     else {
       const sameDate = sameDateCheck();
-      console.log(startInputValue);
-      console.log(endInputValue);
-      console.log(sameDate);
+
+
+
       const dateInterval = `${startInputValue.replaceAll("-", ".")} - ${endInputValue.replaceAll("-", ".")}`;
       if (props.disabledDays.includes(startInputValue) || new Date(startInputValue) < new Date(props.disabledDays[0])) {
         props.errorMessage();
@@ -288,7 +288,7 @@ export default function DateSelector(props) {
       showSelectedDate();
       setStartInputValue(null);
       setEndInputValue(null);
-      console.log("lefut start");
+
     }
     props.getDates(selectedDates);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -346,7 +346,7 @@ export default function DateSelector(props) {
                 }}
                 onAccept={(newValue) => {
                   if (isMobile === true) {
-                    console.log("ez mobil");
+
                     const tmpStart = newValue[0] !== null ? modules.convertDateWithDash(new Date(newValue[0])) : null;
                     const tmpEnd = newValue[1] !== null ? modules.convertDateWithDash(new Date(newValue[1])) : null;
 
@@ -384,7 +384,7 @@ export default function DateSelector(props) {
                 }}
                 onAccept={(newValue2) => {
                   if (isMobile === true) {
-                    console.log("ez mobil");
+
                     setStartInputValue(modules.convertDateWithDash(newValue2));
                   }
                 }}
