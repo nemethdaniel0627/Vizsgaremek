@@ -2,7 +2,6 @@ const functions = require('../modules/functions');
 const axios = require('axios');
 
 let token = "";
-let authorization = "";
 let omAzon_1 = Math.floor(Math.random() * (72399999999 - 72300000000)) + 72300000000;
 let omAzon_2 = Math.floor(Math.random() * (72399999999 - 72300000000)) + 72300000000;
 let email_1 = `${functions.randomString(10)}@gmail.com`;
@@ -72,7 +71,7 @@ test("Userdetails", async () => {
             console.error(error);
         })
     expect(response.data).toEqual([{
-        "email": "ka.pal@gmail.com", "id": 5,
+        "email": "ka.pal@gmail.com", "id": 7,
         "iskolaOM": "203037",
         "nev": "Ka Pál", "omAzon": "72386351245", "orders": [], "osztaly": "10F", "schoolsId": 1
     }]);
@@ -161,7 +160,6 @@ test("Reject pending", async () => {
             headers: token.headers
         })
         .then(response => {
-            console.warn(response);
             return response;
         }).catch(error => {
             console.error(error);
@@ -178,7 +176,7 @@ test("QR scan", async () => {
         }).catch(error => {
             console.error(error);
         })
-    expect(response.data).toEqual({"befizetve": "Nincs befizetve"});
+    expect(response.data).toEqual({ "befizetve": "Nincs befizetve" });
 });
 
 test("User delete", async () => {
