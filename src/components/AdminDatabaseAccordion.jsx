@@ -51,7 +51,9 @@ export default function AdminDatabaseAccodrion(props) {
                 data: {
                     omAzon: props.user.omAzon
                 },
-                headers: AuthUser.headerAuthorization
+                headers: {
+                    "Authorization": `Baerer ${sessionStorage.getItem("token")}`
+                }
             })
             .then(response => {
                 setAlertType("success");

@@ -65,12 +65,16 @@ export default function AdminDatabaseModal(props) {
   }
 
   function deleteUser() {
+    console.log(props.user);
     axios.delete("/user/delete",
       {
         data: {
           omAzon: props.user.omAzon
         },
-        headers: AuthUser.headerAuthorization
+        headers: {
+          "Authorization": `Baerer ${sessionStorage.getItem("token")}`
+        }
+        // headers: AuthUser.headerAuthorization
       })
       .then(response => {
         setAlertType("success");
@@ -79,6 +83,7 @@ export default function AdminDatabaseModal(props) {
         setAlertOpen(true)
       })
       .catch(error => {
+        console.log(error);
         setAlertType("error");
         setAlertMessage("Hiba történt a felhasználó törlése során!")
         setAlertOpen(true)

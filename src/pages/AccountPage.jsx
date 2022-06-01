@@ -285,7 +285,7 @@ export default function Page(props) {
               {props.user.befizetve ? <Activities
                 activity="Befizetve"
                 descript="Az ebéd befizetése megtörtént a leírt hónapra!"
-                date="2022. március"
+                date="2022. június"
                 type="pay"
               ></Activities> : <></>}
               {dates.length ? <Activities
